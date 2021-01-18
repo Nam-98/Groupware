@@ -11,10 +11,8 @@ public class MemberDAO {
 	@Autowired
 	private SqlSession db;
 	
-	public int loginCheck(MemberDTO dto) throws Exception{
-		String resultId = db.selectOne("Member.loginCheck",dto);
-		if(resultId!=null) {return 1;}
-		else return 0;
+	public String loginCheck(MemberDTO dto) throws Exception{
+		return db.selectOne("Member.loginCheck",dto);
 	}
 	
 	public MemberDTO getMemInfo(String id) throws Exception{

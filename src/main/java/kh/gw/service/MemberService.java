@@ -12,7 +12,9 @@ public class MemberService {
 	private MemberDAO mdao;
 	
 	public int loginCheck(MemberDTO dto) throws Exception{
-		return mdao.loginCheck(dto);
+		String result = mdao.loginCheck(dto);
+		if(result!=null) {return 1;}
+		else return 0;
 	}
 	
 	public MemberDTO getMemInfo(String id) throws Exception{

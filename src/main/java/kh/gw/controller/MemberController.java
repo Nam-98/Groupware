@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import kh.gw.dto.MemberDTO;
@@ -19,12 +20,14 @@ public class MemberController {
 	@Autowired
 	private HttpSession session;
 	
+	//로그인 기능
 	@RequestMapping("login.member")
 	public String login(MemberDTO dto, Model model) throws Exception{
 		//아이디가 존재하면 1, 존재하지 않으면 0
 		int result = mservice.loginCheck(dto);
 		
 		if(result==1) {
+			//id로 정보 받아오기
 			MemberDTO dtos = mservice.getMemInfo(dto.getId());
 			session.setAttribute("id",dto.getId());
 			session.setAttribute("accessLevel",dtos.getAccess_level_code());
@@ -38,4 +41,19 @@ public class MemberController {
 			return "/main/loginFailView";
 		}
 	}
+	
+	//로그아웃
+	@RequestMapping("logout.member")
+	public String logout() throws Exception {
+		session.invalidate();
+		return "home";
+	}
+	
+	// error
+	@ExceptionHandler
+	public String exceptionalHandler(Exception e) {
+		e.printStackTrace();
+		return "error";
+	}
+	
 }
