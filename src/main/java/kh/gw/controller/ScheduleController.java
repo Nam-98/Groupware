@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import kh.gw.service.ScheduleService;
 
 @Controller
-@RequestMapping("schedule")
+@RequestMapping("/schedule")
 public class ScheduleController {
 	@Autowired
 	private ScheduleService sservice;
