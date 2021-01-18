@@ -11,6 +11,10 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 <script src="https://kit.fontawesome.com/b1e233372d.js" crossorigin="anonymous"></script>
 <style type="text/css">
+	#container{
+		margin-left:50px;
+		margin-right:50px;
+	}
 	.iconbox{
 		text-align:center;
 	}
@@ -19,18 +23,24 @@
 	}
 	.bodyContents{
 		height:50%;
+		min-height:max-content;
 		border:1px solid black;
 		border-radius: 5px;
 		text-align:center;
 	}
 	.bodyContainer{
 		height:500px;
+		overflow:hidden;
 	}
-	.messageContainer{
-		height:100%;
+	#appContainer{display:none;height:92%;}
+	#messageContainer{
+		height:92%;
 	}
 	.profilBox{
-		width:100px;height:100px;border-radius:70%;overflow:hidden;background-color:gray;
+		width:30%;border-radius:70%;overflow:hidden;margin:auto;margin-top:40px;margin-bottom: 20px;
+	}
+	.profileImg{
+		width:100%;height:100%;
 	}
 </style>
 </head>
@@ -42,7 +52,7 @@
 			</div>
 		</div>
 		<div class="menuButtons row">
-			<div class="col-12 d-md-none d-inline">
+			<div class="col-12 d-lg-none d-inline">
 				<nav class="navbar navbar-expand-lg navbar-light bg-light">
 					<div class="container-fluid">
 						<button class="navbar-toggler" type="button"
@@ -53,84 +63,124 @@
 						</button>
 						<div class="collapse navbar-collapse" id="navbarNav">
 							<ul class="navbar-nav">
+								<li class="nav-item adminitem"><a class="nav-link active" aria-current="관리자" href="#">관리자</a></li>
 								<li class="nav-item"><a class="nav-link active"	aria-current="전자결재" href="#">전자결재</a></li>
-								<li class="nav-item"><a class="nav-link active"	aria-current="전자결재" href="#">업무일지</a></li>
-								<li class="nav-item"><a class="nav-link active"	aria-current="전자결재" href="#">쪽지함</a></li>
-								<li class="nav-item"><a class="nav-link active"	aria-current="전자결재" href="#">일정관리</a></li>
-								<li class="nav-item"><a class="nav-link active"	aria-current="전자결재" href="#">웹하드</a></li>
-								<li class="nav-item"><a class="nav-link active"	aria-current="전자결재" href="#">근태관리</a></li>
-								<li class="nav-item"><a class="nav-link active"	aria-current="전자결재" href="#">조직관리</a></li>
-								<li class="nav-item"><a class="nav-link active"	aria-current="전자결재" href="#">프로젝트관리</a></li>
-								<li class="nav-item"><a class="nav-link active"	aria-current="전자결재" href="#">커뮤니티</a></li>
-								<li class="nav-item"><a class="nav-link active"	aria-current="전자결재" href="#">마이페이지</a></li>
+								<li class="nav-item"><a class="nav-link active"	aria-current="업무일지" href="#">업무일지</a></li>
+								<li class="nav-item"><a class="nav-link active"	aria-current="쪽지함" href="#">쪽지함</a></li>
+								<li class="nav-item"><a class="nav-link active"	aria-current="일정관리" href="#">일정관리</a></li>
+								<li class="nav-item"><a class="nav-link active"	aria-current="웹하드" href="#">웹하드</a></li>
+								<li class="nav-item"><a class="nav-link active"	aria-current="근태관리" href="#">근태관리</a></li>
+								<li class="nav-item"><a class="nav-link active"	aria-current="조직관리" href="#">조직관리</a></li>
+								<li class="nav-item"><a class="nav-link active"	aria-current="프로젝트관리" href="#">프로젝트관리</a></li>
+								<li class="nav-item"><a class="nav-link active"	aria-current="커뮤니티" href="#">커뮤니티</a></li>
+								<li class="nav-item"><a class="nav-link active"	aria-current="마이페이지" href="#">마이페이지</a></li>
 							</ul>
 						</div>
 					</div>
 				</nav>
 			</div>
-			<div class="col-1 d-md-inline d-none"></div>
-			<div class="col-1 iconbox d-md-inline d-none">
+			<div class="col-1 iconbox d-lg-inline d-none">
+				<i class="fas fa-user-cog fa-4x adminitem"></i>
+				<h6 class="adminitem">관리자</h6>
+			</div>
+			<div class="col-1 iconbox d-lg-inline d-none">
 				<i class="fas fa-file-signature fa-4x"></i>
 				<h6>전자결재</h6>
 			</div>
-			<div class="col-1 iconbox d-md-inline d-none">
+			<div class="col-1 iconbox d-lg-inline d-none">
 				<i class="fas fa-pen-square fa-4x"></i>
 				<h6>업무일지</h6>			
 			</div>
-			<div class="col-1 iconbox d-md-inline d-none">
+			<div class="col-1 iconbox d-lg-inline d-none">
 				<i class="fas fa-envelope fa-4x"></i>
 				<h6>쪽지함</h6>			
 			</div>
-			<div class="col-1 iconbox d-md-inline d-none">
+			<div class="col-1 iconbox d-lg-inline d-none">
 				<i class="fas fa-calendar-alt fa-4x"></i>
 				<h6>일정관리</h6>
 			</div>
-			<div class="col-1 iconbox d-md-inline d-none">
+			<div class="col-1 iconbox d-lg-inline d-none">
 				<i class="fas fa-inbox fa-4x"></i>
 				<h6>웹하드</h6>
 			</div>
-			<div class="col-1 iconbox d-md-inline d-none">
+			<div class="col-1 iconbox d-lg-inline d-none">
 				<i class="fas fa-user-clock fa-4x"></i>
 				<h6>근태관리</h6>	
 			</div>
-			<div class="col-1 iconbox d-md-inline d-none">
+			<div class="col-1 iconbox d-lg-inline d-none">
 				<i class="fas fa-sitemap fa-4x"></i>
 				<h6>조직도</h6>
 			</div>
-			<div class="col-1 iconbox d-md-inline d-none">
+			<div class="col-1 iconbox d-lg-inline d-none">
 				<i class="fab fa-trello fa-4x"></i>
 				<h6>프로젝트관리</h6>
 			</div>
-			<div class="col-1 iconbox d-md-inline d-none">
+			<div class="col-1 iconbox d-lg-inline d-none">
 				<i class="fas fa-users fa-4x"></i>
 				<h6>커뮤니티</h6>
 			</div>
-			<div class="col-1 iconbox d-md-inline d-none">
+			<div class="col-1 iconbox d-lg-inline d-none">
 				<i class="fas fa-id-card fa-4x"></i>
 				<h6>마이페이지</h6>
 			</div>
-			<div class="col-1 d-md-inline d-none"></div>
 		</div>
 		<div class="bodyContainer row">
-			<div class="col-md-2 col-12">
+			<div class="col-lg-2 col-12">
 				<div class="bodyContents loginInfo">
-					loginInfo
 					<div class="profilBox">
-						<img class="profilImg" alt="" src="/user-solid.png">
+						<img class="profileImg d-none d-lg-block" alt="" src="/resources/CommonImg/user-solid.png">
 					</div>
+					<div class="m-2">${sessionScope.id} 님 환영합니다!</div>
+					<button id="logout" class="btn btn-primary" type="button">Logout</button>
 				</div>
 				<div class="bodyContents calendar">calendar</div>
 			</div>
-			<div class="col-md-4 col-12">
-				<div class="bodyContents TnAInfo">TnAInfo</div>
+			<div class="col-lg-4 col-12">
+				<div class="bodyContents TnAInfo">TnAInfo
+					<div id="goWork">출근버튼</div>
+					<div id="leaveWork">퇴근버튼</div>
+				</div>
 				<div class="bodyContents scheduleInfo">scheduleInfo</div>
 			</div>
-			<div class="col-md-6 col-12">
-				<div class="bodyContents messageContainer">message
-				<span class="badge rounded-pill bg-danger">숫자</span>
+			<div class="col-lg-6 col-12">
+				<div class="btn-group" role="group">
+					<button type="button" class="btn btn-outline-primary" id=btnMsg>Messages <span class="badge rounded-pill bg-danger">숫자</span></button>
+					<button type="button" class="btn btn-outline-primary" id=btnApp>Approval</button>
+				</div>
+				<div class="bodyContents" id="messageContainer">message
+				</div>
+				<div class="bodyContents" id="appContainer">approval
+					
 				</div>
 			</div>
 		</div>
 	</div>
+	
+	<script type="text/javascript">
+		document.getElementById("logout").onclick = function() {
+    		location.href = "/member/logout.member"
+    	}
+	
+		//관리자 page 여부
+		/*let isAdmin = ${sessionScope.accessLevel}*/
+		let isAdmin=0;
+		if(isAdmin=0){
+			$.each($(".adminitem"), function(index, item){
+				console.log("each도는중 : "+index);
+				$(item).css("display","none");
+			})
+		}
+		$("#btnMsg").on("click",function(){
+			$("#messageContainer").css("display","block");
+			$("#appContainer").css("display","none")
+		})
+		$("#btnApp").on("click",function(){
+			$("#messageContainer").css("display","none");
+			$("#appContainer").css("display","block")
+		})
+		
+		// 출퇴근 버튼 
+		
+	</script>
 </body>
 </html>

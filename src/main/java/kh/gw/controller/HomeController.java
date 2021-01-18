@@ -11,4 +11,8 @@ public class HomeController {
 		return "/main/mainpage";
 	}
 	
+	@RequestMapping("/toMain")
+	public String toMain() {
+		
+	}
 }
