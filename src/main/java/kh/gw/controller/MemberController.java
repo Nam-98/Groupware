@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
+
 import kh.gw.dto.MemberDTO;
 import kh.gw.service.MemberService;
 
