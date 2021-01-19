@@ -37,7 +37,7 @@
 		height:92%;
 	}
 	.profilBox{
-		width:30%;border-radius:70%;overflow:hidden;margin:auto;margin-top:40px;margin-bottom: 20px;
+		width:30%;border-radius:70%;overflow:hidden;margin:auto;margin-top:40px;margin-bottom: 20px; position: relative;
 	}
 	.profileImg{
 		width:100%;height:100%;
@@ -81,54 +81,54 @@
 			</div>
 			<div class="col-1 iconbox d-lg-inline d-none ">
 				<i class="fas fa-user-cog fa-4x adminitem"></i>
-				<h6 class="adminitem">관리자</h6>
+				<h6 class="adminitem">관리자</h6><input type=hidden value="/">
 			</div>
 			<div class="col-1 iconbox d-lg-inline d-none">
 				<i class="fas fa-file-signature fa-4x"></i>
-				<h6>전자결재</h6>
+				<h6>전자결재</h6><input type=hidden value="/">
 			</div>
 			<div class="col-1 iconbox d-lg-inline d-none">
 				<i class="fas fa-pen-square fa-4x"></i>
-				<h6>업무일지</h6>			
+				<h6>업무일지</h6><input type=hidden value="/">
 			</div>
 			<div class="col-1 iconbox d-lg-inline d-none">
 				<i class="fas fa-envelope fa-4x"></i>
-				<h6>쪽지함</h6>			
+				<h6>쪽지함</h6><input type=hidden value="/">
 			</div>
 			<div class="col-1 iconbox d-lg-inline d-none">
 				<i class="fas fa-calendar-alt fa-4x"></i>
-				<h6>일정관리</h6>
+				<h6>일정관리</h6><input type=hidden value="/">
 			</div>
 			<div class="col-1 iconbox d-lg-inline d-none">
 				<i class="fas fa-inbox fa-4x"></i>
-				<h6>웹하드</h6>
+				<h6>웹하드</h6><input type=hidden value="/">
 			</div>
 			<div class="col-1 iconbox d-lg-inline d-none">
 				<i class="fas fa-user-clock fa-4x"></i>
-				<h6>근태관리</h6>	
+				<h6>근태관리</h6>	<input type=hidden value="/">
 			</div>
 			<div class="col-1 iconbox d-lg-inline d-none">
 				<i class="fas fa-sitemap fa-4x"></i>
-				<h6>조직도</h6>
+				<h6>조직도</h6><input type=hidden value="/">
 			</div>
 			<div class="col-1 iconbox d-lg-inline d-none">
 				<i class="fab fa-trello fa-4x"></i>
-				<h6>프로젝트관리</h6>
+				<h6>프로젝트관리</h6><input type=hidden value="/">
 			</div>
 			<div class="col-1 iconbox d-lg-inline d-none">
 				<i class="fas fa-users fa-4x"></i>
-				<h6>커뮤니티</h6>
+				<h6>커뮤니티</h6><input type=hidden value="/">
 			</div>
 			<div class="col-1 iconbox d-lg-inline d-none">
 				<i class="fas fa-id-card fa-4x"></i>
-				<h6>마이페이지</h6>
+				<h6>마이페이지</h6><input type=hidden value="/">
 			</div>
 		</div>
 		<div class="bodyContainer row">
 			<div class="col-lg-2 col-12">
 				<div class="bodyContents loginInfo">
-					<div class="profilBox">
-						<img class="profileImg d-none d-lg-block" alt="" src="/resources/CommonImg/user-solid.png">
+					<div class="profilBox d-none d-lg-block">
+						<img class="profileImg " alt="" src="/resources/CommonImg/user-solid.png">
 					</div>
 					<div class="m-2">${sessionScope.id} 님 환영합니다!</div>
 					<button id="logout" class="btn btn-primary" type="button">Logout</button>
@@ -162,9 +162,8 @@
     	}
 	
 		//관리자 page 여부
-		/*let isAdmin = ${sessionScope.accessLevel}*/
-		let isAdmin=0;
-		if(isAdmin=0){
+		let isAdmin = ${sessionScope.accessLevel}
+		if(isAdmin==0){
 			$.each($(".adminitem"), function(index, item){
 				console.log("each도는중 : "+index);
 				$(item).css("display","none");
@@ -180,13 +179,15 @@
 		})
 		
 		// 상단 아이콘 링크설정
-		let icons = document.getElementByClass("iconbox")
+		// iconbox 내부의 inputTypehidden들의 value를 requestMapping으로 수정 요망
+		let icons = document.getElementsByClassName("iconbox")
 		for(var i = 0; i<icons.length; i++){
-			icons[i].addEventListener("click",iconClickFn(this), false);
+			icons[i].addEventListener("click",function(){
+				console.log(this.childNodes[3].innerHTML);
+				location.href = this.childNodes[4].value
+			});
 		}
-		var iconClickFn = function(elemt){
-			console.log(elemt.children());
-		}
+
 	</script>
 	<script>
 	// 출퇴근 여부 (미완)
