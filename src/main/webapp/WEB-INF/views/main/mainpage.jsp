@@ -79,7 +79,7 @@
 					</div>
 				</nav>
 			</div>
-			<div class="col-1 iconbox d-lg-inline d-none">
+			<div class="col-1 iconbox d-lg-inline d-none ">
 				<i class="fas fa-user-cog fa-4x adminitem"></i>
 				<h6 class="adminitem">관리자</h6>
 			</div>
@@ -179,8 +179,19 @@
 			$("#appContainer").css("display","block")
 		})
 		
-		// 출퇴근 버튼 
-		
+		// 상단 아이콘 링크설정
+		let icons = document.getElementByClass("iconbox")
+		for(var i = 0; i<icons.length; i++){
+			icons[i].addEventListener("click",iconClickFn(this), false);
+		}
+		var iconClickFn = function(elemt){
+			console.log(elemt.children());
+		}
+	</script>
+	<script>
+	// 출퇴근 여부 (미완)
+	let tnaData = JSON.parse(${isWork});
+	let isWork = tnaData[status]
 	</script>
 </body>
 </html>
