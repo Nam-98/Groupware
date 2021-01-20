@@ -10,16 +10,10 @@
 .leftcontainer {
 	width: 260px;
 	height: 720px;
-	position: fixed;
-	top: 0;
-	left: 0;
 }
 .left-logo{
 	width: 260px;
 	height: 70px;
-	position: fixed;
-	top: 0;
-	left: 0;
 	background-color : black;
 }
 /* Remove default bullets */
@@ -32,8 +26,7 @@ ul, #myUL {
 	margin: 0;
 	padding: 0;
 	position: fixed;
-	top: 70px;
-	left: 0;
+	
 }
 
 /* Style the caret/arrow */

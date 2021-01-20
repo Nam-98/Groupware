@@ -11,5 +11,13 @@
   	<select id ="getMemInfo" resultType ="kh.gw.dto.MemberDTO">
 		select * from st.member where id = #{value}
 	</select>
+	
+	<select id="listMem" resultType = "kh.gw.dto.MemberDTO">
+		select m.*,d.dept_name,d.dept_level,p.position_name from st.member m,st.department d, st.position p where m.dept_code = d.dept_code and m.position_code = p.position_code order by m.dept_code desc
+	</select>
+	
+	<select id="listDept" resultType = "java.util.HashMap">
+		select * from st.department
+	</select>
 
   </mapper>

@@ -1,5 +1,10 @@
 package kh.gw.controller;
 
+
+
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +60,17 @@ public class MemberController {
 		@RequestMapping("enterMyPage.member")
 		public String enterMyPage() throws Exception {
 			return "/mypage/myInfo";
+		}
+		
+	//조직도 불러오기
+		@RequestMapping("orgnizationChart.member")
+		public String orgnizationChart(Model m) throws Exception{
+			List<MemberDTO> mlist = mservice.listMem();//멤버를 불러옴
+//			List<Map<String,String>> dlist = mservice.listDept(); //부서명 가져옴
+//			System.out.println("============="+dlist.get(0).get("DEPT_CODE"));
+			m.addAttribute("mlist", mlist);
+			//m.addAttribute("dlist", dlist);
+			return "/orgnizationChart";
 		}
 	
 	// error

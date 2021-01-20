@@ -1,6 +1,7 @@
 package kh.gw.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,14 @@ public class MemberDAO {
 	
 	public MemberDTO getMemInfo(String id) throws Exception{
 		return db.selectOne("Member.getMemInfo",id);
+	}
+	
+	public List<MemberDTO> listMem() throws Exception{
+		return db.selectList("Member.listMem");
+	}
+	
+	public List<Map<String,String>> listDept() throws Exception{
+		return db.selectList("Member.listDept");
 	}
 
 }
