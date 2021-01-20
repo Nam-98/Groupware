@@ -73,7 +73,7 @@
 								<li class="nav-item"><a class="nav-link active"	aria-current="조직관리" href="#">조직관리</a></li>
 								<li class="nav-item"><a class="nav-link active"	aria-current="프로젝트관리" href="#">프로젝트관리</a></li>
 								<li class="nav-item"><a class="nav-link active"	aria-current="커뮤니티" href="#">커뮤니티</a></li>
-								<li class="nav-item"><a class="nav-link active"	aria-current="마이페이지" href="#">마이페이지</a></li>
+								<li class="nav-item"><a class="nav-link active"	aria-current="마이페이지" href="/member/enterMyPage.member">마이페이지</a></li>
 							</ul>
 						</div>
 					</div>
@@ -121,7 +121,7 @@
 			</div>
 			<div class="col-1 iconbox d-lg-inline d-none">
 				<i class="fas fa-id-card fa-4x"></i>
-				<h6>마이페이지</h6><input type=hidden value="/">
+				<h6>마이페이지</h6><input type=hidden value="/member/enterMyPage.member"">
 			</div>
 		</div>
 		<div class="bodyContainer row">
@@ -154,6 +154,9 @@
 				</div>
 			</div>
 		</div>
+		
+		
+		
 	</div>
 	
 	<script type="text/javascript">
