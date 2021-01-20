@@ -3,5 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="TnA">
-  
+  	<select id="selectByID" resultType="kh.gw.dto.TnADTO">
+  		select * from st.TnA where TnA_id = #{id}
+  	</select>
   </mapper>
