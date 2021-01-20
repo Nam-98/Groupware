@@ -51,6 +51,12 @@ public class MemberController {
 		return "home";
 	}
 	
+	//로그아웃
+		@RequestMapping("enterMyPage.member")
+		public String enterMyPage() throws Exception {
+			return "/mypage/myInfo";
+		}
+	
 	// error
 	@ExceptionHandler
 	public String exceptionalHandler(Exception e) {
