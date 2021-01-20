@@ -12,4 +12,9 @@ import kh.gw.service.ApprovalService;
 public class ApprovalController {
 	@Autowired
 	private ApprovalService aservice;
+	
+	@RequestMapping("/toAppMainView.approval")
+	public String toAppMainView () {
+		return "approval/appMainView";
+	}
 }

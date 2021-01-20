@@ -64,7 +64,7 @@
 						<div class="collapse navbar-collapse" id="navbarNav">
 							<ul class="navbar-nav">
 								<li class="nav-item adminitem"><a class="nav-link active" aria-current="관리자" href="#">관리자</a></li>
-								<li class="nav-item"><a class="nav-link active"	aria-current="전자결재" href="#">전자결재</a></li>
+								<li class="nav-item"><a class="nav-link active"	aria-current="전자결재" href="/approval/toAppMainView.approval">전자결재</a></li>
 								<li class="nav-item"><a class="nav-link active"	aria-current="업무일지" href="#">업무일지</a></li>
 								<li class="nav-item"><a class="nav-link active"	aria-current="쪽지함" href="#">쪽지함</a></li>
 								<li class="nav-item"><a class="nav-link active"	aria-current="일정관리" href="#">일정관리</a></li>
@@ -85,7 +85,7 @@
 			</div>
 			<div class="col-1 iconbox d-lg-inline d-none">
 				<i class="fas fa-file-signature fa-4x"></i>
-				<h6>전자결재</h6><input type=hidden value="/">
+				<h6>전자결재</h6><input type=hidden value="/approval/toAppMainView.approval">
 			</div>
 			<div class="col-1 iconbox d-lg-inline d-none">
 				<i class="fas fa-pen-square fa-4x"></i>

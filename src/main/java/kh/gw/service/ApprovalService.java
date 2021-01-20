@@ -9,4 +9,5 @@ import kh.gw.dao.ApprovalDAO;
 public class ApprovalService {
 	@Autowired
 	private ApprovalDAO adao;
+	
 }
