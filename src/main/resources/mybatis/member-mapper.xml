@@ -11,5 +11,5 @@
   	<select id ="getMemInfo" resultType ="kh.gw.dto.MemberDTO">
 		select * from st.member where id = #{value}
 	</select>
-  
+
   </mapper>
