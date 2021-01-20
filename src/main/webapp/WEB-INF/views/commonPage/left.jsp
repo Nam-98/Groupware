@@ -9,7 +9,6 @@
 <style>
 .leftcontainer {
 	width: 260px;
-	height: 720px;
 	position: fixed;
 	top: 0;
 	left: 0;
