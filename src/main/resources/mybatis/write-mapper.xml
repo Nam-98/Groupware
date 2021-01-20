@@ -4,4 +4,15 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="Write">
   
+  <select id="noticeByCpage" resultType="kh.gw.dto.WriteDTO">
+  	select * from(select st.write.*,row_number() over(order by write_date
+		desc)rn from st.write where (write_code = #{write_code}) and
+		(write_open='Y')) where rn between #{startRowNum} and #{endRowNum}
+  </select>
+  
+  <select id="noticeList" resultType="kh.gw.dto.WriteDTO">
+  	select * from st.write where (write_code = #{value}) and (write_open='Y')
+  	order by write_date desc
+  </select>
+  
   </mapper>
