@@ -51,7 +51,7 @@ public class MemberController {
 		return "home";
 	}
 	
-	//로그아웃
+	//마이페이지로 가기
 		@RequestMapping("enterMyPage.member")
 		public String enterMyPage() throws Exception {
 			return "/mypage/myInfo";
