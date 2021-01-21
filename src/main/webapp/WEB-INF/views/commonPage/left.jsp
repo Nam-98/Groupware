@@ -124,7 +124,7 @@ ul, #myUL {
 						<li>회사소개</li>
 						<li><span class="caret">공지사항</span>
 							<ul class="nested">
-								<li>회사공지사항</li>
+								<li><a href="/write/noticeList.write?cpage=1">회사공지사항</a></li>
 								<li>시스템공지사항</li>
 							</ul></li>
 						<li><span class="caret">게시판</span>
