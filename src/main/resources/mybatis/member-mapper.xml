@@ -11,5 +11,13 @@
   	<select id ="getMemInfo" resultType ="kh.gw.dto.MemberDTO">
 		select m.*, d.dept_name as dept_name, p.position_name as position_name from st.member m, st.position p, st.department d where (id=#{value}) and (m.dept_code like d.dept_code) and (m.position_code like p.position_code)
 	</select>
+	
+	<select id="listMem" resultType = "kh.gw.dto.MemberDTO">
+		select m.*,d.dept_name,d.dept_level,p.position_name from st.member m,st.department d, st.position p where m.dept_code = d.dept_code and m.position_code = p.position_code order by m.dept_code desc
+	</select>
+	
+	<select id="listDept" resultType = "kh.gw.dto.DepartmentDTO">
+		select * from st.department
+	</select>
 
   </mapper>

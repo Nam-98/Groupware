@@ -26,15 +26,15 @@ html, body {
 .container {
 	height: 100%;
 	align-content: center;
+	text-align: center;
 }
 
 .card {
+	margin-top : 150px;
 	height: 370px;
-	margin-top: auto;
-	margin-bottom: auto;
 	width: 400px;
 	background-color: rgba(0, 0, 0, 0.5) !important;
-	margin-bottom: auto;
+	margin: auto;
 }
 
 .card-header h3 {
