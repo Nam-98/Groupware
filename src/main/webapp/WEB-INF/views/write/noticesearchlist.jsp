@@ -99,7 +99,7 @@ table {
 					<tbody>
 						<c:forEach var="i" items="${list }">
 							<tr>
-								<th scope="row">${i.write_seq }</th>
+								<th scope="row">${i.rn }</th>
 								<td><a href="noticeView.write?write_seq=${i.write_seq}">${i.write_title }</a></td>
 								<td>${i.write_id }</td>
 								<td>${i.write_reg_date }</td>
