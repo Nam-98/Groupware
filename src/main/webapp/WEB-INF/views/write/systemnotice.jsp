@@ -6,7 +6,7 @@
 
 <head>
 <meta charset="UTF-8">
-<title>공지사항</title>
+<title>시스템 공지사항</title>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <!--    스타일시트-->
 <link
@@ -65,11 +65,12 @@ table {
 		<div class="right-side">
 			<div class="top-vacant"></div>
 			<div class="page-name">
-				<h1>공지사항</h1>
+				<h1>시스템 공지사항</h1>
 			</div>
 			<jsp:include page="/WEB-INF/views/commonPage/top.jsp" />
+			
 			<div class="maincontainer">
-			<form action="noticeSearch.write?cpage=1" method="post">
+			<form action="systemNoticeSearch.write?cpage=1" method="post" class="d-flex">
 				<table>
 					<tr>
 						<td>
@@ -81,6 +82,8 @@ table {
 						</select>
 						<input type="text" name="keyword" id="keyword" placeholder="검색어를 입력하세요">
 						<button id="searchBtn" type="submit">검색</button>
+<!-- 						<input class="form-control me" type="search" aria-label="Search"  name="keyword" id="keyword" placeholder="검색어를 입력하세요"> -->
+<!-- 						<button id="searchBtn" class="btn btn-outline-success" type="submit">검색</button> -->
 						</td>
 					</tr>
 				</table>
@@ -100,7 +103,7 @@ table {
 						<c:forEach var="i" items="${list }">
 							<tr>
 								<th scope="row">${i.rn }</th>
-								<td><a href="noticeView.write?write_seq=${i.write_seq}">${i.write_title }</a></td>
+								<td><a href="systemNoticeView.write?write_seq=${i.write_seq}">${i.write_title }</a></td>
 								<td>${i.write_id }</td>
 								<td>${i.write_reg_date }</td>
 								<td>${i.write_read_count }</td>
