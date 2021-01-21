@@ -87,28 +87,17 @@
 						</button>
 						<div class="collapse navbar-collapse" id="navbarNav">
 							<ul class="navbar-nav">
-								<li class="nav-item adminitem"><a class="nav-link active"
-									aria-current="관리자" href="#">관리자</a></li>
-								<li class="nav-item"><a class="nav-link active"
-									aria-current="전자결재" href="/approval/toAppMainView.approval">전자결재</a></li>
-								<li class="nav-item"><a class="nav-link active"
-									aria-current="업무일지" href="#">업무일지</a></li>
-								<li class="nav-item"><a class="nav-link active"
-									aria-current="쪽지함" href="#">쪽지함</a></li>
-								<li class="nav-item"><a class="nav-link active"
-									aria-current="일정관리" href="#">일정관리</a></li>
-								<li class="nav-item"><a class="nav-link active"
-									aria-current="웹하드" href="#">웹하드</a></li>
-								<li class="nav-item"><a class="nav-link active"
-									aria-current="근태관리" href="/tna/tnaCheckPage.tna">근태관리</a></li>
-								<li class="nav-item"><a class="nav-link active"
-									aria-current="조직관리" href="#">조직관리</a></li>
-								<li class="nav-item"><a class="nav-link active"
-									aria-current="프로젝트관리" href="#">프로젝트관리</a></li>
-								<li class="nav-item"><a class="nav-link active"
-									aria-current="커뮤니티" href="/write/enterCommunity.write">커뮤니티</a></li>
-								<li class="nav-item"><a class="nav-link active"
-									aria-current="마이페이지" href="/member/enterMyPage.member">마이페이지</a></li>
+								<li class="nav-item adminitem"><a class="nav-link active" aria-current="관리자" href="#">관리자</a></li>
+								<li class="nav-item"><a class="nav-link active" aria-current="전자결재" href="/approval/toAppMainView.approval">전자결재</a></li>
+								<li class="nav-item"><a class="nav-link active" aria-current="업무일지" href="#">업무일지</a></li>
+								<li class="nav-item"><a class="nav-link active" aria-current="쪽지함" href="#">쪽지함</a></li>
+								<li class="nav-item"><a class="nav-link active" aria-current="일정관리" href="#">일정관리</a></li>
+								<li class="nav-item"><a class="nav-link active" aria-current="웹하드" href="#">웹하드</a></li>
+								<li class="nav-item"><a class="nav-link active" aria-current="근태관리" href="/tna/tnaCheckPage.tna">근태관리</a></li>
+								<li class="nav-item"><a class="nav-link active" aria-current="조직관리" href="#">조직관리</a></li>
+								<li class="nav-item"><a class="nav-link active" aria-current="프로젝트관리" href="#">프로젝트관리</a></li>
+								<li class="nav-item"><a class="nav-link active" aria-current="커뮤니티" href="/write/enterCommunity.write">커뮤니티</a></li>
+								<li class="nav-item"><a class="nav-link active" aria-current="마이페이지" href="/member/enterMyPage.member">마이페이지</a></li>
 							</ul>
 						</div>
 					</div>
