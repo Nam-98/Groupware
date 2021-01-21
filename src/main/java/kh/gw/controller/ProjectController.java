@@ -10,6 +10,13 @@ import kh.gw.service.ProjectService;
 @Controller
 @RequestMapping("/project")
 public class ProjectController {
+	
 	@Autowired
 	private ProjectService pservice;
+	
+	@RequestMapping("enterProjectList.project")
+	public String enterProjectList() throws Exception{
+		
+		return "/project/projectListView";
+	}
 }
