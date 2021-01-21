@@ -68,6 +68,7 @@ table {
 				<h1>공지사항</h1>
 			</div>
 			<jsp:include page="/WEB-INF/views/commonPage/top.jsp" />
+			
 			<div class="maincontainer">
 			<form action="noticeSearch.write?cpage=1" method="post" class="d-flex">
 				<table>
@@ -101,7 +102,7 @@ table {
 					<tbody>
 						<c:forEach var="i" items="${list }">
 							<tr>
-								<th scope="row">${i.write_seq }</th>
+								<th scope="row">${i.rn }</th>
 								<td><a href="noticeView.write?write_seq=${i.write_seq}">${i.write_title }</a></td>
 								<td>${i.write_id }</td>
 								<td>${i.write_reg_date }</td>
