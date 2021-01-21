@@ -53,7 +53,9 @@ public class MemberController {
 	
 	//마이페이지로 가기
 		@RequestMapping("enterMyPage.member")
-		public String enterMyPage() throws Exception {
+		public String enterMyPage(Model model) throws Exception {
+			MemberDTO dtos = mservice.getMemInfo((String) session.getAttribute("id"));
+			model.addAttribute("dto",dtos);
 			return "/mypage/myInfo";
 		}
 	

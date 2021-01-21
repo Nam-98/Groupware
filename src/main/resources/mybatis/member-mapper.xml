@@ -9,7 +9,7 @@
 	</select>
   
   	<select id ="getMemInfo" resultType ="kh.gw.dto.MemberDTO">
-		select * from st.member where id = #{value}
+		select m.*, d.dept_name as dept_name, p.position_name as position_name from st.member m, st.position p, st.department d where (id=#{value}) and (m.dept_code like d.dept_code) and (m.position_code like p.position_code)
 	</select>
 
   </mapper>
