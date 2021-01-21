@@ -124,7 +124,7 @@ ul, #myUL {
 						</ul></li>
 					<li><span class="caret">게시판</span>
 						<ul class="nested">
-							<li>회사게시판</li>
+							<li><a href="/write/boardList.write?cpage=1">회사게시판</a></li>
 							<li>갤러리게시판</li>
 						</ul></li>
 				</ul></li>

@@ -107,4 +107,29 @@ public class WriteController {
 
 		return "/write/systemnoticesearchlist";
 	}
+	
+	//-------------- 회사 게시판 list
+	@RequestMapping("boardList.write")
+	public String boardList(Model m, HttpServletRequest request) throws Exception{
+		String cpage = request.getParameter("cpage");
+		List<WriteDTO>list = wservice.noticeByCpage(Integer.parseInt(cpage),"03");
+		String navi = wservice.noticeGetNavi(Integer.parseInt(cpage),"03");
+
+		m.addAttribute("list", list);
+		m.addAttribute("navi", navi);
+
+		return "/write/noticelist";
+	}
+	
+	//------------ 회사 게시판 제목 눌렀을 때 상세 게시판
+	@RequestMapping("boardView.write")
+	public String boardView(Model m, HttpServletRequest request, WriteDTO dto) throws Exception{
+		dto.setWrite_seq(Integer.parseInt(request.getParameter("write_seq")));
+		WriteDTO dtos = wservice.noticeView(dto.getWrite_seq());
+
+		int result = wservice.addViewCount(dto.getWrite_seq()); // 조회수+1
+
+		m.addAttribute("dtos", dtos);
+		return "/write/boardview";
+	}
 }
