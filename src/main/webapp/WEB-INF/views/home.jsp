@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page session="false"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -79,16 +80,19 @@ html, body {
 						<input type="password" class="form-control" id="floatingPassword"
 							name='password' placeholder="PASSWORD"> <label
 							for="floatingPassword">Password</label>
-					</div><br>
+					</div>
+					<br>
 					<div class="col-12">
 						<div class="form-check align-items-center remember">
 							<input class="form-check-input" type="checkbox" id="gridCheck">
 							<label class="form-check-label" for="gridCheck"> Remember
 								Me </label>
 						</div>
-					</div><br>
+					</div>
+					<br>
 					<div class="col-12">
-						<button type="submit" class="btn float-right login_btn">Sign in</button>
+						<button type="submit" class="btn float-right login_btn">Sign
+							in</button>
 					</div>
 				</div>
 			</div>
