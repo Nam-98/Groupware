@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import kh.gw.dao.ApprovalDAO;
 import kh.gw.dto.Approval_typeDTO;
-import statics.ApprovalConfigurator;
+import kh.gw.statics.ApprovalConfigurator;
 
 @Service
 public class ApprovalService {

@@ -142,6 +142,10 @@
 												<td>
 													1
 												</td>
+												<td>
+													<span class="badge rounded-pill bg-info text-dark" id="perSignAdd">추가</span> <span class="badge rounded-pill bg-danger" id="perSignDel">삭제</span>
+													
+												</td>
 											</tr>
 										</tbody>
 								</table>

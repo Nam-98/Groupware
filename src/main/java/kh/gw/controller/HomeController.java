@@ -11,7 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import kh.gw.service.ApprovalService;
 import kh.gw.service.TnAService;
-import statics.CommonConfigurator;
+import kh.gw.statics.CommonConfigurator;
 
 @Controller
 public class HomeController {
