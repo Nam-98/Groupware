@@ -36,7 +36,7 @@ ul, #myUL {
 #myUL {
 	margin: 0;
 	padding: 0;
-	position: fixed;
+	position: absolute;
 	 top: 70px;
     left: 0;
 	
