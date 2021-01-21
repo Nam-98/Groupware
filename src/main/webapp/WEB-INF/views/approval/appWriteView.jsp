@@ -70,54 +70,77 @@
 				</div>
 			</div>
 			<div class="maincontainer">
-				<div class="row">
-					<div class="col-3">
-							<div class="input-group mb-3">
-								<label class="input-group-text" for="inputGroupSelect01">문서종류</label>
+			<form action="/approval/writeApproval.approval" method="post">
+				<table class="table table-striped align-middle">
+					<tbody>
+						<tr>
+							<th scope="row">문서종류</th>
+							<td  colspan="3">
 								<select class="form-select" id="docsType" name="app_type_code">
 									<c:forEach items="${docsType}" var="dto">
 										<option value="${dto.app_type_code}">${dto.app_type_name}</option>
 									</c:forEach>
 								</select>
-							</div>
-						</div>
-					<div class="col-3">
-						<div class="input-group mb-3">
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">보존기간</th>
+							<td>
+								<div class="form-check form-check-inline">
+								 	<input class="form-check-input" type="radio" name="app_archive" id="app_archive" value="1">
+								 	<label class="form-check-label" for="inlineRadio1">1년</label>
+								</div>
+								<div class="form-check form-check-inline">
+								 	<input class="form-check-input" type="radio" name="app_archive" id="app_archive" value="2">
+								 	<label class="form-check-label" for="inlineRadio1">2년</label>
+								</div>
+								<div class="form-check form-check-inline">
+								 	<input class="form-check-input" type="radio" name="app_archive" id="app_archive" value="3">
+								 	<label class="form-check-label" for="inlineRadio1">3년</label>
+								</div>
+								<div class="form-check form-check-inline">
+								 	<input class="form-check-input" type="radio" name="app_archive" id="app_archive" value="5">
+								 	<label class="form-check-label" for="inlineRadio1">5년</label>
+								</div>
+								<div class="form-check form-check-inline">
+								 	<input class="form-check-input" type="radio" name="app_archive" id="app_archive" value="10">
+								 	<label class="form-check-label" for="inlineRadio1">10년</label>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">
+								<button type=button id="addSign" class="btn btn-outline-dark" data-bs-toggle="tooltip" data-bs-placement="right" title="결재자를 추가하려면 이 버튼을 누르세요">결재자</button>
+							</th>
+							<td>
 								
-							<input type="text" class="form-control" value="${writer}" readonly>
-						</div>
-					</div>
-					<div class="col-6">결재라인</div>
-				</div>
-				<div class="row">
-					<div class="col-3">
-						<div class="input-group mb-3">
-							<label class="input-group-text" for="inputGroupSelect01">보존기간</label>
-							<select class="form-select" id="inputGroupSelect01"
-								name="app_archive">
-								<option value="1">1년</option>
-								<option value="2">2년</option>
-								<option value="3">3년</option>
-								<option value="5">5년</option>
-								<option value="10">10년</option>
-							</select>
-						</div>
-					</div>
-					<div class="col-3">기안일<br>sysdate</div>
-					<div class="col-6">참조라인</div>
-				</div>
-				<div class="row">
-					<div class="form-floating mb-3">
-						<input type="text" class="form-control" id="title"	placeholder="제목"> 
-							<label for="title">제목</label>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-12">
-						<textarea id="summernote" name="contents"></textarea>
-					<br> https://okky.kr/article/519068?note=1554650
-					</div>
-				</div>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><button type=button id="addRefer" class="btn btn-outline-dark"  data-bs-toggle="tooltip" data-bs-placement="right" title="참조자를 추가하려면 이 버튼을 누르세요">참조자</button></th>
+							<td></td>
+						</tr>
+
+						<tr>
+							<th scope="row">첨부파일</th>
+							<td>
+								<div class="fileContainer">
+								
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2"><input type="text" class="form-control" id="title"	placeholder="제목" name="app_title"></td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<textarea id="summernote" name="contents"></textarea>
+								<br> https://okky.kr/article/519068?note=1554650
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
 			</div>
 		</div>
 	</div>
@@ -125,7 +148,7 @@
     $(document).ready(function() {
     	//여기 아래 부분
     	$('#summernote').summernote({
-    		  height: 350,                 // 에디터 높이
+    		  height: 300,                 // 에디터 높이
     		  minHeight: null,             // 최소 높이
     		  maxHeight: null,             // 최대 높이
     		  focus: true,                  // 에디터 로딩후 포커스를 맞출지 여부
