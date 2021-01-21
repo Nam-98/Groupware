@@ -136,7 +136,8 @@
             <h6>조직도</h6><input type=hidden value="/member/orgnizationChart.member">
          </div>
          <div class="col-1 iconbox d-lg-inline d-none">
-            <i class="fab fa-trello fa-4x"></i><h6>프로젝트관리</h6><input type=hidden value="/project/enterProjectList.project?cpage=1">
+            <i class="fab fa-trello fa-4x"></i>
+            <h6>프로젝트관리</h6><input type=hidden value="/project/enterProjectList.project?cpage=1">
          </div>
          <div class="col-1 iconbox d-lg-inline d-none">
             <i class="fas fa-users fa-4x"></i>
