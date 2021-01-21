@@ -6,4 +6,16 @@
   	<select id="selectByID" resultType="kh.gw.dto.TnADTO">
   		select * from st.TnA where TnA_id = #{id}
   	</select>
+  	
+  	<insert id="attendanceInput">
+  		insert into st.tna values(st.tna_seq.nextval, #{TnA_id}, sysdate, null, #{TnA_status_code})
+  	</insert>
+  	<update id="leaveWorkInput">
+  		update st.TnA set tna_end_time = sysdate, tna_status_code = #{TnA_status_code} where tna_seq = #{TnA_seq}
+  	</update>
+  	<select id="getTnaSeq" resultType="Integer">
+  		select tna_seq from st.tna where (tna_id = #{sessionId}) and (to_char(sysdate,'yyyymmdd') like to_char(tna_start_time,'yyyymmdd'))
+  	</select>
+  	
+  	
   </mapper>
