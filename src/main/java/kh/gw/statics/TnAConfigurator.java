@@ -1,4 +1,4 @@
-package statics;
+package kh.gw.statics;
 
 public class TnAConfigurator {
 

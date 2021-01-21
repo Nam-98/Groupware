@@ -68,8 +68,10 @@
 			<div class="maincontainer row">
 				<div class="top-vacant d-none d-lg-block"></div>
 				<div class="col-lg-1 col-12">
-					<input type="button" value="출근하기" id="attendanceBtn"> <input
-						type="button" value="퇴근하기" id="leaveWorkBtn">
+					<div class=""></div>
+					<div class=""></div>
+					<input type="button" value="출근하기" id="attendanceBtn"> 
+					<input type="button" value="퇴근하기" id="leaveWorkBtn">
 				</div>
 			</div>
 
