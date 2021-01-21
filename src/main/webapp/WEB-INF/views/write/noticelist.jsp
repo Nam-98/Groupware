@@ -68,6 +68,7 @@ table {
 				<h1>공지사항</h1>
 			</div>
 			<jsp:include page="/WEB-INF/views/commonPage/top.jsp" />
+			
 			<div class="maincontainer">
 			<form action="noticeSearch.write?cpage=1" method="post" class="d-flex">
 				<table>
