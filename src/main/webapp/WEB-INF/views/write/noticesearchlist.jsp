@@ -69,20 +69,18 @@ table {
 			</div>
 			<jsp:include page="/WEB-INF/views/commonPage/top.jsp" />
 			<div class="maincontainer">
-			<form action="noticeSearch.write?cpage=1" method="post" class="d-flex">
+			<form action="noticeSearch.write?cpage=1" method="post">
 				<table>
 					<tr>
 						<td>
 						<select id="condition" name="condition">
-<!-- 							<option value="">검색조건</option> -->
-<!-- 							<option value="">전체보기</option> -->
+							<option value="">검색조건</option>
+							<option value="">전체보기</option>
 							<option value="write_title">제목</option>
 							<option value="write_id">작성자</option>
 						</select>
 						<input type="text" name="keyword" id="keyword" placeholder="검색어를 입력하세요">
 						<button id="searchBtn" type="submit">검색</button>
-<!-- 						<input class="form-control me" type="search" aria-label="Search"  name="keyword" id="keyword" placeholder="검색어를 입력하세요"> -->
-<!-- 						<button id="searchBtn" class="btn btn-outline-success" type="submit">검색</button> -->
 						</td>
 					</tr>
 				</table>
