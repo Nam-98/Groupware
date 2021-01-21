@@ -9,10 +9,11 @@
 <style>
 .leftcontainer {
 	width: 260px;
-	height: 720px;
+	height: 99%;
 	position: fixed;
 	top: 0;
 	left: 0;
+	overflow-y:auto;
 }
 
 .left-logo {

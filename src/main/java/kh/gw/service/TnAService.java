@@ -3,7 +3,6 @@ package kh.gw.service;
 
 import java.sql.Time;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -12,7 +11,8 @@ import org.springframework.stereotype.Service;
 
 import kh.gw.dao.TnADAO;
 import kh.gw.dto.TnADTO;
-import statics.TnAConfigurator;
+import kh.gw.statics.TnAConfigurator;
+
 
 @Service
 public class TnAService {
