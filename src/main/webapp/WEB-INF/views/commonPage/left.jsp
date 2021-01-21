@@ -10,6 +10,7 @@
 .leftcontainer {
 	width: 260px;
 	height: 720px;
+
 }
 .left-logo{
 	width: 260px;
@@ -26,6 +27,8 @@ ul, #myUL {
 	margin: 0;
 	padding: 0;
 	position: fixed;
+	 top: 70px;
+    left: 0;
 	
 }
 

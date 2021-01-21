@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kh.gw.dao.MemberDAO;
+import kh.gw.dto.DepartmentDTO;
 import kh.gw.dto.MemberDTO;
 
 @Service
@@ -28,7 +29,7 @@ public class MemberService {
 		return mdao.listMem();
 	}
 	
-	public List<Map<String,String>> listDept() throws Exception{
+	public List<DepartmentDTO> listDept() throws Exception{
 		return mdao.listDept();
 	}
 

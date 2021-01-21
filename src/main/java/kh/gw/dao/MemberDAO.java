@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kh.gw.dto.DepartmentDTO;
 import kh.gw.dto.MemberDTO;
 
 @Repository
@@ -26,7 +27,7 @@ public class MemberDAO {
 		return db.selectList("Member.listMem");
 	}
 	
-	public List<Map<String,String>> listDept() throws Exception{
+	public List<DepartmentDTO> listDept() throws Exception{
 		return db.selectList("Member.listDept");
 	}
 

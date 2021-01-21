@@ -5,6 +5,7 @@ package kh.gw.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 
+import kh.gw.dto.DepartmentDTO;
 import kh.gw.dto.MemberDTO;
 import kh.gw.service.MemberService;
 
@@ -58,7 +60,9 @@ public class MemberController {
 	
 	//마이페이지로 가기
 		@RequestMapping("enterMyPage.member")
-		public String enterMyPage() throws Exception {
+		public String enterMyPage(Model model) throws Exception {
+			MemberDTO dtos = mservice.getMemInfo((String) session.getAttribute("id"));
+			model.addAttribute("dto",dtos);
 			return "/mypage/myInfo";
 		}
 		
@@ -66,11 +70,26 @@ public class MemberController {
 		@RequestMapping("orgnizationChart.member")
 		public String orgnizationChart(Model m) throws Exception{
 			List<MemberDTO> mlist = mservice.listMem();//멤버를 불러옴
-//			List<Map<String,String>> dlist = mservice.listDept(); //부서명 가져옴
-//			System.out.println("============="+dlist.get(0).get("DEPT_CODE"));
+			List<DepartmentDTO> dlist = mservice.listDept(); //부서명 가져옴
+			for(MemberDTO dto:mlist) {
+				System.out.println(dto.getDept_code());
+			}
 			m.addAttribute("mlist", mlist);
-			//m.addAttribute("dlist", dlist);
-			return "/orgnizationChart";
+			m.addAttribute("dlist", dlist);
+			return "orgnizationChart";
+		}
+	
+	//조직도 직원 클릭시 정보 불러오기
+		@RequestMapping("orgMemInfo.member")
+		public String orgMemInfo(HttpServletRequest request, Model m) throws Exception{
+			String id = request.getParameter("id");
+			MemberDTO dto = mservice.getMemInfo(id);
+			List<MemberDTO> mlist = mservice.listMem();
+			List<DepartmentDTO> dlist = mservice.listDept(); //부서명 가져옴
+			m.addAttribute("dto", dto);
+			m.addAttribute("mlist", mlist);
+			m.addAttribute("dlist", dlist);
+			return "orgnizationChart";
 		}
 	
 	// error

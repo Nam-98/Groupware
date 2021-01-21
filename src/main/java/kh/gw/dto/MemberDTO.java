@@ -23,6 +23,7 @@ public class MemberDTO {
 	private String dept_name;
 	private String position_name;
 	private int dept_level;
+
 	
 	
 	
@@ -52,6 +53,63 @@ public class MemberDTO {
 	public MemberDTO() {
 		super();
 	}
+
+	public String getDept_name() {
+		return dept_name;
+	}
+
+
+
+
+	public void setDept_name(String dept_name) {
+		this.dept_name = dept_name;
+	}
+
+
+
+
+	public MemberDTO(String id, String password, String name, Date birth, String gender, String contact,
+			String address1, String address2, String zip_code, String is_married, int dept_code, int position_code,
+			Date reg_date, Date retire_date, int access_level_code, double break_total_count, double break_use_count,
+			String dept_name, String position_name) {
+		super();
+		this.id = id;
+		this.password = password;
+		this.name = name;
+		this.birth = birth;
+		this.gender = gender;
+		this.contact = contact;
+		this.address1 = address1;
+		this.address2 = address2;
+		this.zip_code = zip_code;
+		this.is_married = is_married;
+		this.dept_code = dept_code;
+		this.position_code = position_code;
+		this.reg_date = reg_date;
+		this.retire_date = retire_date;
+		this.access_level_code = access_level_code;
+		this.break_total_count = break_total_count;
+		this.break_use_count = break_use_count;
+		this.dept_name = dept_name;
+		this.position_name = position_name;
+	}
+
+
+
+
+	public String getPosition_name() {
+		return position_name;
+	}
+
+
+
+
+	public void setPosition_name(String position_name) {
+		this.position_name = position_name;
+	}
+
+
+
 
 	public String getId() {
 		return id;
@@ -187,22 +245,6 @@ public class MemberDTO {
 
 	public void setBreak_use_count(double break_use_count) {
 		this.break_use_count = break_use_count;
-	}
-
-	public String getDept_name() {
-		return dept_name;
-	}
-
-	public void setDept_name(String dept_name) {
-		this.dept_name = dept_name;
-	}
-
-	public String getPosition_name() {
-		return position_name;
-	}
-
-	public void setPosition_name(String position_name) {
-		this.position_name = position_name;
 	}
 
 	public int getDept_level() {

@@ -6,11 +6,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
+    <link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+	crossorigin="anonymous">
+
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+	crossorigin="anonymous"></script>
 </head>
 <style>
-	*{border: 1px solid black;
+	*{border: 0px solid black;
         box-sizing: border-box;       
-         margin: auto;	
+         margin: 0;	
 	}
 	
 	.wholecontainer{
@@ -33,7 +43,6 @@
 	.top-vacant{
 		width: 1020px;
 		height: 20px;
-		background-color : yellow;
 	}
 	.page-name{
 		width: 100%;;
@@ -58,41 +67,33 @@
     width: 100%;
     height: 25%;
     }
-    .img{
-        width: 20%;
-        height: 100%;
-        float: left
-    }
-    .info{
-        width: 80%;
-        height: 100%;
-        float: left;
-    }
 .sec2{
     width: 100%;
     height: 75%;
     }
-    .infoSec{
-        width: 100%;
-        height: 33.3%;
+    
+    .table table-sm{
+    	width: 100%;
     }
-    .namebox{
-        width: 25%;
-        height: 100%;
-        float: left;
-        text-align: center;
-        line-height: 50px;
+    button{
+    	width: 130px;
     }
-    .inputbox{
-        width: 75%;
-        height: 100%;
-        float: left;
-        text-align: center;
-        line-height: 50px;
+    .profilBox>img{
+    	width: 100%;
+    	height: 100%;
     }
-    .infoSec2{
-        width: 100%;
-        height: 12%;
+    .profilBox{
+    	border: 1px solid black;
+    	width: 130px;
+    	height: 185px;
+    }
+    li>a{
+    	color: black;
+   text-decoration: none;
+    }
+    button{
+    	position: relative;
+    	right: 50px;
     }
     /* Remove default bullets */
 ul, #myUL1 {
@@ -151,63 +152,139 @@ ul, #myUL1 {
 			<div class ="maincontainer">
 			    <div class="orgTree">
 			        <ul id="myUL1">
-			<c:forEach items="${mlist }" var="i">			
+			<c:forEach items="${dlist }" var="i">			
 			<li><span class="caret1">${i.dept_name}</span>
-				"
-				<ul class="nested1">				
-					<li>${i.name }</li>				
-				</ul></li>			
+				
+				<ul class="nested1">
+				<c:forEach items="${mlist }" var="j">
+				<c:if test="${j.dept_code == i.dept_code }">				
+					<li><a href="/member/orgMemInfo.member?id=${j.id}">${j.name }</a></li>
+				</c:if>
+				</c:forEach>								
+				</ul>
+				
+				</li>	
+						
 			</c:forEach>				
 			</ul>
 			    </div>
 			    <div class="orgInfo">
-			    	 <div class="sec1">
-			            <div class="img"></div>
-			            <div class="info">
-			                <div class="infoSec">
-			                    <div class="namebox"><b>I D :</b></div>
-			                    <div class="inputbox"></div>
-			                </div>
-			                <div class="infoSec">
-			                    <div class="namebox"><b>성 명 :</b></div>
-			                    <div class="inputbox"></div>
-			                </div>
-			                <div class="infoSec">
-			                    <div class="namebox"><b>생년월일 :</b></div>
-			                    <div class="inputbox"></div>
-			                </div>
-			            </div>
-			        </div>
-			        <div class="sec2">
-			            <div class="infoSec2">
-			                <div class="namebox"><b>직 급 :</b></div>
-			                 <div class="inputbox"></div>
-			            </div>
-			            <div class="infoSec2">
-			                <div class="namebox"><b>부 서 :</b></div>
-			                 <div class="inputbox"></div>
-			            </div>
-			            <div class="infoSec2">
-			                <div class="namebox"><b>연락처 :</b></div>
-			                 <div class="inputbox"></div>
-			            </div>
-			            <div class="infoSec2">
-			                <div class="namebox"><b>회사번호 :</b></div>
-			                 <div class="inputbox"></div>
-			            </div>
-			            <div class="infoSec2">
-			                <div class="namebox"><b>우편번호 :</b></div>
-			                 <div class="inputbox"></div>
-			            </div>
-			            <div class="infoSec2">
-			                <div class="namebox"><b>주 소 :</b></div>
-			                 <div class="inputbox"></div>
-			            </div>
-			            <div class="infoSec2">
-			                <div class="namebox"><b>입사일 :</b></div>
-			                 <div class="inputbox"></div>
-			            </div>
-			        </div>
+			    	<div class="maincontainer row">
+				
+
+			
+				<div class="top-vacant d-none d-lg-block"></div>
+				<div class="col-lg-2 col-12">
+					<div class="bodyContents loginInfo">
+						<div class="top-vacant d-none d-lg-block"></div>
+						<div class="top-vacant d-none d-lg-block"></div>
+						<div class="top-vacant d-none d-lg-block"></div>
+						<div class="top-vacant d-none d-lg-block"></div>
+						<div class="top-vacant d-none d-lg-block"></div>
+						<div class="top-vacant d-none d-lg-block"></div>
+						<div class="profilBox d-none d-lg-block">
+							<img class="profileImg img-thumbnail" alt="${dto.id}"
+								src="/resources/profileImage/${dto.id}.png">
+							
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-10 col-12">
+					<div class="bodyContents">
+						<div class="row">
+							<div class="col-lg-10 d-none d-lg-block"></div>
+							<div class="col-lg-2 col-12">
+								<button type="button" id="askFix" class="btn btn-warning">쪽지 보내기</button>
+							</div>
+						</div>
+						<div class="top-vacant d-none d-lg-block"></div>
+						<div class="card">
+							<div class="card-header">
+								<h5>개 인 정 보</h5>
+							</div>
+							<div class="card-body">
+								<table class="table table-sm">
+									<thead>
+										<tr class="table-secondary">
+											<th scope="col">항 목</th>
+											<th scope="col">내 용</th>
+											<th scope="col">항 목</th>
+											<th scope="col">내 용</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<th scope="row">이 름</th>
+											<td>${dto.name}</td>
+											<th scope="row">생 년 월 일</th>
+											<td>${dto.birth}</td>
+										</tr>
+										<tr>
+											<th scope="row">연 락 처</th>
+											<td>${dto.contact}</td>
+											<th scope="row">성 별</th>
+											<td>${dto.gender}</td>
+										</tr>
+										<tr>
+											<th scope="row">주 소</th>
+											<td>${dto.address1}</td>
+											<th scope="row">상 세 주 소</th>
+											<td>${dto.address2}(${dto.zip_code})</td>
+										</tr>
+										<tr>
+											<th scope="row">결 혼 유 무</th>
+											<td>${dto.is_married}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="maincontainer row">
+					<div class="col-lg-12 col-12">
+						<div class="bodyContents">
+							<div class="top-vacant d-none d-lg-block"></div>
+							<div class="card">
+								<div class="card-header">
+									<h5>사 원 정 보</h5>
+								</div>
+								<div class="card-body">
+									<table class="table table-sm">
+										<thead>
+											<tr class="table-secondary">
+												<th scope="col">항 목</th>
+												<th scope="col">내 용</th>
+												<th scope="col">항 목</th>
+												<th scope="col">내 용</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<th scope="row">부 서</th>
+												<td>${dto.dept_name}</td>
+												<th scope="row">직 위</th>
+												<td>${dto.position_name}</td>
+											</tr>
+											<tr>
+												<th scope="row">입 사 일</th>
+												<td>${dto.reg_date}</td>
+												<th scope="row">퇴 사 일</th>
+												<td>${dto.retire_date}</td>
+											</tr>
+											<tr>
+												<th scope="row">휴 가 일 수</th>
+												<td>${dto.break_use_count}일/${dto.break_total_count} 일</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
 			    </div>
 			</div>
 		</div>
@@ -218,6 +295,7 @@ var toggler = document.getElementsByClassName("caret1");
 var i;
 
 for (i = 0; i < toggler.length; i++) {
+	console.log(toggler.length);
   toggler[i].addEventListener("click", function() {
     this.parentElement.querySelector(".nested1").classList.toggle("active1");
     this.classList.toggle("caret-down1");
