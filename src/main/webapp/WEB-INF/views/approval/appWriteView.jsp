@@ -52,6 +52,7 @@
 	height: 50px;
 	float: left;
 }
+#signList{width:100%;}
 </style>
 </head>
 <body>
@@ -71,7 +72,7 @@
 			</div>
 			<div class="maincontainer">
 			<form action="/approval/writeApproval.approval" method="post">
-				<table class="table table-striped align-middle">
+				<table class="table table-striped">
 					<tbody>
 						<tr>
 							<th scope="row">문서종류</th>
@@ -113,14 +114,43 @@
 								<button type=button id="addSign" class="btn btn-outline-dark" data-bs-toggle="tooltip" data-bs-placement="right" title="결재자를 추가하려면 이 버튼을 누르세요">결재자</button>
 							</th>
 							<td>
-								
+								<table id="signList" class="table-Light">
+									<thead>
+											<tr>
+												<th scope="col">결재 순서</th>
+												<th scope="col">이름</th>
+												<th scope="col">직급</th>
+												<th scope="col">부서</th>
+												<th scope="col">결재구분</th>
+												<th scope="col">추가 / 삭제</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td scope="row">
+													1
+												</td>
+												<td>
+													1
+												</td>
+												<td>
+													1
+												</td>
+												<td>
+													1
+												</td>
+												<td>
+													1
+												</td>
+											</tr>
+										</tbody>
+								</table>
 							</td>
 						</tr>
 						<tr>
 							<th scope="row"><button type=button id="addRefer" class="btn btn-outline-dark"  data-bs-toggle="tooltip" data-bs-placement="right" title="참조자를 추가하려면 이 버튼을 누르세요">참조자</button></th>
 							<td></td>
 						</tr>
-
 						<tr>
 							<th scope="row">첨부파일</th>
 							<td>
@@ -132,7 +162,7 @@
 						<tr>
 							<td colspan="2"><input type="text" class="form-control" id="title"	placeholder="제목" name="app_title"></td>
 						</tr>
-						<tr>
+						<tr class="table-light">
 							<td colspan="2">
 								<textarea id="summernote" name="contents"></textarea>
 								<br> https://okky.kr/article/519068?note=1554650
