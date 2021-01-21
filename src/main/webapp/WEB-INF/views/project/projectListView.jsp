@@ -72,84 +72,65 @@
 			<div class="maincontainer row">
 				<div class="top-vacant d-none d-lg-block"></div>
 
-							<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-								<div class="container-fluid">
-									<a class="navbar-brand" href="#">Navbar</a>
-									<button class="navbar-toggler" type="button"
-										data-bs-toggle="collapse"
-										data-bs-target="#navbarNavDarkDropdown"
-										aria-controls="navbarNavDarkDropdown" aria-expanded="false"
-										aria-label="Toggle navigation">
-										<span class="navbar-toggler-icon"></span>
-									</button>
-									<div class="collapse navbar-collapse"
-										id="navbarNavDarkDropdown">
-										<ul class="navbar-nav">
-											<li class="nav-item dropdown"><a
-												class="nav-link dropdown-toggle" href="#"
-												id="navbarDarkDropdownMenuLink" role="button"
-												data-bs-toggle="dropdown" aria-expanded="false">
-													Dropdown </a>
-												<ul class="dropdown-menu dropdown-menu-dark"
-													aria-labelledby="navbarDarkDropdownMenuLink">
-													<li><a class="dropdown-item" href="#">Action</a></li>
-													<li><a class="dropdown-item" href="#">Another
-															action</a></li>
-													<li><a class="dropdown-item" href="#">Something
-															else here</a></li>
-												</ul></li>
-										</ul>
-										<button type="button" id="askFix" class="btn btn-warning">추가</button>
-									</div>
-								</div>
-							</nav>
-				<div class="top-vacant d-none d-lg-block"></div>
-				<div class="maincontainer row">
-					<div class="col-lg-12 col-12">
-						<div class="bodyContents">
-							<div class="top-vacant d-none d-lg-block"></div>
-							<div class="card">
-								<div class="card-header">
-									<h5>사 원 정 보</h5>
-								</div>
-								<div class="card-body">
-									<table class="table table-sm">
-										<thead>
-											<tr class="table-secondary">
-												<th scope="col">항 목</th>
-												<th scope="col">내 용</th>
-												<th scope="col">항 목</th>
-												<th scope="col">내 용</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<th scope="row">부 서</th>
-												<td>${dto.dept_name}</td>
-												<th scope="row">직 위</th>
-												<td>${dto.position_name}</td>
-											</tr>
-											<tr>
-												<th scope="row">입 사 일</th>
-												<td>${dto.reg_date}</td>
-												<th scope="row">퇴 사 일</th>
-												<td>${dto.retire_date}</td>
-											</tr>
-											<tr>
-												<th scope="row">휴 가 일 수</th>
-												<td>${dto.break_use_count}일/${dto.break_total_count}일</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
+				<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+					<div class="container-fluid">
+						<a class="navbar-brand" href="#">Navbar</a>
+						<button class="navbar-toggler" type="button"
+							data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown"
+							aria-controls="navbarNavDarkDropdown" aria-expanded="false"
+							aria-label="Toggle navigation">
+							<span class="navbar-toggler-icon"></span>
+						</button>
+						<div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+							<ul class="navbar-nav">
+								<li class="nav-item dropdown"><a
+									class="nav-link dropdown-toggle" href="#"
+									id="navbarDarkDropdownMenuLink" role="button"
+									data-bs-toggle="dropdown" aria-expanded="false"> Dropdown </a>
+									<ul class="dropdown-menu dropdown-menu-dark"
+										aria-labelledby="navbarDarkDropdownMenuLink">
+										<li><a class="dropdown-item" href="#">Action</a></li>
+										<li><a class="dropdown-item" href="#">Another action</a></li>
+										<li><a class="dropdown-item" href="#">Something else
+												here</a></li>
+									</ul></li>
+							</ul>
+							<button type="button" id="askFix" class="btn btn-warning">추가</button>
 						</div>
 					</div>
+				</nav>
+				<div class="top-vacant d-none d-lg-block"></div>
+				<div class="col-lg-12 col-12">
+					<table class="table table-sm">
+						<thead>
+							<tr class="table-secondary">
+								<th scope="col">항 목</th>
+								<th scope="col">내 용</th>
+								<th scope="col">항 목</th>
+								<th scope="col">내 용</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th scope="row">부 서</th>
+								<td>${dto.dept_name}</td>
+								<th scope="row">직 위</th>
+								<td>${dto.position_name}</td>
+							</tr>
+							<tr>
+								<th scope="row">입 사 일</th>
+								<td>${dto.reg_date}</td>
+								<th scope="row">퇴 사 일</th>
+								<td>${dto.retire_date}</td>
+							</tr>
+							<tr>
+								<th scope="row">휴 가 일 수</th>
+								<td>${dto.break_use_count}일/${dto.break_total_count}일</td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
-
 			</div>
-
-
 		</div>
 	</div>
 </body>
