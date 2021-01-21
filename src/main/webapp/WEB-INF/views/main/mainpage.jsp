@@ -128,19 +128,24 @@
             <h6>웹하드</h6><input type=hidden value="/">
          </div>
          <div class="col-1 iconbox d-lg-inline d-none">
-            <i class="fas fa-user-clock fa-4x"></i><h6>근태관리</h6><input type=hidden value="/tna/tnaCheckPage.tna">
+            <i class="fas fa-user-clock fa-4x"></i>
+            <h6>근태관리</h6><input type=hidden value="/tna/tnaCheckPage.tna">
          </div>
          <div class="col-1 iconbox d-lg-inline d-none">
-            <i class="fas fa-sitemap fa-4x"></i><h6>조직도</h6><input type=hidden value="/">
+            <i class="fas fa-sitemap fa-4x"></i>
+            <h6>조직도</h6><input type=hidden value="/">
          </div>
          <div class="col-1 iconbox d-lg-inline d-none">
-            <i class="fab fa-trello fa-4x"></i><h6>프로젝트관리</h6><input type=hidden value="/">
+            <i class="fab fa-trello fa-4x"></i>
+            <h6>프로젝트관리</h6><input type=hidden value="/">
          </div>
          <div class="col-1 iconbox d-lg-inline d-none">
-            <i class="fas fa-users fa-4x"></i><h6>커뮤니티</h6><input type=hidden value="/write/enterCommunity.write">
+            <i class="fas fa-users fa-4x"></i>
+            <h6>커뮤니티</h6><input type=hidden value="/write/enterCommunity.write">
          </div>
          <div class="col-1 iconbox d-lg-inline d-none">
-            <i class="fas fa-id-card fa-4x"></i><h6>마이페이지</h6><input type=hidden value="/member/enterMyPage.member">
+            <i class="fas fa-id-card fa-4x"></i>
+            <h6>마이페이지</h6><input type=hidden value="/member/enterMyPage.member">
          </div>
       </div>
       <div class="bodyContainer row">
