@@ -9,11 +9,10 @@
 <style>
 .leftcontainer {
 	width: 260px;
-	height: 720px;
+	height: 99%;
 	position: fixed;
 	top: 0;
 	left: 0;
-	scroll:auto;
 }
 
 .left-logo {
@@ -36,7 +35,7 @@ ul, #myUL {
 #myUL {
 	margin: 0;
 	padding: 0;
-	position: fixed;
+	position: absolute;
 	 top: 70px;
     left: 0;
 	
@@ -78,6 +77,7 @@ span>a{
     color: black;
    text-decoration: none;
     }
+
 </style>
 </head>
 <body>
@@ -161,5 +161,10 @@ span>a{
 		    this.classList.toggle("caret-down");
 		  });
 		}
+
+	
+	// I only toggle the .active class on the click of the mobile button
+	$('#mob-menu-btn').click(function(){ $(".list").toggleClass("active"); });
+
 </script>
 </html>

@@ -1,5 +1,7 @@
 package kh.gw.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import kh.gw.dto.DepartmentDTO;
+import kh.gw.dto.MemberDTO;
 import kh.gw.service.ApprovalService;
 import kh.gw.service.MemberService;
 
@@ -30,8 +34,11 @@ public class ApprovalController {
 	public String toAppWriteView (Model model) throws Exception {
 		//전자문서 종류 가져오기
 		model.addAttribute("docsType", aservice.allDocsType());
-		//이름 보내기
-		model.addAttribute("writer", mservice.getMemInfo((String) session.getAttribute("id")).getName());
+		//결재선 선택용 자료 보내기
+		List<MemberDTO> mlist = mservice.listMem();//멤버를 불러옴
+		List<DepartmentDTO> dlist = mservice.listDept(); //부서명 가져옴
+		model.addAttribute("mlist", mlist);
+		model.addAttribute("dlist", dlist);
 		return "approval/appWriteView";
 	}
 	
