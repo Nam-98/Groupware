@@ -155,8 +155,7 @@
 			</div>
 			<div class="col-1 iconbox d-lg-inline d-none">
 				<i class="fas fa-id-card fa-4x"></i>
-				<h6>마이페이지</h6>
-				<input type=hidden value="/member/enterMyPage.member">
+				<h6>마이페이지</h6><input type=hidden value="/member/enterMyPage.member">
 			</div>
 		</div>
 		<div class="bodyContainer row">
