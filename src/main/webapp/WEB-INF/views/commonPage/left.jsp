@@ -73,7 +73,7 @@ ul, #myUL {
 		<ul id="myUL">
 			<li><span class="caret">전자결재</span>
 				<ul class="nested">
-					<li>결재서류작성</li>
+					<li><a href="/approval/toAppWriteView.approval">결재서류작성</a></li>
 					<li><span class="caret">결재문서함</span>
 						<ul class="nested">
 							<li>개인문서함</li>

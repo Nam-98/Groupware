@@ -105,7 +105,7 @@
 			</div>
 			<div class="col-1 iconbox d-lg-inline d-none">
 				<i class="fas fa-user-clock fa-4x"></i>
-				<h6>근태관리</h6>	<input type=hidden value="/">
+				<h6>근태관리</h6><input type=hidden value="/">
 			</div>
 			<div class="col-1 iconbox d-lg-inline d-none">
 				<i class="fas fa-sitemap fa-4x"></i>
@@ -154,9 +154,6 @@
 				</div>
 			</div>
 		</div>
-		
-		
-		
 	</div>
 	
 	<script type="text/javascript">
@@ -190,7 +187,6 @@
 				location.href = this.childNodes[4].value
 			});
 		}
-
 	</script>
 	<script>
 	// 출퇴근 여부 (미완)

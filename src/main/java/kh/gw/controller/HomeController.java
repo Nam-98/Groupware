@@ -7,7 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import kh.gw.service.ApprovalService;
 import kh.gw.service.TnAService;
+import statics.CommonConfigurator;
 
 @Controller
 public class HomeController {
@@ -23,7 +25,7 @@ public class HomeController {
 		if (session.getAttribute("id") != null) {
 			String id = (String) session.getAttribute("id");
 			//model.addAttribute("isWork", tservice.isGoLeave(id));
-			return "/main/mainpage";
+			return "main/mainpage";
 		} else
 			return "home";
 	}
