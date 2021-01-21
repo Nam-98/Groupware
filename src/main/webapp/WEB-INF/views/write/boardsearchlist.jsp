@@ -25,9 +25,6 @@
 * {
 	box-sizing: border-box;
 }
-/*         div{ */
-/*             border: 1px solid black; */
-/*         } */
 .right-side {
 	width: 1020px;
 	height: 720px;
@@ -55,10 +52,6 @@ table {
 .navi {
 	text-align: center;
 }
-#write{
-	position:relative;
-	left:960px;
-}
 </style>
 </head>
 
@@ -72,7 +65,6 @@ table {
 				<h1>회사 게시판</h1>
 			</div>
 			<jsp:include page="/WEB-INF/views/commonPage/top.jsp" />
-			
 			<div class="maincontainer">
 			<form action="boardSearch.write?cpage=1" method="post">
 				<table>
@@ -86,8 +78,6 @@ table {
 						</select>
 						<input type="text" name="keyword" id="keyword" placeholder="검색어를 입력하세요">
 						<button id="searchBtn" type="submit">검색</button>
-<!-- 						<input class="form-control me" type="search" aria-label="Search"  name="keyword" id="keyword" placeholder="검색어를 입력하세요"> -->
-<!-- 						<button id="searchBtn" class="btn btn-outline-success" type="submit">검색</button> -->
 						</td>
 					</tr>
 				</table>
@@ -115,7 +105,6 @@ table {
 						</c:forEach>
 					</tbody>
 				</table>
-				<button id="write">글쓰기</button>
 				<div class="navi">${navi }</div>
 			</div>
 		</div>

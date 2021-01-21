@@ -107,7 +107,7 @@ public class WriteController {
 
 		return "/write/systemnoticesearchlist";
 	}
-	
+
 	//-------------- 회사 게시판 list
 	@RequestMapping("boardList.write")
 	public String boardList(Model m, HttpServletRequest request) throws Exception{
@@ -118,9 +118,9 @@ public class WriteController {
 		m.addAttribute("list", list);
 		m.addAttribute("navi", navi);
 
-		return "/write/noticelist";
+		return "/write/boardlist";
 	}
-	
+
 	//------------ 회사 게시판 제목 눌렀을 때 상세 게시판
 	@RequestMapping("boardView.write")
 	public String boardView(Model m, HttpServletRequest request, WriteDTO dto) throws Exception{
@@ -131,5 +131,19 @@ public class WriteController {
 
 		m.addAttribute("dtos", dtos);
 		return "/write/boardview";
+	}
+
+	@RequestMapping("boardSearch.write")
+	public String boardSearch(Model m, HttpServletRequest request, WriteDTO dto) throws Exception{
+		String condition = request.getParameter("condition");
+		String keyword = request.getParameter("keyword");
+		int cpage = Integer.parseInt(request.getParameter("cpage"));
+		List<WriteDTO>list = wservice.noticeSearch(cpage,condition,"03",keyword);
+		String navi = wservice.boardSearchNavi(cpage,condition,"03",keyword);
+		m.addAttribute("list",list);
+		m.addAttribute("navi", navi);
+		m.addAttribute("keyword",keyword);
+
+		return "/write/boardsearchlist";
 	}
 }
