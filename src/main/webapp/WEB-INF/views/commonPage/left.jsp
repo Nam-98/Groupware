@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>커먼</title>
 <style>
 .leftcontainer {
 	width: 260px;
