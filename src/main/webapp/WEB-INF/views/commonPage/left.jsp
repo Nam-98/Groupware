@@ -96,7 +96,7 @@ span>a{
 				</ul></li>
 			<li><span class="caret">쪽지함</span>
 				<ul class="nested">
-					<li>쪽지보내기(조직도검색)</li>
+					<li><a href="/message/writeMsg.message">쪽지보내기(조직도검색)</a></li>
 					<li><span class="caret">보관함</span>
 						<ul class="nested">
 							<li>수신함</li>
