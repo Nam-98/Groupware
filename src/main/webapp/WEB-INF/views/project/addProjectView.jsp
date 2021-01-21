@@ -5,8 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>프로젝트보기</title>
-</head>
+<title>프로젝트추가</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -17,6 +16,7 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
 	integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
 	crossorigin="anonymous"></script>
+</head>
 <style>
 * {
 	box-sizing: border-box;
@@ -66,7 +66,7 @@
 		<div class="right-side">
 			<div class="top-vacant d-none d-lg-block"></div>
 			<div class="page-name">
-				<h1>My project</h1>
+				<h1>프로젝트추가</h1>
 			</div>
 			<jsp:include page="/WEB-INF/views/commonPage/top.jsp" />
 			<div class="maincontainer row">
@@ -85,26 +85,39 @@
 				</div>
 				<div class="top-vacant d-none d-lg-block"></div>
 				<div class="col-lg-12 col-12">
-					<table class="table table-hover">
+					<table class="table table-sm">
 						<thead>
-							<tr>
-								<th scope="col">#</th>
-								<th scope="col">프로젝트명</th>
-								<th scope="col">시작일</th>
-								<th scope="col">종료일</th>
-								<th scope="col">담당자</th>
+							<tr class="table-secondary">
+								<th scope="col">항 목</th>
+								<th scope="col">내 용</th>
+								<th scope="col">항 목</th>
+								<th scope="col">내 용</th>
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach var="i" items="${listProject}">
-								<tr>
-									<th scope="row">${i.pro_seq}</th>
-									<td>${i.pro_title}</td>
-									<td>${i.pro_start_date}</td>
-									<td>${i.pro_end_date}</td>
-									<td>${i.pro_id}</td>
-								</tr>
-							</c:forEach>
+							<tr>
+								<th scope="row">프로젝트명</th>
+								<td><input type="text" class="textSpace" required id="pro_title" name=pro_title
+									placeholder="프로젝트명을 입력해주세요."></td>
+								<th scope="row">담 당 자(PM)</th>
+								<td><input type="text" class="textSpace" required id="pro_id" name=pro_id></td>
+							</tr>
+							<tr>
+								<th scope="row">연 락 처</th>
+								<td>${dto.contact}</td>
+								<th scope="row">성 별</th>
+								<td>${dto.gender}</td>
+							</tr>
+							<tr>
+								<th scope="row">주 소</th>
+								<td>${dto.address1}</td>
+								<th scope="row">상 세 주 소</th>
+								<td>${dto.address2}(${dto.zip_code})</td>
+							</tr>
+							<tr>
+								<th scope="row">결 혼 유 무</th>
+								<td>${dto.is_married}</td>
+							</tr>
 						</tbody>
 					</table>
 				</div>
@@ -114,8 +127,8 @@
 </body>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script>
-	$("#addProject").on("click", function() {
-		location.href="/project/addProject.project";
+	$("#askFix").on("click", function() {
+		alert("미구현");
 	});
 </script>
 
