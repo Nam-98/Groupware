@@ -45,6 +45,7 @@
 </style>
 </head>
 <body>
+<<<<<<< HEAD
    <div id=container>
       <div class="topbanner row">
          <div class="col-12">
@@ -72,7 +73,7 @@
                         <li class="nav-item"><a class="nav-link active"   aria-current="근태관리" href="/tna/tnaCheckPage.tna">근태관리</a></li>
                         <li class="nav-item"><a class="nav-link active"   aria-current="조직관리" href="#">조직관리</a></li>
                         <li class="nav-item"><a class="nav-link active"   aria-current="프로젝트관리" href="#">프로젝트관리</a></li>
-                        <li class="nav-item"><a class="nav-link active"   aria-current="커뮤니티" href="#">커뮤니티</a></li>
+                        <li class="nav-item"><a class="nav-link active"   aria-current="커뮤니티" href="/write/enterCommunity.write">커뮤니티</a></li>
                         <li class="nav-item"><a class="nav-link active"   aria-current="마이페이지" href="/member/enterMyPage.member">마이페이지</a></li>
                      </ul>
                   </div>
@@ -117,11 +118,11 @@
          </div>
          <div class="col-1 iconbox d-lg-inline d-none">
             <i class="fas fa-users fa-4x"></i>
-            <h6>커뮤니티</h6><input type=hidden value="/">
+            <h6>커뮤니티</h6><input type=hidden value="/write/enterCommunity.write">
          </div>
          <div class="col-1 iconbox d-lg-inline d-none">
             <i class="fas fa-id-card fa-4x"></i>
-            <h6>마이페이지</h6><input type=hidden value="/member/enterMyPage.member"">
+            <h6>마이페이지</h6><input type=hidden value="/member/enterMyPage.member">
          </div>
       </div>
       <div class="bodyContainer row">
@@ -186,7 +187,6 @@
       let icons = document.getElementsByClassName("iconbox")
       for(var i = 0; i<icons.length; i++){
          icons[i].addEventListener("click",function(){
-
             console.log(this.childNodes[3].innerHTML);
             location.href = this.childNodes[4].value
          });
