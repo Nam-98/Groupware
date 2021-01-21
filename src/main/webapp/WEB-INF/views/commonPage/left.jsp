@@ -123,10 +123,10 @@ span>a{
 					<li>근태조정내역</li>
 				</ul></li>
 			<li><span class="caret"><a href="/member/orgnizationChart.member">조직도</a></span></li>
-			<li><span class="caret">프로젝트관리</span>
+			<li><span class="caret"><a href="/project/enterProjectList.project?cpage=1">프로젝트관리</a></span>
 				<ul class="nested">
 					<li>프로젝트추가</li>
-					<li>프로젝트보기</li>
+					<li><a href="/project/enterProjectList.project?cpage=1">프로젝트보기</a></li>
 				</ul></li>
 			<li><span class="caret">커뮤니티</span>
 				<ul class="nested">
