@@ -46,7 +46,7 @@
 		</div>
 		<div class = "right-side">
 			<div class = "top-vacant"></div>
-			<div class = "page-name"><h1>My page</h1></div>
+			<div class = "page-name"><h1>커뮤니티</h1></div>
 			<jsp:include page="/WEB-INF/views/commonPage/top.jsp" />
 			<div class ="maincontainer">
 			</div>
