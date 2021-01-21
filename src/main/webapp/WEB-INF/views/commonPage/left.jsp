@@ -13,6 +13,7 @@
 	position: fixed;
 	top: 0;
 	left: 0;
+	overflow-y:auto;
 }
 
 .left-logo {
