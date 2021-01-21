@@ -57,7 +57,7 @@ table {
 }
 #write{
 	position:relative;
-	left:960px;
+	left:947px;
 }
 </style>
 </head>
@@ -115,7 +115,7 @@ table {
 						</c:forEach>
 					</tbody>
 				</table>
-				<button id="write">글쓰기</button>
+				<button id="write" class="btn btn-primary">글쓰기</button>
 				<div class="navi">${navi }</div>
 			</div>
 		</div>
