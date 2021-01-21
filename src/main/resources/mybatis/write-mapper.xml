@@ -39,4 +39,9 @@
 			and (${condition} like '%'||#{keyword}||'%')
 		</if>
 	</select>
+	
+ <select id="systemNoticeList" resultType="kh.gw.dto.WriteDTO">
+  	select * from st.write where (write_code = #{value}) and (write_open='Y')
+  	order by write_reg_date desc
+  </select>
   </mapper>
