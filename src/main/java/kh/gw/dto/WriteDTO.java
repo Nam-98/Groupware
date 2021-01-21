@@ -11,7 +11,7 @@ public class WriteDTO {
 	private Date write_reg_date;
 	private Date write_del_date;
 	private String write_open;
-	private int write_readCount;
+	private int write_read_count;
 	public int getWrite_seq() {
 		return write_seq;
 	}
@@ -60,14 +60,14 @@ public class WriteDTO {
 	public void setWrite_open(String write_open) {
 		this.write_open = write_open;
 	}
-	public int getWrite_readCount() {
-		return write_readCount;
+	public int getWrite_read_count() {
+		return write_read_count;
 	}
-	public void setWrite_readCount(int write_readCount) {
-		this.write_readCount = write_readCount;
+	public void setWrite_read_count(int write_read_count) {
+		this.write_read_count = write_read_count;
 	}
 	public WriteDTO(int write_seq, String write_code, String write_title, String write_contents, String write_id,
-			Date write_reg_date, Date write_del_date, String write_open, int write_readCount) {
+			Date write_reg_date, Date write_del_date, String write_open, int write_read_count) {
 		super();
 		this.write_seq = write_seq;
 		this.write_code = write_code;
@@ -77,7 +77,7 @@ public class WriteDTO {
 		this.write_reg_date = write_reg_date;
 		this.write_del_date = write_del_date;
 		this.write_open = write_open;
-		this.write_readCount = write_readCount;
+		this.write_read_count = write_read_count;
 	}
 	public WriteDTO() {
 		super();
