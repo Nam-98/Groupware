@@ -9,7 +9,7 @@
 </head>
 <style>
 	.top-rightcontainer{
-		height: 50px;
+		height: 20px;
 		float:right;
 	}
 </style>

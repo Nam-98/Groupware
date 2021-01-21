@@ -9,7 +9,7 @@
 <style>
 .leftcontainer {
 	width: 260px;
-	height: 100%;
+	height: 720px;
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -36,8 +36,9 @@ ul, #myUL {
 	margin: 0;
 	padding: 0;
 	position: fixed;
-	top: 70px;
-	left: 0;
+	 top: 70px;
+    left: 0;
+	
 }
 
 /* Style the caret/arrow */
@@ -68,6 +69,14 @@ ul, #myUL {
 .active {
 	display: block;
 }
+li>a{
+    color: black;
+   text-decoration: none;
+    }
+span>a{
+    color: black;
+   text-decoration: none;
+    }
 </style>
 </head>
 <body>
@@ -113,7 +122,7 @@ ul, #myUL {
 					<li>근태조정신청</li>
 					<li>근태조정내역</li>
 				</ul></li>
-			<li><span class="caret">조직도</span></li>
+			<li><span class="caret"><a href="/member/orgnizationChart.member">조직도</a></span></li>
 			<li><span class="caret">프로젝트관리</span>
 				<ul class="nested">
 					<li>프로젝트추가</li>
@@ -138,6 +147,7 @@ ul, #myUL {
 					<li><a href="/member/enterMyPage.member">개인정보수정</a></li>
 				</ul></li>
 		</ul>
+	</div>
 	</div>
 </body>
 <script>
