@@ -5,17 +5,26 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>커먼</title>
 <style>
 .leftcontainer {
 	width: 260px;
 	height: 720px;
-
+	position: fixed;
+	top: 0;
+	left: 0;
 }
-.left-logo{
+
+.left-logo {
 	width: 260px;
 	height: 70px;
-	background-color : black;
+	position: fixed;
+	top: 0;
+	left: 0;
+	background-color: black;
+}
+
+.left-left {
 }
 /* Remove default bullets */
 ul, #myUL {
@@ -72,8 +81,8 @@ span>a{
 </head>
 <body>
 	<div class="leftcontainer">
-		<div class="left-logo">
-		</div>
+		<div class="left-logo"></div>
+		<div class="left-left">
 		<ul id="myUL">
 			<li><span class="caret">전자결재</span>
 				<ul class="nested">
@@ -117,7 +126,7 @@ span>a{
 			<li><span class="caret">프로젝트관리</span>
 				<ul class="nested">
 					<li>프로젝트추가</li>
-					<li>프로젝트보기</li>
+					<li><a href="/project/enterProjectList.project?cpage=1">프로젝트보기</a></li>
 				</ul></li>
 			<li><span class="caret">커뮤니티</span>
 				<ul class="nested">
@@ -135,20 +144,21 @@ span>a{
 				</ul></li>
 			<li><span class="caret">마이페이지</span>
 				<ul class="nested">
-					<li>개인정보수정</li>
+					<li><a href="/member/enterMyPage.member">개인정보수정</a></li>
 				</ul></li>
 		</ul>
 	</div>
+	</div>
 </body>
 <script>
-var toggler = document.getElementsByClassName("caret");
-var i;
+	var toggler = document.getElementsByClassName("caret");
+	var i;
 
-for (i = 0; i < toggler.length; i++) {
-  toggler[i].addEventListener("click", function() {
-    this.parentElement.querySelector(".nested").classList.toggle("active");
-    this.classList.toggle("caret-down");
-  });
-}
+	for (i = 0; i < toggler.length; i++) {
+		  toggler[i].addEventListener("click", function() {
+		    this.parentElement.querySelector(".nested").classList.toggle("active");
+		    this.classList.toggle("caret-down");
+		  });
+		}
 </script>
 </html>

@@ -20,13 +20,19 @@
 <style>
 * {
 	box-sizing: border-box;
-	/* 	border: 1px solid black; */
+/*  	border: 1px solid black; */ 
 	margin: 0px;
 	padding: 0px;
 }
 
 .wholecontainer {
 	width: 1280px;
+	height: 1080px;
+}
+
+.left-side {
+	width: 260px;
+	height: 1080px;
 }
 
 .right-side {
