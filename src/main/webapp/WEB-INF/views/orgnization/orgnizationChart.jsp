@@ -83,9 +83,9 @@
     	height: 100%;
     }
     .profilBox{
-    	border: 1px solid black;
+    	
     	width: 130px;
-    	height: 185px;
+    	height: 200px;
     }
     li>a{
     	color: black;

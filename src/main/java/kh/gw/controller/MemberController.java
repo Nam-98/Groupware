@@ -71,12 +71,9 @@ public class MemberController {
 		public String orgnizationChart(Model m) throws Exception{
 			List<MemberDTO> mlist = mservice.listMem();//멤버를 불러옴
 			List<DepartmentDTO> dlist = mservice.listDept(); //부서명 가져옴
-			for(MemberDTO dto:mlist) {
-				System.out.println(dto.getDept_code());
-			}
 			m.addAttribute("mlist", mlist);
 			m.addAttribute("dlist", dlist);
-			return "orgnizationChart";
+			return "/orgnization/orgnizationChart";
 		}
 	
 	//조직도 직원 클릭시 정보 불러오기
@@ -89,7 +86,7 @@ public class MemberController {
 			m.addAttribute("dto", dto);
 			m.addAttribute("mlist", mlist);
 			m.addAttribute("dlist", dlist);
-			return "orgnizationChart";
+			return "/orgnization/orgnizationChart";
 		}
 	
 	// error
