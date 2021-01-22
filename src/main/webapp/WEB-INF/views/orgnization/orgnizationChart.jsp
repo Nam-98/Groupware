@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>조직도</title>
     <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -301,5 +301,10 @@ for (i = 0; i < toggler.length; i++) {
     this.classList.toggle("caret-down1");
   });
 }
+</script>
+<script>
+	document.getElementById("askFix").onclick = function(){
+		loaction.href = "#"
+	}
 </script>
 </html>

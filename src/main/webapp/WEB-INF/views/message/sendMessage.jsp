@@ -5,19 +5,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>쪽지 보내기(조직도 검색)</title>
-    <link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
-	crossorigin="anonymous">
-
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
-	integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
-	crossorigin="anonymous"></script>
-	
-<!-- include libraries(jQuery, bootstrap) -->
+    <title>쪽지 보내기</title>
+    <!-- include libraries(jQuery, bootstrap) -->
 <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
@@ -26,6 +15,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.js"></script>
 <!-- include summernote-ko-KR -->
 <script src="/resources/js/summernote-ko-KR.js"></script>
+<title>글쓰기</title>
 
 <script>
 $(document).ready(function() {
@@ -38,10 +28,9 @@ $(document).ready(function() {
 	  });
 	});
 </script>
-
 </head>
 <style>
-	*{border: 1px solid black;
+	*{/* border: 1px solid black; */ 
         box-sizing: border-box;       
          margin: 0;	
 	}
@@ -86,38 +75,7 @@ $(document).ready(function() {
         height: 650px;
         float: left;
     }
-    .sec1{
-    width: 100%;
-    height: 25%;
-    }
-.sec2{
-    width: 100%;
-    height: 75%;
-    }
     
-    .table table-sm{
-    	width: 100%;
-    }
-    button{
-    	width: 130px;
-    }
-    .profilBox>img{
-    	width: 100%;
-    	height: 100%;
-    }
-    .profilBox{
-    	
-    	width: 130px;
-    	height: 200px;
-    }
-    li>a{
-    	color: black;
-   text-decoration: none;
-    }
-    button{
-    	position: relative;
-    	right: 50px;
-    }
     /* Remove default bullets */
 ul, #myUL1 {
 	list-style-type: none;
@@ -171,8 +129,11 @@ ul, #myUL1 {
 			<div class = "top-vacant">
 			<jsp:include page="/WEB-INF/views/commonPage/top.jsp" />
 			</div>
-			<div class = "page-name"><h1>쪽지 보내기</h1></div>
+			
 			<div class ="maincontainer">
+			<div class = "top-vacant"></div>
+			<div class = "top-vacant"></div>
+			<div class = "top-vacant"></div>
 			    <div class="orgTree">
 			        <ul id="myUL1">
 			<c:forEach items="${dlist }" var="i">			
@@ -184,15 +145,25 @@ ul, #myUL1 {
 					<li><a href="/message/msgMemInfo.message?id=${j.id}">${j.name }</a></li>
 				</c:if>
 				</c:forEach>								
-				</ul>				
-				</li>		
+				</ul>
+				
+				</li>	
+						
 			</c:forEach>				
 			</ul>
 			    </div>
 			    <div class="orgInfo">
-			    	<h2 style="text-align: center;">쪽지 보내기</h2><br><br><br>
+			    	<h3 style="text-align: left;">쪽지 쓰기</h3><br>
 
-
+<div style="width: 80%;">
+	<form method="post" action="/board/insertBoard.board">
+		<input type="text" name="dept" style="width: 90%;" value="부서 : ${dto.dept_name}"readonly/><br><br>
+		<input type="text" name="receiver" style="width: 90%;" value="받는 사람 : ${dto.name}" readonly/>
+		<br><br> 
+		<textarea id="summernote" name="content"></textarea>
+		<input id="subBtn" type="button" value="작성 완료" style="float: right;" onclick="goWrite(this.form)"/>
+	</form>
+</div>
 			    </div>
 			</div>
 		</div>
@@ -210,7 +181,6 @@ for (i = 0; i < toggler.length; i++) {
   });
 }
 </script>
-
 <script>
 function goWrite(frm) {
 	var title = frm.title.value;
@@ -231,5 +201,5 @@ function goWrite(frm) {
 	}
 	frm.submit();
 }
-</script>	
+</script>
 </html>
