@@ -99,7 +99,7 @@
 							<c:forEach var="i" items="${listProject}">
 								<tr>
 									<th scope="row">${i.pro_seq}</th>
-									<td>${i.pro_title}</td>
+									<td><a href="/project/projectDetail.project?pro_seq=${i.pro_seq}">${i.pro_title}</a></td>
 									<td>${i.pro_start_date}</td>
 									<td>${i.pro_end_date}</td>
 									<td>${i.pro_id}</td>

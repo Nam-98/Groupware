@@ -71,6 +71,7 @@
 			<jsp:include page="/WEB-INF/views/commonPage/top.jsp" />
 			<div class="maincontainer row">
 				<div class="top-vacant d-none d-lg-block"></div>
+				<form action="/project/addProjectProc.project" method="post" id="formBox">
 				<div class="dropdown">
 					<a class="btn btn-secondary dropdown-toggle" href="#" role="button"
 						id="dropdownMenuLink" data-bs-toggle="dropdown"
@@ -90,46 +91,63 @@
 							<tr class="table-secondary">
 								<th scope="col">항 목</th>
 								<th scope="col">내 용</th>
-								<th scope="col">항 목</th>
-								<th scope="col">내 용</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
 								<th scope="row">프로젝트명</th>
-								<td><input type="text" class="textSpace" required id="pro_title" name=pro_title
-									placeholder="프로젝트명을 입력해주세요."></td>
+								<td><input type="text" class="textSpace" required
+									id="pro_title" name=pro_title placeholder="프로젝트명을 입력해주세요."></td>
+							</tr>
+							<tr>
 								<th scope="row">담 당 자(PM)</th>
-								<td><input type="text" class="textSpace" required id="pro_id" name=pro_id></td>
+								<td><input type="text" class="textSpace" required
+									id="pro_id" name=pro_id></td>
 							</tr>
 							<tr>
-								<th scope="row">연 락 처</th>
-								<td>${dto.contact}</td>
-								<th scope="row">성 별</th>
-								<td>${dto.gender}</td>
-							</tr>
-							<tr>
-								<th scope="row">주 소</th>
-								<td>${dto.address1}</td>
-								<th scope="row">상 세 주 소</th>
-								<td>${dto.address2}(${dto.zip_code})</td>
-							</tr>
-							<tr>
-								<th scope="row">결 혼 유 무</th>
-								<td>${dto.is_married}</td>
+								<th scope="row">일 자</th>
+								<td><input required type="date" name="pro_start_date_str" id="date3" size="12" />~
+								<input required type="date" name="pro_end_date_str" id="date2" size="12" /></td>
 							</tr>
 						</tbody>
 					</table>
 				</div>
+				</form>
 			</div>
+			<div class="top-vacant d-none d-lg-block"></div>
+			<button type="button" id = "addsubmit" class="btn btn-success">등록</button>
+			<button type="button" id ="addCancel" class="btn btn-secondary">취소</button>
 		</div>
 	</div>
 </body>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="./jquery-ui-1.12.1/datepicker-ko.js"></script>
 <script>
-	$("#askFix").on("click", function() {
-		alert("미구현");
+	$("#addCancel").on("click", function() {
+		location.href="/project/enterProjectList.project?cpage=1";
+	});
+	
+    $("#addsubmit").on("click", function(){
+        $("#formBox").submit();
+     });
+</script>
+<!-- <script type="text/javascript">
+	$(function() {
+		$("#date3").datepicker({
+			onSelect : function(dateText, inst) {
+				console.log(dateText);
+			}
+		});
 	});
 </script>
-
+<script type="text/javascript">
+	$(function() {
+		$("#date2").datepicker({
+			onSelect : function(dateText, inst) {
+				console.log(dateText);
+			}
+		});
+	});
+</script> -->
 </html>

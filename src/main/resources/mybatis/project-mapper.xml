@@ -7,4 +7,37 @@
   <select id="getList" resultType = "kh.gw.dto.ProjectDTO">
   	select * from st.project
   </select>
+  
+  <insert id="addProjectProc">
+  	insert into st.project values(#{pro_seq},#{pro_title},#{pro_start_date},#{pro_end_date},#{pro_id})
+  </insert>
+  
+  <select id="getSeqNum" resultType="int">
+  	select st.pro_seq.nextval from dual
+  </select>
+  
+  <insert id="addProjectKanban">
+  	  {call
+        declare
+        begin
+            insert into st.project_kanban values(st.pro_kb_seq.nextval,#{value},0,'목업제작','목업관련 상세내용을 입력해주세요.');
+			insert into st.project_kanban values(st.pro_kb_seq.nextval,#{value},0,'Spring/Mybatis제작','Spring/Mybatis관련 상세내용을 입력해주세요.');
+			insert into st.project_kanban values(st.pro_kb_seq.nextval,#{value},0,'erd제작','erd관련 상세내용을 입력해주세요.');
+			insert into st.project_kanban values(st.pro_kb_seq.nextval,#{value},0,'front관리','front관련 상세내용을 입력해주세요.');
+			insert into st.project_kanban values(st.pro_kb_seq.nextval,#{value},0,'넥사크로관리','넥사크로관련 상세내용을 입력해주세요.');
+        end
+    }
+  </insert>
+  
+  <select id="getProInfo" resultType="kh.gw.dto.ProjectDTO">
+  	select * from st.project where pro_seq = #{value}
+  </select>
+  
+  <select id="getProKanInfo" resultType="kh.gw.dto.Project_kanbanDTO">
+  	select * from st.project_kanban where pro_seq= #{value}
+  </select>
+  
+  <select id="getProKWInfo" resultType="kh.gw.dto.Project_kb_workerDTO">
+  	select * from st.project_kb_worker where pro_seq= #{value}
+  	</select>
   </mapper>
