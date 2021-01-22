@@ -9,6 +9,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import kh.gw.dao.ApprovalDAO;
+import kh.gw.dto.Approval_sign_typeDTO;
 import kh.gw.dto.Approval_typeDTO;
 import kh.gw.statics.ApprovalConfigurator;
 
@@ -30,5 +31,9 @@ public class ApprovalService {
 	
 	public List<Approval_typeDTO> allDocsType (){
 		return adao.allDocsType();
+	}
+	
+	public List<Approval_sign_typeDTO> allSignType(){
+		return adao.allSignType();
 	}
 }

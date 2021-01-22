@@ -162,10 +162,5 @@ span>a{
 		    this.classList.toggle("caret-down");
 		  });
 		}
-
-	
-	// I only toggle the .active class on the click of the mobile button
-	$('#mob-menu-btn').click(function(){ $(".list").toggleClass("active"); });
-
 </script>
 </html>

@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kh.gw.dto.Approval_sign_typeDTO;
 import kh.gw.dto.Approval_typeDTO;
 
 @Repository
@@ -15,5 +16,8 @@ public class ApprovalDAO {
 	
 	public List<Approval_typeDTO> allDocsType() {
 		return db.selectList("Approval.allDocsType");
+	}
+	public List<Approval_sign_typeDTO> allSignType(){
+		return db.selectList("Approval.allSignType");
 	}
 }

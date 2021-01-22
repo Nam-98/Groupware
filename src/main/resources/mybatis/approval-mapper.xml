@@ -6,4 +6,7 @@
   	<select id="allDocsType" resultType="kh.gw.dto.Approval_typeDTO">
   		select * from st.approval_type
   	</select>
+  	<select id="allSignType" resultType="kh.gw.dto.Approval_sign_typeDTO">
+  		select * from st.approval_sign_type
+  	</select>
   </mapper>
