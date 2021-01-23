@@ -5,7 +5,7 @@
 <html lang="en">
 
 <head>
-	<title>Elements | Klorofil - Free Bootstrap Dashboard Template</title>
+	<title>마이페이지</title>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -51,12 +51,16 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 class="page-title">페이지명</h3>
+					<h3 class="page-title">마이페이지</h3>
+					
 					<div class="top-vacant d-none d-lg-block"></div>
-
-					<div
-						class="alert alert-danger alert-dismissible fade show col-6 d-none d-lg-block"
-						role="alert">
+					<div class="panel panel-headline demo-icons">
+						<div class="panel-heading">
+							<h3 class="panel-title">개 인 정 보</h3>
+							<p class="subtitle">For complete list, please visit <a href="https://linearicons.com/free" target="_blank">https://linearicons.com/free</a></p>
+						</div>
+					<div class="panel-body">
+					<div class="alert alert-danger alert-dismissible fade show col-6 d-none d-lg-block" role="alert">
 						<strong>주의사항!</strong> 개인정보수정은 관리자에게 문의바랍니다!!!
 						<button type="button" class="btn-close" data-bs-dismiss="alert"
 							aria-label="Close"></button>
@@ -128,7 +132,14 @@
 							</div>
 						</div>
 					</div>
+					</div>
+					</div>
 					<div class="maincontainer row">
+					<div class="panel panel-headline demo-icons">
+						<div class="panel-heading">
+							<h3 class="panel-title">사 원 정 보</h3>
+						</div>
+						<div class="panel-body">
 						<div class="col-lg-12 col-12">
 							<div class="bodyContents">
 								<div class="top-vacant d-none d-lg-block"></div>
@@ -171,6 +182,8 @@
 						</div>
 				</div>
 			</div>
+			</div>
+			</div>
 			<!-- END MAIN CONTENT -->
 		</div>
 		<!-- END MAIN -->
@@ -183,6 +196,12 @@
 	</div>
 	</div>
 	<!-- END WRAPPER -->
+	<script>
+	$("#askFix").on("click", function() {
+		alert("미구현");
+	});
+</script>
+	
 </body>
 </html>
 
