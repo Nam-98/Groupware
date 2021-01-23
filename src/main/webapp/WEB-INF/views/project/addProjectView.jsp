@@ -5,8 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>프로젝트보기</title>
-</head>
+<title>프로젝트추가</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -17,6 +16,7 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
 	integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
 	crossorigin="anonymous"></script>
+</head>
 <style>
 * {
 	box-sizing: border-box;
@@ -66,11 +66,12 @@
 		<div class="right-side">
 			<div class="top-vacant d-none d-lg-block"></div>
 			<div class="page-name">
-				<h1>My project</h1>
+				<h1>프로젝트추가</h1>
 			</div>
 			<jsp:include page="/WEB-INF/views/commonPage/top.jsp" />
 			<div class="maincontainer row">
 				<div class="top-vacant d-none d-lg-block"></div>
+				<form action="/project/addProjectProc.project" method="post" id="formBox">
 				<div class="dropdown">
 					<a class="btn btn-secondary dropdown-toggle" href="#" role="button"
 						id="dropdownMenuLink" data-bs-toggle="dropdown"
@@ -85,38 +86,68 @@
 				</div>
 				<div class="top-vacant d-none d-lg-block"></div>
 				<div class="col-lg-12 col-12">
-					<table class="table table-hover">
+					<table class="table table-sm">
 						<thead>
-							<tr>
-								<th scope="col">#</th>
-								<th scope="col">프로젝트명</th>
-								<th scope="col">시작일</th>
-								<th scope="col">종료일</th>
-								<th scope="col">담당자</th>
+							<tr class="table-secondary">
+								<th scope="col">항 목</th>
+								<th scope="col">내 용</th>
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach var="i" items="${listProject}">
-								<tr>
-									<th scope="row">${i.pro_seq}</th>
-									<td><a href="/project/projectDetail.project?pro_seq=${i.pro_seq}">${i.pro_title}</a></td>
-									<td>${i.pro_start_date}</td>
-									<td>${i.pro_end_date}</td>
-									<td>${i.pro_id}</td>
-								</tr>
-							</c:forEach>
+							<tr>
+								<th scope="row">프로젝트명</th>
+								<td><input type="text" class="textSpace" required
+									id="pro_title" name=pro_title placeholder="프로젝트명을 입력해주세요."></td>
+							</tr>
+							<tr>
+								<th scope="row">담 당 자(PM)</th>
+								<td><input type="text" class="textSpace" required
+									id="pro_id" name=pro_id></td>
+							</tr>
+							<tr>
+								<th scope="row">일 자</th>
+								<td><input required type="date" name="pro_start_date_str" id="date3" size="12" />~
+								<input required type="date" name="pro_end_date_str" id="date2" size="12" /></td>
+							</tr>
 						</tbody>
 					</table>
 				</div>
+				</form>
 			</div>
+			<div class="top-vacant d-none d-lg-block"></div>
+			<button type="button" id = "addsubmit" class="btn btn-success">등록</button>
+			<button type="button" id ="addCancel" class="btn btn-secondary">취소</button>
 		</div>
 	</div>
 </body>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="./jquery-ui-1.12.1/datepicker-ko.js"></script>
 <script>
-	$("#addProject").on("click", function() {
-		location.href="/project/addProject.project";
+	$("#addCancel").on("click", function() {
+		location.href="/project/enterProjectList.project?cpage=1";
+	});
+	
+    $("#addsubmit").on("click", function(){
+        $("#formBox").submit();
+     });
+</script>
+<!-- <script type="text/javascript">
+	$(function() {
+		$("#date3").datepicker({
+			onSelect : function(dateText, inst) {
+				console.log(dateText);
+			}
+		});
 	});
 </script>
-
+<script type="text/javascript">
+	$(function() {
+		$("#date2").datepicker({
+			onSelect : function(dateText, inst) {
+				console.log(dateText);
+			}
+		});
+	});
+</script> -->
 </html>

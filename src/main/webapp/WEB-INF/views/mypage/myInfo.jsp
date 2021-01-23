@@ -37,7 +37,7 @@
 
 .right-side {
 	width: 1020px;
-	position: fixed;
+	position: absolute;
 	top: 0px;
 	left: 260px;
 }

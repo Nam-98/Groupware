@@ -8,28 +8,28 @@
 <title>커먼</title>
 <style>
 .leftcontainer {
-	width: 260px;
-	height: 99%;
-	position: fixed;
-	top: 0;
-	left: 0;
-	overflow-y:auto;
+   width: 260px;
+   height: 99%;
+   position: fixed;
+   top: 0;
+   left: 0;
+   overflow-y:auto;
 }
 
 .left-logo {
-	width: 260px;
-	height: 70px;
-	position: fixed;
-	top: 0;
-	left: 0;
-	background-color: black;
+   width: 260px;
+   height: 70px;
+   position: fixed;
+   top: 0;
+   left: 0;
+   background-color: black;
 }
 
 .left-left {
 }
 /* Remove default bullets */
 ul, #myUL {
-	list-style-type: none;
+   list-style-type: none;
 }
 
 /* Remove margins and padding from the parent ul */
@@ -37,38 +37,38 @@ ul, #myUL {
 	margin: 0;
 	padding: 0;
 	position: absolute;
-	 top: 70px;
+	top: 70px;
     left: 0;
-	
+   
 }
 
 /* Style the caret/arrow */
 .caret {
-	cursor: pointer;
-	user-select: none; /* Prevent text selection */
+   cursor: pointer;
+   user-select: none; /* Prevent text selection */
 }
 
 /* Create the caret/arrow with a unicode, and style it */
 .caret::before {
-	content: "\25B6";
-	color: black;
-	display: inline-block;
-	margin-right: 6px;
+   content: "\25B6";
+   color: black;
+   display: inline-block;
+   margin-right: 6px;
 }
 
 /* Rotate the caret/arrow icon when clicked on (using JavaScript) */
 .caret-down::before {
-	transform: rotate(90deg);
+   transform: rotate(90deg);
 }
 
 /* Hide the nested list */
 .nested {
-	display: none;
+   display: none;
 }
 
 /* Show the nested list when the user clicks on the caret/arrow (with JavaScript) */
 .active {
-	display: block;
+   display: block;
 }
 li>a{
     color: black;
@@ -126,7 +126,7 @@ span>a{
 			<li><span class="caret"><a href="/member/orgnizationChart.member">조직도</a></span></li>
 			<li><span class="caret">프로젝트관리</span>
 				<ul class="nested">
-					<li>프로젝트추가</li>
+					<li><a href="/project/addProject.project">프로젝트추가</a></li>
 					<li><a href="/project/enterProjectList.project?cpage=1">프로젝트보기</a></li>
 				</ul></li>
 			<li><span class="caret">커뮤니티</span>
