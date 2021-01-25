@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회사 게시판 뷰</title>
+<title>갤러리 게시판 검색</title>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <!-- 아이콘 fontawesome -->
     <script src="https://kit.fontawesome.com/b1e233372d.js"></script>
@@ -33,17 +33,30 @@
 * {
 	box-sizing: border-box;
 }
-
-.contents {
-	padding: left;
-	width: 500px;
-	height: 500px;
-}
-.btn{
-	float: right;
-	margin-left: 5px;
+.right-side {
+	width: 1020px;
+	height: 720px;
+	position: fixed;
+	top: 0px;
+	left: 260px;
 }
 
+.top-vacant {
+	width: 1020px;
+	height: 20px;
+	background-color: yellow;
+}
+
+.page-name {
+	width: 510px;
+	height: 50px;
+	float: left;
+}
+
+
+.navi {
+	text-align: center;
+}
 </style>
 
 </head>
@@ -65,32 +78,48 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 class="page-title">회사 게시판 뷰</h3>
+					<h3 class="page-title">갤러리 게시판 검색</h3>
 					<div class="maincontainer">
-				<table class="table">
-					<thead>
+			<form action="boardSearch.write?cpage=1" method="post">
+				<table>
+					<tr>
+						<td>
+						<select id="condition" name="condition">
+<!-- 							<option value="">검색조건</option> -->
+<!-- 							<option value="">전체보기</option> -->
+							<option value="write_title">제목</option>
+							<option value="write_id">작성자</option>
+						</select>
+						<input type="text" name="keyword" id="keyword" placeholder="검색어를 입력하세요">
+						<button id="searchBtn" type="submit">검색</button>
+						</td>
+					</tr>
+				</table>
+			 </form>
+
+				<table class="table table-secondary table-striped">
+					<thead class="table-light">
 						<tr>
-							<th scope="col" class="col-7">제목 : ${dtos.write_title }</th>
-							<th scope="col" class="col-2">작성자 : ${dtos.write_id }</th>
-							<th scope="col" class="col-2">작성일 : ${dtos.write_reg_date }</th>
-							<th scope="col" class="col-1">조회수 : ${dtos.write_read_count }</th>
+							<th scope="col">No</th>
+							<th scope="col">제목</th>
+							<th scope="col">작성자</th>
+							<th scope="col">등록일</th>
+							<th scope="col">조회수</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td class="contents" colspan="4">${dtos.write_contents }</td>
-						</tr>
-
-						<tr>
-							<td>댓글 대댓글...ㅠㅠ</td>
-						</tr>
+						<c:forEach var="i" items="${list }">
+							<tr>
+								<th scope="row">${i.rn }</th>
+								<td><a href="boardView.write?write_seq=${i.write_seq}">${i.write_title }</a></td>
+								<td>${i.write_id }</td>
+								<td>${i.write_reg_date }</td>
+								<td>${i.write_read_count }</td>
+							</tr>
+						</c:forEach>
 					</tbody>
 				</table>
-				<div class="btn">
-					<button id="list" class="btn pull-left btn-primary">목록으로</button>
-					<button id="modify" class="btn pull-left btn-primary">수정</button>
-					<button id="delete" class="btn pull-left btn-primary">삭제</button>
-				</div>
+				<div class="navi">${navi }</div>
 			</div>
 				</div>
 			</div>
@@ -105,23 +134,5 @@
 		</footer>
 	</div>
 	<!-- END WRAPPER -->
-	
-<script>
-	document.getElementById("list").onclick=function(){
-		location.href="/write/boardList.write?cpage=1"
-	}
-	if ("${dtos.write_id}" == "${sessionScope.id}") {
-		
-		document.getElementById("delete").onclick = function() {
-			location.href = "/write/deleteBoardWrite.write?write_seq=${dtos.write_seq}";
-		}
-		document.getElementById("modify").onclick = function() {
-			location.href = "/write/modifyBeforeBoard.write?write_seq=${dtos.write_seq}";
-		}
-	}else{
-		document.getElementById("delete").style.visibility = "hidden";
-		document.getElementById("fix").style.visibility = "hidden";
-	}
-</script>
 </body>
 </html>

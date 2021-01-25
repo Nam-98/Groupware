@@ -48,4 +48,17 @@
   <insert id="insertBoardWrite">
   	insert into st.write values(st.write_seq.nextval, write_code='03', #{write_title}, #{write_contents},#{write_id}, sysdate, #{write_del_date}, #{write_open}, #{write_read_count})
   </insert>
+  
+  <delete id="deleteBoardWrite">
+  	delete from st.write where write_seq = #{value}
+  </delete>
+  
+  <select id="modifyBeforeBoard" resultType="kh.gw.dto.WriteDTO">
+  	select * from st.write where write_seq = #{write_seq}
+  </select>
+  
+  <update id="modifyBoardWrite">
+  	update st.write set write_title = #{write_title}, write_contents = #{write_contents} where write_seq = #{value}
+  </update>
+  
   </mapper>

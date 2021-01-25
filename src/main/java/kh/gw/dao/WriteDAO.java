@@ -84,4 +84,17 @@ public class WriteDAO {
 	public int insertBoardWrite(WriteDTO dto) throws Exception{
 		return db.insert("Write.insertBoardWrite",dto);
 	}
+	
+	//----------------- 회사 게시판 글 삭제
+	public int deleteBoardWrite(int write_seq) {
+		return db.delete("Write.deleteBoardWrite", write_seq);
+	}
+	//---------------- 회사 게시글 수정 전
+	public WriteDTO modifyBeforeBoard(int write_seq) throws Exception{
+		return db.selectOne("Write.modifyBeforeBoard", write_seq);
+	}
+	//---------------- 회사 게시글 수정 후
+	public int modifyBoardWrite(WriteDTO dto) throws Exception{
+		return db.update("Write.modifyBoardWrite", dto);
+	}
 }

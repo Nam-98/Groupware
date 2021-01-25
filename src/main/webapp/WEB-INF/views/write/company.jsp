@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회사 게시판 뷰</title>
+<title>회사 소개</title>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <!-- 아이콘 fontawesome -->
     <script src="https://kit.fontawesome.com/b1e233372d.js"></script>
@@ -28,25 +28,13 @@
 	<script src="/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 	<script src="/assets/vendor/chartist/js/chartist.min.js"></script>
 	<script src="/assets/scripts/klorofil-common.js"></script>
-	
-	<style>
-* {
-	box-sizing: border-box;
-}
-
-.contents {
-	padding: left;
-	width: 500px;
-	height: 500px;
-}
-.btn{
-	float: right;
-	margin-left: 5px;
-}
-
-</style>
-
 </head>
+<style>
+	.panel-body{
+		width:500px;
+		height:500px;
+	}
+</style>
 <body>
 	<!-- WRAPPER -->
 	<div id="wrapper">
@@ -65,33 +53,13 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 class="page-title">회사 게시판 뷰</h3>
-					<div class="maincontainer">
-				<table class="table">
-					<thead>
-						<tr>
-							<th scope="col" class="col-7">제목 : ${dtos.write_title }</th>
-							<th scope="col" class="col-2">작성자 : ${dtos.write_id }</th>
-							<th scope="col" class="col-2">작성일 : ${dtos.write_reg_date }</th>
-							<th scope="col" class="col-1">조회수 : ${dtos.write_read_count }</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td class="contents" colspan="4">${dtos.write_contents }</td>
-						</tr>
-
-						<tr>
-							<td>댓글 대댓글...ㅠㅠ</td>
-						</tr>
-					</tbody>
-				</table>
-				<div class="btn">
-					<button id="list" class="btn pull-left btn-primary">목록으로</button>
-					<button id="modify" class="btn pull-left btn-primary">수정</button>
-					<button id="delete" class="btn pull-left btn-primary">삭제</button>
-				</div>
-			</div>
+					<h3 class="page-title">회사소개</h3>
+					<div class="panel panel-default">
+					  <div class="panel-heading">회사 소개글</div>
+					  <div class="panel-body">
+					     	회사 소개 내용
+					  </div>
+					</div>
 				</div>
 			</div>
 			<!-- END MAIN CONTENT -->
@@ -105,23 +73,5 @@
 		</footer>
 	</div>
 	<!-- END WRAPPER -->
-	
-<script>
-	document.getElementById("list").onclick=function(){
-		location.href="/write/boardList.write?cpage=1"
-	}
-	if ("${dtos.write_id}" == "${sessionScope.id}") {
-		
-		document.getElementById("delete").onclick = function() {
-			location.href = "/write/deleteBoardWrite.write?write_seq=${dtos.write_seq}";
-		}
-		document.getElementById("modify").onclick = function() {
-			location.href = "/write/modifyBeforeBoard.write?write_seq=${dtos.write_seq}";
-		}
-	}else{
-		document.getElementById("delete").style.visibility = "hidden";
-		document.getElementById("fix").style.visibility = "hidden";
-	}
-</script>
 </body>
 </html>

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회사 게시판 뷰</title>
+<title>갤러리 게시판 뷰</title>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <!-- 아이콘 fontawesome -->
     <script src="https://kit.fontawesome.com/b1e233372d.js"></script>
@@ -28,24 +28,6 @@
 	<script src="/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 	<script src="/assets/vendor/chartist/js/chartist.min.js"></script>
 	<script src="/assets/scripts/klorofil-common.js"></script>
-	
-	<style>
-* {
-	box-sizing: border-box;
-}
-
-.contents {
-	padding: left;
-	width: 500px;
-	height: 500px;
-}
-.btn{
-	float: right;
-	margin-left: 5px;
-}
-
-</style>
-
 </head>
 <body>
 	<!-- WRAPPER -->
@@ -65,7 +47,7 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 class="page-title">회사 게시판 뷰</h3>
+					<h3 class="page-title">갤러리 게시판</h3>
 					<div class="maincontainer">
 				<table class="table">
 					<thead>
@@ -106,22 +88,10 @@
 	</div>
 	<!-- END WRAPPER -->
 	
-<script>
+	<script>
 	document.getElementById("list").onclick=function(){
-		location.href="/write/boardList.write?cpage=1"
+		location.href="/write/boardGalleryList.write?cpage=1"
 	}
-	if ("${dtos.write_id}" == "${sessionScope.id}") {
-		
-		document.getElementById("delete").onclick = function() {
-			location.href = "/write/deleteBoardWrite.write?write_seq=${dtos.write_seq}";
-		}
-		document.getElementById("modify").onclick = function() {
-			location.href = "/write/modifyBeforeBoard.write?write_seq=${dtos.write_seq}";
-		}
-	}else{
-		document.getElementById("delete").style.visibility = "hidden";
-		document.getElementById("fix").style.visibility = "hidden";
-	}
-</script>
+	</script>
 </body>
 </html>

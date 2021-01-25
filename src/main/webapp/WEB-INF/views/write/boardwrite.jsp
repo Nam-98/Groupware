@@ -4,52 +4,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<title>게시판 글쓰기</title>
 
-<!-- include libraries(jQuery, bootstrap) -->
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
-	integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
-	crossorigin="anonymous"></script>
+<!-- 아이콘 fontawesome -->
+<script src="https://kit.fontawesome.com/b1e233372d.js"></script>
+<!-- VENDOR CSS -->
 <link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
-	integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
-	crossorigin="anonymous">
-<!-- include summernote css/js-->
+	href="/assets/vendor/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="/assets/vendor/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/assets/vendor/linearicons/style.css">
+<link rel="stylesheet"
+	href="/assets/vendor/chartist/css/chartist-custom.css">
+<!-- MAIN CSS -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
+<link rel="stylesheet" href="/assets/css/demo.css">
+<!-- GOOGLE FONTS -->
 <link
-	href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.css"
+	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700"
 	rel="stylesheet">
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.js"></script>
+<!-- ICONS -->
+<link rel="apple-touch-icon" sizes="76x76"
+	href="/assets/img/apple-icon.png">
+<link rel="icon" type="image/png" sizes="96x96"
+	href="/assets/img/favicon.png">
+<script src="/assets/vendor/jquery/jquery.min.js"></script>
+<script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<script src="/assets/vendor/chartist/js/chartist.min.js"></script>
+<script src="/assets/scripts/klorofil-common.js"></script>
+<!-- include summernote css/js-->
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 <!-- include summernote-ko-KR -->
 <script src="/resources/js/summernote-ko-KR.js"></script>
-
-<style>
-* {
-	box-sizing: border-box;
-}
-
-.right-side {
-	width: 1020px;
-	height: 720px;
-	position: fixed;
-	top: 0px;
-	left: 260px;
-}
-
-.top-vacant {
-	width: 1020px;
-	height: 20px;
-	background-color: yellow;
-}
-
-.maincontainer {
-	margin-top: 80px;
-}
-</style>
-
-<title>글쓰기</title>
 
 <script>
 	$(document)
@@ -111,36 +102,70 @@
 					});
 </script>
 
+	
+<style>
+* {
+	box-sizing: border-box;
+}
+
+.maincontainer {
+	margin-top: 80px;
+}
+</style>
 
 </head>
 <body>
-	<div class="container container-figure">
-		<div class="left-side"><jsp:include
-				page="/WEB-INF/views/commonPage/left.jsp" /></div>
-		<div class="right-side">
-			<div class="top-vacant"></div>
+	<!-- WRAPPER -->
+	<div id="wrapper">
+		<!-- NAVBAR -->
+		<nav class="navbar navbar-default navbar-fixed-top">
 			<jsp:include page="/WEB-INF/views/commonPage/top.jsp" />
+		</nav>
+		<!-- END NAVBAR -->
+		<!-- LEFT SIDEBAR -->
+		<div class="sidebar" id="sidebar-nav">
+			<jsp:include page="/WEB-INF/views/commonPage/left.jsp" />
 		</div>
-	</div>
-
-	<div class="maincontainer">
-		<div style="width: 50%; margin-left: 300px;">
-			<form action="/write/insertBoardWrite.write" method="post">
-				제목 : <input type="text" name="write_title" style="width: 40%;" placeholder="제목을 입력하세요."/><br><br>
-				작성자 : <input type="text" name="write_id" style="width: 20%;" value="${id}" readonly/> <br><br>
-				<textarea id="summernote" name="write_content"></textarea>
-				<input id="subBtn" type="button" value="작성 완료" style="float: right;" onclick="goWrite(this.form)" /> 
-				<input id="delBtn" type="button" value="작성 취소" style="float: right;">
-			</form>
+		<!-- END LEFT SIDEBAR -->
+		<!-- MAIN -->
+		<div class="main">
+			<!-- MAIN CONTENT -->
+			<div class="main-content">
+				<div class="container-fluid">
+					<h3 class="page-title">게시판 글쓰기</h3>
+					<div class="maincontainer">
+						<div style="width: 50%; margin-left: 300px;">
+							<form action="/write/insertBoardWrite.write" method="post">
+								제목 : <input type="text" name="write_title" style="width: 40%;" placeholder="제목을 입력하세요."/><br><br>
+								작성자 : <input type="text" name="write_id" style="width: 20%;" value="${id}" readonly/> <br><br>
+								<textarea id="summernote" name="write_content"></textarea>
+								<input id="subBtn" type="button" value="작성 완료" style="float: right;" onclick="goWrite(this.form)" /> 
+								<input id="delBtn" type="button" value="작성 취소" style="float: right;">
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- END MAIN CONTENT -->
 		</div>
+		<!-- END MAIN -->
+		<div class="clearfix"></div>
+		<footer>
+			<div class="container-fluid">
+				<p class="copyright">
+					&copy; 2017 <a href="https://www.themeineed.com" target="_blank">Theme I Need</a>. All Rights Reserved.
+				</p>
+			</div>
+		</footer>
 	</div>
-
+	<!-- END WRAPPER -->
+	
 	<script>
 		document.getElementById("delBtn").onclick = function() {
 			location.href = "/write/boardList.write?cpage=1";
 		}
 	</script>
-
+	
 	<script>
 		function goWrite(frm) {
 			var write_title = frm.write_title.value;

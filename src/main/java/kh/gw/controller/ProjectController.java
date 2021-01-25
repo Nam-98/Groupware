@@ -80,7 +80,7 @@ public class ProjectController {
 		int pkdtoListSize = pkdtoList.size();
 		System.out.println("전체 : " + pkdtoListSize);
 		//pkdtoList 진행중, 완료, 중지 칸반갯수 구하기
-		List<Integer> list = new ArrayList<>();
+		List<Integer> list = new ArrayList();
 		list.add(pservice.getpkdtoListCode(pkdtoList, 0)); //진행상태없음
 		list.add(pservice.getpkdtoListCode(pkdtoList, 1)); //시작전
 		list.add(pservice.getpkdtoListCode(pkdtoList, 2)); //진행중
