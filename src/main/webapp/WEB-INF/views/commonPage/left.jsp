@@ -26,7 +26,7 @@
                     <a href="#subPagesMsg1" data-toggle="collapse" class="collapsed"> <i class="fas fa-envelope"></i> <span>쪽지함</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
                     <div id="subPagesMsg1" class="collapse ">
                         <ul class="nav">
-                            <li><a href="#" class="">쪽지보내기(조직도검색)</a></li>
+                            <li><a href="/message/writeMsg.message" class="">쪽지보내기(조직도검색)</a></li>
                             <li>
                                 <a href="#subPagesMsg2" data-toggle="collapse" class="collapsed"> <i class="fas fa-mail-bulk"></i> <span>보관함</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
                                 <div id="subPagesMsg2" class="collapse ">
@@ -117,4 +117,5 @@
             </ul>
             </nav>
         </div>
+
 

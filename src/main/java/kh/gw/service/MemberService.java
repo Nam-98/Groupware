@@ -32,5 +32,7 @@ public class MemberService {
 	public List<DepartmentDTO> listDept() throws Exception{
 		return mdao.listDept();
 	}
-
+	public Map<String,Object> getMyInfo(String id) throws Exception{
+		return mdao.getMyInfo(id);
+	}
 }
