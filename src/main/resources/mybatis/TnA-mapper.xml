@@ -8,14 +8,22 @@
   	</select>
   	
   	<insert id="attendanceInput">
-  		insert into st.tna values(st.tna_seq.nextval, #{TnA_id}, sysdate, null, #{TnA_status_code})
+  		insert into st.tna values(st.tna_seq.nextval, #{TnA_id}, (SELECT CURRENT_DATE FROM DUAL), null, #{TnA_status_code})
   	</insert>
   	<update id="leaveWorkInput">
-  		update st.TnA set tna_end_time = sysdate, tna_status_code = #{TnA_status_code} where tna_seq = #{TnA_seq}
+  		update st.TnA set tna_end_time = (SELECT CURRENT_DATE FROM DUAL), tna_status_code = #{TnA_status_code} where tna_seq = #{TnA_seq}
   	</update>
   	<select id="getTnaSeq" resultType="Integer">
-  		select tna_seq from st.tna where (tna_id = #{sessionId}) and (to_char(sysdate,'yyyymmdd') like to_char(tna_start_time,'yyyymmdd'))
+  		select tna_seq from st.tna where (tna_id = #{sessionId}) and (to_char((SELECT CURRENT_DATE FROM DUAL),'yyyymmdd') like to_char(tna_start_time,'yyyymmdd'))
   	</select>
+  	<select id="getAttendanceTime" resultType="java.util.Date">
+  		select tna_start_time from st.tna where (tna_id = #{sessionId}) and (to_char((SELECT CURRENT_DATE FROM DUAL),'yyyymmdd') like to_char(tna_start_time,'yyyymmdd'))
+  	</select>
+  	<select id="getLeaveWorkTime" resultType="java.util.Date">
+  		select tna_end_time from st.tna where (tna_id = #{sessionId}) and (to_char((SELECT CURRENT_DATE FROM DUAL),'yyyymmdd') like to_char(tna_end_time,'yyyymmdd'))
+  	</select>
+  	
+  	
   	
   	
   </mapper>
