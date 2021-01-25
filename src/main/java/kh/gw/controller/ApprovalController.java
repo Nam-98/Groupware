@@ -11,6 +11,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import kh.gw.dto.ApprovalDTO;
 import kh.gw.dto.Approval_sign_typeDTO;
 import kh.gw.dto.Break_typeDTO;
 import kh.gw.dto.DepartmentDTO;
@@ -50,6 +55,16 @@ public class ApprovalController {
 		model.addAttribute("adtList", adtList);
 		model.addAttribute("breakType", btList);
 		return "approval/appWriteView";
+	}
+	
+	@RequestMapping("/writeApproval.approval")
+	public void writeApproval (ApprovalDTO dto, String sign_id_Json) {
+		Gson gson = new Gson();
+		JsonObject list = gson.fromJson(sign_id_Json, JsonObject.class);
+		
+		System.out.println(list);
+		System.out.println(dto.getApp_title());
+		System.out.println(dto.getApp_archive());
 	}
 	
 	// error
