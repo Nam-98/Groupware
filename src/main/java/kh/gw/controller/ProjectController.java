@@ -29,7 +29,6 @@ public class ProjectController {
 	@RequestMapping("enterProjectList.project")
 	public String enterProjectList(Model model) throws Exception{
 		List<ProjectDTO> listProject = pservice.getList();
-		System.out.println(listProject.get(0).getPro_title());
 		model.addAttribute("listProject", listProject);
 		return "/project/projectListView";
 	}
@@ -68,7 +67,7 @@ public class ProjectController {
 		List<Project_kanbanDTO> pkdtoList = pservice.getProKanInfo(pro_seq);
 		List<Project_kb_workerDTO> pkwdto = pservice.getProKWInfo(pro_seq);
 		
-		//프로젝트 일수 구하기
+		//시간경과율 구하기
 		Date date = new Date();
 		long proTerm = pservice.datediff(pdto.getPro_end_date(),pdto.getPro_start_date());
 		long proToday= pservice.datediff(date,pdto.getPro_start_date());
@@ -78,7 +77,6 @@ public class ProjectController {
 		//칸반 진행률 구하기
 		//pkdtoList크기구하기
 		int pkdtoListSize = pkdtoList.size();
-		System.out.println("전체 : " + pkdtoListSize);
 		//pkdtoList 진행중, 완료, 중지 칸반갯수 구하기
 		List<Integer> list = new ArrayList<>();
 		list.add(pservice.getpkdtoListCode(pkdtoList, 0)); //진행상태없음
@@ -86,7 +84,6 @@ public class ProjectController {
 		list.add(pservice.getpkdtoListCode(pkdtoList, 2)); //진행중
 		list.add(pservice.getpkdtoListCode(pkdtoList, 3)); //완료
 		list.add(pservice.getpkdtoListCode(pkdtoList, 4)); //중지
-		
 		double projectRate = (double)((list.get(2)*0.5)+list.get(3))/(double)(pkdtoListSize-list.get(4))*100;
 		
 		model.addAttribute("pdto", pdto);

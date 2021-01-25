@@ -20,7 +20,7 @@
 <style>
 * {
 	box-sizing: border-box;
-	border: 1px solid black;
+/* 	border: 1px solid black; */
 	margin: 0px;
 	padding: 0px;
 }
@@ -45,7 +45,7 @@
 .top-vacant {
 	width: 100%;
 	height: 20px;
-	background-color: yellow;
+/* 	background-color: yellow; */
 }
 
 .page-name {
