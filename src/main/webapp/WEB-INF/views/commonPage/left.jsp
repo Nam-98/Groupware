@@ -63,7 +63,7 @@
                     <a href="#subPagesTna" data-toggle="collapse" class="collapsed"><i class="fas fa-clock"></i> <span>근태관리</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
                     <div id="subPagesTna" class="collapse ">
                         <ul class="nav">
-                            <li><a href="#" class="">출퇴근체크</a></li>
+                            <li><a href="/tna/tnaCheckPage.tna" class="">출퇴근체크</a></li>
                             <li><a href="#" class="">나의 근태내역</a></li>
                             <li><a href="#" class="">근태조정신청</a></li>
                             <li><a href="#" class="">근태조정내역</a></li>
