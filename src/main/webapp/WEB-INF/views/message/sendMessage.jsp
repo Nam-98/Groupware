@@ -7,9 +7,10 @@
     <meta charset="UTF-8">
     <title>쪽지 보내기</title>
     <!-- include libraries(jQuery, bootstrap) -->
-<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
-<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
-<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+ 
 <!-- include summernote css/js-->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.js"></script>
@@ -17,17 +18,7 @@
 <script src="/resources/js/summernote-ko-KR.js"></script>
 <title>글쓰기</title>
 
-<script>
-$(document).ready(function() {
-	  $('#summernote').summernote({
- 	    	placeholder: 'content',
-	        minHeight: 370,
-	        maxHeight: null,
-	        focus: true, 
-	        lang : 'ko-KR'
-	  });
-	});
-</script>
+
 </head>
 <style>
 	*{/* border: 1px solid black; */ 
@@ -156,18 +147,51 @@ ul, #myUL1 {
 			    	<h3 style="text-align: left;">쪽지 쓰기</h3><br>
 
 <div style="width: 80%;">
-	<form method="post" action="/board/insertBoard.board">
-		<input type="text" name="dept" style="width: 90%;" value="부서 : ${dto.dept_name}"readonly/><br><br>
-		<input type="text" name="receiver" style="width: 90%;" value="받는 사람 : ${dto.name}" readonly/>
-		<br><br> 
+	<form method="post" action="/message/msgList.message?receiveId=${dto.id }">
+		<div>
+		받는 사람 : <input type="text" name="receiver" style="width: 90%;" value="${dto.name} (${dto.dept_name})" readonly/></div><br>
+		<div>
+		보낸 사람 : <input type="text" name="sender" style="width: 90%;" value="${myInfo.NAME} (${myInfo.DEPT_NAME})" readonly/></div>
+		<br>
 		<textarea id="summernote" name="content"></textarea>
-		<input id="subBtn" type="button" value="작성 완료" style="float: right;" onclick="goWrite(this.form)"/>
+		
+		<div class="input-group">
+  		<input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload"> 
+		</div>
+		
+		<input id="subBtn" type="submit" value="작성 완료" style="float: right;" onclick="goWrite(this.form)"/>
 	</form>
 </div>
 			    </div>
 			</div>
 		</div>
 	</div>
+<script>
+$(document).ready(function() {
+    //여기 아래 부분
+    $('#summernote').summernote({
+       height : 300, // 에디터 높이
+       minHeight : 300, // 최소 높이
+       maxHeight : null, // 최대 높이
+       focus : true, // 에디터 로딩후 포커스를 맞출지 여부
+       lang : "ko-KR", // 한글 설정
+       toolbar: [
+              // [groupName, [list of button]]
+              ['fontname', ['fontname']],
+              ['fontsize', ['fontsize']],
+              ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
+              ['color', ['forecolor','color']],
+              ['table', ['table']],
+              ['para', ['ul', 'ol', 'paragraph']],
+              ['height', ['height']],
+              ['insert',['picture','link','video']],
+              ['view', ['fullscreen', 'help']]
+            ],
+          fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋음체','바탕체'],
+          fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
+    });
+ });
+</script>	
 </body>
 <script>
 var toggler = document.getElementsByClassName("caret1");
@@ -201,5 +225,10 @@ function goWrite(frm) {
 	}
 	frm.submit();
 }
+</script>
+<script>
+	
+	let ws = new WebSocket("ws://192.168.113.1/chat")
+	
 </script>
 </html>

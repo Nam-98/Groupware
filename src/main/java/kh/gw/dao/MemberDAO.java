@@ -30,5 +30,8 @@ public class MemberDAO {
 	public List<DepartmentDTO> listDept() throws Exception{
 		return db.selectList("Member.listDept");
 	}
+	public Map<String,Object> getMyInfo(String id) throws Exception{
+		return db.selectOne("Member.getMyInfo",id);
+	}
 
 }
