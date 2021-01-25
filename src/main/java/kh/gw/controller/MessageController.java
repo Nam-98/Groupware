@@ -58,10 +58,10 @@ public class MessageController {
 	@RequestMapping("msgList.message")
 	public String msgList(HttpServletRequest request, Model m) throws Exception{
 		String sender = (String)session.getAttribute("id");
-		String receiveId = request.getParameter("receiveId");
-		String receiver = request.getParameter("receiver");
-		String reDept = request.getParameter("dept");
-		System.out.println(receiver);
+		String receive = request.getParameter("receiveId");
+		String title = request.getParameter("title");
+		String contents = request.getParameter("contents");
+		System.out.println(title);
 		return "/";
 		
 	}

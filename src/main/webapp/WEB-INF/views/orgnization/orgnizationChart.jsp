@@ -2,20 +2,32 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>조직도</title>
-    <link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
-	crossorigin="anonymous">
-
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
-	integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
-	crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <!-- 아이콘 fontawesome -->
+    <script src="https://kit.fontawesome.com/b1e233372d.js"></script>
+	<!-- VENDOR CSS -->
+	<link rel="stylesheet" href="/assets/vendor/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/assets/vendor/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/assets/vendor/linearicons/style.css">
+	<link rel="stylesheet" href="/assets/vendor/chartist/css/chartist-custom.css">
+	<!-- MAIN CSS -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+	<!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
+	<link rel="stylesheet" href="/assets/css/demo.css">
+	<!-- GOOGLE FONTS -->
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
+	<!-- ICONS -->
+	<link rel="apple-touch-icon" sizes="76x76" href="/assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicon.png">
+    <script src="/assets/vendor/jquery/jquery.min.js"></script>
+	<script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+	<script src="/assets/vendor/chartist/js/chartist.min.js"></script>
+	<script src="/assets/scripts/klorofil-common.js"></script>
 </head>
 <style>
 	*{border: 0px solid black;
@@ -23,54 +35,26 @@
          margin: 0;	
 	}
 	
-	.wholecontainer{
-       
-		width: 1280px;
-		height:720px;
-	}
-	.left-side{
-		
-		width: 255px;
-		height: 720px;
-		float: left;
-	}
-	
-	.right-side{
-		width: 1020px;
-		height: 720px;
-		float: left;
-	}
 	.top-vacant{
 		width: 1020px;
 		height: 20px;
-	}
-	.page-name{
-		width: 100%;;
-		height: 50px;
-		float : left;
 	}
     .maincontainer{
         width: 100%;
         height: 700px;
     }
     .orgTree{
-        width: 20%;
+        width: 15%;
         height: 650px;
         float: left;
+       
     }
     .orgInfo{
         width: 80%;
         height: 650px;
-        float: left;
+        float: left;       
     }
-    .sec1{
-    width: 100%;
-    height: 25%;
-    }
-.sec2{
-    width: 100%;
-    height: 75%;
-    }
+
     
     .table table-sm{
     	width: 100%;
@@ -82,14 +66,13 @@
     	width: 100%;
     	height: 100%;
     }
-    .profilBox{
-    	
+    .profilBox{   	
     	width: 130px;
     	height: 200px;
     }
     li>a{
     	color: black;
-   text-decoration: none;
+   		text-decoration: none;
     }
     button{
     	position: relative;
@@ -140,17 +123,26 @@ ul, #myUL1 {
 }
 </style>
 <body>
-	<div class ="wholecontainer">
-		<div class = "left-side">
-		<jsp:include page="/WEB-INF/views/commonPage/left.jsp" />
+	<!-- WRAPPER -->
+	<div id="wrapper">
+		<!-- NAVBAR -->
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<jsp:include page="/WEB-INF/views/commonPage/top.jsp"/>
+		</nav>
+		<!-- END NAVBAR -->
+		<!-- LEFT SIDEBAR -->
+		<div class="sidebar" id="sidebar-nav">
+			<jsp:include page="/WEB-INF/views/commonPage/left.jsp"/>
 		</div>
-		<div class = "right-side">
-			<div class = "top-vacant">
-			<jsp:include page="/WEB-INF/views/commonPage/top.jsp" />
-			</div>
-			<div class = "page-name"><h1>조직도</h1></div>
-			<div class ="maincontainer">
-			    <div class="orgTree">
+		<!-- END LEFT SIDEBAR -->
+		<!-- MAIN -->
+		<div class="main">
+			<!-- MAIN CONTENT -->
+			<div class="main-content">
+				<div class="container-fluid">
+					<h3 class="page-title">조직도</h3>
+					<div class ="maincontainer">
+			    <div class="orgTree" >
 			        <ul id="myUL1">
 			<c:forEach items="${dlist }" var="i">			
 			<li><span class="caret1">${i.dept_name}</span>
@@ -180,8 +172,7 @@ ul, #myUL1 {
 						<div class="top-vacant d-none d-lg-block"></div>
 						<div class="top-vacant d-none d-lg-block"></div>
 						<div class="top-vacant d-none d-lg-block"></div>
-						<div class="top-vacant d-none d-lg-block"></div>
-						<div class="top-vacant d-none d-lg-block"></div>
+						
 						<div class="profilBox d-none d-lg-block">
 							<img class="profileImg img-thumbnail" alt="${dto.id}"
 								src="/resources/profileImage/${dto.id}.png">
@@ -287,10 +278,20 @@ ul, #myUL1 {
 			</div>
 			    </div>
 			</div>
+				</div>
+			</div>
+			<!-- END MAIN CONTENT -->
 		</div>
+		<!-- END MAIN -->
+		<div class="clearfix"></div>
+		<footer>
+			<div class="container-fluid">
+				<p class="copyright">&copy; 2017 <a href="https://www.themeineed.com" target="_blank">Theme I Need</a>. All Rights Reserved.</p>
+			</div>
+		</footer>
 	</div>
-</body>
-<script>
+	<!-- END WRAPPER -->
+	<script>
 var toggler = document.getElementsByClassName("caret1");
 var i;
 
@@ -307,4 +308,5 @@ for (i = 0; i < toggler.length; i++) {
 		loaction.href = "#"
 	}
 </script>
+</body>
 </html>
