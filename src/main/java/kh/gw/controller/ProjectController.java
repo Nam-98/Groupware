@@ -30,13 +30,13 @@ public class ProjectController {
 	public String enterProjectList(Model model) throws Exception{
 		List<ProjectDTO> listProject = pservice.getList();
 		model.addAttribute("listProject", listProject);
-		return "/project/projectListView";
+		return "project/projectListView";
 	}
 	
 	//프로젝트 추가하기
 	@RequestMapping("addProject.project")
 	public String addProject(Model model) throws Exception{
-		return "/project/addProjectView";
+		return "project/addProjectView";
 	}
 	
 	//프로젝트 추가 과정 수행
@@ -53,7 +53,7 @@ public class ProjectController {
 		if(result >0) {
 			//칸반5개 생성 메서드 ?? 담당자도 각각 지정할지 생각해보기
 			int result2 = pservice.addProjectKanban(pro_seq);
-			return"/project/addProjectSuccessView";
+			return"project/addProjectSuccessView";
 		}else return "error";
 	}
 	
@@ -95,7 +95,13 @@ public class ProjectController {
 		model.addAttribute("list",list);
 		model.addAttribute("projectRate", projectRate);
 		
-		return "/project/projectDetailView";
+		return "project/projectDetailView";
+	}
+	
+	//칸반페이지 띄우기
+	@RequestMapping("gokanban.project")
+	public String gokanban() throws Exception{
+		return "project/kanbanView";
 	}
 	
 	// error
