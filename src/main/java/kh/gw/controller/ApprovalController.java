@@ -57,8 +57,8 @@ public class ApprovalController {
 		return "approval/appWriteView";
 	}
 	
-	@RequestMapping("/writeApproval.approval")
-	public void writeApproval (ApprovalDTO dto, String sign_id_Json) {
+	@RequestMapping(value="/writeApproval.approval", produces = "application/json; charset=urf8")
+	public void writeApproval (ApprovalDTO dto, List<String signList) {
 		Gson gson = new Gson();
 		JsonObject list = gson.fromJson(sign_id_Json, JsonObject.class);
 		
