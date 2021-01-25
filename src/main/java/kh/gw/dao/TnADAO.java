@@ -1,5 +1,7 @@
 package kh.gw.dao;
 
+import java.util.Date;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -26,6 +28,13 @@ public class TnADAO {
 	
 	public int getTnaSeq(String sessionId) {
 		return db.selectOne("TnA.getTnaSeq", sessionId);
+	}
+	
+	public Date getAttendanceTime(String sessionId) {
+		return db.selectOne("TnA.getAttendanceTime",sessionId);
+	}
+	public Date getLeaveWorkTime(String sessionId) {
+		return db.selectOne("TnA.getLeaveWorkTime",sessionId);
 	}
 	
 }
