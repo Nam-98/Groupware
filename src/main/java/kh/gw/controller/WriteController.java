@@ -132,7 +132,7 @@ public class WriteController {
 		m.addAttribute("dtos", dtos);
 		return "/write/boardview";
 	}
-
+	//----------- 회사 게시판 글 찾기
 	@RequestMapping("boardSearch.write")
 	public String boardSearch(Model m, HttpServletRequest request, WriteDTO dto) throws Exception{
 		String condition = request.getParameter("condition");
@@ -146,4 +146,17 @@ public class WriteController {
 
 		return "/write/boardsearchlist";
 	}
+	
+	//------------ 회사 게시글 글쓰기 페이지 전환
+	@RequestMapping("boardWrite.write")
+	public String boardWrite() throws Exception{
+		return "/write/boardwrite";
+	}
+	
+	//----------- 회사 게시글 글쓰기
+	@RequestMapping("insertBoardWrite.write")
+	public String insertBoardWrite(WriteDTO dto) throws Exception{
+		int result = wservice.insertBoardWrite(dto);
+		return "redirect:/write/boardList.write?cpage=1";
+	}	
 }

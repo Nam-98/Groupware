@@ -25,9 +25,8 @@
 * {
 	box-sizing: border-box;
 }
-/*         div{ */
-/*             border: 1px solid black; */
-/*         } */
+a { text-decoration:none } 
+
 .right-side {
 	width: 1020px;
 	height: 720px;

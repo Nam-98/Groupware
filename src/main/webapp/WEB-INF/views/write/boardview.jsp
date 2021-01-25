@@ -39,10 +39,9 @@ table {
 	width: 500px;
 	height: 500px;
 }
-
-.list{
-    position: relative;
-    left: 1210px;
+.btn{
+	float: right;
+	margin-left: 5px;
 }
 
 </style>
@@ -78,7 +77,11 @@ table {
 						</tr>
 					</tbody>
 				</table>
-				<button id="list" class="list">목록으로</button>
+				<div class="btn">
+					<button id="list" class="btn pull-left btn-primary">목록으로</button>
+					<button id="modify" class="btn pull-left btn-primary">수정</button>
+					<button id="delete" class="btn pull-left btn-primary">삭제</button>
+				</div>
 			</div>
 		</div>
 	</div>

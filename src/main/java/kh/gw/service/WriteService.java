@@ -316,4 +316,8 @@ public class WriteService {
 		}
 		return sb.toString();
 	}
+	
+	public int insertBoardWrite(WriteDTO dto) throws Exception{
+		return wdao.insertBoardWrite(dto);
+	}
 }

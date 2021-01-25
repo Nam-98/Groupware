@@ -44,4 +44,8 @@
   	select * from st.write where (write_code = #{value}) and (write_open='Y')
   	order by write_reg_date desc
   </select>
+  
+  <insert id="insertBoardWrite">
+  	insert into st.write values(st.write_seq.nextval, write_code='03', #{write_title}, #{write_contents},#{write_id}, sysdate, #{write_del_date}, #{write_open}, #{write_read_count})
+  </insert>
   </mapper>

@@ -79,4 +79,9 @@ public class WriteDAO {
 		param.put("keyword", keyword);
 		return db.selectList("Write.noticeSearchList",param);
 	}
+	
+	//----------------- 회사 게시판 글 작성
+	public int insertBoardWrite(WriteDTO dto) throws Exception{
+		return db.insert("Write.insertBoardWrite",dto);
+	}
 }
