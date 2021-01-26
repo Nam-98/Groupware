@@ -171,7 +171,7 @@
 </script>
 <script>
 $("#find").on("click", function() {
-	var options='top=10, left=10, width=500, height=600, status=no, menubar=no, toolbar=no, resizable=no';
+	var options='top=10, left=10, width=700, height=600, status=no, menubar=no, toolbar=no, resizable=no';
 	window.open("/project/enterPopup.project","popup",options);	
 });
 
@@ -183,7 +183,7 @@ function getReturnValue(returnValue) {
 </script>
 <script>
 $("#date2").change(function(){
-alert("값비교메서드 넣어야댐...");'
+alert("값비교메서드 넣어야댐...");
 });
 </script>
 </html>

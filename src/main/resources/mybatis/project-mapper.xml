@@ -45,4 +45,16 @@
   	delete from st.project where pro_seq = #{value}
   </delete>
   
+  <update id="kanbanMoved">
+  	update st.project_kanban set pro_kb_process_code = #{pro_kb_process_code} where pro_kb_seq = #{pro_kb_seq}
+  </update>
+
+  <update id="fixKanbanInfo">
+  	update st.project_kanban set pro_kb_title=#{pro_kb_title}, pro_kb_manager=#{pro_kb_manager}, pro_kb_details=#{pro_kb_details} where pro_kb_seq = #{pro_kb_seq}
+  </update>
+  
+  <delete id="deleteKanban">
+  	delete from st.project_kanban where pro_kb_seq = #{value}
+  </delete>
+  
   </mapper>

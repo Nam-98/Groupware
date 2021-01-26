@@ -143,23 +143,9 @@
 				<div class="container-fluid">
 					<h3 class="page-title">My Project : ${pdto.pro_title}</h3>
 					<div class="row">
-						<div class="col-lg-10 d-none d-lg-block"></div>
-						<div class="col-lg-2 col-12">
+						<div class="col-lg-11 d-none d-lg-block"></div>
+						<div class="col-lg-1 col-12">
 							<!-- Single button -->
-							<div class="btn-group">
-								<button type="button" class="btn btn-default dropdown-toggle"
-									data-toggle="dropdown" aria-haspopup="true"
-									aria-expanded="false">
-									Action <span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu">
-									<li><a href="#">Action</a></li>
-									<li><a href="#">Another action</a></li>
-									<li><a href="#">Something else here</a></li>
-									<li role="separator" class="divider"></li>
-									<li><a href="#">Separated link</a></li>
-								</ul>
-							</div>
 							<button type="button" id="addProject" class="btn btn-warning">추가</button>
 						</div>
 					</div>
@@ -185,8 +171,19 @@ $('#kanban').on('itemAttrClicked', function (event) {
     var itemId = args.itemId;
     var attribute = args.attribute; // template, colorStatus, content, keyword, text, avatar
     
-    var options='top=10, left=10, width=500, height=600, status=no, menubar=no, toolbar=no, resizable=no';
+    var options='top=10, left=10, width=600, height=700, status=no, menubar=no, toolbar=no, resizable=no';
 	window.open("/project/fixkanbanPop.project?itemId="+itemId,"popup",options);
+});
+</script>
+
+<script>
+$('#kanban').on('itemMoved', function (event) {
+    var args = event.args;
+    var itemId = args.itemId;
+    var newColumn = args.newColumn;
+    var newDatafield = newColumn.dataField;
+    location.href = "/project/kanbanMoved.project?itemId="+itemId+"&newDatafield="+newDatafield;
+    
 });
 </script>
 
