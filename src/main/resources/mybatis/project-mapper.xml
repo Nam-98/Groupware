@@ -5,7 +5,7 @@
   <mapper namespace="Project">
   
   <select id="getList" resultType = "kh.gw.dto.ProjectDTO">
-  	select * from st.project
+  	select * from st.project order by pro_seq desc
   </select>
   
   <insert id="addProjectProc">
@@ -20,11 +20,11 @@
   	  {call
         declare
         begin
-            insert into st.project_kanban values(st.pro_kb_seq.nextval,#{value},0,'목업제작','목업관련 상세내용을 입력해주세요.');
-			insert into st.project_kanban values(st.pro_kb_seq.nextval,#{value},0,'Spring/Mybatis제작','Spring/Mybatis관련 상세내용을 입력해주세요.');
-			insert into st.project_kanban values(st.pro_kb_seq.nextval,#{value},0,'erd제작','erd관련 상세내용을 입력해주세요.');
-			insert into st.project_kanban values(st.pro_kb_seq.nextval,#{value},0,'front관리','front관련 상세내용을 입력해주세요.');
-			insert into st.project_kanban values(st.pro_kb_seq.nextval,#{value},0,'넥사크로관리','넥사크로관련 상세내용을 입력해주세요.');
+            insert into st.project_kanban values(st.pro_kb_seq.nextval,#{pro_seq},0,'목업제작','목업관련 상세내용을 입력해주세요.',#{pro_id});
+			insert into st.project_kanban values(st.pro_kb_seq.nextval,#{pro_seq},0,'Spring/Mybatis제작','Spring/Mybatis관련 상세내용을 입력해주세요.',#{pro_id});
+			insert into st.project_kanban values(st.pro_kb_seq.nextval,#{pro_seq},0,'erd제작','erd관련 상세내용을 입력해주세요.',#{pro_id});
+			insert into st.project_kanban values(st.pro_kb_seq.nextval,#{pro_seq},0,'front관리','front관련 상세내용을 입력해주세요.',#{pro_id});
+			insert into st.project_kanban values(st.pro_kb_seq.nextval,#{pro_seq},0,'넥사크로관리','넥사크로관련 상세내용을 입력해주세요.',#{pro_id});
         end
     }
   </insert>
@@ -37,7 +37,12 @@
   	select * from st.project_kanban where pro_seq= #{value}
   </select>
   
-  <select id="getProKWInfo" resultType="kh.gw.dto.Project_kb_workerDTO">
-  	select * from st.project_kb_worker where pro_seq= #{value}
-  	</select>
+  <select id="getKanbanInfo" resultType="kh.gw.dto.Project_kanbanDTO">
+  	select * from st.project_kanban where pro_kb_seq= #{value}
+  </select>
+  
+  <delete id="deleteProject">
+  	delete from st.project where pro_seq = #{value}
+  </delete>
+  
   </mapper>

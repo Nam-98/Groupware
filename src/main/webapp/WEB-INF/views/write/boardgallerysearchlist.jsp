@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>공지사항</title>
+<title>갤러리 게시판 검색</title>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <!-- 아이콘 fontawesome -->
     <script src="https://kit.fontawesome.com/b1e233372d.js"></script>
@@ -33,8 +33,6 @@
 * {
 	box-sizing: border-box;
 }
-a { text-decoration:none } 
-
 .right-side {
 	width: 1020px;
 	height: 720px;
@@ -54,6 +52,7 @@ a { text-decoration:none }
 	height: 50px;
 	float: left;
 }
+
 
 .navi {
 	text-align: center;
@@ -79,9 +78,9 @@ a { text-decoration:none }
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 class="page-title">공지사항</h3>
+					<h3 class="page-title">갤러리 게시판 검색</h3>
 					<div class="maincontainer">
-			<form action="noticeSearch.write?cpage=1" method="post">
+			<form action="boardSearch.write?cpage=1" method="post">
 				<table>
 					<tr>
 						<td>
@@ -93,8 +92,6 @@ a { text-decoration:none }
 						</select>
 						<input type="text" name="keyword" id="keyword" placeholder="검색어를 입력하세요">
 						<button id="searchBtn" type="submit">검색</button>
-<!-- 						<input class="form-control me" type="search" aria-label="Search"  name="keyword" id="keyword" placeholder="검색어를 입력하세요"> -->
-<!-- 						<button id="searchBtn" class="btn btn-outline-success" type="submit">검색</button> -->
 						</td>
 					</tr>
 				</table>
@@ -114,7 +111,7 @@ a { text-decoration:none }
 						<c:forEach var="i" items="${list }">
 							<tr>
 								<th scope="row">${i.rn }</th>
-								<td><a href="noticeView.write?write_seq=${i.write_seq}">${i.write_title }</a></td>
+								<td><a href="boardView.write?write_seq=${i.write_seq}">${i.write_title }</a></td>
 								<td>${i.write_id }</td>
 								<td>${i.write_reg_date }</td>
 								<td>${i.write_read_count }</td>
