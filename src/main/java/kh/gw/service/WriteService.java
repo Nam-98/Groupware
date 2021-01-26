@@ -332,8 +332,8 @@ public class WriteService {
 		return wdao.modifyBeforeBoard(write_seq);
 	}
 	//------------- 회사 게시글 수정 후
-	public int modifyBoardWrite(WriteDTO dto) throws Exception{
-		return wdao.modifyBoardWrite(dto);
+	public int modifyAfterBoard(WriteDTO dto) throws Exception{
+		return wdao.modifyAfterBoard(dto);
 	}
 	
 	
@@ -392,5 +392,24 @@ public class WriteService {
 				sb.append("<a href='/write/boardGallerySearch.write?condition="+condition+"&keyword="+keyword+"&cpage="+pageTotalCount+"'> >> </a>");
 			}
 			return sb.toString();
+		}
+		
+		//------------- 갤러리 게시판 글쓰기
+		public int insertGalleryWrite(WriteDTO dto) throws Exception{
+			return wdao.insertGalleryWrite(dto);
+		}
+		
+		//------------- 갤러리 게시판 글 삭제
+		public int deleteGalleryWrite(int write_seq) {
+			return wdao.deleteGalleryWrite(write_seq);
+		}
+		
+		//------------- 갤러리 게시글 수정 전
+		public WriteDTO modifyBeforeGallery(int write_seq) throws Exception{
+			return wdao.modifyBeforeGallery(write_seq);
+		}
+		//------------- 갤러리 게시글 수정 후
+		public int modifyAfterGallery(WriteDTO dto) throws Exception{
+			return wdao.modifyAfterGallery(dto);
 		}
 }

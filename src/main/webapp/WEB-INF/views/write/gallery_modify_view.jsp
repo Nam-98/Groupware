@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>게시판 글쓰기</title>
+<title>갤러리 게시판 수정하기</title>
 
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <!-- 아이콘 fontawesome -->
@@ -132,15 +132,15 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 class="page-title">게시판 글쓰기</h3>
+					<h3 class="page-title">갤러리 게시판 수정하기</h3>
 					<div class="maincontainer">
 						<div style="width: 50%; margin-left: 300px;">
-							<form action="/write/insertBoardWrite.write" method="post">
-								제목 : <input type="text" name="write_title" style="width: 40%;" placeholder="제목을 입력하세요."/><br><br>
+							<form action="/write/modifyAfterGallery.write?write_seq=${dto.write_seq }" method="post">
+								제목 : <input type="text" name="write_title" style="width: 40%;" value="${dto.write_title }" placeholder="제목을 입력하세요."/><br><br>
 								작성자 : <input type="text" name="write_id" style="width: 20%;" value="${id}" readonly/> <br><br>
-								<textarea id="summernote" name="write_contents"></textarea>
-								<input id="subBtn" type="button" value="작성 완료" style="float: right;" onclick="goWrite(this.form)" /> 
-								<input id="delBtn" type="button" value="작성 취소" style="float: right;">
+								<textarea id="summernote" name="write_contents">${dto.write_contents }</textarea>
+								<input id="subBtn" type="button" value="수정 완료" style="float: right;" onclick="goWrite(this.form)" /> 
+								<input id="delBtn" type="button" value="수정 취소" style="float: right;">
 							</form>
 						</div>
 					</div>
@@ -162,7 +162,7 @@
 	
 	<script>
 		document.getElementById("delBtn").onclick = function() {
-			location.href = "/write/boardList.write?cpage=1";
+			location.href = "/write/boardGalleryList.write?cpage=1";
 		}
 	</script>
 	

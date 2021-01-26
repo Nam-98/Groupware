@@ -79,12 +79,12 @@ public class WriteDAO {
 		param.put("keyword", keyword);
 		return db.selectList("Write.noticeSearchList",param);
 	}
-	
+
 	//----------------- 회사 게시판 글 작성
 	public int insertBoardWrite(WriteDTO dto) throws Exception{
 		return db.insert("Write.insertBoardWrite",dto);
 	}
-	
+
 	//----------------- 회사 게시판 글 삭제
 	public int deleteBoardWrite(int write_seq) {
 		return db.delete("Write.deleteBoardWrite", write_seq);
@@ -94,7 +94,25 @@ public class WriteDAO {
 		return db.selectOne("Write.modifyBeforeBoard", write_seq);
 	}
 	//---------------- 회사 게시글 수정 후
-	public int modifyBoardWrite(WriteDTO dto) throws Exception{
-		return db.update("Write.modifyBoardWrite", dto);
+	public int modifyAfterBoard(WriteDTO dto) throws Exception{
+		return db.update("Write.modifyAfterBoard", dto);
+	}
+
+	//----------------- 갤러리 게시판 글 작성
+	public int insertGalleryWrite(WriteDTO dto) throws Exception{
+		return db.insert("Write.insertGalleryWrite",dto);
+	}
+
+	//----------------- 갤러리 게시판 글 삭제
+	public int deleteGalleryWrite(int write_seq) {
+		return db.delete("Write.deleteGalleryWrite", write_seq);
+	}
+	//---------------- 갤러리 게시글 수정 전
+	public WriteDTO modifyBeforeGallery(int write_seq) throws Exception{
+		return db.selectOne("Write.modifyBeforeGallery", write_seq);
+	}
+	//---------------- 갤러리 게시글 수정 후
+	public int modifyAfterGallery(WriteDTO dto) throws Exception{
+		return db.update("Write.modifyAfterGallery", dto);
 	}
 }

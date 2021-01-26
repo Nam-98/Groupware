@@ -147,26 +147,28 @@ public class WriteController {
 
 		return "/write/boardsearchlist";
 	}
-	
+
 	//------------ 회사 게시글 글쓰기 페이지 전환
 	@RequestMapping("boardWrite.write")
-	public String boardWrite() throws Exception{
+	public String boardWrite(Model m) throws Exception{
+		String write_id = (String)session.getAttribute("write_id");
+		m.addAttribute("write_id", write_id);
 		return "/write/boardwrite";
 	}
-	
+
 	//----------- 회사 게시글 글쓰기
 	@RequestMapping("insertBoardWrite.write")
 	public String insertBoardWrite(WriteDTO dto) throws Exception{
 		int result = wservice.insertBoardWrite(dto);
-		return "redirect:/write/boardList.write?cpage=1";
+		return "redirect:/write/boardList.write?cpage="+session.getAttribute("cpage");
 	}
-	
+
 	//----------- 회사 게시글 삭제
 	@RequestMapping("deleteBoardWrite.write")
 	public String deleteBoardWrite(HttpServletRequest request, WriteDTO dto) throws Exception{
 		dto.setWrite_seq(Integer.parseInt(request.getParameter("write_seq")));
 		int result = wservice.deleteBoardWrite(dto.getWrite_seq());
-		
+
 		return "redirect:/write/boardList.write?cpage="+session.getAttribute("cpage");
 	}
 	//------------회사 게시글 수정 전
@@ -175,21 +177,21 @@ public class WriteController {
 		int write_seq = Integer.parseInt(request.getParameter("write_seq"));
 		WriteDTO dto = wservice.modifyBeforeBoard(write_seq);
 		m.addAttribute("dto", dto);
-		return "/write/modify_view";
+		return "/write/board_modify_view";
 	}
 	//------------회사 게시글 수정 후
 	@RequestMapping("modifyAfterBoard.write")
-	public String modifyBoardWrite(WriteDTO dto) throws Exception{
-		int result = wservice.modifyBoardWrite(dto);
+	public String modifyAfterBoard(WriteDTO dto) throws Exception{
+		int result = wservice.modifyAfterBoard(dto);
 		return "redirect:/write/boardList.write?cpage=1";
 	}
-	
+
 	//---------- 회사 소개하기
 	@RequestMapping("introCompany.write")
 	public String introCompany() throws Exception{
 		return "/write/company";
 	}
-	
+
 	//--------- 갤러리 게시판 리스트
 	@RequestMapping("boardGalleryList.write")
 	public String boardGalleryList(Model m, HttpServletRequest request) throws Exception{
@@ -200,33 +202,73 @@ public class WriteController {
 		m.addAttribute("list", list);
 		m.addAttribute("navi", navi);
 
+		session.setAttribute("cpage", cpage);
+
 		return "/write/boardgallerylist";
 	}
-	
+
 	//------------ 갤러리 게시판 제목 눌렀을 때 상세 게시판
-		@RequestMapping("boardGalleryView.write")
-		public String boardGalleryView(Model m, HttpServletRequest request, WriteDTO dto) throws Exception{
-			dto.setWrite_seq(Integer.parseInt(request.getParameter("write_seq")));
-			WriteDTO dtos = wservice.noticeView(dto.getWrite_seq());
+	@RequestMapping("boardGalleryView.write")
+	public String boardGalleryView(Model m, HttpServletRequest request, WriteDTO dto) throws Exception{
+		dto.setWrite_seq(Integer.parseInt(request.getParameter("write_seq")));
+		WriteDTO dtos = wservice.noticeView(dto.getWrite_seq());
 
-			int result = wservice.addViewCount(dto.getWrite_seq()); // 조회수+1
+		int result = wservice.addViewCount(dto.getWrite_seq()); // 조회수+1
 
-			m.addAttribute("dtos", dtos);
-			return "/write/boardgalleryview";
-		}
-		
-		//----------- 갤러리 게시판 글 찾기
-		@RequestMapping("boardGallerySearch.write")
-		public String boardGallerySearch(Model m, HttpServletRequest request, WriteDTO dto) throws Exception{
-			String condition = request.getParameter("condition");
-			String keyword = request.getParameter("keyword");
-			int cpage = Integer.parseInt(request.getParameter("cpage"));
-			List<WriteDTO>list = wservice.noticeSearch(cpage,condition,"03",keyword);
-			String navi = wservice.gallerySearchNavi(cpage,condition,"03",keyword);
-			m.addAttribute("list",list);
-			m.addAttribute("navi", navi);
-			m.addAttribute("keyword",keyword);
+		m.addAttribute("dtos", dtos);
+		return "/write/boardgalleryview";
+	}
 
-			return "/write/boardgallerysearchlist";
-		}
+	//----------- 갤러리 게시판 글 찾기
+	@RequestMapping("boardGallerySearch.write")
+	public String boardGallerySearch(Model m, HttpServletRequest request, WriteDTO dto) throws Exception{
+		String condition = request.getParameter("condition");
+		String keyword = request.getParameter("keyword");
+		int cpage = Integer.parseInt(request.getParameter("cpage"));
+		List<WriteDTO>list = wservice.noticeSearch(cpage,condition,"03",keyword);
+		String navi = wservice.gallerySearchNavi(cpage,condition,"03",keyword);
+		m.addAttribute("list",list);
+		m.addAttribute("navi", navi);
+		m.addAttribute("keyword",keyword);
+
+		return "/write/boardgallerysearchlist";
+	}
+
+	//------------ 갤러리 게시글 글쓰기 페이지 전환
+	@RequestMapping("galleryWrite.write")
+	public String galleryWrite(Model m) throws Exception{
+		String write_id = (String)session.getAttribute("write_id");
+		m.addAttribute("write_id", write_id);
+		return "/write/boardgallerywrite";
+	}
+
+	//----------- 갤러리 게시글 글쓰기
+	@RequestMapping("insertGalleryWrite.write")
+	public String insertGalleryWrite(WriteDTO dto) throws Exception{
+		int result = wservice.insertGalleryWrite(dto);
+		return "redirect:/write/boardGalleryList.write?cpage="+session.getAttribute("cpage");
+	}
+
+	//---------- 갤러리 게시글 삭제
+	@RequestMapping("deleteGalleryWrite.write")
+	public String deleteGalleryWrite(HttpServletRequest request, WriteDTO dto) throws Exception{
+		dto.setWrite_seq(Integer.parseInt(request.getParameter("write_seq")));
+		int result = wservice.deleteGalleryWrite(dto.getWrite_seq());
+
+		return "redirect:/write/boardGalleryList.write?cpage="+session.getAttribute("cpage");
+	}
+	//------------갤러리 게시글 수정 전
+	@RequestMapping("modifyBeforeGallery.write")
+	public String modifyBeforeGallery(HttpServletRequest request, Model m) throws Exception{
+		int write_seq = Integer.parseInt(request.getParameter("write_seq"));
+		WriteDTO dto = wservice.modifyBeforeGallery(write_seq);
+		m.addAttribute("dto", dto);
+		return "/write/gallery_modify_view";
+	}
+	//------------갤러리 게시글 수정 후
+	@RequestMapping("modifyAfterGallery.write")
+	public String modifyAfterGallery(WriteDTO dto) throws Exception{
+		int result = wservice.modifyAfterGallery(dto);
+		return "redirect:/write/boardGalleryList.write?cpage=1";
+	}
 }

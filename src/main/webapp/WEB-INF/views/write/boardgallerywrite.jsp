@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>게시판 글쓰기</title>
+<title>갤러리 글쓰기</title>
 
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <!-- 아이콘 fontawesome -->
@@ -132,10 +132,10 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 class="page-title">게시판 글쓰기</h3>
+					<h3 class="page-title">갤러리 게시판 글쓰기</h3>
 					<div class="maincontainer">
 						<div style="width: 50%; margin-left: 300px;">
-							<form action="/write/insertBoardWrite.write" method="post">
+							<form action="/write/insertGalleryWrite.write" method="post">
 								제목 : <input type="text" name="write_title" style="width: 40%;" placeholder="제목을 입력하세요."/><br><br>
 								작성자 : <input type="text" name="write_id" style="width: 20%;" value="${id}" readonly/> <br><br>
 								<textarea id="summernote" name="write_contents"></textarea>
@@ -162,7 +162,7 @@
 	
 	<script>
 		document.getElementById("delBtn").onclick = function() {
-			location.href = "/write/boardList.write?cpage=1";
+			location.href = "/write/boardGalleryList.write?cpage=1";
 		}
 	</script>
 	

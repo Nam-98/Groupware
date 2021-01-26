@@ -120,7 +120,7 @@
 		}
 	}else{
 		document.getElementById("delete").style.visibility = "hidden";
-		document.getElementById("fix").style.visibility = "hidden";
+		document.getElementById("modify").style.visibility = "hidden";
 	}
 </script>
 </body>
