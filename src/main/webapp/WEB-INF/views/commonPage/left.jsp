@@ -84,13 +84,13 @@
                     <a href="#subPagesCmt1" data-toggle="collapse" class="collapsed">  <i class="fas fa-users"></i> <span>커뮤니티</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
                     <div id="subPagesCmt1" class="collapse ">
                         <ul class="nav">
-                            <li><a href="#" class="">회사소개</a></li>
+                            <li><a href="/write/introCompany.write" class="">회사소개</a></li>
                             <li>
                                 <a href="#subPagesCmt2" data-toggle="collapse" class="collapsed"> <i class="fas fa-bell"></i> <span>공지사항</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
                                 <div id="subPagesCmt2" class="collapse ">
                                     <ul class="nav">
-                                        <li><a href="#" class="/write/noticeList.write?cpage=1">회사공지사항</a></li>
-                                        <li><a href="#" class="/write/systemNoticeList.write?cpage=1">시스템공지사항</a></li>
+                                        <li><a href="/write/noticeList.write?cpage=1" class="">회사공지사항</a></li>
+                                        <li><a href="/write/systemNoticeList.write?cpage=1" class="">시스템공지사항</a></li>
                                     </ul>
                                 </div>
                             </li>
@@ -98,8 +98,8 @@
                                 <a href="#subPagesCmt3" data-toggle="collapse" class="collapsed"> <i class="fas fa-comments"></i> <span>게시판</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
                                 <div id="subPagesCmt3" class="collapse ">
                                     <ul class="nav">
-                                        <li><a href="#" class="#">회사게시판</a></li>
-                                        <li><a href="#" class="#">갤러리게시판</a></li>
+                                        <li><a href="/write/boardList.write?cpage=1" class="#">회사게시판</a></li>
+                                        <li><a href="/write/boardGalleryList.write?cpage=1" class="#">갤러리게시판</a></li>
                                     </ul>
                                 </div>
                             </li>

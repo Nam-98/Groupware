@@ -44,4 +44,38 @@
   	select * from st.write where (write_code = #{value}) and (write_open='Y')
   	order by write_reg_date desc
   </select>
+  
+  <insert id="insertBoardWrite">
+  	insert into st.write values(st.write_seq.nextval,02,#{write_title}, #{write_contents},#{write_id},sysdate,'','Y',0)
+  </insert>
+  
+  <delete id="deleteBoardWrite">
+  	delete from st.write where write_seq = #{value}
+  </delete>
+  
+  <select id="modifyBeforeBoard" resultType="kh.gw.dto.WriteDTO">
+  	select * from st.write where write_seq = #{write_seq}
+  </select>
+  
+  <update id="modifyAfterBoard">
+  	update st.write set write_title = #{write_title}, write_contents = #{write_contents} where write_seq = #{write_seq}
+  </update>
+  
+  <insert id="insertGalleryWrite">
+  	insert into st.write values(st.write_seq.nextval,03,#{write_title}, #{write_contents},#{write_id},sysdate,'','Y',0)
+  </insert>
+  
+  <delete id="deleteGalleryWrite">
+  	delete from st.write where write_seq = #{value}
+  </delete>
+  
+  
+  <select id="modifyBeforeGallery" resultType="kh.gw.dto.WriteDTO">
+  	select * from st.write where write_seq = #{write_seq}
+  </select>
+  
+  <update id="modifyAfterGallery">
+  	update st.write set write_title = #{write_title}, write_contents = #{write_contents} where write_seq = #{write_seq}
+  </update>
+  
   </mapper>
