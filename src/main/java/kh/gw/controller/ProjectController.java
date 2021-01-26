@@ -165,6 +165,25 @@ public class ProjectController {
 		if( result >0) {
 		return "redirect:" + referer;}else return "error";
 	}
+	
+	//칸반 내용 수정
+	@RequestMapping("fixKanbanInfo.project")
+	public String fixKanbanInfo(HttpServletRequest request, Project_kanbanDTO dto) throws Exception{
+		String referer = request.getHeader("REFERER");
+		int result = pservice.fixKanbanInfo(dto);
+		if( result >0) {
+			return "/project/fixKanbanSuccessView";}else return "error";
+	}
+	
+	//칸반 삭제
+	@RequestMapping("deleteKanban.project")
+	public String deleteKanban(HttpServletRequest request) throws Exception{
+		int pro_kb_seq = Integer.parseInt(request.getParameter("pro_kb_seq"));
+		int result = pservice.deleteKanban(pro_kb_seq);
+		if( result >0) {
+			return "/project/fixKanbanSuccessView";}else return "error";
+	}
+	
 	//------------------------------------------------------------------------칸반 관련 메서드 끝
 	
 	

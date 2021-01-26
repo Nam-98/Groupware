@@ -125,6 +125,18 @@
 </body>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script>
+$("#find").on("click", function() {
+	var options='top=10, left=10, width=700, height=600, status=no, menubar=no, toolbar=no, resizable=no';
+	window.open("/project/enterPopup.project","popup",options);	
+});
+
+function getReturnValue(returnValue) {
+	obj = JSON.parse(returnValue);
+	  document.getElementById("projectManagerName").value=obj.key1;	
+ 	  document.getElementById("pro_id").value=obj.key2;
+	}
+</script>
+<script>
 	$("#addProject").on("click", function() {
 		location.href = "/project/addProject.project";
 	});
