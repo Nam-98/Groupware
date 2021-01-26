@@ -9,10 +9,12 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import kh.gw.dto.DepartmentDTO;
 import kh.gw.dto.MemberDTO;
+import kh.gw.dto.MessageDTO;
 import kh.gw.service.MemberService;
 import kh.gw.service.MessageService;
 
@@ -54,16 +56,34 @@ public class MessageController {
 		return "/message/sendMessage";
 	}
 	
-	//보낸 메세지 DB에 저장(수신/발신 구분)
-	@RequestMapping("msgList.message")
-	public String msgList(HttpServletRequest request, Model m) throws Exception{
-		String sender = (String)session.getAttribute("id");
-		String receive = request.getParameter("receiveId");
-		String title = request.getParameter("title");
-		String contents = request.getParameter("contents");
-		System.out.println(title);
-		return "/";
+	//보낸 메세지 DB에 저장
+	@RequestMapping("msgProc.message")
+	public String msgProc(HttpServletRequest request, Model m) throws Exception{
+		String msg_sender = (String)session.getAttribute("id");
+		String msg_receiver = request.getParameter("receiveId");
+		String msg_title = request.getParameter("title");
+		String msg_contents = request.getParameter("contents");
+		MessageDTO mdto = new MessageDTO(0,msg_sender,msg_receiver,null,null,msg_title,msg_contents);
+		int result = mservice.msgProc(mdto);
+		m.addAttribute("result", result);
+		return "/message/alertMessage";
 		
 	}
+	
+	//수신함 리스트 이동
+	@RequestMapping("msgInBoxList.message")
+	public String msgInBoxList(Model m) throws Exception{
+		String id = (String)session.getAttribute("id");
+		List<MessageDTO> mlist = mservice.msgInBoxList(id);
+		m.addAttribute("mlist", mlist);
+		return "/message/inBox";
+	}
+	
+	// error
+		@ExceptionHandler
+		public String exceptionalHandler(Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
 	
 }

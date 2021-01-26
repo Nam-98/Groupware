@@ -31,7 +31,7 @@
                                 <a href="#subPagesMsg2" data-toggle="collapse" class="collapsed"> <i class="fas fa-mail-bulk"></i> <span>보관함</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
                                 <div id="subPagesMsg2" class="collapse ">
                                     <ul class="nav">
-                                        <li><a href="#" class="">수신함</a></li>
+                                        <li><a href="/message/msgInBoxList.message" class="">수신함</a></li>
                                         <li><a href="#" class="">발신함</a></li>
                                         <li><a href="#" class="">보관함</a></li>
                                     </ul>

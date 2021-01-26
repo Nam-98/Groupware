@@ -4,4 +4,11 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="Message">
   
+  	<insert id="msgProc">
+  		insert into st.message values(st.message_seq.nextval,#{msg_sender},#{msg_receiver},sysdate,null,#{msg_title},#{msg_contents})
+  	</insert>
+  	
+  	<select id="msgInBoxList" resultType="kh.gw.dto.MessageDTO">
+  		select * from st.message where msg_receiver = #{value}
+  	</select>
   </mapper>
