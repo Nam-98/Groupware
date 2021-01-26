@@ -45,4 +45,8 @@ public class ProjectDAO {
 	public int deleteProject(int pro_seq) throws Exception{
 		return db.delete("Project.deleteProject",pro_seq);
 	}
+	
+	public int kanbanMoved(Project_kanbanDTO dto) throws Exception{
+		return db.update("Project.kanbanMoved", dto);
+	}
 }

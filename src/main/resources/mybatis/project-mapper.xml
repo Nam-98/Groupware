@@ -45,4 +45,8 @@
   	delete from st.project where pro_seq = #{value}
   </delete>
   
+  <update id="kanbanMoved">
+  	update st.project_kanban set pro_kb_process_code = #{pro_kb_process_code} where pro_kb_seq = #{pro_kb_seq}
+  </update>
+  
   </mapper>

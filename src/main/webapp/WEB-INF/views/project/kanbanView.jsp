@@ -190,4 +190,15 @@ $('#kanban').on('itemAttrClicked', function (event) {
 });
 </script>
 
+<script>
+$('#kanban').on('itemMoved', function (event) {
+    var args = event.args;
+    var itemId = args.itemId;
+    var newColumn = args.newColumn;
+    var newDatafield = newColumn.dataField;
+    location.href = "/project/kanbanMoved.project?itemId="+itemId+"&newDatafield="+newDatafield;
+    
+});
+</script>
+
 </html>
