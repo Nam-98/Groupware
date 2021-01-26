@@ -75,6 +75,24 @@ public class TnAController {
 		return "redirect:" + referer;
 	}
 	
+	@RequestMapping("tnaMyHistoryPage.tna")
+	// 근퇴조정신청 페이지 접속
+	public String tnaMyHistoryPage(HttpServletRequest request, Model model) {
+		// 세션 id값 가져오기
+		String sessionId = (String)session.getAttribute("id");
+		
+//		// 출근시간 조회
+//		Map<String, Object> attendanceValue = tservice.getAttendanceTime(sessionId);
+//		// 퇴근시간 조회
+//		Map<String, Object> leaveWorkValue = tservice.getLeaveWorkTime(sessionId);
+//		// 출퇴근시근 리스트 조회
+//		List<Map<String, Object>> tnaCalendarList = tservice.getTnaCalendarList(sessionId);
+		
+//		model.addAttribute("tnaCalendarList", tnaCalendarList);
+		
+		return "/tna/user/tnaMyHistory";
+	}
+	
 	@RequestMapping("tnaFixRequestPage.tna")
 	// 근퇴조정신청 페이지 접속
 	public String tnaFixRequestPage(HttpServletRequest request, Model model) {

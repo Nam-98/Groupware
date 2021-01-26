@@ -56,7 +56,7 @@
 					<div class="panel panel-headline demo-icons">
 						<!-- pannel 내부의 제목 작성 div-->
 						<div class="panel-heading">
-							<h3 class="panel-title">근 태 조 정 내 역</h3>
+							<h3 class="panel-title">나 의 근 태 내 역</h3>
 						</div>
 						<div class="panel-body">
 							내용넣기
