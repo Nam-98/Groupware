@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>공지사항</title>
+<title>회사 게시판</title>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <!-- 아이콘 fontawesome -->
     <script src="https://kit.fontawesome.com/b1e233372d.js"></script>
@@ -55,8 +55,16 @@ a { text-decoration:none }
 	float: left;
 }
 
+table {
+	text-align: center;
+}
+
 .navi {
 	text-align: center;
+}
+#write{
+	position:relative;
+	left:947px;
 }
 </style>
 
@@ -79,9 +87,9 @@ a { text-decoration:none }
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 class="page-title">공지사항</h3>
+					<h3 class="page-title">회사 게시판</h3>
 					<div class="maincontainer">
-			<form action="noticeSearch.write?cpage=1" method="post">
+			<form action="boardSearch.write?cpage=1" method="post">
 				<table>
 					<tr>
 						<td>
@@ -114,7 +122,7 @@ a { text-decoration:none }
 						<c:forEach var="i" items="${list }">
 							<tr>
 								<th scope="row">${i.rn }</th>
-								<td><a href="noticeView.write?write_seq=${i.write_seq}">${i.write_title }</a></td>
+								<td><a href="boardView.write?write_seq=${i.write_seq}">${i.write_title }</a></td>
 								<td>${i.write_id }</td>
 								<td>${i.write_reg_date }</td>
 								<td>${i.write_read_count }</td>
@@ -122,8 +130,17 @@ a { text-decoration:none }
 						</c:forEach>
 					</tbody>
 				</table>
+				<button id="write" class="btn btn-primary">글쓰기</button>
 				<div class="navi">${navi }</div>
 			</div>
+		</div>
+	</div>
+	
+	<script>
+		document.getElementById("write").onclick=function(){
+			location.href="/write/boardWrite.write";
+		}
+	</script>
 				</div>
 			</div>
 			<!-- END MAIN CONTENT -->
