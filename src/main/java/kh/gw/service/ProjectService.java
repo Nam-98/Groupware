@@ -1,5 +1,6 @@
 package kh.gw.service;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Service;
 import kh.gw.dao.ProjectDAO;
 import kh.gw.dto.ProjectDTO;
 import kh.gw.dto.Project_kanbanDTO;
-import kh.gw.dto.Project_kb_workerDTO;
 
 @Service
 public class ProjectService {
@@ -28,8 +28,8 @@ public class ProjectService {
 		return pdao.getSeqNum();
 	}
 	
-	public int addProjectKanban(int pro_seq) throws Exception{
-		return pdao.addProjectKanban(pro_seq);
+	public int addProjectKanban(ProjectDTO dto) throws Exception{
+		return pdao.addProjectKanban(dto);
 	}
 	
 	public ProjectDTO getProInfo(int pro_seq) throws Exception{
@@ -40,8 +40,8 @@ public class ProjectService {
 		return pdao.getProKanInfo(pro_seq);
 	}
 	
-	public List<Project_kb_workerDTO> getProKWInfo(int pro_seq) throws Exception{
-		return pdao.getProKWInfo(pro_seq);
+	public Project_kanbanDTO getKanbanInfo(int pro_kb_seq ) throws Exception{
+		return pdao.getKanbanInfo(pro_kb_seq);
 	}
 	
 	public long datediff(Date date1,Date date2) throws Exception {
@@ -59,5 +59,25 @@ public class ProjectService {
 			}
 		}
 		return answer;
+	}
+	
+	public void addDateStr(List<ProjectDTO> dtoList) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일"); 
+
+		for(ProjectDTO dto : dtoList) {
+			dto.setPro_start_date_str(simpleDateFormat.format(dto.getPro_start_date()));
+			dto.setPro_end_date_str(simpleDateFormat.format(dto.getPro_end_date()));
+		}
+	}
+	
+	public void addDateStr(ProjectDTO dto) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일"); 
+			dto.setPro_start_date_str(simpleDateFormat.format(dto.getPro_start_date()));
+			dto.setPro_end_date_str(simpleDateFormat.format(dto.getPro_end_date()));
+		
+	}
+	
+	public int deleteProject(int pro_seq) throws Exception {
+		return pdao.deleteProject(pro_seq);
 	}
 }

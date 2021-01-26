@@ -48,8 +48,9 @@
 	height: 20px;
 	/* background-color: yellow; */
 }
-.button-box{
-	text-align : center;
+
+.button-box {
+	text-align: center;
 }
 </style>
 <body>
@@ -113,12 +114,16 @@
 											<tr>
 												<th scope="row">프로젝트명</th>
 												<td><input type="text" class="textSpace" required
-													id="pro_title" name=pro_title placeholder="Enter project-title"></td>
+													id="pro_title" name=pro_title
+													placeholder="Enter project-title"></td>
 											</tr>
 											<tr>
 												<th scope="row">담 당 자(PM)</th>
 												<td><input type="text" class="textSpace" required
-													id="pro_id" name=pro_id placeholder="Enter project-manager"></td>
+													id="projectManagerName" placeholder="name" readonly>
+													<input type="text" class="textSpace" required id="pro_id"
+													name=pro_id placeholder="Enter project-manager ID" readonly>
+													<button type="button" id="find">찾기</button></td>
 											</tr>
 											<tr>
 												<th scope="row">일 자</th>
@@ -130,11 +135,12 @@
 										</tbody>
 									</table>
 								</div>
-							</form>
-							<div class = "button-box">
-							<button type="button" id="addsubmit" class="btn btn-success">등록</button>
-							<button type="button" id="addCancel" class="btn btn-secondary">취소</button>
+							
+							<div class="button-box">
+								<input type="button" id="addsubmit" class="btn btn-success" value="등록">
+								<button type="button" id="addCancel" class="btn btn-secondary">취소</button>
 							</div>
+							</form>
 						</div>
 					</div>
 				</div>
@@ -163,5 +169,21 @@
 		$("#formBox").submit();
 	});
 </script>
+<script>
+$("#find").on("click", function() {
+	var options='top=10, left=10, width=500, height=600, status=no, menubar=no, toolbar=no, resizable=no';
+	window.open("/project/enterPopup.project","popup",options);	
+});
 
+function getReturnValue(returnValue) {
+	obj = JSON.parse(returnValue);
+	  document.getElementById("projectManagerName").value=obj.key1;	
+ 	  document.getElementById("pro_id").value=obj.key2;
+	}
+</script>
+<script>
+$("#date2").change(function(){
+alert("값비교메서드 넣어야댐...");'
+});
+</script>
 </html>
