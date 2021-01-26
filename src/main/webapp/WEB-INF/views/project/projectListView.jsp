@@ -70,23 +70,8 @@
 				<div class="container-fluid">
 					<h3 class="page-title">My Project</h3>
 					<div class="row">
-						<div class="col-lg-10 d-none d-lg-block"></div>
-						<div class="col-lg-2 col-12">
-							<!-- Single button -->
-							<div class="btn-group">
-								<button type="button" class="btn btn-default dropdown-toggle"
-									data-toggle="dropdown" aria-haspopup="true"
-									aria-expanded="false">
-									Action <span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu">
-									<li><a href="#">Action</a></li>
-									<li><a href="#">Another action</a></li>
-									<li><a href="#">Something else here</a></li>
-									<li role="separator" class="divider"></li>
-									<li><a href="#">Separated link</a></li>
-								</ul>
-							</div>
+						<div class="col-lg-11 d-none d-lg-block"></div>
+						<div class="col-lg-1 col-12">
 							<button type="button" id="addProject" class="btn btn-warning">추가</button>
 						</div>
 					</div>
@@ -113,8 +98,8 @@
 											<th scope="row">${i.pro_seq}</th>
 											<td><a
 												href="/project/projectDetail.project?pro_seq=${i.pro_seq}">${i.pro_title}</a></td>
-											<td>${i.pro_start_date}</td>
-											<td>${i.pro_end_date}</td>
+											<td>${i.pro_start_date_str}</td>
+											<td>${i.pro_end_date_str}</td>
 											<td>${i.pro_id}</td>
 										</tr>
 									</c:forEach>
