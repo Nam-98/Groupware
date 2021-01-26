@@ -151,8 +151,6 @@ public class WriteController {
 	//------------ 회사 게시글 글쓰기 페이지 전환
 	@RequestMapping("boardWrite.write")
 	public String boardWrite(Model m) throws Exception{
-		String write_id = (String)session.getAttribute("write_id");
-		m.addAttribute("write_id", write_id);
 		return "/write/boardwrite";
 	}
 
@@ -237,8 +235,6 @@ public class WriteController {
 	//------------ 갤러리 게시글 글쓰기 페이지 전환
 	@RequestMapping("galleryWrite.write")
 	public String galleryWrite(Model m) throws Exception{
-		String write_id = (String)session.getAttribute("write_id");
-		m.addAttribute("write_id", write_id);
 		return "/write/boardgallerywrite";
 	}
 
