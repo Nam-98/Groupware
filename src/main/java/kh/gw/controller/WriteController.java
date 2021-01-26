@@ -33,8 +33,8 @@ public class WriteController {
 	@RequestMapping("noticeList.write")
 	public String noticeList(Model m, HttpServletRequest request) throws Exception{
 		String cpage = request.getParameter("cpage");
-		List<WriteDTO>list = wservice.noticeByCpage(Integer.parseInt(cpage),"01");
-		String navi = wservice.noticeGetNavi(Integer.parseInt(cpage),"01");
+		List<WriteDTO>list = wservice.noticeByCpage(Integer.parseInt(cpage),"00");
+		String navi = wservice.noticeGetNavi(Integer.parseInt(cpage),"00");
 
 		m.addAttribute("list", list);
 		m.addAttribute("navi", navi);
@@ -60,8 +60,8 @@ public class WriteController {
 		String condition = request.getParameter("condition");
 		String keyword = request.getParameter("keyword");
 		int cpage = Integer.parseInt(request.getParameter("cpage"));
-		List<WriteDTO>list = wservice.noticeSearch(cpage,condition,"01",keyword);
-		String navi = wservice.noticeSearchNavi(cpage,condition,"01",keyword);
+		List<WriteDTO>list = wservice.noticeSearch(cpage,condition,"00",keyword);
+		String navi = wservice.noticeSearchNavi(cpage,condition,"00",keyword);
 		m.addAttribute("list",list);
 		m.addAttribute("navi", navi);
 		m.addAttribute("keyword",keyword);
@@ -73,8 +73,8 @@ public class WriteController {
 	@RequestMapping("systemNoticeList.write")
 	public String systemNoticeList(Model m, HttpServletRequest request) throws Exception{
 		String cpage = request.getParameter("cpage");
-		List<WriteDTO>list = wservice.noticeByCpage(Integer.parseInt(cpage),"02");
-		String navi = wservice.systemNoticeGetNavi(Integer.parseInt(cpage),"02");
+		List<WriteDTO>list = wservice.noticeByCpage(Integer.parseInt(cpage),"01");
+		String navi = wservice.systemNoticeGetNavi(Integer.parseInt(cpage),"01");
 
 		m.addAttribute("list", list);
 		m.addAttribute("navi", navi);
@@ -99,12 +99,172 @@ public class WriteController {
 		String condition = request.getParameter("condition");
 		String keyword = request.getParameter("keyword");
 		int cpage = Integer.parseInt(request.getParameter("cpage"));
-		List<WriteDTO>list = wservice.noticeSearch(cpage,condition,"02",keyword);
-		String navi = wservice.systemNoticeSearchNavi(cpage,condition,"02",keyword);
+		List<WriteDTO>list = wservice.noticeSearch(cpage,condition,"01",keyword);
+		String navi = wservice.systemNoticeSearchNavi(cpage,condition,"01",keyword);
 		m.addAttribute("list",list);
 		m.addAttribute("navi", navi);
 		m.addAttribute("keyword",keyword);
 
 		return "/write/systemnoticesearchlist";
+	}
+
+	//-------------- 회사 게시판 list
+	@RequestMapping("boardList.write")
+	public String boardList(Model m, HttpServletRequest request) throws Exception{
+		String cpage = request.getParameter("cpage");
+		List<WriteDTO>list = wservice.noticeByCpage(Integer.parseInt(cpage),"02");
+		String navi = wservice.noticeGetNavi(Integer.parseInt(cpage),"02");
+
+		m.addAttribute("list", list);
+		m.addAttribute("navi", navi);
+		session.setAttribute("cpage", cpage);
+
+		return "/write/boardlist";
+	}
+
+	//------------ 회사 게시판 제목 눌렀을 때 상세 게시판
+	@RequestMapping("boardView.write")
+	public String boardView(Model m, HttpServletRequest request, WriteDTO dto) throws Exception{
+		dto.setWrite_seq(Integer.parseInt(request.getParameter("write_seq")));
+		WriteDTO dtos = wservice.noticeView(dto.getWrite_seq());
+
+		int result = wservice.addViewCount(dto.getWrite_seq()); // 조회수+1
+
+		m.addAttribute("dtos", dtos);
+		return "/write/boardview";
+	}
+	//----------- 회사 게시판 글 찾기
+	@RequestMapping("boardSearch.write")
+	public String boardSearch(Model m, HttpServletRequest request, WriteDTO dto) throws Exception{
+		String condition = request.getParameter("condition");
+		String keyword = request.getParameter("keyword");
+		int cpage = Integer.parseInt(request.getParameter("cpage"));
+		List<WriteDTO>list = wservice.noticeSearch(cpage,condition,"02",keyword);
+		String navi = wservice.boardSearchNavi(cpage,condition,"02",keyword);
+		m.addAttribute("list",list);
+		m.addAttribute("navi", navi);
+		m.addAttribute("keyword",keyword);
+
+		return "/write/boardsearchlist";
+	}
+
+	//------------ 회사 게시글 글쓰기 페이지 전환
+	@RequestMapping("boardWrite.write")
+	public String boardWrite(Model m) throws Exception{
+		return "/write/boardwrite";
+	}
+
+	//----------- 회사 게시글 글쓰기
+	@RequestMapping("insertBoardWrite.write")
+	public String insertBoardWrite(WriteDTO dto) throws Exception{
+		int result = wservice.insertBoardWrite(dto);
+		return "redirect:/write/boardList.write?cpage="+session.getAttribute("cpage");
+	}
+
+	//----------- 회사 게시글 삭제
+	@RequestMapping("deleteBoardWrite.write")
+	public String deleteBoardWrite(HttpServletRequest request, WriteDTO dto) throws Exception{
+		dto.setWrite_seq(Integer.parseInt(request.getParameter("write_seq")));
+		int result = wservice.deleteBoardWrite(dto.getWrite_seq());
+
+		return "redirect:/write/boardList.write?cpage="+session.getAttribute("cpage");
+	}
+	//------------회사 게시글 수정 전
+	@RequestMapping("modifyBeforeBoard.write")
+	public String modifyBeforeBoard(HttpServletRequest request, Model m) throws Exception{
+		int write_seq = Integer.parseInt(request.getParameter("write_seq"));
+		WriteDTO dto = wservice.modifyBeforeBoard(write_seq);
+		m.addAttribute("dto", dto);
+		return "/write/board_modify_view";
+	}
+	//------------회사 게시글 수정 후
+	@RequestMapping("modifyAfterBoard.write")
+	public String modifyAfterBoard(WriteDTO dto) throws Exception{
+		int result = wservice.modifyAfterBoard(dto);
+		return "redirect:/write/boardList.write?cpage=1";
+	}
+
+	//---------- 회사 소개하기
+	@RequestMapping("introCompany.write")
+	public String introCompany() throws Exception{
+		return "/write/company";
+	}
+
+	//--------- 갤러리 게시판 리스트
+	@RequestMapping("boardGalleryList.write")
+	public String boardGalleryList(Model m, HttpServletRequest request) throws Exception{
+		String cpage = request.getParameter("cpage");
+		List<WriteDTO>list = wservice.noticeByCpage(Integer.parseInt(cpage),"03");
+		String navi = wservice.noticeGetNavi(Integer.parseInt(cpage),"03");
+
+		m.addAttribute("list", list);
+		m.addAttribute("navi", navi);
+
+		session.setAttribute("cpage", cpage);
+
+		return "/write/boardgallerylist";
+	}
+
+	//------------ 갤러리 게시판 제목 눌렀을 때 상세 게시판
+	@RequestMapping("boardGalleryView.write")
+	public String boardGalleryView(Model m, HttpServletRequest request, WriteDTO dto) throws Exception{
+		dto.setWrite_seq(Integer.parseInt(request.getParameter("write_seq")));
+		WriteDTO dtos = wservice.noticeView(dto.getWrite_seq());
+
+		int result = wservice.addViewCount(dto.getWrite_seq()); // 조회수+1
+
+		m.addAttribute("dtos", dtos);
+		return "/write/boardgalleryview";
+	}
+
+	//----------- 갤러리 게시판 글 찾기
+	@RequestMapping("boardGallerySearch.write")
+	public String boardGallerySearch(Model m, HttpServletRequest request, WriteDTO dto) throws Exception{
+		String condition = request.getParameter("condition");
+		String keyword = request.getParameter("keyword");
+		int cpage = Integer.parseInt(request.getParameter("cpage"));
+		List<WriteDTO>list = wservice.noticeSearch(cpage,condition,"03",keyword);
+		String navi = wservice.gallerySearchNavi(cpage,condition,"03",keyword);
+		m.addAttribute("list",list);
+		m.addAttribute("navi", navi);
+		m.addAttribute("keyword",keyword);
+
+		return "/write/boardgallerysearchlist";
+	}
+
+	//------------ 갤러리 게시글 글쓰기 페이지 전환
+	@RequestMapping("galleryWrite.write")
+	public String galleryWrite(Model m) throws Exception{
+		return "/write/boardgallerywrite";
+	}
+
+	//----------- 갤러리 게시글 글쓰기
+	@RequestMapping("insertGalleryWrite.write")
+	public String insertGalleryWrite(WriteDTO dto) throws Exception{
+		int result = wservice.insertGalleryWrite(dto);
+		return "redirect:/write/boardGalleryList.write?cpage="+session.getAttribute("cpage");
+	}
+
+	//---------- 갤러리 게시글 삭제
+	@RequestMapping("deleteGalleryWrite.write")
+	public String deleteGalleryWrite(HttpServletRequest request, WriteDTO dto) throws Exception{
+		dto.setWrite_seq(Integer.parseInt(request.getParameter("write_seq")));
+		int result = wservice.deleteGalleryWrite(dto.getWrite_seq());
+
+		return "redirect:/write/boardGalleryList.write?cpage="+session.getAttribute("cpage");
+	}
+	//------------갤러리 게시글 수정 전
+	@RequestMapping("modifyBeforeGallery.write")
+	public String modifyBeforeGallery(HttpServletRequest request, Model m) throws Exception{
+		int write_seq = Integer.parseInt(request.getParameter("write_seq"));
+		WriteDTO dto = wservice.modifyBeforeGallery(write_seq);
+		m.addAttribute("dto", dto);
+		return "/write/gallery_modify_view";
+	}
+	//------------갤러리 게시글 수정 후
+	@RequestMapping("modifyAfterGallery.write")
+	public String modifyAfterGallery(WriteDTO dto) throws Exception{
+		int result = wservice.modifyAfterGallery(dto);
+		return "redirect:/write/boardGalleryList.write?cpage=1";
 	}
 }
