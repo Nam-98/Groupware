@@ -213,6 +213,7 @@
       }
    </script>
    <script>
+>>>>>>> cdec4f9a2dbbbceb61a62c46d33d2d54c6e46253
    // 출퇴근 여부 (미완)
    let tnaData = JSON.parse(${isWork});
    let isWork = tnaData[status]

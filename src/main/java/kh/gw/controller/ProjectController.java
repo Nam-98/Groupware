@@ -119,6 +119,17 @@ public class ProjectController {
 		else return "error";
 	}
 	
+	//pm검색하는 팝업창 띄우기
+	@RequestMapping("enterPopup.project")
+	public String enterPopup(Model model) throws Exception{
+		List<MemberDTO> mlist = mservice.listMem();//멤버를 불러옴
+		List<DepartmentDTO> dlist = mservice.listDept(); //부서명 가져옴
+		
+		model.addAttribute("mlist",mlist);
+		model.addAttribute("dlist",dlist);
+		return "project/projectPopupView";
+	}
+	
 	//------------------------------------------------------------------------칸반 관련 메서드
 	//칸반페이지 띄우기
 	@RequestMapping("gokanban.project")
@@ -137,29 +148,56 @@ public class ProjectController {
 		return "project/kanbanView";
 	}
 	
-	//pm검색하는 팝업창 띄우기
-	@RequestMapping("enterPopup.project")
-	public String enterPopup(Model model) throws Exception{
-		List<MemberDTO> mlist = mservice.listMem();//멤버를 불러옴
-		List<DepartmentDTO> dlist = mservice.listDept(); //부서명 가져옴
-		
-		model.addAttribute("mlist",mlist);
-		model.addAttribute("dlist",dlist);
-		return "project/projectPopupView";
-	}
-	
 	//칸반 눌렀을때 
-	@RequestMapping("fixkanbanPop")
+	@RequestMapping("fixkanbanPop.project")
 	public String fixkanbanPop(HttpServletRequest request, Model model, Project_kanbanDTO dto) throws Exception{
 		int pro_kb_seq = Integer.parseInt(request.getParameter("itemId"));
 		dto = pservice.getKanbanInfo(pro_kb_seq);
-		System.out.println(dto.getPro_kb_details());
-		System.out.println(dto.getPro_kb_seq());
 		model.addAttribute("dto",dto);
 		return "project/projectKanbanPopupView";
 	}
-	//------------------------------------------------------------------------칸반 관련 메서드 끝
 	
+	//칸반 옮겼을때
+	@RequestMapping("kanbanMoved.project")
+	public String kanbanMoved(HttpServletRequest request, Project_kanbanDTO dto) throws Exception{
+		String referer = request.getHeader("REFERER");
+		dto.setPro_kb_seq(Integer.parseInt(request.getParameter("itemId")));
+		dto.setPro_kb_process_code(Integer.parseInt(request.getParameter("newDatafield")));
+		
+		int result = pservice.kanbanMoved(dto);
+		if( result >0) {
+		return "redirect:" + referer;}else return "error";
+	}
+	
+	//칸반 내용 수정
+	@RequestMapping("fixKanbanInfo.project")
+	public String fixKanbanInfo(HttpServletRequest request, Project_kanbanDTO dto) throws Exception{
+		int result = pservice.fixKanbanInfo(dto);
+		if( result >0) {
+			return "/project/fixKanbanSuccessView";}else return "error";
+	}
+	
+	//칸반 삭제
+	@RequestMapping("deleteKanban.project")
+	public String deleteKanban(HttpServletRequest request) throws Exception{
+		int pro_kb_seq = Integer.parseInt(request.getParameter("pro_kb_seq"));
+		int result = pservice.deleteKanban(pro_kb_seq);
+		if( result >0) {
+			return "/project/fixKanbanSuccessView";}else return "error";
+	}
+	
+	//칸반 추가
+	@RequestMapping("addKanban.project")
+	public String addKanban(HttpServletRequest request, Project_kanbanDTO dto) throws Exception{
+		String referer = request.getHeader("REFERER");
+		dto.setPro_kb_process_code(Integer.parseInt(request.getParameter("code")));
+		dto.setPro_seq(Integer.parseInt(request.getParameter("pro_seq")));
+		dto.setPro_kb_manager((String) session.getAttribute("id"));
+		int result = pservice.addKanban(dto);
+		if( result >0) {
+			return "redirect:" + referer;}else return "error";
+	}
+	//------------------------------------------------------------------------칸반 관련 메서드 끝
 	
 	// error
 	@ExceptionHandler

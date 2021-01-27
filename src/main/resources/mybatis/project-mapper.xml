@@ -45,4 +45,20 @@
   	delete from st.project where pro_seq = #{value}
   </delete>
   
+  <update id="kanbanMoved">
+  	update st.project_kanban set pro_kb_process_code = #{pro_kb_process_code} where pro_kb_seq = #{pro_kb_seq}
+  </update>
+
+  <update id="fixKanbanInfo">
+  	update st.project_kanban set pro_kb_title=#{pro_kb_title}, pro_kb_manager=#{pro_kb_manager}, pro_kb_details=#{pro_kb_details} where pro_kb_seq = #{pro_kb_seq}
+  </update>
+  
+  <delete id="deleteKanban">
+  	delete from st.project_kanban where pro_kb_seq = #{value}
+  </delete>
+  
+  <insert id="addKanban">
+  	insert into st.project_kanban values(st.pro_kb_seq.nextval,#{pro_seq},#{pro_kb_process_code},'제목 없음','칸반 관련 내용을 추가해주세요.',#{pro_kb_manager})	
+  </insert>
+  
   </mapper>
