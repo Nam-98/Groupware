@@ -3,5 +3,13 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="Break">
-  
+  	<select id="getAllType" resultType="kh.gw.dto.Break_typeDTO">
+  		select * from st.break_type
+  	</select>
+  	<insert id="insertBreak">
+  		insert into st.break values(st.break_seq.nextval, #{break_id}, #{break_code}, #{break_discount}, to_date(#{strStartDate},'yyyy-MM-dd'), to_date(#{strEndDate},'yyyy-MM-dd'), #{break_reason})
+  	</insert>
+  	<select id="getDiscount" resultType="_double">
+  		select break_discount from st.break_type where break_code = #{value}
+  	</select>
   </mapper>

@@ -3,5 +3,22 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="Approval">
-  
+  	<select id="allDocsType" resultType="kh.gw.dto.Approval_typeDTO">
+  		select * from st.approval_type
+  	</select>
+  	<select id="allSignType" resultType="kh.gw.dto.Approval_sign_typeDTO">
+  		select * from st.approval_sign_type
+  	</select>
+  	<insert id="writeApp">
+  		insert into st.approval values(st.app_seq.nextval, #{app_type_code}, #{app_id}, #{app_archive}, #{app_title}, #{app_contents}, (select current_date from dual),#{app_docs_num})
+  	</insert>
+  	<insert id="setInitAppSign">
+  		insert into st.approval_sign values(#{app_seq}, #{app_sign_id}, #{app_sign_order}, null, 'N', #{app_sign_type_code})
+  	</insert>
+  	<select id="getLatestSeqById" resultType="int">
+  		select max(app_seq) from st.approval where app_id=#{id} order by app_seq desc
+  	</select>
+  	<insert id="insertAf">
+  		insert into st.approval_attached_files values(#{app_seq},#{app_ori_name},#{app_saved_name})
+  	</insert>
   </mapper>

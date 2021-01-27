@@ -10,6 +10,8 @@ public class BreakDTO {
 	private Date break_start_date;
 	private Date break_end_date;
 	private String break_reason;
+	private String strStartDate;
+	private String strEndDate;
 	public int getBreak_seq() {
 		return break_seq;
 	}
@@ -52,8 +54,20 @@ public class BreakDTO {
 	public void setBreak_reason(String break_reason) {
 		this.break_reason = break_reason;
 	}
+	public String getStrStartDate() {
+		return strStartDate;
+	}
+	public void setStrStartDate(String strStartDate) {
+		this.strStartDate = strStartDate;
+	}
+	public String getStrEndDate() {
+		return strEndDate;
+	}
+	public void setStrEndDate(String strEndDate) {
+		this.strEndDate = strEndDate;
+	}
 	public BreakDTO(int break_seq, String break_id, int break_code, double break_discount, Date break_start_date,
-			Date break_end_date, String break_reason) {
+			Date break_end_date, String break_reason, String strStartDate, String strEndDate) {
 		super();
 		this.break_seq = break_seq;
 		this.break_id = break_id;
@@ -62,9 +76,11 @@ public class BreakDTO {
 		this.break_start_date = break_start_date;
 		this.break_end_date = break_end_date;
 		this.break_reason = break_reason;
+		this.strStartDate = strStartDate;
+		this.strEndDate = strEndDate;
 	}
 	public BreakDTO() {
 		super();
 	}
-	
+
 }

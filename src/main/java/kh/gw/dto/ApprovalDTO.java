@@ -1,6 +1,9 @@
 package kh.gw.dto;
 
 import java.sql.Date;
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 public class ApprovalDTO {
 	private int app_seq;
@@ -10,9 +13,10 @@ public class ApprovalDTO {
 	private String app_title;
 	private String app_contents;
 	private Date app_reg_date;
-	private String app_accept;
+	private String app_docs_num;
+	private List<MultipartFile> files;
 	public ApprovalDTO(int app_seq, int app_type_code, String app_id, int app_archive, String app_title,
-			String app_contents, Date app_reg_date, String app_accept) {
+			String app_contents, Date app_reg_date, String app_docs_num, List<MultipartFile> files) {
 		super();
 		this.app_seq = app_seq;
 		this.app_type_code = app_type_code;
@@ -21,7 +25,8 @@ public class ApprovalDTO {
 		this.app_title = app_title;
 		this.app_contents = app_contents;
 		this.app_reg_date = app_reg_date;
-		this.app_accept = app_accept;
+		this.app_docs_num = app_docs_num;
+		this.files = files;
 	}
 	public ApprovalDTO() {
 		super();
@@ -68,11 +73,17 @@ public class ApprovalDTO {
 	public void setApp_reg_date(Date app_reg_date) {
 		this.app_reg_date = app_reg_date;
 	}
-	public String getApp_accept() {
-		return app_accept;
+	public String getApp_docs_num() {
+		return app_docs_num;
 	}
-	public void setApp_accept(String app_accept) {
-		this.app_accept = app_accept;
+	public void setApp_docs_num(String app_docs_num) {
+		this.app_docs_num = app_docs_num;
 	}
-	
+	public List<MultipartFile> getFiles() {
+		return files;
+	}
+	public void setFiles(List<MultipartFile> files) {
+		this.files = files;
+	}
+
 }
