@@ -54,7 +54,7 @@
                      { name: "id", type: "string" },
                      { name: "status", map: "state", type: "string" },
                      { name: "text", map: "label", type: "string" },
-                     { name: "tags", type: "string" },
+                     /* { name: "tags", type: "string" }, */
                      { name: "color", map: "hex", type: "string" },
                      { name: "resourceId", type: "string" }
             ];
@@ -63,7 +63,9 @@
                  localData: [
                 	 
                 	 <c:forEach varStatus="i" items="${pkdtoList}" var="dto">
-                	 { id: "${dto.pro_kb_seq}", state: "${dto.pro_kb_process_code}", label: "${dto.pro_kb_title}", tags: "${dto.pro_kb_details}", hex: "#5dc3f0", resourceId: "${dto.pro_kb_manager}"}
+                	 { id: "${dto.pro_kb_seq}", state: "${dto.pro_kb_process_code}", label: "${dto.pro_kb_title}", 
+                		 /* tags: "${dto.pro_kb_details}", */ 
+                		 hex: "#5dc3f0", resourceId: "${dto.pro_kb_manager}"}
                 	 
                 	 <c:if test= "${!i.last}">,</c:if>
                  </c:forEach>
@@ -146,7 +148,7 @@
 						<div class="col-lg-11 d-none d-lg-block"></div>
 						<div class="col-lg-1 col-12">
 							<!-- Single button -->
-							<button type="button" id="addProject" class="btn btn-warning">추가</button>
+							<button type="button" id="addkanban" class="btn btn-warning">추가</button>
 						</div>
 					</div>
 					<div class="top-vacant d-none d-lg-block"></div>
@@ -171,7 +173,7 @@ $('#kanban').on('itemAttrClicked', function (event) {
     var itemId = args.itemId;
     var attribute = args.attribute; // template, colorStatus, content, keyword, text, avatar
     
-    var options='top=10, left=10, width=600, height=700, status=no, menubar=no, toolbar=no, resizable=no';
+    var options='top=10, left=10, width=800, height=600, status=no, menubar=no, toolbar=no, resizable=no';
 	window.open("/project/fixkanbanPop.project?itemId="+itemId,"popup",options);
 });
 </script>
@@ -184,6 +186,11 @@ $('#kanban').on('itemMoved', function (event) {
     var newDatafield = newColumn.dataField;
     location.href = "/project/kanbanMoved.project?itemId="+itemId+"&newDatafield="+newDatafield;
     
+});
+</script>
+<script>
+$('#addkanban').on("click", function() {
+    alert("미구현");
 });
 </script>
 
