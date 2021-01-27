@@ -92,4 +92,8 @@ public class ProjectService {
 	public int deleteKanban(int pro_kb_seq) throws Exception {
 		return pdao.deleteKanban(pro_kb_seq);
 	}
+	
+	public int addKanban(Project_kanbanDTO dto) throws Exception{
+		return pdao.addKanban(dto);
+	}
 }
