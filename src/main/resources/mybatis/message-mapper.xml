@@ -11,4 +11,17 @@
   	<select id="msgInBoxList" resultType="kh.gw.dto.MessageDTO">
   		select * from st.message where msg_receiver = #{value}
   	</select>
+  	
+  	<update id="readDate">
+  		update st.message set msg_receive_date=sysdate where msg_seq=#{value}
+  	</update>
+  	
+  	<select id="msgView" resultType="kh.gw.dto.MessageDTO">
+  		select * from st.message where msg_seq = #{value}
+  	</select>
+  	
+  	<delete id="msgDelete">
+  		delete from st.message where msg_seq = #{value}
+  	</delete>
+  	
   </mapper>

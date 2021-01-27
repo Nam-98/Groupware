@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -63,7 +64,9 @@ public class MessageController {
 		String msg_receiver = request.getParameter("receiveId");
 		String msg_title = request.getParameter("title");
 		String msg_contents = request.getParameter("contents");
-		MessageDTO mdto = new MessageDTO(0,msg_sender,msg_receiver,null,null,msg_title,msg_contents);
+		String msg_sender_name = request.getParameter("sender");
+		String msg_receiver_name = request.getParameter("receiver");
+		MessageDTO mdto = new MessageDTO(0,msg_sender,msg_receiver,null,null,msg_title,msg_contents,msg_sender_name,msg_receiver_name);
 		int result = mservice.msgProc(mdto);
 		m.addAttribute("result", result);
 		return "/message/alertMessage";
@@ -72,11 +75,47 @@ public class MessageController {
 	
 	//수신함 리스트 이동
 	@RequestMapping("msgInBoxList.message")
-	public String msgInBoxList(Model m) throws Exception{
+	public String msgInBoxList(Model m, HttpServletRequest request) throws Exception{
 		String id = (String)session.getAttribute("id");
+		int cpage = Integer.parseInt(request.getParameter("cpage"));
 		List<MessageDTO> mlist = mservice.msgInBoxList(id);
+		String navi = mservice.inBoxGetNavi(cpage,id);
 		m.addAttribute("mlist", mlist);
+		m.addAttribute("navi", navi);
 		return "/message/inBox";
+	}
+	
+	//쪽지 상세페이지 보기(수신함)
+	@RequestMapping("msgReceiveView.message")
+	public String msgReceiveView(HttpServletRequest request, Model m) throws Exception{
+		int msg_seq= Integer.parseInt(request.getParameter("msg_seq"));
+		int readDate = mservice.readDate(msg_seq);
+		System.out.println("결과===="+readDate);
+		MessageDTO mdto = mservice.msgView(msg_seq);
+		m.addAttribute("mdto", mdto);
+		return "/message/msgReceiveView"; 
+	}
+	
+	//쪽지 상세보기에서 삭제 버튼 클릭 시
+	@RequestMapping("msgDelete.message")
+	public String msgDelete(HttpServletRequest request, Model m) throws Exception{
+		int msg_seq= Integer.parseInt(request.getParameter("msg_seq"));
+		int delResult = mservice.msgDelete(msg_seq);
+		return "redirect:/message/msgInBoxList.message";
+	}
+	
+	//쪽지 상세페이지에서 답장하기 버튼
+	@RequestMapping("msgReply.message")
+	public String msgReply(HttpServletRequest request, Model m) throws Exception{
+		String msg_sender = request.getParameter("msg_sender");
+		String msg_receiver = request.getParameter("msg_receiver");
+		List<MemberDTO> mlist = memservice.listMem(); //조직도 전체 리스트 가져옴
+		List<DepartmentDTO> dlist = memservice.listDept(); //부서명 가져옴
+		m.addAttribute("msg_sender", msg_sender);
+		m.addAttribute("msg_receiver", msg_receiver);
+		m.addAttribute("mlist", mlist);
+		m.addAttribute("dlist", dlist);
+		return "/message/replyMessage";
 	}
 	
 	// error
