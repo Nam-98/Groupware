@@ -1,9 +1,8 @@
 package kh.gw.controller;
-
-import java.text.SimpleDateFormat;
+import java.sql.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,12 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
 import kh.gw.dto.ApprovalDTO;
+import kh.gw.dto.Approval_signDTO;
 import kh.gw.dto.Approval_sign_typeDTO;
+import kh.gw.dto.BreakDTO;
 import kh.gw.dto.Break_typeDTO;
 import kh.gw.dto.DepartmentDTO;
 import kh.gw.dto.MemberDTO;
@@ -33,11 +30,10 @@ public class ApprovalController {
 	private MemberService mservice;
 	@Autowired
 	private BreakService bservice;
-	@Autowired
-	private HttpSession session;
 	
 	@RequestMapping("/toAppMainView.approval")
 	public String toAppMainView () {
+		aservice.resetConfig();
 		return "approval/appMainView";
 	}
 	
@@ -57,14 +53,14 @@ public class ApprovalController {
 		return "approval/appWriteView";
 	}
 	
-	@RequestMapping(value="/writeApproval.approval", produces = "application/json; charset=urf8")
-	public void writeApproval (ApprovalDTO dto, List<String signList) {
-		Gson gson = new Gson();
-		JsonObject list = gson.fromJson(sign_id_Json, JsonObject.class);
-		
-		System.out.println(list);
-		System.out.println(dto.getApp_title());
-		System.out.println(dto.getApp_archive());
+	@RequestMapping("/writeApproval.approval")
+	public String writeApproval (ApprovalDTO dto, Approval_signDTO approval_signDTOList, Model model, BreakDTO bdto) throws Exception {	
+		int appSeq = aservice.writeApp(dto);
+		if(dto.getApp_type_code()==3) {
+			bservice.insertBreak(bdto,dto);
+		}
+		aservice.setInitAppSign(approval_signDTOList, appSeq);
+		return this.toAppWriteView(model);
 	}
 	
 	// error
