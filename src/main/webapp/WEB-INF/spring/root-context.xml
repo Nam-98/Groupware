@@ -1,43 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+ xmlns:task="http://www.springframework.org/schema/task"
+ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+        
+ <bean id="scheduleService" class="kh.gw.service.ApprovalService" />
+ <task:scheduler id="gsScheduler" pool-size="10" />
+ <task:executor id="gsTaskExecutor" pool-size="10" />
+ <task:annotation-driven executor="gsTaskExecutor"
 
-	<!-- Root Context: defines shared resources visible to all other web components -->
-	<!-- Root Context: defines shared resources visible to all other web components -->
-	<bean id="dataSource"
-		class="org.apache.commons.dbcp2.BasicDataSource">
-		<property name="username" value="groupware" />
-		<property name="password" value="groupware" />
-		<property name="url"
-			value="jdbc:oracle:thin:@aws-rds.czngo14olswv.ap-northeast-2.rds.amazonaws.com:1521:ORCL" />
-		<property name="driverClassName"
-			value="oracle.jdbc.driver.OracleDriver" />
-		<property name="initialSize" value="5" />
-	</bean>
+  scheduler="gsScheduler" />
 
-	<bean id="jdbcTemplate"
-		class="org.springframework.jdbc.core.JdbcTemplate">
-		<property name="dataSource" ref="dataSource" />
+   <!-- Root Context: defines shared resources visible to all other web components -->
+   <bean id="dataSource"
+      class="org.apache.commons.dbcp2.BasicDataSource">
+      <property name="username" value="groupware" />
+      <property name="password" value="groupware" />
+      <property name="url"
+         value="jdbc:oracle:thin:@aws-rds.czngo14olswv.ap-northeast-2.rds.amazonaws.com:1521:ORCL" />
+      <property name="driverClassName"
+         value="oracle.jdbc.driver.OracleDriver" />
+      <property name="initialSize" value="5" />
+   </bean>
 
-	</bean>
+   <bean id="jdbcTemplate"
+      class="org.springframework.jdbc.core.JdbcTemplate">
+      <property name="dataSource" ref="dataSource" />
 
-	<bean id="sqlSessionFactory"
-		class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="dataSource" ref="dataSource" />
-		<property name="mapperLocations"
-			value="classpath:/mybatis/*-mapper.xml"></property>
+   </bean>
 
-	</bean>
+   <bean id="sqlSessionFactory"
+      class="org.mybatis.spring.SqlSessionFactoryBean">
+      <property name="dataSource" ref="dataSource" />
+      <property name="mapperLocations"
+         value="classpath:/mybatis/*-mapper.xml"></property>
 
-	<bean id="sqlSession"
-		class="org.mybatis.spring.SqlSessionTemplate">
-		<constructor-arg name="sqlSessionFactory"
-			ref="sqlSessionFactory"></constructor-arg>
-	</bean>
+   </bean>
 
-	<bean id="transactionManager"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource"></property>
-	</bean>
+   <bean id="sqlSession"
+      class="org.mybatis.spring.SqlSessionTemplate">
+      <constructor-arg name="sqlSessionFactory"
+         ref="sqlSessionFactory"></constructor-arg>
+   </bean>
+
+   <bean id="transactionManager"
+      class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+      <property name="dataSource" ref="dataSource"></property>
+   </bean>
 </beans>
