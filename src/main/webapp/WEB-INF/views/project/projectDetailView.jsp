@@ -106,7 +106,7 @@
 									</tr>
 									<tr>
 										<th scope="row">일 자 (전체 : ${proTerm} 일)</th>
-										<td>${pdto.pro_start_date}~${pdto.pro_end_date}</td>
+										<td>${pdto.pro_start_date_str}~${pdto.pro_end_date_str}</td>
 									</tr>
 								</tbody>
 							</table>
@@ -173,11 +173,10 @@
 	<!-- END WRAPPER -->
 	<script>
 		$("#gokanban").on("click", function() {
-			alert("미구현");
-			location.href = "/project/gokanban.project";
+			location.href = "/project/gokanban.project?pro_seq=${pdto.pro_seq}";
 		});
 		$("#deletepro").on("click", function() {
-			alert("미구현");
+			location.href = "/project/deleteProject.project?pro_seq=${pdto.pro_seq}";
 		});
 	</script>
 

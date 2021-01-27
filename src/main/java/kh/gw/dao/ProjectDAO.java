@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import kh.gw.dto.ProjectDTO;
 import kh.gw.dto.Project_kanbanDTO;
-import kh.gw.dto.Project_kb_workerDTO;
 
 @Repository
 public class ProjectDAO {
@@ -27,8 +26,8 @@ public class ProjectDAO {
 		return db.selectOne("Project.getSeqNum");
 	}
 	
-	public int addProjectKanban(int pro_seq) throws Exception{
-		return db.insert("Project.addProjectKanban",pro_seq);
+	public int addProjectKanban(ProjectDTO dto) throws Exception{
+		return db.insert("Project.addProjectKanban",dto);
 	}
 	
 	public ProjectDTO getProInfo(int pro_seq) throws Exception{
@@ -39,7 +38,23 @@ public class ProjectDAO {
 		return db.selectList("Project.getProKanInfo", pro_seq);
 	}
 	
-	public List<Project_kb_workerDTO> getProKWInfo(int pro_seq) throws Exception{
-		return db.selectList("Project.getProKWInfo", pro_seq);
+	public Project_kanbanDTO getKanbanInfo(int pro_kb_seq) throws Exception{
+		return db.selectOne("Project.getKanbanInfo",pro_kb_seq);
+	}
+	
+	public int deleteProject(int pro_seq) throws Exception{
+		return db.delete("Project.deleteProject",pro_seq);
+	}
+	
+	public int kanbanMoved(Project_kanbanDTO dto) throws Exception{
+		return db.update("Project.kanbanMoved", dto);
+	}
+	
+	public int fixKanbanInfo(Project_kanbanDTO dto) throws Exception{
+		return db.update("Project.fixKanbanInfo", dto);
+	}
+	
+	public int deleteKanban(int pro_kb_seq) throws Exception{
+		return db.delete("Project.deleteKanban",pro_kb_seq);
 	}
 }

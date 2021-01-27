@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>공지사항</title>
+<title>회사 소개</title>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <!-- 아이콘 fontawesome -->
     <script src="https://kit.fontawesome.com/b1e233372d.js"></script>
@@ -28,39 +28,13 @@
 	<script src="/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 	<script src="/assets/vendor/chartist/js/chartist.min.js"></script>
 	<script src="/assets/scripts/klorofil-common.js"></script>
-	
-	<style>
-* {
-	box-sizing: border-box;
-}
-a { text-decoration:none } 
-
-.right-side {
-	width: 1020px;
-	height: 720px;
-	position: fixed;
-	top: 0px;
-	left: 260px;
-}
-
-.top-vacant {
-	width: 1020px;
-	height: 20px;
-	background-color: yellow;
-}
-
-.page-name {
-	width: 510px;
-	height: 50px;
-	float: left;
-}
-
-.navi {
-	text-align: center;
-}
-</style>
-
 </head>
+<style>
+	.panel-body{
+		width:500px;
+		height:500px;
+	}
+</style>
 <body>
 	<!-- WRAPPER -->
 	<div id="wrapper">
@@ -79,51 +53,13 @@ a { text-decoration:none }
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 class="page-title">공지사항</h3>
-					<div class="maincontainer">
-			<form action="noticeSearch.write?cpage=1" method="post">
-				<table>
-					<tr>
-						<td>
-						<select id="condition" name="condition">
-<!-- 							<option value="">검색조건</option> -->
-<!-- 							<option value="">전체보기</option> -->
-							<option value="write_title">제목</option>
-							<option value="write_id">작성자</option>
-						</select>
-						<input type="text" name="keyword" id="keyword" placeholder="검색어를 입력하세요">
-						<button id="searchBtn" type="submit">검색</button>
-<!-- 						<input class="form-control me" type="search" aria-label="Search"  name="keyword" id="keyword" placeholder="검색어를 입력하세요"> -->
-<!-- 						<button id="searchBtn" class="btn btn-outline-success" type="submit">검색</button> -->
-						</td>
-					</tr>
-				</table>
-			 </form>
-
-				<table class="table table-secondary table-striped">
-					<thead class="table-light">
-						<tr>
-							<th scope="col">No</th>
-							<th scope="col">제목</th>
-							<th scope="col">작성자</th>
-							<th scope="col">등록일</th>
-							<th scope="col">조회수</th>
-						</tr>
-					</thead>
-					<tbody>
-						<c:forEach var="i" items="${list }">
-							<tr>
-								<th scope="row">${i.rn }</th>
-								<td><a href="noticeView.write?write_seq=${i.write_seq}">${i.write_title }</a></td>
-								<td>${i.write_id }</td>
-								<td>${i.write_reg_date }</td>
-								<td>${i.write_read_count }</td>
-							</tr>
-						</c:forEach>
-					</tbody>
-				</table>
-				<div class="navi">${navi }</div>
-			</div>
+					<h3 class="page-title">회사소개</h3>
+					<div class="panel panel-default">
+					  <div class="panel-heading">회사 소개글</div>
+					  <div class="panel-body">
+					     	회사 소개 내용
+					  </div>
+					</div>
 				</div>
 			</div>
 			<!-- END MAIN CONTENT -->

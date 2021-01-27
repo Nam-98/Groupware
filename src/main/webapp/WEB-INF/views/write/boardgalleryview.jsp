@@ -5,10 +5,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>프로젝트보기</title>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<title>갤러리 게시판 뷰</title>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <!-- 아이콘 fontawesome -->
 <script src="https://kit.fontawesome.com/b1e233372d.js"></script>
 <!-- VENDOR CSS -->
@@ -37,18 +35,23 @@
 <script src="/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <script src="/assets/vendor/chartist/js/chartist.min.js"></script>
 <script src="/assets/scripts/klorofil-common.js"></script>
-</head>
 <style>
 * {
-	border: 0px solid black;
+	box-sizing: border-box;
 }
 
-.top-vacant {
-	width: 100%;
-	height: 20px;
-	/* 	background-color: yellow; */
+.contents {
+	padding: left;
+	width: 500px;
+	height: 500px;
+}
+
+.btn {
+	float: right;
+	margin-left: 5px;
 }
 </style>
+</head>
 <body>
 	<!-- WRAPPER -->
 	<div id="wrapper">
@@ -61,50 +64,38 @@
 		<div class="sidebar" id="sidebar-nav">
 			<jsp:include page="/WEB-INF/views/commonPage/left.jsp" />
 		</div>
-
 		<!-- END LEFT SIDEBAR -->
 		<!-- MAIN -->
 		<div class="main">
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 class="page-title">My Project</h3>
-					<div class="row">
-						<div class="col-lg-11 d-none d-lg-block"></div>
-						<div class="col-lg-1 col-12">
-							<button type="button" id="addProject" class="btn btn-warning">추가</button>
-						</div>
-					</div>
-					<div class="top-vacant d-none d-lg-block"></div>
+					<h3 class="page-title">갤러리 게시판</h3>
+					<div class="maincontainer">
+						<table class="table">
+							<thead>
+								<tr>
+									<th scope="col" class="col-7">제목 : ${dtos.write_title }</th>
+									<th scope="col" class="col-2">작성자 : ${dtos.write_id }</th>
+									<th scope="col" class="col-2">작성일 : ${dtos.write_reg_date }</th>
+									<th scope="col" class="col-1">조회수 :
+										${dtos.write_read_count }</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="contents" colspan="4">${dtos.write_contents }</td>
+								</tr>
 
-					<div class="panel panel-headline demo-icons">
-						<div class="panel-heading">
-							<h3 class="panel-title">프 로 젝 트 보 기</h3>
-						</div>
-						<div class="panel-body">
-							<table class="table table-hover">
-								<thead>
-									<tr>
-										<th scope="col">#</th>
-										<th scope="col">프로젝트명</th>
-										<th scope="col">시작일</th>
-										<th scope="col">종료일</th>
-										<th scope="col">담당자</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:forEach var="i" items="${listProject}">
-										<tr>
-											<th scope="row">${i.pro_seq}</th>
-											<td><a
-												href="/project/projectDetail.project?pro_seq=${i.pro_seq}">${i.pro_title}</a></td>
-											<td>${i.pro_start_date_str}</td>
-											<td>${i.pro_end_date_str}</td>
-											<td>${i.pro_id}</td>
-										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
+								<tr>
+									<td>댓글 대댓글...ㅠㅠ</td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="btn">
+							<button id="list" class="btn pull-left btn-primary">목록으로</button>
+							<button id="modify" class="btn pull-left btn-primary">수정</button>
+							<button id="delete" class="btn pull-left btn-primary">삭제</button>
 						</div>
 					</div>
 				</div>
@@ -122,24 +113,18 @@
 			</div>
 		</footer>
 	</div>
+	<!-- END WRAPPER -->
+
+	<script>
+		document.getElementById("list").onclick = function() {
+			location.href = "/write/boardGalleryList.write?cpage=1"
+		}
+		document.getElementById("delete").onclick = function() {
+			location.href = "/write/deleteGalleryWrite.write?write_seq=${dtos.write_seq}"
+		}
+		document.getElementById("modify").onclick = function() {
+			location.href = "/write/modifyBeforeGallery.write?write_seq=${dtos.write_seq}"
+		}
+	</script>
 </body>
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script>
-$("#find").on("click", function() {
-	var options='top=10, left=10, width=700, height=600, status=no, menubar=no, toolbar=no, resizable=no';
-	window.open("/project/enterPopup.project","popup",options);	
-});
-
-function getReturnValue(returnValue) {
-	obj = JSON.parse(returnValue);
-	  document.getElementById("projectManagerName").value=obj.key1;	
- 	  document.getElementById("pro_id").value=obj.key2;
-	}
-</script>
-<script>
-	$("#addProject").on("click", function() {
-		location.href = "/project/addProject.project";
-	});
-</script>
-
 </html>
