@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>전자결재 메인</title>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <!-- 아이콘 fontawesome -->
     <script src="https://kit.fontawesome.com/b1e233372d.js"></script>
@@ -47,7 +47,7 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-                    <h3 class="page-title">페이지명</h3>
+                    <h3 class="page-title">전자결재 메인</h3>
                     <div class="row">
 						<div class="col-12 col-md-3">
 							<div class="panel">

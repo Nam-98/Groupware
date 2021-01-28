@@ -15,8 +15,10 @@ public class ApprovalDTO {
 	private Date app_reg_date;
 	private String app_docs_num;
 	private List<MultipartFile> files;
+	private int app_status_code;
 	public ApprovalDTO(int app_seq, int app_type_code, String app_id, int app_archive, String app_title,
-			String app_contents, Date app_reg_date, String app_docs_num, List<MultipartFile> files) {
+			String app_contents, Date app_reg_date, String app_docs_num, List<MultipartFile> files,
+			int app_status_code) {
 		super();
 		this.app_seq = app_seq;
 		this.app_type_code = app_type_code;
@@ -27,6 +29,7 @@ public class ApprovalDTO {
 		this.app_reg_date = app_reg_date;
 		this.app_docs_num = app_docs_num;
 		this.files = files;
+		this.app_status_code = app_status_code;
 	}
 	public ApprovalDTO() {
 		super();
@@ -85,5 +88,11 @@ public class ApprovalDTO {
 	public void setFiles(List<MultipartFile> files) {
 		this.files = files;
 	}
-
+	public int getApp_status_code() {
+		return app_status_code;
+	}
+	public void setApp_status_code(int app_status_code) {
+		this.app_status_code = app_status_code;
+	}
+	
 }

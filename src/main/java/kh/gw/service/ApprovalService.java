@@ -2,6 +2,8 @@ package kh.gw.service;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -21,6 +23,7 @@ import kh.gw.dto.Approval_signDTO;
 import kh.gw.dto.Approval_sign_typeDTO;
 import kh.gw.dto.Approval_typeDTO;
 import kh.gw.statics.ApprovalConfigurator;
+import kh.gw.statics.AppDateComparator;
 
 @Service
 public class ApprovalService {
@@ -53,7 +56,6 @@ public class ApprovalService {
 		String docsNum = ApprovalConfigurator.docsDate+"-"+ApprovalConfigurator.docsCount;
 		ApprovalConfigurator.docsCount++;
 		dto.setApp_docs_num(docsNum);
-		System.out.println(dto.getApp_docs_num());
 		int result = adao.writeApp(dto);
 		if(result>0) {
 			int app_seq = adao.getLatestSeqById((String)session.getAttribute("id"));
@@ -97,4 +99,38 @@ public class ApprovalService {
 			}
 		}
 	}
+	public List<ApprovalDTO> allMyWriteApp(){
+		return adao.allMyWriteApp((String)session.getAttribute("id"));
+	}
+	public List<ApprovalDTO> getMySignList(){
+		List<Approval_signDTO> signList = adao.allMySignApp((String)session.getAttribute("id"));
+		List<Integer> seqList =  new ArrayList<Integer>(); 
+		
+		//올라간 기안 중 내가 결재라인에 포함되어 있는 모든 내역을 들고온다.(참조 제외)
+		for (Approval_signDTO dto : signList) {
+			int checkorder = dto.getApp_sign_order()-1;
+			
+			int befOrderCount = adao.countAgree(checkorder, dto.getApp_seq());
+			int yCount = adao.isSignTurn(checkorder, dto.getApp_seq());
+			
+			//이전 순서의 y갯수와 합의자(결재자)의 갯수가 같거나(이전 결재가 완료됨) 내가 결재 완료한 내역을 넣음
+				if(yCount == befOrderCount || dto.getApp_sign_date()!=null) {
+					seqList.add(dto.getApp_seq());
+				}
+		}
+		List<ApprovalDTO> resultList = adao.seachAppList(seqList);
+			//resultList 정렬하기(app_reg_date기준)
+		Collections.sort(resultList, new AppDateComparator());
+		Collections.reverse(resultList);//최신의 글이 앞에 보이도록 내림차순 정렬함. 
+		return resultList;
+	}
+	public List<ApprovalDTO> getMyCCList(){
+		List<Integer> seqList = adao.allMyCCList((String)session.getAttribute("id"));
+		List<ApprovalDTO> resultList =  adao.seachAppList(seqList);
+			//resultList 정렬하기(app_reg_date기준)
+		Collections.sort(resultList, new AppDateComparator());
+		Collections.reverse(resultList);//최신의 글이 앞에 보이도록 내림차순 정렬함. 
+		return resultList;
+	}
+	
 }

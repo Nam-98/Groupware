@@ -1,9 +1,5 @@
 package kh.gw.controller;
-import java.sql.Date;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -61,6 +57,13 @@ public class ApprovalController {
 		}
 		aservice.setInitAppSign(approval_signDTOList, appSeq);
 		return this.toAppWriteView(model);
+	}
+	
+	@RequestMapping("/toMySignListView.approval")
+	public String toMySignListView (Model model) {
+		model.addAttribute("signList", aservice.getMySignList());
+		
+		return "approval/appMySignListView";
 	}
 	
 	// error
