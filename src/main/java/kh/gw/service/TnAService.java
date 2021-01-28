@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,11 +53,12 @@ public class TnAService {
 		return leaveWorkDate;
 	}
 
+	
 	// 출근시간 입력 프로세스
 	public int attendanceInput(String sessionId) throws ParseException {
 		TnADTO tdto = new TnADTO();
 		tdto.setTnA_id(sessionId);
-		tdto.setTnA_status_code(attendanceCheck());
+		tdto.setTnA_start_status_code(attendanceCheck());
 		
 		return tdao.attendanceInput(tdto);
 	}
@@ -83,7 +85,7 @@ public class TnAService {
 		
 		TnADTO tdto = new TnADTO();
 		tdto.setTnA_id(sessionId);
-		tdto.setTnA_status_code(leaveWorkCheck());
+		tdto.setTnA_end_status_code(leaveWorkCheck());
 		tdto.setTnA_seq(seq);
 		
 		return tdao.leaveWorkInput(tdto);
@@ -190,6 +192,10 @@ public class TnAService {
 		Date nowDate = new Date(System.currentTimeMillis());
 		
 		return "";
+	}
+	
+	public List<Map<String, Object>> getTnaCalendarList(String sessionId) {
+		return tdao.getTnaCalendarList(sessionId);
 	}
 
 	

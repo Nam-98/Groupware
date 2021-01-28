@@ -30,6 +30,9 @@ public class ProjectController {
 
 	@Autowired
 	private MemberService mservice;
+	
+	@Autowired
+	private HttpSession session;
 
 	//프로젝트 리스트 가져오기
 	@RequestMapping("enterProjectList.project")
@@ -181,6 +184,18 @@ public class ProjectController {
 		int result = pservice.deleteKanban(pro_kb_seq);
 		if( result >0) {
 			return "/project/fixKanbanSuccessView";}else return "error";
+	}
+	
+	//칸반 추가
+	@RequestMapping("addKanban.project")
+	public String addKanban(HttpServletRequest request, Project_kanbanDTO dto) throws Exception{
+		String referer = request.getHeader("REFERER");
+		dto.setPro_kb_process_code(Integer.parseInt(request.getParameter("code")));
+		dto.setPro_seq(Integer.parseInt(request.getParameter("pro_seq")));
+		dto.setPro_kb_manager((String) session.getAttribute("id"));
+		int result = pservice.addKanban(dto);
+		if( result >0) {
+			return "redirect:" + referer;}else return "error";
 	}
 	//------------------------------------------------------------------------칸반 관련 메서드 끝
 	

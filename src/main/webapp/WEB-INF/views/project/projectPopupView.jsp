@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>담당자(ID) 검색</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -104,14 +104,12 @@ ul, #myUL1 {
 <body>
 	<!-- WRAPPER -->
 	<div id="wrapper">
-		<!-- MAIN -->
-		<div class="main">
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
 					<div class="panel panel-headline demo-icons">
 						<div class="panel-heading">
-							<h3 class="panel-title">담당자 추가</h3>
+							<h3 class="panel-title">담당자(ID) 검색</h3>
 						</div>
 						<div class="panel-body">
 							<input type="text" id="pmName" readonly> <input
@@ -144,8 +142,6 @@ ul, #myUL1 {
 				</div>
 			</div>
 			<!-- END MAIN CONTENT -->
-		</div>
-		<!-- END MAIN -->
 		<div class="clearfix"></div>
 		<footer>
 			<div class="container-fluid">
