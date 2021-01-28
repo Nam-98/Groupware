@@ -8,10 +8,10 @@
   	</select>
   	
   	<insert id="attendanceInput">
-  		insert into st.tna values(st.tna_seq.nextval, #{TnA_id}, (SELECT CURRENT_DATE FROM DUAL), null, #{TnA_status_code})
+  		insert into st.tna values(st.tna_seq.nextval, #{TnA_id}, (SELECT CURRENT_DATE FROM DUAL), null, #{TnA_start_status_code}, null)
   	</insert>
   	<update id="leaveWorkInput">
-  		update st.TnA set tna_end_time = (SELECT CURRENT_DATE FROM DUAL), tna_status_code = #{TnA_status_code} where tna_seq = #{TnA_seq}
+  		update st.TnA set tna_end_time = (SELECT CURRENT_DATE FROM DUAL), tna_end_status_code = #{TnA_end_status_code} where tna_seq = #{TnA_seq}
   	</update>
   	<select id="getTnaSeq" resultType="Integer">
   		select tna_seq from st.tna where (tna_id = #{sessionId}) and (to_char((SELECT CURRENT_DATE FROM DUAL),'yyyymmdd') like to_char(tna_start_time,'yyyymmdd'))
@@ -22,7 +22,14 @@
   	<select id="getLeaveWorkTime" resultType="java.util.Date">
   		select tna_end_time from st.tna where (tna_id = #{sessionId}) and (to_char((SELECT CURRENT_DATE FROM DUAL),'yyyymmdd') like to_char(tna_end_time,'yyyymmdd'))
   	</select>
-  	
+  	<select id="getTnaCalendarList" resultType="java.util.HashMap">
+  		select t.tna_seq, t.tna_id, t.tna_start_time, t.tna_end_time, t.tna_start_status_code, t.tna_end_status_code, s1.tna_status_name"TNA_START_STATUS_NAME", s2.tna_status_name"TNA_END_STATUS_NAME" 
+		from st.tna t left join st.tna_status s1
+		on (t.TNA_START_STATUS_CODE = s1.tna_status_code)
+		left join st.tna_status s2 
+		on (t.TNA_END_STATUS_CODE = s2.tna_status_code) and (t.tna_id = #{sessionId})
+		order by t.tna_seq
+	</select>
   	
   	
   	
