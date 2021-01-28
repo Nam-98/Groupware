@@ -35,7 +35,7 @@ public class TnAController {
 		Map<String, Object> attendanceValue = tservice.getAttendanceTime(sessionId);
 		// 퇴근시간 조회
 		Map<String, Object> leaveWorkValue = tservice.getLeaveWorkTime(sessionId);
-		// 출퇴근시근 리스트 조회
+		// 출퇴근시간 리스트 조회
 		List<Map<String, Object>> tnaCalendarList = tservice.getTnaCalendarList(sessionId);
 //		System.out.println(tnaCalendarList.get(0).get("TNA_SEQ"));
 //		System.out.println(tnaCalendarList.get(0).get("TNA_ID"));
