@@ -1,6 +1,8 @@
 package kh.gw.dao;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +35,13 @@ public class TnADAO {
 	public Date getAttendanceTime(String sessionId) {
 		return db.selectOne("TnA.getAttendanceTime",sessionId);
 	}
+	
 	public Date getLeaveWorkTime(String sessionId) {
 		return db.selectOne("TnA.getLeaveWorkTime",sessionId);
+	}
+	
+	public List<Map<String, Object>> getTnaCalendarList(String sessionId) {
+		return db.selectList("TnA.getTnaCalendarList", sessionId);
 	}
 	
 }
