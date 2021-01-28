@@ -274,13 +274,10 @@
 			<div class="main-content">
 				<div class="container-fluid">
 					<h3 class="page-title">My Project : ${pdto.pro_title}</h3>
-					<div class="row">
-						<div class="col-lg-11 d-none d-lg-block"></div>
-						<div class="col-lg-1 col-12">
-							<!-- Single button -->
-							<button type="button" id="destroyKanban" class="btn btn-warning">초기화</button>
-						</div>
-					</div>
+
+							
+							<button type="button" id="destroyKanban" class="btn btn-primary">초기화</button>
+
 					<div class="top-vacant d-none d-lg-block"></div>
 					<div class="panel panel-headline demo-icons">
 						<div class="panel-heading">
@@ -293,6 +290,17 @@
 				</div>
 			</div>
 		</div>
+				<!-- END MAIN CONTENT -->
+		<div class="clearfix"></div>
+		<footer>
+			<div class="container-fluid">
+				<p class="copyright">
+					&copy; 2017 <a href="https://www.themeineed.com" target="_blank">Theme
+						I Need</a>. All Rights Reserved.
+				</p>
+			</div>
+		</footer>
+		
 	</div>
 </body>
 

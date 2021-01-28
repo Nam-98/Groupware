@@ -72,26 +72,20 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 class="page-title">My Project</h3>
-					<div class="row">
-						<div class="col-lg-10 d-none d-lg-block"></div>
-						<div class="col-lg-2 col-12">
-							<!-- Single button -->
-							<div class="btn-group">
-								<button type="button" class="btn btn-default dropdown-toggle"
-									data-toggle="dropdown" aria-haspopup="true"
-									aria-expanded="false">
-									Action <span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu">
-									<li><a href="#">Action</a></li>
-									<li><a href="#">Another action</a></li>
-									<li><a href="#">Something else here</a></li>
-									<li role="separator" class="divider"></li>
-									<li><a href="#">Separated link</a></li>
-								</ul>
-							</div>
-						</div>
+					<h3 class="page-title">My Project</h3>					
+					<div class="alert alert-warning alert-dismissible" role="alert">
+						<button type="button" class="close" data-dismiss="alert"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<strong>Notice!</strong>
+						<br><br>
+						<span class="glyphicon glyphicon-ok"
+							aria-hidden="true"></span> <span class="sr-only">Check:</span>&nbsp
+						프로젝트 생성 시, 5개의 기본 칸반이 생성됩니다.<br><br>
+						<span class="glyphicon glyphicon-ok"
+							aria-hidden="true"></span> <span class="sr-only">Check:</span>&nbsp
+						프로젝트 수정이 불가하니, 신중한 생성 부탁드립니다.
 					</div>
 					<div class="top-vacant d-none d-lg-block"></div>
 
@@ -137,7 +131,7 @@
 								</div>
 							
 							<div class="button-box">
-								<input type="button" id="addsubmit" class="btn btn-success" value="등록">
+								<input type="button" id="addsubmit" class="btn btn-primary" value="등록">&nbsp
 								<button type="button" id="addCancel" class="btn btn-secondary">취소</button>
 							</div>
 							</form>
@@ -183,7 +177,7 @@ function getReturnValue(returnValue) {
 </script>
 <script>
 $("#date2").change(function(){
-alert("값비교메서드 넣어야댐...");
+alert(" 날짜 비교 메서드 미구현 주의 ; 프로젝트는 생성됨 ");
 });
 </script>
 </html>
