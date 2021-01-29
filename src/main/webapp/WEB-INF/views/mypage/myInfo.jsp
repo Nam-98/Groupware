@@ -73,20 +73,15 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 class="page-title">마이페이지</h3>
+					<h3 class="page-title">My page</h3>
 					<div class="alert alert-warning alert-dismissible" role="alert">
 						<button type="button" class="close" data-dismiss="alert"
 							aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-						<strong>Warning!</strong> 개인정보수정은 관리자에게 문의바랍니다!!!
-					</div>
-					<div class="row">
-						<div class="col-lg-10 d-none d-lg-block"></div>
-						<div class="col-lg-2 col-12">
-							<button type="button" id="askFix" class="btn btn-warning">수정
-								요청</button>
-						</div>
+						<span class="glyphicon glyphicon-exclamation-sign"
+							aria-hidden="true"></span> <span class="sr-only">Error:</span> <strong>Warning!</strong>
+						개인정보수정은 관리자에게 문의바랍니다!!!
 					</div>
 					<div class="top-vacant d-none d-lg-block"></div>
 
@@ -96,14 +91,12 @@
 						</div>
 						<div class="panel-body">
 							<div class="col-lg-2 col-12">
-								<div class="bodyContents loginInfo">
-									<div class="profilBox d-none d-lg-block">
-										<img class="profileImg img-thumbnail" alt="${id}"
-											src="/resources/profileImage/${id}.png">
-										<div class="m-2">
-											<div class="m-2">${sessionScope.id}&nbsp&nbsp
-												${dto.position_name}님</div>
-										</div>
+								<div class="profilBox d-none d-lg-block">
+									<img class="profileImg img-thumbnail" alt="${id}"
+										src="/resources/profileImage/${id}.png">
+									<div class="m-2">
+										<div class="m-2">${sessionScope.id}&nbsp&nbsp
+											${dto.position_name}님</div>
 									</div>
 								</div>
 							</div>
@@ -149,45 +142,43 @@
 							</div>
 						</div>
 					</div>
-					<div class="maincontainer row">
-						<div class="panel panel-headline demo-icons">
-							<div class="panel-heading">
-								<h3 class="panel-title">사 원 정 보</h3>
-							</div>
-							<div class="panel-body">
-								<div class="col-lg-12 col-12">
-									<div class="bodyContents">
-										<div class="card-body">
-											<table class="table table-sm">
-												<thead>
-													<tr class="table-secondary">
-														<th scope="col">항 목</th>
-														<th scope="col">내 용</th>
-														<th scope="col">항 목</th>
-														<th scope="col">내 용</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr>
-														<th scope="row">부 서</th>
-														<td>${dto.dept_name}</td>
-														<th scope="row">직 위</th>
-														<td>${dto.position_name}</td>
-													</tr>
-													<tr>
-														<th scope="row">입 사 일</th>
-														<td>${dto.reg_date}</td>
-														<th scope="row">퇴 사 일</th>
-														<td>${dto.retire_date}</td>
-													</tr>
-													<tr>
-														<th scope="row">휴 가 일 수</th>
-														<td>${dto.break_use_count}&nbsp일&nbsp/${dto.break_total_count}
-															&nbsp일</td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
+					<div class="panel panel-headline demo-icons">
+						<div class="panel-heading">
+							<h3 class="panel-title">사 원 정 보</h3>
+						</div>
+						<div class="panel-body">
+							<div class="col-lg-12 col-12">
+								<div class="bodyContents">
+									<div class="card-body">
+										<table class="table table-sm">
+											<thead>
+												<tr class="table-secondary">
+													<th scope="col">항 목</th>
+													<th scope="col">내 용</th>
+													<th scope="col">항 목</th>
+													<th scope="col">내 용</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<th scope="row">부 서</th>
+													<td>${dto.dept_name}</td>
+													<th scope="row">직 위</th>
+													<td>${dto.position_name}</td>
+												</tr>
+												<tr>
+													<th scope="row">입 사 일</th>
+													<td>${dto.reg_date}</td>
+													<th scope="row">퇴 사 일</th>
+													<td>${dto.retire_date}</td>
+												</tr>
+												<tr>
+													<th scope="row">사용휴가일수</th>
+													<td>${dto.break_use_count}일 (전체 :
+														${dto.break_total_count} &nbsp일 )</td>
+												</tr>
+											</tbody>
+										</table>
 									</div>
 								</div>
 							</div>
@@ -210,10 +201,10 @@
 	</div>
 	<!-- END WRAPPER -->
 	<script>
-	$("#askFix").on("click", function() {
-		alert("미구현");
-	});
-</script>
+		$("#askFix").on("click", function() {
+			alert("미구현");
+		});
+	</script>
 
 </body>
 </html>

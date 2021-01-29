@@ -160,7 +160,7 @@ public class TnAService {
 	public Map<String, Object> getLeaveWorkTime(String sessionId) {
 		Date sqlDate = tdao.getLeaveWorkTime(sessionId);
 		
-		Map<String, Object> param = new HashMap<>();
+		Map<String, Object> param = new HashMap();
 		
 		if (sqlDate == null) {
 			param.put("status", "-");

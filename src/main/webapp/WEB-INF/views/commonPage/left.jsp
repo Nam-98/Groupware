@@ -13,8 +13,8 @@
                                 <a href="#subPagesApp2" data-toggle="collapse" class="collapsed"><i class="fas fa-archive"></i> <span>결재문서함</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
                                 <div id="subPagesApp2" class="collapse ">
                                     <ul class="nav">
-                                        <li><a href="#" class="">개인문서함</a></li>
-                                        <li><a href="#" class="">협조문서함</a></li>
+                                        <li><a href="/approval/toMySignListView.approval?cPage=1" class="">결재할 문서함</a></li>
+                                        <li><a href="#" class="">상신 문서함</a></li>
                                         <li><a href="#" class="">참조문서함</a></li>
                                     </ul>
                                 </div>
@@ -23,17 +23,17 @@
                     </div>
                 </li>
                 <li>
-                    <a href="#subPagesMsg1" data-toggle="collapse" class="collapsed"> <i class="fas fa-envelope"></i> <span>쪽지함</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                    <a href="#subPagesMsg1" data-toggle="collapse" class="collapsed"> <i class="fas fa-envelope"></i> <span>쪽지함<span class="badge rounded-pill bg-danger">숫자</span></span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
                     <div id="subPagesMsg1" class="collapse ">
                         <ul class="nav">
                             <li><a href="/message/writeMsg.message" class="">쪽지보내기(조직도검색)</a></li>
                             <li>
-                                <a href="#subPagesMsg2" data-toggle="collapse" class="collapsed"> <i class="fas fa-mail-bulk"></i> <span>보관함</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                                <a href="#subPagesMsg2" data-toggle="collapse" class="collapsed"> <i class="fas fa-mail-bulk"></i> <span>보관함<span class="badge rounded-pill bg-danger">숫자</span></span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
                                 <div id="subPagesMsg2" class="collapse ">
                                     <ul class="nav">
-                                        <li><a href="#" class="">수신함</a></li>
-                                        <li><a href="#" class="">발신함</a></li>
-                                        <li><a href="#" class="">보관함</a></li>
+                                        <li><a href="/message/msgInBoxList.message?cpage=1" class="">수신함<span class="badge rounded-pill bg-danger">숫자</span></a></li>
+                                        <li><a href="/message/msgOutBoxList.message?cpage=1" class="">발신함</a></li>
+                                        <li><a href="/message/msgStorageBoxList.message?cpage=1" class="">보관함</a></li>
                                     </ul>
                                 </div>
                             </li>

@@ -267,6 +267,7 @@ th{width:50px;}
 			</div>
 			<!-- END MAIN CONTENT -->
 		</div>
+		</div>
 		<!-- END MAIN -->
 		<div class="clearfix"></div>
 		<footer>
@@ -327,7 +328,7 @@ th{width:50px;}
 			})
 			//file block
 			$("#addFileBlock").on("click",function(){
-				let block = $(`<div class="input-group fileBlock" style='display:inline-flex; padding:2px;'><div class="custom-file col-sm-10" style='display:inline;'><input type="file" class="approvalFiles" name='files'></div><div class="input-group-append col-sm-2" style='display:inline;'><button class="btn btn-danger btn-sm fileDel" type="button">삭제</button></div></div>`);
+				let block = $(`<div class="input-group fileBlock" style='display:inline-flex; padding:2px;'><div class="custom-file col-sm-10" style='display:inline;'><input type="file" class="approvalFiles" name='attachedfiles'></div><div class="input-group-append col-sm-2" style='display:inline;'><button class="btn btn-danger btn-sm fileDel" type="button">삭제</button></div></div>`);
 				$(".fileContainer").append(block);
 			})
 			$(".fileContainer").on("click",".fileDel",function(){
@@ -402,7 +403,6 @@ th{width:50px;}
 				let arr${i.count}= ["${item.app_sign_type_code}","${item.app_sign_type_name}"];
 				sign_type_arr.push(arr${i.count});	
 			</c:forEach>
-			console.log(sign_type_arr);
 			////조직도에서 인원 클릭시 추가 
 			$(".modalLi").on("click",function(){
 				//이미 같은 사람이 추가되어 있는지 확인
@@ -431,7 +431,8 @@ th{width:50px;}
 				let del = $("<td class='selectedDel'>");
 					del.append($("<i class='far fa-minus-square'></i>"))
 				let order = $("<td class='selectedOrder'>");
-					order.append(index+1);
+					let ordercount = index+1;
+					order.append(ordercount);
 				let signType = $("<td class='selectTypeTd'>")
 					let sSt = $("<select class='form-control form-select-sm selectType'>");
 					for(var i=0; i<sign_type_arr.length;i++){
@@ -441,7 +442,7 @@ th{width:50px;}
 					signType.append(sSt);
 				//form으로 보낼 데이터 작성	
 				let hId = $("<input type=hidden name='approval_signDTOList["+index+"].app_sign_id' value='"+$(this).children(".modalId").val()+"' class='hId'>");
-				let hOrder = $("<input type=hidden name='approval_signDTOList["+index+"].app_sign_order' value='"+(index+1)+"' class='hOrder'>");
+				let hOrder = $("<input type=hidden name='approval_signDTOList["+index+"].app_sign_order' value='"+(ordercount)+"' class='hOrder'>");
 				let hSignType = $("<input type=hidden name='approval_signDTOList["+index+"].app_sign_type_code' value='"+0+"' class='hSignType'>");
 				block.append(order);block.append(dept);block.append(name);block.append(posi);block.append(signType);block.append(del);block.append(hId);block.append(hOrder);block.append(hSignType);
 				$("#selectedContainer").append(block);
@@ -449,6 +450,8 @@ th{width:50px;}
 				// json저장 형식 => 이름 : [id (이름으로 아이디를 찾을 수 있게):결재자(defualt값이 결재자임)]
 				sign_name_Json.push(sName);
 				sign_info_Json[sName] = [$(this).children(".modalId").val(),0];
+				
+				fnRenumbering();
 	
 			})
 			////조직도 상세 내부에서 인원 삭제
@@ -491,10 +494,8 @@ th{width:50px;}
 					console.log($(this).closest(".selectedBlock").children(".hSignType"));
 					$(this).closest(".selectedBlock").children(".hSignType").val(1)
 					$(this).closest(".selectedBlock").children(".hOrder").val(-1);
-				}else{
-					let order = $(this).closest(".selectedBlock").children(".selectedOrder");
-					order.text('0');
-					$(this).closest(".selectedBlock").children(".hSignType").val(0)
+				}else if(changed==2){
+					$(this).closest(".selectedBlock").children(".hSignType").val(2)
 				}
 				
 				//order재정립
@@ -506,14 +507,20 @@ th{width:50px;}
 			let fnRenumbering = function(obj){
 				let orderList = $(".selectedOrder");
 				let horderList = $(".hOrder");
+				let stList = $(".selectType");
 				let ordercount = 1;
 				for(var i = 0; i<orderList.length;i++){
-					//결재구분이 '결재'인 사람에 한하여 order count를 변경함.
-					 if(orderList[i].innerText!='참조'){
+					//결재구분이 '참조'인 사람을 제외하고 order를 정리한다. 
+					if(orderList[i].innerText=='참조'){continue;}
+					if(stList[i].value==2){
+						if(stList[i-1].value==2 && stList[i-1].value!=null){
+							ordercount--;
+						}
+					}
 						horderList[i].value = ordercount;
 						orderList[i].innerText = ordercount;
 						ordercount++;
-					}
+					
 				}
 			}
 			//날짜변환 yyyy-MM-dd
