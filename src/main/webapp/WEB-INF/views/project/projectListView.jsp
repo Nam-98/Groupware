@@ -69,12 +69,7 @@
 			<div class="main-content">
 				<div class="container-fluid">
 					<h3 class="page-title">My Project</h3>
-					<div class="row">
-						<div class="col-lg-11 d-none d-lg-block"></div>
-						<div class="col-lg-1 col-12">
-							<button type="button" id="addProject" class="btn btn-warning">추가</button>
-						</div>
-					</div>
+					<button type="button" id="addProject" class="btn btn-primary">추가</button>
 					<div class="top-vacant d-none d-lg-block"></div>
 
 					<div class="panel panel-headline demo-icons">
@@ -89,7 +84,7 @@
 										<th scope="col">프로젝트명</th>
 										<th scope="col">시작일</th>
 										<th scope="col">종료일</th>
-										<th scope="col">담당자</th>
+										<th scope="col">담당자(ID)</th>
 									</tr>
 								</thead>
 								<tbody>
