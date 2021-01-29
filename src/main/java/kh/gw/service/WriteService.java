@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import kh.gw.dao.WriteDAO;
 import kh.gw.dto.WriteDTO;
+import kh.gw.dto.Write_commentsDTO;
 import kh.gw.statics.BoardConfigurator;
 
 @Service
@@ -411,5 +412,17 @@ public class WriteService {
 		//------------- 갤러리 게시글 수정 후
 		public int modifyAfterGallery(WriteDTO dto) throws Exception{
 			return wdao.modifyAfterGallery(dto);
+		}
+
+		public int commentWrite(Write_commentsDTO dto) {
+			return wdao.commentWrite(dto);
+		}
+
+		public List<Write_commentsDTO> commentNow(Write_commentsDTO dto) {
+			return wdao.commentNow(dto);
+		}
+
+		public List<Write_commentsDTO> commentView(int write_seq) {
+			return wdao.commentView(write_seq);
 		}
 }

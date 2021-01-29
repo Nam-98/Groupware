@@ -28,167 +28,6 @@
 	<script src="/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 	<script src="/assets/vendor/chartist/js/chartist.min.js"></script>
 	<script src="/assets/scripts/klorofil-common.js"></script>
-<!-- 	댓글 스크립트 -->
-	<script>
-	// 필수변수들
-	var articleId = ${id};
-	var loginedMemberId = 1;
-	var loginedMemberName = '홍길동';
-	var isLogined = loginedMemberId != 0;
-
-	var Article__lastReceivedReplyId = 9;
-
-	function Article__writeReply(form) {
-	    if ( isLogined == false ) {
-	        alert('로그인 후 이용해주세요');
-	        return;
-	    }
-	    
-	    form.body.value = form.body.value.trim();
-	    
-	    if ( form.body.value.length == 0 ) {
-	        form.body.focus();
-	        
-	        alert('내용을 입력해주세요.');
-	        return;
-	    }
-	    
-	    var $form = $(form);
-	    
-	    form.body.value = '';
-	    
-	    $form.find('input[type="submit"]').val('작성중..');
-	    $form.find('input[type="submit"]').prop('disabled', true);
-	    $form.find('input[type="reset"]').prop('disabled', true);
-	}
-
-	function Article__drawReply(reply) {
-	    Article__lastReceivedReplyId = reply.id;
-	    
-	    var $tbody = $('.reply-list table > tbody');
-	    
-	    var templateHtml = $('.template-box-2 tbody').html();
-	    
-	    var 번호 = reply.id;
-	    var 작성자 = reply.writerName;
-	    var 내용 = reply.body;
-	    var 날짜 = reply.regDate.substr(2, 14);
-	    var 작성자번호 = reply.memberId;
-	    
-	    var trHtml = templateHtml;
-
-	    trHtml = replaceAll(trHtml, "{$번호}", 번호);
-	    trHtml = replaceAll(trHtml, "{$작성자}", 작성자);
-	    trHtml = replaceAll(trHtml, "{$내용}", 내용);
-	    trHtml = replaceAll(trHtml, "{$날짜}", 날짜);
-	    trHtml = replaceAll(trHtml, "{$작성자번호}", 작성자번호);
-	    
-	    $tbody.prepend(trHtml);
-	}
-
-	function Article__modifyReply(form) {
-	    form.body.value = form.body.value.trim();
-	    
-	    if ( form.body.value.length == 0 ) {
-	        form.body.focus();
-	        
-	        alert('내용을 입력해주세요.');
-	        return;
-	    }
-	    
-	    var $tr = $(form).closest('tr');
-	    
-	    $tr.attr('data-modify-mode', 'N');
-	    
-	    var newBody = form.body.value;
-	    var id = form.id.value;
-	    
-	    // 실제 서버에서 실행
-	    $tr.find(' > .reply-body-td > .modify-mode-invisible').empty().append('변경중..');
-	    
-	    $.post('./doModifyReply', {
-	        id:id,
-	        body: newBody
-	    }, function(data) {
-	        if ( data.resultCode.substr(0, 2) == 'S-' ) {
-	            $tr.find(' > .reply-body-td > .modify-mode-invisible').empty().append(newBody);
-	        }
-	        else {
-	            alert(data.msg);
-	        }
-	    }, 'json');
-	}
-
-	function Article__deleteReply(el) {
-	    if ( isLogined == false ) {
-	        alert('권한이 없습니다.');
-	        return;
-	    }
-	    
-	    var $tr = $(el).closest('tr');
-	    
-	    var id = parseInt($tr.attr('data-reply-id'));
-	    var writerId = parseInt($tr.attr('data-reply-writer-id'));
-	    
-	    if ( loginedMemberId != writerId ) {
-	        alert('권한이 없습니다.');
-	        return;
-	    }
-	    
-	    if ( confirm(id + '번 댓글을 삭제하시겠습니까?') == false ) {
-	        return;
-	    }
-	    
-	    $.post(
-	        './doDeleteReply',
-	        {
-	            id:id
-	        },
-	        function(data) {
-	            if ( data.resultCode.substr(0, 2) == 'S-' ) {
-	                $tr.remove();
-	            }
-	            else {
-	                alert(data.msg);
-	            }
-	        }
-	    );
-	}
-
-	function Article__turnOnModifyMode(el) {
-	    if ( isLogined == false ) {
-	        alert('권한이 없습니다.');
-	        return;
-	    }
-	    
-	    var $tr = $(el).closest('tr');
-	    
-	    var writerId = parseInt($tr.attr('data-reply-writer-id'));
-	    
-	    if ( loginedMemberId != writerId ) {
-	        alert('권한이 없습니다.');
-	        return;
-	    }
-	    
-	    var body = $tr.find(' > .reply-body-td > .modify-mode-invisible').html().trim();
-	    
-	    $tr.find(' > .reply-body-td > .modify-mode-visible > form > textarea').val(body);
-	    
-	    $tr.attr('data-modify-mode', 'Y');
-	    $tr.siblings('[data-modify-mode="Y"]').attr('data-modify-mode', 'N');
-	}
-
-	function Article__turnOffModifyMode(el) {
-	    var $tr = $(el).closest('tr');
-	    
-	    $tr.attr('data-modify-mode', 'N');
-	}
-
-
-	function replaceAll(str, searchStr, replaceStr) {
-	    return str.split(searchStr).join(replaceStr);
-	}
-	</script>
 	
 	<style>
 * {
@@ -297,8 +136,9 @@
 				<table class="table">
 					<thead>
 						<tr>
-							<th scope="col" class="col-7">제목 : ${dtos.write_title }</th>
-							<th scope="col" class="col-2">작성자 : ${dtos.write_id }</th>
+						 
+							<th scope="col" class="col-7">제목 : ${dtos.write_title }<input id="brWriteId" type="hidden" value="${dtos.write_seq }"></th>
+							<th scope="col" class="col-2">작성자 : ${dtos.write_id } <input id="loginId" type="hidden" value="${sessionScope.id}"></th>
 							<th scope="col" class="col-2">작성일 : ${dtos.write_reg_date }</th>
 							<th scope="col" class="col-1">조회수 : ${dtos.write_read_count }</th>
 						</tr>
@@ -327,18 +167,20 @@
                 <th>비고</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="commentsBody">
+        <c:if test="${not empty list }">
+        	<c:forEach var="i" items="${list }">
             <tr data-modify-mode="N" data-reply-id="9" data-reply-writer-id="3">
                 <td>1</td>
                 <td>
-                    21-01-26 00:00
+                   ${i.write_cmt_date }
                 </td>
                 <td>
-                    작성자
+                	${i.write_cmt_id }
                 </td>
                 <td class="reply-body-td">
                     <div class="modify-mode-invisible">
-                        댓글 어케해야하나요.......
+                   	${i.write_cmt_contents }
                     </div>
                     <div class="modify-mode-visible">
                         <form action="" onsubmit="Article__modifyReply(this); return false;">
@@ -355,34 +197,8 @@
                     <a class="modify-mode-visible" href="javascript:;" onclick="Article__turnOffModifyMode(this);">수정취소</a>
                 </td>
             </tr>
-
-            <tr data-modify-mode="N" data-reply-id="8" data-reply-writer-id="2">
-                <td>2</td>
-                <td>
-                    21-01-26 00:00
-                </td>
-                <td>
-                    작성자2
-                </td>
-                <td class="reply-body-td">
-                    <div class="modify-mode-invisible">
-                        우웩 댓글 토나와
-                    </div>
-                    <div class="modify-mode-visible">
-                        <form action="" onsubmit="Article__modifyReply(this); return false;">
-                            <input type="hidden" name="id" value="8">
-                            <textarea maxlength="300" name="body"></textarea>
-                            <input type="submit" value="수정완료">
-                            <a href="javascript:;" onclick="Article__turnOffModifyMode(this);">수정취소</a>
-                        </form>
-                    </div>
-                </td>
-                <td>
-                    <a href="javascript:;" onclick="Article__deleteReply(this, 8);">삭제</a>
-                    <a class="modify-mode-invisible" href="javascript:;" onclick="Article__turnOnModifyMode(this);">수정</a>
-                    <a class="modify-mode-visible" href="javascript:;" onclick="Article__turnOffModifyMode(this);">수정취소</a>
-                </td>
-            </tr>
+            </c:forEach>
+      </c:if>
         </tbody>
     </table>
 </div>
@@ -420,7 +236,6 @@
 </div>
 <br>
 <div class="reply-write con">
-			    <form action="" onsubmit="Article__writeReply(this); return false;">
 			        <table>
 			            <colgroup>
 			                <col width="100">
@@ -430,20 +245,19 @@
 			                    <th>내용</th>
 			                    <td>
 			                        <div>
-			                            <textarea placeholder="내용을 입력해주세요." name="body" maxlength="300"></textarea>
+			                            <textarea id="brWriteArea" placeholder="내용을 입력해주세요." name="body" maxlength="300"></textarea>
 			                        </div>
 			                    </td>
 			                </tr>
 			                <tr>
 			                    <th>작성</th>
 			                    <td>
-			                        <input type="submit" value="작성">
-			                        <input type="reset" value="취소">
+			                        <button id="brWrite" type="button">작성</button>
+			                        <button id="brReset" type="button">취소</button>
 			                    </td>
 			                </tr>
 			            </tbody>
 			        </table>
-			    </form>
 			</div>
 				<div class="btn">
 					<button id="list" class="btn pull-left btn-primary">목록으로</button>
@@ -464,9 +278,70 @@
 		</footer>
 	</div>
 	
-	
 	<!-- END WRAPPER -->
 <script>
+	$('#brWrite').click(function() {
+		var brText = $('#brWriteArea').val();
+		var id = $('#brWrite').parent().parent().parent().parent().parent().parent().find('#loginId').val();
+		var bId = $('#brWrite').parent().parent().parent().parent().parent().parent().find('#brWriteId').val();
+		var insertCommentArea = $("#commentsBody");
+		console.log(id);
+		console.log(bId);
+		console.log(brText);
+		console.log(insertCommentArea);
+		
+		if(!brText){
+			console.log('내용을 입력해 주세요');
+		
+			
+		}else{
+			$.ajax({
+				url : "${pageContext.request.contextPath}/write/commentWrite.write",
+				method : 'POST',
+				dataType: 'json',
+				data : {
+					write_seq : bId,
+					write_cmt_id : id,
+					write_cmt_contents : brText
+				},
+				success : function(data) {
+				console.log(data.cmtList[0].write_cmt_contents);
+				console.log(data.cmtList[0].write_cmt_date);
+				console.log(data.cmtList[0].write_cmt_id);
+				console.log(data.cmtList[0].write_cmt_seq);
+				insertCommentArea.append(
+						 '<tr data-modify-mode="N" data-reply-id="9" data-reply-writer-id="3">'
+			                +'<td>1</td>'
+			                +'<td>'
+			                +data.cmtList[0].write_cmt_date
+			                +'</td>'
+			                +'<td>'
+			                 +data.cmtList[0].write_cmt_id
+			                +'</td>'
+			                +'<td class="reply-body-td">'
+			                +'    <div class="modify-mode-invisible">'
+			                    +data.cmtList[0].write_cmt_contents
+			                    +'<input type="hidden" name="cmt_seq" value="'+data.cmtList[0].write_cmt_seq+'"></div>'
+			                +'</td>'
+			                +'<td>'
+			                 +'   <a href="javascript:;">삭제</a>'
+			                  +'  <a class="modify-mode-invisible" href="javascript:;">수정</a>'
+			                +  '  <a class="modify-mode-visible" href="javascript:;">수정취소</a>'
+			            +   ' </td>'
+			        +  '  </tr> '
+				);
+				
+				
+	
+				},
+				error : function(data) {
+					console.log('컨트롤러 못가');
+				}
+			}) 
+			
+		}
+	})
+
 	document.getElementById("list").onclick=function(){
 		location.href="/write/boardList.write?cpage=1"
 	}

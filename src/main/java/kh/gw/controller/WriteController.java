@@ -1,16 +1,25 @@
 package kh.gw.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.google.gson.Gson;
 
 import kh.gw.dto.WriteDTO;
+import kh.gw.dto.Write_commentsDTO;
 import kh.gw.service.WriteService;
 
 @Controller
@@ -124,13 +133,16 @@ public class WriteController {
 
 	//------------ 회사 게시판 제목 눌렀을 때 상세 게시판
 	@RequestMapping("boardView.write")
-	public String boardView(Model m, HttpServletRequest request, WriteDTO dto) throws Exception{
+	public String boardView(Model m, HttpServletRequest request, WriteDTO dto, Write_commentsDTO cdto) throws Exception{
 		dto.setWrite_seq(Integer.parseInt(request.getParameter("write_seq")));
 		WriteDTO dtos = wservice.noticeView(dto.getWrite_seq());
-
 		int result = wservice.addViewCount(dto.getWrite_seq()); // 조회수+1
-
+		cdto.setWrite_seq(Integer.parseInt(request.getParameter("write_seq")));
+		List<Write_commentsDTO> list = new ArrayList<Write_commentsDTO>();
+		list = wservice.commentView(cdto.getWrite_seq());
+		
 		m.addAttribute("dtos", dtos);
+		m.addAttribute("list", list);
 		return "/write/boardview";
 	}
 	//----------- 회사 게시판 글 찾기
@@ -266,5 +278,20 @@ public class WriteController {
 	public String modifyAfterGallery(WriteDTO dto) throws Exception{
 		int result = wservice.modifyAfterGallery(dto);
 		return "redirect:/write/boardGalleryList.write?cpage=1";
+	}
+	
+	//------------- 댓글 만들기
+	@RequestMapping(value = "commentWrite.write", method = RequestMethod.POST)
+	@ResponseBody
+	public Object commentWrite(Write_commentsDTO dto, HttpServletRequest request, HttpServletResponse response){
+		Gson gson = new Gson();
+		int result = wservice.commentWrite(dto);
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<Write_commentsDTO> list = new ArrayList<Write_commentsDTO>();
+		list = wservice.commentNow(dto);
+		map.put("cmtList", list);
+		String a = gson.toJson(map);
+		System.out.println(a);
+		return a;
 	}
 }
