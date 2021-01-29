@@ -39,144 +39,182 @@
 <script src="/assets/scripts/klorofil-common.js"></script>
 <!-- 제이쿼리 -->
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<!-- jqxtree  -->
+<link rel="stylesheet"
+	href="/resources/lib/jqwidgets/styles/jqx.base.css" type="text/css" />
+<script type="text/javascript"
+	src="/resources/lib/scripts/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/resources/lib/jqwidgets/jqxcore.js"></script>
+<script type="text/javascript"
+	src="/resources/lib/jqwidgets/jqxbuttons.js"></script>
+<script type="text/javascript"
+	src="/resources/lib/jqwidgets/jqxscrollbar.js"></script>
+<script type="text/javascript"
+	src="/resources/lib/jqwidgets/jqxpanel.js"></script>
+<script type="text/javascript" src="/resources/lib/jqwidgets/jqxtree.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		// Create jqxTree
+		$('#jqxTree').jqxTree({
+			height : '500px',
+			width : '120px'
+		});
+		$('#jqxTree').bind('select', function(event) {
+			var htmlElement = event.args.element;
+			var item = $('#jqxTree').jqxTree('getItem', htmlElement);
+		});
+	});
+</script>
 </head>
 <style>
-<
-style>.orgTree {
+.top-vacant {
+	width: 100%;
+	height: 20px;
+	/* 	background-color: yellow; */
+}
+
+.panel-body {
+	text-align: center;
+}
+
+.orgTree {
 	width: 20%;
-	height: 650px;
 	float: left;
 }
 
 .orgInfo {
+	margin-left: 20px; padding-left : 20px;
 	width: 80%;
-	height: 650px;
 	float: left;
+	padding-left: 20px;
+}
+
+.table table-sm {
+	width: 100%;
 }
 
 li>a {
 	color: black;
 	text-decoration: none;
 }
-/* Remove default bullets */
-ul, #myUL1 {
-	list-style-type: none;
-}
 
-/* Remove margins and padding from the parent ul */
-#myUL1 {
-	margin: 0;
-	padding: 0;
-	position: fixed;
-	width: 200px;
+.profilBox>img {
+	width: 100%;
 	height: 100%;
 }
 
-/* Style the caret/arrow */
-.caret1 {
-	cursor: pointer;
-	user-select: none; /* Prevent text selection */
+.profilBox {
+	width: 130px;
+	height: 200px;
+	text-align: center;
 }
 
-/* Create the caret/arrow with a unicode, and style it */
-.caret1::before {
-	content: "\25B6";
-	color: black;
-	display: inline-block;
-	margin-right: 6px;
-}
-
-/* Rotate the caret/arrow icon when clicked on (using JavaScript) */
-.caret-down1::before {
-	transform: rotate(90deg);
-}
-
-/* Hide the nested list */
-.nested1 {
-	display: none;
-}
-
-/* Show the nested list when the user clicks on the caret/arrow (with JavaScript) */
-.active1 {
-	display: block;
+.demo-icons li {
+	margin-bottom: 0px;
+	text-align: left;
 }
 </style>
 <body>
 	<!-- WRAPPER -->
 	<div id="wrapper">
-			<!-- MAIN CONTENT -->
-			<div class="main-content">
-				<div class="container-fluid">
-					<div class="panel panel-headline demo-icons">
-						<div class="panel-heading">
-							<h3 class="panel-title">담당자(ID) 검색</h3>
+		<!-- MAIN CONTENT -->
+		<div class="main-content">
+			<div class="container-fluid">
+				<div class="panel panel-headline demo-icons">
+					<div class="panel-heading">
+						<h3 class="panel-title">담당자(ID) 검색</h3>
+					</div>
+					<div class="panel-body">
+						<input type="text" id="pmName" readonly value="${dto.name}"><input
+							type="text" id="pmId" readonly value="${dto.id}">
+						<button id="returnButton" class="btn btn-primary">선택</button>
+					</div>
+					<div class="panel-body">
+						<h3>조직도</h3>
+						<hr>
+						<div class="orgTree" id='jqxTree'>
+							<ul>
+								<c:forEach items="${dlist}" var="i">
+									<li item-expanded='true'>${i.dept_name}
+										<ul>
+											<c:forEach items="${mlist}" var="j">
+												<c:if test="${j.dept_code == i.dept_code}">
+													<li class="memberList" id="${j.name}"><a
+														href="/member/orgProMemInfo.member?id=${j.id}">${j.name}</a></li>
+												</c:if>
+											</c:forEach>
+										</ul>
+									</li>
+								</c:forEach>
+							</ul>
 						</div>
-						<div class="panel-body">
-							<input type="text" id="pmName" readonly> <input
-								type="text" id="pmId" readonly>
-							<button id="returnButton">선택</button>
-						</div>
-						<div class="panel-body">
-							<div class="orgTree">
-								<ul id="myUL1">
-									<c:forEach items="${dlist}" var="i">
-										<li><span class="caret1">${i.dept_name}</span>
-											<ul class="nested1">
-												<c:forEach items="${mlist}" var="j">
-													<c:if test="${j.dept_code == i.dept_code}">
-														<li class="memberList" id="${j.name}">${j.name}</li>
-														<script>
-														$("#${j.name}").on("click", function(){
-														document.getElementById("pmName").value="${j.name}";
-														document.getElementById("pmId").value="${j.id}";
-														});
-														</script>
-													</c:if>
-												</c:forEach>
-											</ul></li>
-									</c:forEach>
-								</ul>
+						<div class="orgInfo well">
+							<div class="profilBox d-none d-lg-block">
+								<img class="profileImg img-thumbnail" alt="${dto.id}"
+									src="/resources/profileImage/${dto.id}.png">
+							</div>
+							<div class="top-vacant d-none d-lg-block"></div>
+							<div class="bodyContents">
+								<table class="table table-sm">
+									<thead>
+										<tr class="table-secondary">
+											<th scope="col">항 목</th>
+											<th scope="col">내 용</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<th scope="row">이 름</th>
+											<td>${dto.name}</td>
+										</tr>
+										<tr>
+											<th scope="row">연 락 처</th>
+											<td>${dto.contact}</td>
+										</tr>
+										<tr>
+											<th scope="row">생 년 월 일</th>
+											<td>${dto.birth}</td>
+										</tr>
+										<tr>
+											<th scope="row">부 서</th>
+											<td>${dto.dept_name}</td>
+										</tr>
+										<tr>
+											<th scope="row">직 위</th>
+											<td>${dto.position_name}</td>
+										</tr>
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<!-- END MAIN CONTENT -->
-		<div class="clearfix"></div>
-		<footer>
-			<div class="container-fluid">
-				<p class="copyright">
-					&copy; 2017 <a href="https://www.themeineed.com" target="_blank">Theme
-						I Need</a>. All Rights Reserved.
-				</p>
-			</div>
-		</footer>
+		</div>
+	<!-- END MAIN CONTENT -->
+	<div class="clearfix"></div>
+	<footer>
+		<div class="container-fluid">
+			<p class="copyright">
+				&copy; 2017 <a href="https://www.themeineed.com" target="_blank">Theme
+					I Need</a>. All Rights Reserved.
+			</p>
+		</div>
+	</footer>
 	</div>
 </body>
-<script>
-var toggler = document.getElementsByClassName("caret1");
-var i;
-
-for (i = 0; i < toggler.length; i++) {
-	console.log(toggler.length);
-  toggler[i].addEventListener("click", function() {
-    this.parentElement.querySelector(".nested1").classList.toggle("active1");
-    this.classList.toggle("caret-down1");
-  });
-}
-</script>
 
 <script>
-$('#returnButton').click(function() {
-	  var returnValueName = document.getElementById('pmName').value;
-	  var returnValueId = document.getElementById('pmId').value;
-	  var returnValue = {
-			  key1:returnValueName,
-			  key2:returnValueId
-	  };
-	  
-	  window.opener.getReturnValue(JSON.stringify(returnValue));
-	  window.close();
+	$('#returnButton').click(function() {
+		var returnValueName = document.getElementById('pmName').value;
+		var returnValueId = document.getElementById('pmId').value;
+		var returnValue = {
+			key1 : returnValueName,
+			key2 : returnValueId
+		};
+
+		window.opener.getReturnValue(JSON.stringify(returnValue));
+		window.close();
 	});
 </script>
 </html>

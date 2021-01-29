@@ -74,13 +74,13 @@
 			<div class="main-content">
 				<div class="container-fluid">
 					<h3 class="page-title">My Project : ${pdto.pro_title}</h3>
-					<div class="row">
-						<div class="col-lg-9 d-none d-lg-block"></div>
-						<div class="col-lg-3 col-12">
-							<button type="button" id="gokanban" class="btn btn-success">칸반보드</button>
-							<button type="button" id="deletepro" class="btn btn-secondary">삭제</button>
-						</div>
-					</div>
+					<button type="button" id="gokanban" class="btn btn-primary">
+						<span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>
+						<span class="sr-only">Check:</span>칸반보드
+					</button>
+
+					<button type="button" id="deletepro" class="btn btn-secondary">삭제</button>
+
 					<div class="top-vacant d-none d-lg-block"></div>
 
 					<div class="panel panel-headline demo-icons">
@@ -106,69 +106,114 @@
 									</tr>
 									<tr>
 										<th scope="row">일 자 (전체 : ${proTerm} 일)</th>
-										<td>${pdto.pro_start_date_str}~${pdto.pro_end_date_str}</td>
+										<td>${pdto.pro_start_date_str}&nbsp&nbsp~&nbsp&nbsp${pdto.pro_end_date_str}</td>
 									</tr>
 								</tbody>
 							</table>
 						</div>
 					</div>
+
 					<div class="panel panel-headline demo-icons">
 						<div class="panel-heading">
 							<h3 class="panel-title">프 로 젝 트 전 체 진 행 률</h3>
 						</div>
 						<div class="panel-body">
-							<div class="panel panel-primary">
-								<div class="panel-heading">
-									<h3 class="panel-title">시간경과율</h3>
+							<div class="well"><h4>시간경과율</h4><hr>
+							
+								<div class="progress">
+									<div
+										class="progress-bar progress-bar-primary progress-bar-striped active"
+										role="progressbar" aria-valuenow="${timeRate}"
+										aria-valuemin="0" aria-valuemax="100"
+										style="width: ${timeRate}%"></div>
 								</div>
-								<div class="panel-body">
-									<div class="progress">
-										<div
-											class="progress-bar progress-bar-success progress-bar-striped active"
-											role="progressbar" aria-valuenow="${timeRate}"
-											aria-valuemin="0" aria-valuemax="100"
-											style="width: ${timeRate}%"></div>
-									</div>
-									<br> 시간 경과율 : ${timeRate} <br> 시간 경과율 : {(프로젝트
-									마감일-오늘) / (프로젝트 전체 기간)} * 100
-								</div>
+								<table class="table">
+								<thead>
+									<tr class="table-secondary">
+										<th scope="col">시간 경과율</th>
+										<th scope="col">${timeRate} %</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row">계산식</th>
+										<td>{(마감일-오늘) / (전체 기간)} * 100</td>
+									</tr>
+								</tbody>
+							</table>
 							</div>
 
-							<div class="panel panel-primary">
-								<div class="panel-heading">
-									<h3 class="panel-title">프로젝트진행률</h3>
+							<div class="well"><h4>과제진행률</h4><hr>
+								<div class="progress">
+									<div
+										class="progress-bar progress-bar-primary progress-bar-striped active"
+										role="progressbar" aria-valuenow="${projectRate}"
+										aria-valuemin="0" aria-valuemax="100"
+										style="width: ${projectRate}%"></div>
 								</div>
-								<div class="panel-body">
-									<div class="progress">
-										<div
-											class="progress-bar progress-bar-success progress-bar-striped active"
-											role="progressbar" aria-valuenow="${projectRate}"
-											aria-valuemin="0" aria-valuemax="100"
-											style="width: ${projectRate}%"></div>
-									</div>
-									<br> 전체 진행률 : ${projectRate} <br> 전체 진행률 :
-									{(완료kanban)+0.5*(진행중kanban) / (전체kanban-중지kanban)} * 100 <br>
-									진행상태없음 : ${list.get(0)}<br> 시작 전 : ${list.get(1)}<br>
-									진행 중 : ${list.get(2)}<br> 완 료 : ${list.get(3)}<br> 중
-									지 : ${list.get(4)}
-								</div>
+								
+								<table class="table">
+								<thead>
+									<tr class="table-secondary">
+										<th scope="col">과제 진행률</th>
+										<th scope="col">${projectRate} %</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row">계산식</th>
+										<td>{ ( 완료 <span class="glyphicon glyphicon-tasks" aria-hidden="true"></span> ) + 0.5 * ( 진행중 <span class="glyphicon glyphicon-tasks" aria-hidden="true"></span> ) / ( 전체 <span class="glyphicon glyphicon-tasks" aria-hidden="true"></span> - 중지 <span class="glyphicon glyphicon-tasks" aria-hidden="true"></span> ) } * 100</td>
+									</tr>
+								</tbody>
+							</table>
+							<br>
+								<table class="table table-sm">
+								<thead>
+									<tr class="table-secondary">
+										<th scope="col">진행상태</th>
+										<th scope="col">갯수</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td scope="row">진행상태없음</td>
+										<td>${list.get(0)}
+									</tr>
+									<tr>
+										<td scope="row">시작 전</td>
+										<td>${list.get(1)}
+									</tr>
+									<tr>
+										<td scope="row">진행 중</td>
+										<td>${list.get(2)}
+									</tr>																		
+									<tr>
+										<td scope="row">완 료</td>
+										<td>${list.get(3)}
+									</tr>
+									<tr>
+										<td scope="row">중 지</td>
+										<td>${list.get(4)}
+									</tr>
+								</tbody>
+							</table>
 							</div>
 						</div>
 					</div>
 				</div>
-				<!-- END MAIN CONTENT -->
 			</div>
-			<!-- END MAIN -->
-			<div class="clearfix"></div>
-			<footer>
-				<div class="container-fluid">
-					<p class="copyright">
-						&copy; 2017 <a href="https://www.themeineed.com" target="_blank">Theme
-							I Need</a>. All Rights Reserved.
-					</p>
-				</div>
-			</footer>
+			<!-- END MAIN CONTENT -->
 		</div>
+		<!-- END MAIN -->
+		<div class="clearfix"></div>
+		<footer>
+			<div class="container-fluid">
+				<p class="copyright">
+					&copy; 2017 <a href="https://www.themeineed.com" target="_blank">Theme
+						I Need</a>. All Rights Reserved.
+				</p>
+			</div>
+		</footer>
 	</div>
 	<!-- END WRAPPER -->
 	<script>
