@@ -7,6 +7,40 @@
 #calendar{
 	width: 100%;
 }
+.panel-body div{
+	border: 1px solid black;
+}
+.tableBox{
+	width: 100%;
+	height: 280px;
+}
+.tableLine{
+	width: 100%;
+	height: 12%;
+}
+.tableLine>.tableTitle{
+	float: left;
+	width: 15%;
+	height: 100%;
+	text-align: center;
+}
+.tableLine>.tableValue{
+	float: left;
+	width: 85%;
+	height: 100%;
+}
+.tableReason{
+	height: 64%;
+}
+.tableValue>textarea{
+	resize: none;
+	width: 100%;
+	height: 100%;
+}
+
+.buttonBox{
+	text-align: right;
+}
 </style>
 <head>
 <meta charset="UTF-8">
@@ -38,17 +72,17 @@
 	<!-- WRAPPER -->
 	<div id="wrapper">
 		<!-- NAVBAR -->
-		<nav class="navbar navbar-default navbar-fixed-top">
-			<jsp:include page="/WEB-INF/views/commonPage/top.jsp" />
-		</nav>
+<!-- 		<nav class="navbar navbar-default navbar-fixed-top"> -->
+<%-- 			<jsp:include page="/WEB-INF/views/commonPage/top.jsp" /> --%>
+<!-- 		</nav> -->
 		<!-- END NAVBAR -->
 		<!-- LEFT SIDEBAR -->
-		<div class="sidebar" id="sidebar-nav">
-			<jsp:include page="/WEB-INF/views/commonPage/left.jsp" />
-		</div>
+<!-- 		<div class="sidebar" id="sidebar-nav"> -->
+<%-- 			<jsp:include page="/WEB-INF/views/commonPage/left.jsp" /> --%>
+<!-- 		</div> -->
 		<!-- END LEFT SIDEBAR -->
 		<!-- MAIN -->
-		<div class="main">
+<!-- 		<div class="main"> -->
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
@@ -59,7 +93,34 @@
 							<h3 class="panel-title">근 태 조 정 신 청</h3>
 						</div>
 						<div class="panel-body">
-							내용넣기
+							<form action="">
+								<div class="tableBox">
+									<div class="tableLine">
+										<div class="tableTitle">신청 날짜</div>
+										<div class="tableValue">xxxx년 x월 x일 (n요일)</div>
+									</div>
+									<div class="tableLine">
+										<div class="tableTitle">현재 상태</div>
+										<div class="tableValue">STATUS (xxxx/x/x/n)</div>
+									</div>
+									<div class="tableLine">
+										<div class="tableTitle">변경요청 상태</div>
+										<div class="tableValue">
+											<select></select>
+										</div>
+									</div>
+									<div class="tableLine tableReason">
+										<div class="tableTitle">사유</div>
+										<div class="tableValue">
+											<textarea></textarea>
+										</div>
+									</div>
+								</div>
+								<div class="buttonBox">
+									<input type="submit" class="btn btn-primary btn-xs" value="신청하기">
+									<input type="button" class="btn btn-gray btn-xs" value="취소">
+								</div>
+							</form>
 						</div>
 					</div>
 
@@ -67,7 +128,7 @@
 				</div>
 			</div>
 			<!-- END MAIN CONTENT -->
-		</div>
+<!-- 		</div> -->
 		<!-- END MAIN -->
 		<div class="clearfix"></div>
 		<footer>
