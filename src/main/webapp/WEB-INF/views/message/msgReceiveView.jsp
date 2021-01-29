@@ -76,7 +76,7 @@
 					<thead>
 						<tr>
 							<th scope="col" class="col-7">제목 : ${mdto.msg_title }</th>
-							<th scope="col" class="col-2">발신자 : ${mdto.msg_sender }</th>
+							<th scope="col" class="col-2">발신자 : ${mdto.msg_sender_name }</th>
 							<th scope="col" class="col-2">발신일 : ${mdto.msg_send_date }</th>
 							<th scope="col" class="col-1">수신일 : ${mdto.msg_receive_date }</th>
 						</tr>
@@ -86,7 +86,12 @@
 							<td class="contents" colspan="4">${mdto.msg_contents }</td>
 						</tr>
 						<tr>
-							<td class="file" colspan="4">파일공간이야~~</td>
+							<td class="file" colspan="4">
+								첨부 파일 : 
+								<c:forEach items="${attlist }" var="i">
+									<a href = "/message/attFilesDown.message?msg_seq=${i.msg_seq }&msg_ori_name=${i.msg_ori_name}&msg_saved_name=${i.msg_saved_name}">${i.msg_ori_name}</a>
+								</c:forEach>
+							</td>
 						</tr>	
 					</tbody>
 				</table>
@@ -116,7 +121,7 @@
 	}
 	
 	document.getElementById("reply").onclick = function() {
-		location.href = "/message/msgReply.message?msg_sender=${mdto.msg_sender }&msg_receiver=${mdto.msg_receiver}";
+		location.href = "/message/msgReply.message?msg_sender_name=${mdto.msg_sender_name }&msg_receiver_name=${mdto.msg_receiver_name}&msg_receiver=${mdto.msg_receiver}";
 	}
 </script>
 </body>

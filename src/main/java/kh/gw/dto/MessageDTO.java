@@ -1,6 +1,9 @@
 package kh.gw.dto;
 
 import java.sql.Date;
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 public class MessageDTO {
 	private int msg_seq;
@@ -12,11 +15,13 @@ public class MessageDTO {
 	private String msg_contents;
 	private String msg_sender_name;
 	private String msg_receiver_name;
+	private List<MultipartFile> attfiles;
 	
 	public MessageDTO() {}
 
 	public MessageDTO(int msg_seq, String msg_sender, String msg_receiver, Date msg_send_date, Date msg_receive_date,
-			String msg_title, String msg_contents, String msg_sender_name, String msg_receiver_name) {
+			String msg_title, String msg_contents, String msg_sender_name, String msg_receiver_name,
+			List<MultipartFile> attfiles) {
 		super();
 		this.msg_seq = msg_seq;
 		this.msg_sender = msg_sender;
@@ -27,6 +32,7 @@ public class MessageDTO {
 		this.msg_contents = msg_contents;
 		this.msg_sender_name = msg_sender_name;
 		this.msg_receiver_name = msg_receiver_name;
+		this.attfiles = attfiles;
 	}
 
 	public int getMsg_seq() {
@@ -100,6 +106,19 @@ public class MessageDTO {
 	public void setMsg_receiver_name(String msg_receiver_name) {
 		this.msg_receiver_name = msg_receiver_name;
 	}
+
+	public List<MultipartFile> getAttfiles() {
+		return attfiles;
+	}
+
+	public void setAttfiles(List<MultipartFile> attfiles) {
+		this.attfiles = attfiles;
+	}
+
+	
+
+	
+	
 	
 	
 	

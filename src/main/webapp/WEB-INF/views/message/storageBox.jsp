@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>보관함</title>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <!-- 아이콘 fontawesome -->
     <script src="https://kit.fontawesome.com/b1e233372d.js"></script>
@@ -53,8 +53,8 @@
   					<button type="button" class="btn btn-primary">삭제</button>
 					</div>
 					<div class="btn-group-ml" role="group">
-  					<button type="button" class="btn btn-primary" id="btnIn">수신</button>
-  					<button type="button" class="btn btn-primary" id="btnOut">발신</button>
+  					<button type="button" class="btn btn-secondary" id="btnIn">수신</button>
+  					<button type="button" class="btn btn-secondary" id="btnOut">발신</button>
 					</div>
 					<table class="table table-secondary table-striped" id="inBox">
 					<thead class="table-light">
@@ -98,7 +98,7 @@
 							<th scope="col">
 							<div class="input-group" style="width:5%;">
 							<span class="input-group-addon">
-        					<input type="checkbox" aria-label="...">
+        					<input type="checkbox" aria-label="..." class="checkAll">
       						</span>
       						</div>
       						</th>
@@ -114,7 +114,7 @@
 								<th scope="col">
 								<div class="input-group" style="width:5%;">
 								<span class="input-group-addon">
-        						<input type="checkbox" aria-label="...">
+        						<input type="checkbox" aria-label="..." class="chk">
       							</span>
       							</div>
       							</th>
@@ -156,6 +156,12 @@
 			$("#naviOut").css("display","block");
 		})
 	</script>
-	
+	<script>
+		$(document).ready(function(){
+			$(".checkAll").click(function(){
+				$(".chk").prop("checked",this.checked);
+			})
+		})
+	</script>
 </body>
 </html>

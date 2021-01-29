@@ -5,7 +5,7 @@
   <mapper namespace="Message">
   
   	<insert id="msgProc">
-  		insert into st.message values(st.message_seq.nextval,#{msg_sender},#{msg_receiver},sysdate,null,#{msg_title},#{msg_contents})
+  		insert into st.message values(st.message_seq.nextval,#{msg_sender},#{msg_receiver},sysdate,null,#{msg_title},#{msg_contents},#{msg_sender_name},#{msg_receiver_name})
   	</insert>
   	
   	<select id="msgInBoxList" resultType="kh.gw.dto.MessageDTO">
@@ -23,5 +23,21 @@
   	<delete id="msgDelete">
   		delete from st.message where msg_seq = #{value}
   	</delete>
+  	
+  	<select id="getLatestSeqById" resultType="int">
+  		select max(msg_seq) from st.message where msg_sender=#{id} order by msg_seq desc
+  	</select>
+  	
+  	<insert id="msgFiles">
+  		insert into st.message_attached_files values(#{msg_seq},#{msg_ori_name},#{msg_saved_name})
+  	</insert>
+  	
+  	<select id="attFilesAll" resultType="kh.gw.dto.Message_attached_filesDTO">
+  		select * from st.message_attached_files where msg_seq = #{value}
+  	</select>
+  	
+  	<select id="msgOutBoxList" resultType="kh.gw.dto.MessageDTO">
+  		select * from st.message where msg_sender = #{value}
+  	</select>
   	
   </mapper>

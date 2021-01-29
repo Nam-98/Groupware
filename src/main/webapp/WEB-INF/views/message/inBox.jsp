@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>수신함</title>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <!-- 아이콘 fontawesome -->
     <script src="https://kit.fontawesome.com/b1e233372d.js"></script>
@@ -60,7 +60,7 @@
 							<th scope="col">
 							<div class="input-group" style="width:5%;">
 							<span class="input-group-addon">
-        					<input type="checkbox" aria-label="...">
+        					<input type="checkbox" aria-label="..." class="checkAll">
       						</span>
       						</div>
       						</th>
@@ -76,12 +76,12 @@
 								<th scope="col">
 								<div class="input-group" style="width:5%;">
 								<span class="input-group-addon">
-        						<input type="checkbox" aria-label="...">
+        						<input type="checkbox" aria-label="..." class="chk">
       							</span>
       							</div>
       							</th>
 								<td><a href="/message/msgReceiveView.message?msg_seq=${i.msg_seq}">${i.msg_title }</a></td>
-								<td>${i.msg_sender }</td>
+								<td>${i.msg_sender_name }</td>
 								<td>${i.msg_send_date }</td>
 								<td>${i.msg_receive_date }</td>
 							</tr>
@@ -103,5 +103,12 @@
 		</footer>
 	</div>
 	<!-- END WRAPPER -->
+	<script>
+		$(document).ready(function(){
+			$(".checkAll").click(function(){
+				$(".chk").prop("checked",this.checked);
+			})
+		})
+	</script>
 </body>
 </html>

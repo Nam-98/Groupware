@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>쪽지 쓰기</title>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <!-- 아이콘 fontawesome -->
     <script src="https://kit.fontawesome.com/b1e233372d.js"></script>
@@ -153,22 +153,22 @@ ul, #myUL1 {
 			    	<h3 style="text-align: left;">쪽지 쓰기</h3><br>
 
 <div style="width: 80%;">
-	<form method="post" action="/message/msgProc.message?receiveId=${dto.id }">
+	<form method="post" enctype="multipart/form-data" action="/message/msgProc.message?msg_receiver=${dto.id }">
 		<div>
-		받는 사람 : <input type="text" name="receiver" style="width: 90%;" value="${dto.name} (${dto.dept_name})" readonly/></div><br>
+		받는 사람 : <input type="text" name="msg_receiver_name" style="width: 90%;" value="${dto.dept_name}  ${dto.name} " readonly/></div><br>
 		<div>
-		보낸 사람 : <input type="text" name="sender" style="width: 90%;" value="${myInfo.NAME} (${myInfo.DEPT_NAME})" readonly/></div>
+		보낸 사람 : <input type="text" name="msg_sender_name" style="width: 90%;" value="${myInfo.DEPT_NAME}  ${myInfo.NAME} " readonly/></div>
 		<br>
 		<div>
-		제목 : <input type="text" name="title" style="width: 90%;"/></div>
+		제목 : <input type="text" placeholder="제목을 입력하시오." name="msg_title" style="width: 93%;"/></div>
 		<br>
-		<textarea id="summernote" name="contents"></textarea>
+		<textarea id="summernote" name="msg_contents" placeholder="내용을 입력하시오."></textarea>
 		
-		<div class="input-group" style="width: 90%;">
-  		<input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" style="width: 90%;"> 
+		<div class="input-group" style="width: 100%;">
+  		<input type="file" class="form-control" name="attfiles" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" style="width: 100%;"> 
 		</div>
 		
-		<input id="subBtn" type="submit" value="보내기" style="float: right;" onclick="goWrite(this.form)"/>
+		<input id="subBtn" class="btn btn-primary" type="submit" value="보내기" style="float: right;" onclick="goWrite(this.form)"/>
 	</form>
 </div>
 			    </div>

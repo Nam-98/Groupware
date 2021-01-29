@@ -153,11 +153,11 @@ ul, #myUL1 {
 			    	<h3 style="text-align: left;">쪽지 쓰기</h3><br>
 
 <div style="width: 80%;">
-	<form method="post" action="/message/msgProc.message?receiveId=${dto.id }">
+	<form method="post" action="/message/msgProc.message?receiveId=${msg_receiver }">
 		<div>
-		받는 사람 : <input type="text" name="receiver" style="width: 90%;" value="${msg_receiver}" readonly/></div><br>
+		받는 사람 : <input type="text" name="receiver" style="width: 90%;" value="${msg_receiver_name}" readonly/></div><br>
 		<div>
-		보낸 사람 : <input type="text" name="sender" style="width: 90%;" value="${msg_sender}" readonly/></div>
+		보낸 사람 : <input type="text" name="sender" style="width: 90%;" value="${msg_sender_name}" readonly/></div>
 		<br>
 		<div>
 		제목 : <input type="text" name="title" style="width: 90%;"/></div>

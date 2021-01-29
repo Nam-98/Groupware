@@ -1,21 +1,28 @@
 package kh.gw.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import kh.gw.dto.DepartmentDTO;
 import kh.gw.dto.MemberDTO;
 import kh.gw.dto.MessageDTO;
+import kh.gw.dto.Message_attached_filesDTO;
 import kh.gw.service.MemberService;
 import kh.gw.service.MessageService;
 
@@ -59,18 +66,42 @@ public class MessageController {
 	
 	//보낸 메세지 DB에 저장
 	@RequestMapping("msgProc.message")
-	public String msgProc(HttpServletRequest request, Model m) throws Exception{
-		String msg_sender = (String)session.getAttribute("id");
-		String msg_receiver = request.getParameter("receiveId");
-		String msg_title = request.getParameter("title");
-		String msg_contents = request.getParameter("contents");
-		String msg_sender_name = request.getParameter("sender");
-		String msg_receiver_name = request.getParameter("receiver");
-		MessageDTO mdto = new MessageDTO(0,msg_sender,msg_receiver,null,null,msg_title,msg_contents,msg_sender_name,msg_receiver_name);
+	public String msgProc(MessageDTO mdto, Model m) throws Exception{
+		mdto.setMsg_sender((String)session.getAttribute("id"));
+		System.out.println("============"+mdto.getAttfiles());
 		int result = mservice.msgProc(mdto);
+		System.out.println("======결과값===="+result);
+		
 		m.addAttribute("result", result);
 		return "/message/alertMessage";
 		
+	}
+	
+	//첨부파일 다운로드
+	@RequestMapping("attFilesDown.message")
+	public void attFilesDown(Message_attached_filesDTO adto, HttpServletResponse resp) throws Exception{
+		
+		System.out.println("요청 파일 seq : " + adto.getMsg_seq());
+		System.out.println("요청 파일 SavedName : " + adto.getMsg_saved_name());
+		
+		String filePath = session.getServletContext().getRealPath("/resources/Message_attached_files");
+		File targetFile = new File(filePath+"/"+adto.getMsg_saved_name());
+		if(targetFile.exists() && targetFile.isFile()) {
+			//파일이 존재하고 진짜 파일이 맞다면
+			resp.setContentType("application/octet-stream; charset=utf8");
+			resp.setContentLength((int)targetFile.length());//파일 크기
+			resp.setHeader("Content-Disposion", "attachment; filename=\""+adto.getMsg_ori_name()+"\"");
+			//파일 다운시 필요 정보
+			
+			FileInputStream fis = new FileInputStream(targetFile);
+			//파일 통로(ram으로 보냄)
+			ServletOutputStream sos = resp.getOutputStream();
+			FileCopyUtils.copy(fis, sos);
+			fis.close();
+			
+			sos.flush();
+			sos.close();
+		}
 	}
 	
 	//수신함 리스트 이동
@@ -90,9 +121,11 @@ public class MessageController {
 	public String msgReceiveView(HttpServletRequest request, Model m) throws Exception{
 		int msg_seq= Integer.parseInt(request.getParameter("msg_seq"));
 		int readDate = mservice.readDate(msg_seq);
+		List<Message_attached_filesDTO> attlist = mservice.attFilesAll(msg_seq);
 		System.out.println("결과===="+readDate);
 		MessageDTO mdto = mservice.msgView(msg_seq);
 		m.addAttribute("mdto", mdto);
+		m.addAttribute("attlist", attlist);
 		return "/message/msgReceiveView"; 
 	}
 	
@@ -107,15 +140,44 @@ public class MessageController {
 	//쪽지 상세페이지에서 답장하기 버튼
 	@RequestMapping("msgReply.message")
 	public String msgReply(HttpServletRequest request, Model m) throws Exception{
-		String msg_sender = request.getParameter("msg_sender");
+		String msg_sender_name = request.getParameter("msg_sender_name");
+		String msg_receiver_name = request.getParameter("msg_receiver_name");
 		String msg_receiver = request.getParameter("msg_receiver");
 		List<MemberDTO> mlist = memservice.listMem(); //조직도 전체 리스트 가져옴
 		List<DepartmentDTO> dlist = memservice.listDept(); //부서명 가져옴
-		m.addAttribute("msg_sender", msg_sender);
+		m.addAttribute("msg_sender_name", msg_sender_name);
+		m.addAttribute("msg_receiver_name", msg_receiver_name);
 		m.addAttribute("msg_receiver", msg_receiver);
 		m.addAttribute("mlist", mlist);
 		m.addAttribute("dlist", dlist);
 		return "/message/replyMessage";
+	}
+	
+	//쪽지 발신함 list 불러오기
+	@RequestMapping("msgOutBoxList.message")
+	public String msgOutBoxList(HttpServletRequest request, Model m) throws Exception{
+		String id = (String)session.getAttribute("id");
+		int cpage = Integer.parseInt(request.getParameter("cpage"));
+		List<MessageDTO> mlist = mservice.msgOutBoxList(id);
+		String navi = mservice.outBoxGetNavi(cpage,id);
+		m.addAttribute("mlist", mlist);
+		m.addAttribute("navi", navi);
+		return "/message/outBox";
+	}
+	
+	//발신함 상세페이지 보기
+	@RequestMapping("msgSenderView.message")
+	public String msgSenderView(HttpServletRequest request, Model m) throws Exception{
+		int msg_seq = Integer.parseInt(request.getParameter("msg_seq"));
+		MessageDTO mdto = mservice.msgView(msg_seq);
+		m.addAttribute("mdto", mdto);
+		return "/message/msgSenderView";	
+	}
+	
+	//보관함 list
+	@RequestMapping("msgStorageBoxList.message")
+	public String msgStorageBoxList() throws Exception{
+		return "/message/storageBox";
 	}
 	
 	// error
