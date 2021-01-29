@@ -274,7 +274,18 @@
 			<div class="main-content">
 				<div class="container-fluid">
 					<h3 class="page-title">My Project : ${pdto.pro_title}</h3>
-
+					<div class="alert alert-warning alert-dismissible" role="alert">
+						<button type="button" class="close" data-dismiss="alert"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<strong>Notice!</strong>
+						<br><br>
+						<span class="glyphicon glyphicon-ok"
+							aria-hidden="true"></span> <span class="sr-only">Check:</span>&nbsp
+						칸반 이동 시 팝업창이 뜨는 기능 고치기.<br><br>
+					</div>
+					<div class="top-vacant d-none d-lg-block"></div>
 							
 							<button type="button" id="destroyKanban" class="btn btn-primary">초기화</button>
 
@@ -313,6 +324,7 @@ $('#kanban').on('itemAttrClicked', function (event) {
     
     var options='top=10, left=10, width=800, height=600, status=no, menubar=no, toolbar=no, resizable=no';
 	window.open("/project/fixkanbanPop.project?itemId="+itemId,"popup",options);
+	console.log("Clicked");
 });
 </script>
 <!-- 칸반 이동 시 이벤트  -->
@@ -323,10 +335,10 @@ $('#kanban').on('itemMoved', function (event) {
     var newColumn = args.newColumn;
     var newDatafield = newColumn.dataField;
     location.href = "/project/kanbanMoved.project?itemId="+itemId+"&newDatafield="+newDatafield;
-    
+    console.log("Moved");
 });
 </script>
-<!-- 칸반 추가  -->
+<!-- 칸반 초기화 -->
 <script>
 $('#destroyKanban').on("click", function() {
     alert("미구현");

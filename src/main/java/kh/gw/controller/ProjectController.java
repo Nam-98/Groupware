@@ -96,7 +96,7 @@ public class ProjectController {
 		list.add(pservice.getpkdtoListCode(pkdtoList, 2)); //진행중
 		list.add(pservice.getpkdtoListCode(pkdtoList, 3)); //완료
 		list.add(pservice.getpkdtoListCode(pkdtoList, 4)); //중지
-		double projectRate = (double)((list.get(2)*0.5)+list.get(3))/(double)(pkdtoListSize-list.get(4))*100;
+		double projectRate = Math.round((double)((list.get(2)*0.5)+list.get(3))/(double)(pkdtoListSize-list.get(4))*100);
 
 		model.addAttribute("pdto", pdto);
 		model.addAttribute("pkdtoList", pkdtoList);

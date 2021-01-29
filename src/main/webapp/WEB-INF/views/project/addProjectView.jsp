@@ -165,7 +165,7 @@
 </script>
 <script>
 $("#find").on("click", function() {
-	var options='top=10, left=10, width=700, height=600, status=no, menubar=no, toolbar=no, resizable=no';
+	var options='top=10, left=10, width=1000, height=700, status=no, menubar=no, toolbar=no, resizable=no';
 	window.open("/project/enterPopup.project","popup",options);	
 });
 
