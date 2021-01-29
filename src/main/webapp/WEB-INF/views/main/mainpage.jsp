@@ -89,7 +89,7 @@
                         <li class="nav-item adminitem"><a class="nav-link active" aria-current="관리자" href="#">관리자</a></li>
                         <li class="nav-item"><a class="nav-link active" aria-current="전자결재" href="/approval/toAppMainView.approval">전자결재</a></li>
                         <li class="nav-item"><a class="nav-link active" aria-current="업무일지" href="#">업무일지</a></li>
-                        <li class="nav-item"><a class="nav-link active" aria-current="쪽지함" href="#">쪽지함</a></li>
+                        <li class="nav-item"><a class="nav-link active" aria-current="쪽지함" href="/message/msgInBoxList.message?cpage=1">쪽지함</a></li>
                         <li class="nav-item"><a class="nav-link active" aria-current="일정관리" href="#">일정관리</a></li>
                         <li class="nav-item"><a class="nav-link active" aria-current="웹하드" href="#">웹하드</a></li>
                         <li class="nav-item"><a class="nav-link active" aria-current="근태관리" href="/tna/tnaCheckPage.tna">근태관리</a></li>
@@ -116,7 +116,7 @@
          </div>
          <div class="col-1 iconbox d-lg-inline d-none">
             <i class="fas fa-envelope fa-4x"></i>
-            <h6>쪽지함</h6><input type=hidden value="/">
+            <h6>쪽지함</h6><input type=hidden value="/message/msgInBoxList.message?cpage=1">
          </div>
          <div class="col-1 iconbox d-lg-inline d-none">
             <i class="fas fa-calendar-alt fa-4x"></i>

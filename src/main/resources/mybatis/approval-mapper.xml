@@ -10,7 +10,7 @@
   		select * from st.approval_sign_type
   	</select>
   	<insert id="writeApp">
-  		insert into st.approval values(st.app_seq.nextval, #{app_type_code}, #{app_id}, #{app_archive}, #{app_title}, #{app_contents}, (select current_date from dual),#{app_docs_num})
+  		insert into st.approval values(st.app_seq.nextval, #{app_type_code}, #{app_id}, #{app_archive}, #{app_title}, #{app_contents}, (select current_date from dual),#{app_docs_num},1)
   	</insert>
   	<insert id="setInitAppSign">
   		insert into st.approval_sign values(#{app_seq}, #{app_sign_id}, #{app_sign_order}, null, 'N', #{app_sign_type_code})
@@ -21,4 +21,32 @@
   	<insert id="insertAf">
   		insert into st.approval_attached_files values(#{app_seq},#{app_ori_name},#{app_saved_name})
   	</insert>
+  	<select id="allMyWriteApp" resultType="kh.gw.dto.ApprovalDTO">
+  		select * from st.approval where app_id = #{value}
+  	</select>
+  	<select id="searchApp" resultType="kh.gw.dto.ApprovalDTO">
+  		select * from st.approval where app_seq = #{value}
+  	</select>
+  	<select id="allMySignApp" resultType="kh.gw.dto.Approval_signDTO">
+  		select * from st.approval_sign where app_sign_id = #{value} and app_sign_type_code != 1
+  	</select>
+  	<select id="isSignTurn" resultType="int">
+  		select count(*) from st.approval_sign where app_sign_order = #{order} and app_seq = #{app_seq} and app_sign_accept = 'Y'
+  	</select>
+  	<select id="countAgree" resultType="int">
+  		select count(*) from st.approval_sign where app_seq = #{app_seq} and app_sign_order = #{order}
+  	</select>
+  	<select id="getAppByCpage" resultType="kh.gw.dto.ApprovalDTO">
+  		select * from 
+  			(select app_seq, app_docs_num, app_type_name, app_title, name, app_reg_date, app_status_name, row_number() over(order by app_seq desc)rn 
+  				from st.approval join st.approval_type using (app_type_code) join st.approval_status using (app_status_code) join st.member on id = app_id 
+  				where app_seq in 
+  		<foreach collection="seqList" item="i" separator="," open="(" close=")">
+  			#{i}
+  		</foreach>
+  		) where rn between #{startnum} and #{endnum} order by app_seq desc
+  	</select>
+  	<select id="allMyCCList" resultType="int">
+  		select app_seq from st.approval_sign where app_sign_id = #{id} and app_sign_type_code = 1
+  	</select>
   </mapper>
