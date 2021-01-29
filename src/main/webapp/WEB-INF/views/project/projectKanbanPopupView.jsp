@@ -39,6 +39,12 @@
 <script src="/assets/scripts/klorofil-common.js"></script>
 </head>
 <style>
+.top-vacant {
+	width: 100%;
+	height: 20px;
+	/* 	background-color: yellow; */
+}
+
 textarea {
 	resize: none;
 }
@@ -47,8 +53,8 @@ textarea {
 	padding-top: 0px;
 }
 
-#fixkanbanBtn{
-	margin-left : 300px;
+#fixkanbanBtn {
+	margin-left: 300px;
 }
 </style>
 <body>
@@ -57,15 +63,17 @@ textarea {
 		<!-- MAIN CONTENT -->
 		<div class="main-content">
 			<div class="container-fluid">
-						<button id="deleteKanban" class="btn btn-danger">삭제</button>
-						<button id="cancelKanban" class="btn btn-info">취소</button>
+				<button id="deleteKanban" class="btn btn-danger">삭제</button>
+				<button id="cancelKanban" class="btn btn-info">취소</button>
+				<div class="top-vacant d-none d-lg-block"></div>
 				<div class="panel panel-headline demo-icons">
 					<form action="/project/fixKanbanInfo.project" method="post"
 						id="formBox">
 						<div class="panel-heading">
 							<h3 class="panel-title">
 								<input type="text" name="pro_kb_title"
-									value="${dto.pro_kb_title}"style="width:100%;height:50px;font-size:30px;font-weight:bold;"><br>
+									value="${dto.pro_kb_title}"
+									style="width: 100%; height: 50px; font-size: 30px; font-weight: bold;"><br>
 							</h3>
 						</div>
 						<div class="panel-body">
@@ -80,8 +88,8 @@ textarea {
 									<tr>
 										<th scope="row">#</th>
 										<td><input type="text" class="textSpace"
-											value="${dto.pro_kb_seq}"style="width:10%;" required name="pro_kb_seq" readonly>
-										</td>
+											value="${dto.pro_kb_seq}" style="width: 10%;" required
+											name="pro_kb_seq" readonly></td>
 									</tr>
 									<tr>
 										<th scope="row">프로젝트</th>
@@ -93,20 +101,23 @@ textarea {
 									</tr>
 									<tr>
 										<th scope="row">담당자(ID)</th>
-										<td> 변경 전 : ${dto.pro_kb_manager}<br>
-											 변경 후 :  <input type="text" class="textSpace" required id="projectManagerName" placeholder="name" readonly> 
-											 <input type="text" class="textSpace" required id="pro_kb_manager" name="pro_kb_manager" placeholder="ID"
-											readonly> 
-											<input type="button" id="find" value="찾기">
+										<td>변경 전 : ${dto.pro_kb_manager}<br> 변경 후 : <input
+											type="text" class="textSpace" required
+											id="projectManagerName" placeholder="name" readonly>
+											<input type="text" class="textSpace" required
+											id="pro_kb_manager" name="pro_kb_manager" placeholder="ID"
+											readonly> <input type="button" id="find" value="찾기">
 										</td>
 									</tr>
 									<tr>
 										<th scope="row">상세정보</th>
-										<td><textArea name="pro_kb_details"style="width:100%;height:70px;">${dto.pro_kb_details}</textArea></td>
+										<td><textArea name="pro_kb_details"
+												style="width: 100%; height: 70px;">${dto.pro_kb_details}</textArea></td>
 									</tr>
 								</tbody>
 							</table>
-							<input id="fixkanbanBtn" type="button" class="btn btn-warning" value="수정">
+							<input id="fixkanbanBtn" type="button" class="btn btn-primary"
+								value="수정">
 						</div>
 					</form>
 				</div>
@@ -141,14 +152,17 @@ textarea {
 	}
 </script>
 <script>
-$("#fixkanbanBtn").on("click",function(){
-	$("#formBox").submit();
-});
-$("#deleteKanban").on("click",function(){
-	location.href="/project/deleteKanban.project?pro_kb_seq=${dto.pro_kb_seq}";
-});
-$("#cancelKanban").on("click",function(){
-	window.close();
-});
+	$("#fixkanbanBtn").on("click", function() {
+		$("#formBox").submit();
+	});
+	$("#deleteKanban")
+			.on(
+					"click",
+					function() {
+						location.href = "/project/deleteKanban.project?pro_kb_seq=${dto.pro_kb_seq}";
+					});
+	$("#cancelKanban").on("click", function() {
+		window.close();
+	});
 </script>
 </html>

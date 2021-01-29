@@ -83,7 +83,7 @@ public class ProjectController {
 		Date date = new Date();
 		long proTerm = pservice.datediff(pdto.getPro_end_date(),pdto.getPro_start_date());
 		long proToday= pservice.datediff(date,pdto.getPro_start_date());
-		double timeRate = ((double)proToday/(double)proTerm)*100;
+		double timeRate = Math.round(((double)proToday/(double)proTerm)*100);
 		if(proToday<0) {return "error";}
 
 		//칸반 진행률 구하기
@@ -96,7 +96,7 @@ public class ProjectController {
 		list.add(pservice.getpkdtoListCode(pkdtoList, 2)); //진행중
 		list.add(pservice.getpkdtoListCode(pkdtoList, 3)); //완료
 		list.add(pservice.getpkdtoListCode(pkdtoList, 4)); //중지
-		double projectRate = (double)((list.get(2)*0.5)+list.get(3))/(double)(pkdtoListSize-list.get(4))*100;
+		double projectRate = Math.round((double)((list.get(2)*0.5)+list.get(3))/(double)(pkdtoListSize-list.get(4))*100);
 
 		model.addAttribute("pdto", pdto);
 		model.addAttribute("pkdtoList", pkdtoList);
@@ -174,7 +174,7 @@ public class ProjectController {
 	public String fixKanbanInfo(HttpServletRequest request, Project_kanbanDTO dto) throws Exception{
 		int result = pservice.fixKanbanInfo(dto);
 		if( result >0) {
-			return "/project/fixKanbanSuccessView";}else return "error";
+			return "project/fixKanbanSuccessView";}else return "error";
 	}
 	
 	//칸반 삭제
@@ -183,7 +183,7 @@ public class ProjectController {
 		int pro_kb_seq = Integer.parseInt(request.getParameter("pro_kb_seq"));
 		int result = pservice.deleteKanban(pro_kb_seq);
 		if( result >0) {
-			return "/project/fixKanbanSuccessView";}else return "error";
+			return "project/fixKanbanSuccessView";}else return "error";
 	}
 	
 	//칸반 추가

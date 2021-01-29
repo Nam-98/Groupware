@@ -88,6 +88,19 @@ public class MemberController {
 			m.addAttribute("dlist", dlist);
 			return "/orgnization/orgnizationChart";
 		}
+		
+		//프로젝트에서 조직도 직원 클릭시 정보 불러오기
+		@RequestMapping("orgProMemInfo.member")
+		public String orgProMemInfo(HttpServletRequest request, Model m) throws Exception{
+			String id = request.getParameter("id");
+			MemberDTO dto = mservice.getMemInfo(id);
+			List<MemberDTO> mlist = mservice.listMem();
+			List<DepartmentDTO> dlist = mservice.listDept(); //부서명 가져옴
+			m.addAttribute("dto", dto);
+			m.addAttribute("mlist", mlist);
+			m.addAttribute("dlist", dlist);
+			return "/project/projectPopupView";
+		}		
 	
 	// error
 	@ExceptionHandler

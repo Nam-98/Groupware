@@ -13,8 +13,8 @@
                                 <a href="#subPagesApp2" data-toggle="collapse" class="collapsed"><i class="fas fa-archive"></i> <span>결재문서함</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
                                 <div id="subPagesApp2" class="collapse ">
                                     <ul class="nav">
-                                        <li><a href="#" class="">개인문서함</a></li>
-                                        <li><a href="#" class="">협조문서함</a></li>
+                                        <li><a href="/approval/toMySignListView.approval?cPage=1" class="">결재할 문서함</a></li>
+                                        <li><a href="#" class="">상신 문서함</a></li>
                                         <li><a href="#" class="">참조문서함</a></li>
                                     </ul>
                                 </div>
@@ -64,9 +64,9 @@
                     <div id="subPagesTna" class="collapse ">
                         <ul class="nav">
                             <li><a href="/tna/tnaCheckPage.tna" class="">출퇴근체크</a></li>
-                            <li><a href="#" class="">나의 근태내역</a></li>
-                            <li><a href="#" class="">근태조정신청</a></li>
-                            <li><a href="#" class="">근태조정내역</a></li>
+                            <li><a href="/tna/tnaMyHistoryPage.tna" class="">나의 근태내역</a></li>
+                            <li><a href="/tna/tnaFixRequestPage.tna" class="">근태조정신청</a></li>
+                            <li><a href="/tna/tnaFixHistoryPage.tna" class="">근태조정내역</a></li>
                         </ul>
                     </div>
                 </li>

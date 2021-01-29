@@ -1,5 +1,6 @@
 package kh.gw.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -34,5 +35,36 @@ public class ApprovalDAO {
 	}
 	public int insertAf(Approval_attached_filesDTO dto) {
 		return db.insert("Approval.insertAf", dto);
+	}
+	public List<ApprovalDTO> allMyWriteApp(String id){
+		return db.selectList("Approval.allMyWriteApp", id);
+	}
+	public List<Approval_signDTO> allMySignApp(String id){
+		return db.selectList("Approval.allMySignApp", id);
+	}
+	public ApprovalDTO searchApp(int app_seq) {
+		return db.selectOne("Approval.searchApp", app_seq);
+	}
+	public List<ApprovalDTO> getAppByCpage(List<Integer> seqList,int startnum,int endnum){
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("seqList", seqList);
+		map.put("startnum", startnum);
+		map.put("endnum", endnum);
+		return db.selectList("Approval.getAppByCpage", map);
+	}
+	public int isSignTurn(int order, int app_seq) {
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("order", order);
+		map.put("app_seq", app_seq);
+		return db.selectOne("Approval.isSignTurn",map);
+	}
+	public int countAgree(int order, int seq) {
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("order", order);
+		map.put("app_seq", seq);
+		return db.selectOne("Approval.countAgree",map);
+	}
+	public List<Integer> allMyCCList(String id){
+		return db.selectList("Approval.allMyCCList", id);
 	}
 }
