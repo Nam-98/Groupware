@@ -27,7 +27,7 @@
 		from st.tna t left join st.tna_status s1
 		on (t.TNA_START_STATUS_CODE = s1.tna_status_code)
 		left join st.tna_status s2 
-		on (t.TNA_END_STATUS_CODE = s2.tna_status_code) and (t.tna_id = #{sessionId})
+		on (t.TNA_END_STATUS_CODE = s2.tna_status_code) where (t.tna_id = #{sessionId})
 		order by t.tna_seq
 	</select>
   	
