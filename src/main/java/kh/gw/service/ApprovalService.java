@@ -25,7 +25,7 @@ import kh.gw.dto.Approval_signDTO;
 import kh.gw.dto.Approval_sign_typeDTO;
 import kh.gw.dto.Approval_typeDTO;
 import kh.gw.statics.ApprovalConfigurator;
-import kh.gw.statics.AppDateComparator;
+import kh.gw.statics.AppSeqComparator;
 
 @Service
 public class ApprovalService {
@@ -141,7 +141,7 @@ public class ApprovalService {
 			}
 		}
 			//resultList 정렬하기(app_reg_date기준)
-		Collections.sort(resultList, new AppDateComparator());
+		Collections.sort(resultList, new AppSeqComparator());
 		return resultList;
 	}
 	public List<ApprovalDTO> getMyCCList(int cPage){
@@ -153,7 +153,7 @@ public class ApprovalService {
 		List<ApprovalDTO> resultList = adao.getAppByCpage(seqList,startnum,endnum);
 		
 		//resultList 정렬하기(app_reg_date기준)
-		Collections.sort(resultList, new AppDateComparator());
+		Collections.sort(resultList, new AppSeqComparator());
 		Collections.reverse(resultList);//최신의 글이 앞에 보이도록 내림차순 정렬함. 
 		return resultList;
 	}
@@ -182,7 +182,7 @@ public class ApprovalService {
 		
 		resultList = adao.getAppByCpage(seqList,startnum,endnum);
 			//resultList 정렬하기(app_reg_date기준)
-		Collections.sort(resultList, new AppDateComparator());
+		Collections.sort(resultList, new AppSeqComparator());
 		return resultList;
 	}
 	
