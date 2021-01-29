@@ -191,15 +191,28 @@
 			locale: 'ko',
 // 			themeSystem: 'sketchy',
 			businessHours: true,
+			eventClick: function(arg) {
+				arg.jsEvent.preventDefault();
+				
+				if (arg.event.url) {
+					if (confirm("정정 신청하시겠습니까?")) {
+						var options='top=10, left=10, width=800, height=600, status=no, menubar=no, toolbar=no, resizable=no';
+						window.open(arg.event.url,"popup",options);
+					}
+				}
+	        },
 			events: [
 				<c:forEach varStatus="i" var="list" items="${tnaCalendarList}">
 					{
 						title: '${list.TNA_START_STATUS_NAME}',
-						start: '${list.TNA_START_TIME}'
+						start: '${list.TNA_START_TIME}',
+						url: "/tna/tnaFixRequestPage.tna?tna_seq=${list.TNA_SEQ}&tna_status=start"
+						
 					},
 					{
 						title: '${list.TNA_END_STATUS_NAME}',
-						start: '${list.TNA_END_TIME}'
+						start: '${list.TNA_END_TIME}',
+						url: "/tna/tnaFixRequestPage.tna?tna_seq=${list.TNA_SEQ}&tna_status=end"
 					}
 					<c:if test="${!i.last}">
 					,
