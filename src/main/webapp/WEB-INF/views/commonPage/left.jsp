@@ -13,7 +13,7 @@
                                 <a href="#subPagesApp2" data-toggle="collapse" class="collapsed"><i class="fas fa-archive"></i> <span>결재문서함</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
                                 <div id="subPagesApp2" class="collapse ">
                                     <ul class="nav">
-                                        <li><a href="/approval/toMyListView.approval" class="">결재할 문서함</a></li>
+                                        <li><a href="/approval/toMySignListView.approval?cPage=1" class="">결재할 문서함</a></li>
                                         <li><a href="#" class="">상신 문서함</a></li>
                                         <li><a href="#" class="">참조문서함</a></li>
                                     </ul>

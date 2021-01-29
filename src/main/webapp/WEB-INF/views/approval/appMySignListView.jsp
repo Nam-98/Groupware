@@ -28,6 +28,10 @@
 	<script src="/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 	<script src="/assets/vendor/chartist/js/chartist.min.js"></script>
 	<script src="/assets/scripts/klorofil-common.js"></script>
+	<style>
+		table{width:100%;text-align:center;}
+		th{text-align:center;}
+	</style>
 </head>
 <body>
 	<!-- WRAPPER -->
@@ -47,10 +51,10 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 class="page-title">결재할 문서함</h3>
+					<h3 class="page-title">결재 문서함</h3>
 					<div class="panel">
 						<div class='panel-heading'>
-							<h3 class='panel-title'>결재할 문서함 > 미결재 문서</h3>
+							<h3 class='panel-title'>결재할 문서함</h3>
 							<!--pannel의 최소화 및 닫기 버튼-->
 							<div class="right">
 								<button type="button" class="btn-toggle-collapse">
@@ -66,21 +70,89 @@
 										<th scope="row" class="align-middle">분류</th>
 										<th scope="row" class="align-middle">문서명</th>
 										<th scope="row" class="align-middle">기안자</th>
-										<th scope="row" class="align-middle">내 결재상태</th>
 										<th scope="row" class="align-middle">기안일</th>
-										<th scope="row" class="align-middle">최종 결재상태</th>
 									</tr>
 									
 								</thead>
 								<tbody>
-								<!-- <c:forEach items="${appList}" var="i">
+								<c:choose >
+									<c:when test="${empty toBeSignList}">
+										<tr>
+											<td colspan=7>
+												결재할 문서가 없습니다. 
+											</td>
+										</tr>
+									</c:when>
+									<c:otherwise>
+									<c:forEach items="${toBeSignList}" var="i">
+										<tr>
+											<td>${i.app_seq}_${i.app_docs_num}</td>
+											<td>${i.app_type_name}</td>
+											<td>${i.app_title}</td>
+											<td>${i.name}</td>
+											<td>${i.app_reg_date}</td>
+										</tr>
+									</c:forEach>
+									</c:otherwise>
+								</c:choose>
+									
+								</tbody> 
+							</table>
+							
+						</div>
+					</div>
+					<div class="panel">
+						<div class='panel-heading'>
+							<h3 class='panel-title'>결재한 문서함</h3>
+							<!--pannel의 최소화 및 닫기 버튼-->
+							<div class="right">
+								<button type="button" class="btn-toggle-collapse">
+									<i class="lnr lnr-chevron-up"></i>
+								</button>
+							</div>
+						</div>
+						<div class="panel-body">
+							<table>
+								<thead>
 									<tr>
-										<td>${app_docs_num}</td>
-										<td>
-											<c:forEach
-										${app_title}</td>
+										<th scope="row" >문서번호</th>
+										<th scope="row" >분류</th>
+										<th scope="row" >내 결재상태</th>
+										<th scope="row" >문서명</th>
+										<th scope="row" >기안자</th>
+										<th scope="row" >기안일</th>
+										<th scope="row" >최종 결재상태</th>
 									</tr>
-								</c:forEach>-->
+									
+								</thead>
+								<tbody>
+								<c:choose >
+									<c:when test="${empty signedList}">
+										<tr>
+											<td colspan=7>
+												결재한 문서가 없습니다. 
+											</td>
+										</tr>
+									</c:when>
+									<c:otherwise>
+									<c:forEach items="${signedList}" var="i">
+										<tr>
+											<td>${i.app_docs_num}</td>
+											<td>${i.app_type_code}</td>
+											<td>
+												<c:choose>
+													<c:when test="${i.app_sign_accept=='N'}">반려</c:when>
+													<c:otherwise>결재완료</c:otherwise>
+												</c:choose>
+											</td>
+											<td>${i.app_title}</td>
+											<td>${i.name}</td>
+											<td>${i.app_reg_date}</td>
+											<td>${i.app_status_name}</td>
+										</tr>
+									</c:forEach>
+									</c:otherwise>
+								</c:choose>
 								</tbody> 
 							</table>
 						</div>

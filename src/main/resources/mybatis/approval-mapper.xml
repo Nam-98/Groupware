@@ -31,16 +31,20 @@
   		select * from st.approval_sign where app_sign_id = #{value} and app_sign_type_code != 1
   	</select>
   	<select id="isSignTurn" resultType="int">
-  		select count(*) from st.approval_sign where app_order = #{order} and app_seq = #{app_seq} and app_sign_accept = 'Y'
+  		select count(*) from st.approval_sign where app_sign_order = #{order} and app_seq = #{app_seq} and app_sign_accept = 'Y'
   	</select>
   	<select id="countAgree" resultType="int">
-  		select count(*) from st.approval_sign where app_seq = #{seq} and app_order = #{order}
+  		select count(*) from st.approval_sign where app_seq = #{app_seq} and app_sign_order = #{order}
   	</select>
-  	<select id="searchAppList" resultType="kh.gw.dto.ApprovalDTO">
-  		select * from st.approval where app_seq in 
+  	<select id="getAppByCpage" resultType="kh.gw.dto.ApprovalDTO">
+  		select * from 
+  			(select app_seq, app_docs_num, app_type_name, app_title, name, app_reg_date, app_status_name, row_number() over(order by app_seq desc)rn 
+  				from st.approval join st.approval_type using (app_type_code) join st.approval_status using (app_status_code) join st.member on id = app_id 
+  				where app_seq in 
   		<foreach collection="seqList" item="i" separator="," open="(" close=")">
   			#{i}
   		</foreach>
+  		) where rn between #{startnum} and #{endnum} order by app_seq desc
   	</select>
   	<select id="allMyCCList" resultType="int">
   		select app_seq from st.approval_sign where app_sign_id = #{id} and app_sign_type_code = 1

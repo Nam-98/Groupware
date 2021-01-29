@@ -45,8 +45,12 @@ public class ApprovalDAO {
 	public ApprovalDTO searchApp(int app_seq) {
 		return db.selectOne("Approval.searchApp", app_seq);
 	}
-	public List<ApprovalDTO> seachAppList(List<Integer> seqList){
-		return db.selectList("Approval.seachApp", seqList);
+	public List<ApprovalDTO> getAppByCpage(List<Integer> seqList,int startnum,int endnum){
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("seqList", seqList);
+		map.put("startnum", startnum);
+		map.put("endnum", endnum);
+		return db.selectList("Approval.getAppByCpage", map);
 	}
 	public int isSignTurn(int order, int app_seq) {
 		HashMap<String, Integer> map = new HashMap<String, Integer>();

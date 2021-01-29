@@ -60,9 +60,9 @@ public class ApprovalController {
 	}
 	
 	@RequestMapping("/toMySignListView.approval")
-	public String toMySignListView (Model model) {
-		model.addAttribute("signList", aservice.getMySignList());
-		
+	public String toMySignListView (Model model, int cPage) {
+		model.addAttribute("signedList", aservice.getMySignedList(cPage));
+		model.addAttribute("toBeSignList", aservice.getTobeSignList(cPage));
 		return "approval/appMySignListView";
 	}
 	
