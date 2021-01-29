@@ -71,7 +71,7 @@ public class TnAService {
         
         // 출근시간이 출근기준시간보다 늦은경우(지각처리),
         if(nowDate.after(getAttendanceDate())) {
-           return 0;
+           return 3;
         // 출근시간이 출근기준시간보다 이르거나 같은경우(정상출근),
         }else {
            return 2;
@@ -186,12 +186,6 @@ public class TnAService {
 			param.put("minute", sqlDate.getMinutes());
 		}
 		return param;
-	}
-	
-	public String getCurrentTime() {
-		Date nowDate = new Date(System.currentTimeMillis());
-		
-		return "";
 	}
 	
 	public List<Map<String, Object>> getTnaCalendarList(String sessionId) {
