@@ -48,6 +48,17 @@
 	height: 20px;
 	/* 	background-color: yellow; */
 }
+
+.navi {
+	text-align: center;
+}
+
+.demo-icons li {
+	margin-bottom: 0px;
+}
+.searchbox{
+	text-align:center;
+}
 </style>
 <body>
 	<!-- WRAPPER -->
@@ -101,6 +112,21 @@
 								</tbody>
 							</table>
 						</div>
+						<div class="searchbox">
+							<form action="/project/projectSearch.project?cpage=1" method=post>
+								<select name="choice" id="choice">
+									<option value="pro_id">담당자(ID)</option>
+									<option value="pro_title">Title</option>
+								</select> <input type="text" name="search" id="search"
+									placeholder="검색어를 입력하시오.">
+								<button type="submit" id="searchBtn"
+									class="btn btn-default btn-xs">
+									<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+								</button>
+							</form>
+						</div>
+						<br>
+						<div class="navi">${navi}</div>
 					</div>
 				</div>
 			</div>
@@ -120,15 +146,19 @@
 </body>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script>
-$("#find").on("click", function() {
-	var options='top=10, left=10, width=700, height=600, status=no, menubar=no, toolbar=no, resizable=no';
-	window.open("/project/enterPopup.project","popup",options);	
-});
+	$("#find")
+			.on(
+					"click",
+					function() {
+						var options = 'top=10, left=10, width=700, height=600, status=no, menubar=no, toolbar=no, resizable=no';
+						window.open("/project/enterPopup.project", "popup",
+								options);
+					});
 
-function getReturnValue(returnValue) {
-	obj = JSON.parse(returnValue);
-	  document.getElementById("projectManagerName").value=obj.key1;	
- 	  document.getElementById("pro_id").value=obj.key2;
+	function getReturnValue(returnValue) {
+		obj = JSON.parse(returnValue);
+		document.getElementById("projectManagerName").value = obj.key1;
+		document.getElementById("pro_id").value = obj.key2;
 	}
 </script>
 <script>

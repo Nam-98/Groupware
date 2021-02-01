@@ -80,7 +80,7 @@
 					</button>
 
 					<button type="button" id="deletepro" class="btn btn-secondary">삭제</button>
-
+					<button id="back" class="btn btn-info">목록으로</button>
 					<div class="top-vacant d-none d-lg-block"></div>
 
 					<div class="panel panel-headline demo-icons">
@@ -222,6 +222,9 @@
 		});
 		$("#deletepro").on("click", function() {
 			location.href = "/project/deleteProject.project?pro_seq=${pdto.pro_seq}";
+		});
+		$("#back").on("click", function() {
+			location.href = "/project/enterProjectList.project?cpage=1";
 		});
 	</script>
 

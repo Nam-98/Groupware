@@ -36,13 +36,19 @@ public class ProjectController {
 
 	//프로젝트 리스트 가져오기
 	@RequestMapping("enterProjectList.project")
-	public String enterProjectList(Model model) throws Exception{
-		List<ProjectDTO> listProject = pservice.getList();
+	public String enterProjectList(HttpServletRequest request, Model model) throws Exception{
+		String cpage = request.getParameter("cpage");
+		
+		//게시판형식으로 바꾸기
+		//List<ProjectDTO> listProject = pservice.getList();
+		List<ProjectDTO> listProject = pservice.listByCpage(Integer.parseInt(cpage));
+		String navi = pservice.getListNavi(Integer.parseInt(cpage));
 		
 		//날짜 형식 바꾸기
 		pservice.addDateStr(listProject);
 		
 		model.addAttribute("listProject", listProject);
+		model.addAttribute("navi",navi);
 		return "project/projectListView";
 	}
 
@@ -84,7 +90,8 @@ public class ProjectController {
 		long proTerm = pservice.datediff(pdto.getPro_end_date(),pdto.getPro_start_date());
 		long proToday= pservice.datediff(date,pdto.getPro_start_date());
 		double timeRate = Math.round(((double)proToday/(double)proTerm)*100);
-		if(proToday<0) {return "error";}
+		if(proToday<0) {timeRate=0;}
+		else if(proToday>=proTerm) {timeRate=100;}
 
 		//칸반 진행률 구하기
 		//pkdtoList크기구하기
@@ -115,7 +122,7 @@ public class ProjectController {
 		int pro_seq = Integer.parseInt(request.getParameter("pro_seq"));
 		int result = pservice.deleteProject(pro_seq);
 		if(result>0) {
-		return "project/projectListView";}
+		return "project/delProjectSuccessView";}
 		else return "error";
 	}
 	
@@ -128,6 +135,22 @@ public class ProjectController {
 		model.addAttribute("mlist",mlist);
 		model.addAttribute("dlist",dlist);
 		return "project/projectPopupView";
+	}
+	
+	//프로젝트 검색
+	@RequestMapping("projectSearch.project")
+	public String projectSearch(HttpServletRequest request, Model model) throws Exception{
+		String cpage = request.getParameter("cpage");
+		String choice = request.getParameter("choice");
+		String search = request.getParameter("search");
+		
+		List<ProjectDTO> list = pservice.projectSearch(Integer.parseInt(cpage),search,choice);
+		String navi = pservice.projectSearchNavi(Integer.parseInt(cpage),search,choice);
+		
+		model.addAttribute("navi", navi);
+		model.addAttribute("list", list);
+		model.addAttribute("keyword", search);
+		return "project/projectSearchResult";
 	}
 	
 	//------------------------------------------------------------------------칸반 관련 메서드
@@ -186,6 +209,16 @@ public class ProjectController {
 			return "project/fixKanbanSuccessView";}else return "error";
 	}
 	
+	//칸반 삭제(버튼 눌렀을 때)
+	@RequestMapping("deleteKanbanTemplate.project")
+	public String deleteKanbanTemplate(HttpServletRequest request) throws Exception{
+		String referer = request.getHeader("REFERER");
+		int pro_kb_seq = Integer.parseInt(request.getParameter("pro_kb_seq"));
+		int result = pservice.deleteKanban(pro_kb_seq);
+		if( result >0) {
+			return "redirect:" + referer;}else return "error";
+	}
+	
 	//칸반 추가
 	@RequestMapping("addKanban.project")
 	public String addKanban(HttpServletRequest request, Project_kanbanDTO dto) throws Exception{
@@ -195,6 +228,16 @@ public class ProjectController {
 		dto.setPro_kb_manager((String) session.getAttribute("id"));
 		int result = pservice.addKanban(dto);
 		if( result >0) {
+			return "redirect:" + referer;}else return "error";
+	}
+	
+	//칸반 초기화
+	@RequestMapping("destroyKanban.project")
+	public String destroyKanban(HttpServletRequest request, ProjectDTO dto) throws Exception{
+		String referer = request.getHeader("REFERER");
+		int result = pservice.destroyKanban(dto);
+		if( result >0) {
+			int result2 = pservice.addProjectKanban(dto);
 			return "redirect:" + referer;}else return "error";
 	}
 	//------------------------------------------------------------------------칸반 관련 메서드 끝
