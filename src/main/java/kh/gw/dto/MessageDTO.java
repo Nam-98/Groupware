@@ -16,12 +16,13 @@ public class MessageDTO {
 	private String msg_sender_name;
 	private String msg_receiver_name;
 	private List<MultipartFile> attfiles;
+	private String msg_receive_date_str;
 	
 	public MessageDTO() {}
 
 	public MessageDTO(int msg_seq, String msg_sender, String msg_receiver, Date msg_send_date, Date msg_receive_date,
 			String msg_title, String msg_contents, String msg_sender_name, String msg_receiver_name,
-			List<MultipartFile> attfiles) {
+			List<MultipartFile> attfiles, String msg_receive_date_str) {
 		super();
 		this.msg_seq = msg_seq;
 		this.msg_sender = msg_sender;
@@ -33,6 +34,7 @@ public class MessageDTO {
 		this.msg_sender_name = msg_sender_name;
 		this.msg_receiver_name = msg_receiver_name;
 		this.attfiles = attfiles;
+		this.msg_receive_date_str = msg_receive_date_str;
 	}
 
 	public int getMsg_seq() {
@@ -115,11 +117,14 @@ public class MessageDTO {
 		this.attfiles = attfiles;
 	}
 
-	
+	public String getMsg_receive_date_str() {
+		return msg_receive_date_str;
+	}
 
-	
-	
-	
+	public void setMsg_receive_date_str(String msg_receive_date_str) {
+		this.msg_receive_date_str = msg_receive_date_str;
+	}
+
 	
 	
 }

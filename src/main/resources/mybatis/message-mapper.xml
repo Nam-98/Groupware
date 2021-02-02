@@ -9,7 +9,7 @@
   	</insert>
   	
   	<select id="msgInBoxList" resultType="kh.gw.dto.MessageDTO">
-  		select * from st.message where msg_receiver = #{value}
+  		select st.message.*, nvl(to_char(msg_receive_date), '읽지않음') as msg_receive_date_str from st.message where msg_receiver = #{value} order by msg_seq desc
   	</select>
   	
   	<update id="readDate">
@@ -37,7 +37,7 @@
   	</select>
   	
   	<select id="msgOutBoxList" resultType="kh.gw.dto.MessageDTO">
-  		select * from st.message where msg_sender = #{value}
+  		select st.message.*, nvl(to_char(msg_receive_date), '읽지않음') as msg_receive_date_str from st.message where msg_sender = #{value} order by msg_seq desc
   	</select>
   	
   </mapper>

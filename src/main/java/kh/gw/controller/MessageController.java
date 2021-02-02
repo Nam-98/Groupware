@@ -83,6 +83,7 @@ public class MessageController {
 		
 		System.out.println("요청 파일 seq : " + adto.getMsg_seq());
 		System.out.println("요청 파일 SavedName : " + adto.getMsg_saved_name());
+		System.out.println("=========="+adto.getMsg_ori_name());
 		
 		String filePath = session.getServletContext().getRealPath("/resources/Message_attached_files");
 		File targetFile = new File(filePath+"/"+adto.getMsg_saved_name());
@@ -90,7 +91,7 @@ public class MessageController {
 			//파일이 존재하고 진짜 파일이 맞다면
 			resp.setContentType("application/octet-stream; charset=utf8");
 			resp.setContentLength((int)targetFile.length());//파일 크기
-			resp.setHeader("Content-Disposion", "attachment; filename=\""+adto.getMsg_ori_name()+"\"");
+			resp.setHeader("Content-Disposition", "attachment;filename=\""+adto.getMsg_ori_name()+"\";");
 			//파일 다운시 필요 정보
 			
 			FileInputStream fis = new FileInputStream(targetFile);
@@ -110,6 +111,8 @@ public class MessageController {
 		String id = (String)session.getAttribute("id");
 		int cpage = Integer.parseInt(request.getParameter("cpage"));
 		List<MessageDTO> mlist = mservice.msgInBoxList(id);
+		System.out.println("=============="+mlist.get(0).getMsg_receive_date_str());
+		
 		String navi = mservice.inBoxGetNavi(cpage,id);
 		m.addAttribute("mlist", mlist);
 		m.addAttribute("navi", navi);

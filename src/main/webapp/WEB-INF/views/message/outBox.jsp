@@ -50,7 +50,6 @@
 					<h3 class="page-title">발신함</h3>
 					
 					<div class="btn-group-ml" role="group" style="text-align: right;">
-  					<button type="button" class="btn btn-primary">보관함 이동</button>
   					<button type="button" class="btn btn-primary">삭제</button>
 					</div>
 					<br>
