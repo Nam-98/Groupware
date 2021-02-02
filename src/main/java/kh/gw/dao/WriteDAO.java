@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kh.gw.dto.WriteDTO;
+import kh.gw.dto.Write_commentsDTO;
 import kh.gw.statics.BoardConfigurator;
 
 @Repository
@@ -114,5 +115,20 @@ public class WriteDAO {
 	//---------------- 갤러리 게시글 수정 후
 	public int modifyAfterGallery(WriteDTO dto) throws Exception{
 		return db.update("Write.modifyAfterGallery", dto);
+	}
+
+	public int commentWrite(Write_commentsDTO dto) {
+		return db.insert("Write.commentWrite", dto);
+	}
+
+	public List<Write_commentsDTO> commentNow(Write_commentsDTO dto) {
+		return db.selectList("Write.commentNow", dto);
+	}
+
+	public List<Write_commentsDTO> commentView(int write_seq) {
+		return db.selectList("Write.commentView", write_seq);
+	}
+	public int commentDelete(int write_cmt_seq) throws Exception{
+		return db.delete("Write.commentDelete", write_cmt_seq);
 	}
 }

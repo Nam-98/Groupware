@@ -10,6 +10,7 @@ public class Write_commentsDTO {
 	private Date write_cmt_date;
 	private Date write_cmt_del;
 	private int write_cmt_parent_id;
+	
 	public int getWrite_cmt_seq() {
 		return write_cmt_seq;
 	}
