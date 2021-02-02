@@ -37,8 +37,11 @@
 <script src="/assets/vendor/chartist/js/chartist.min.js"></script>
 <script src="/assets/scripts/klorofil-common.js"></script>
 <!-- include summernote css/js-->
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+<link
+	href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css"
+	rel="stylesheet">
+<script
+	src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 <!-- include summernote-ko-KR -->
 <script src="/resources/js/summernote-ko-KR.js"></script>
 
@@ -102,7 +105,7 @@
 					});
 </script>
 
-	
+
 <style>
 * {
 	box-sizing: border-box;
@@ -136,11 +139,15 @@
 					<div class="maincontainer">
 						<div style="width: 50%; margin-left: 300px;">
 							<form action="/write/insertBoardWrite.write" method="post">
-								제목 : <input type="text" name="write_title" style="width: 40%;" placeholder="제목을 입력하세요."/><br><br>
-								작성자 : <input type="text" name="write_id" style="width: 20%;" value="${id}" readonly/> <br><br>
+								제목 : <input type="text" name="write_title" style="width: 40%;"
+									placeholder="제목을 입력하세요." /><br>
+								<br> 작성자 : <input type="text" name="write_id"
+									style="width: 20%;" value="${id}" readonly /> <br>
+								<br>
 								<textarea id="summernote" name="write_contents"></textarea>
-								<input id="subBtn" type="button" value="작성 완료" style="float: right;" onclick="goWrite(this.form)" /> 
-								<input id="delBtn" type="button" value="작성 취소" style="float: right;">
+								<input id="subBtn" type="button" value="작성 완료"
+									style="float: right;" onclick="goWrite(this.form)" /> <input
+									id="delBtn" type="button" value="작성 취소" style="float: right;">
 							</form>
 						</div>
 					</div>
@@ -153,19 +160,20 @@
 		<footer>
 			<div class="container-fluid">
 				<p class="copyright">
-					&copy; 2017 <a href="https://www.themeineed.com" target="_blank">Theme I Need</a>. All Rights Reserved.
+					&copy; 2017 <a href="https://www.themeineed.com" target="_blank">Theme
+						I Need</a>. All Rights Reserved.
 				</p>
 			</div>
 		</footer>
 	</div>
 	<!-- END WRAPPER -->
-	
+
 	<script>
 		document.getElementById("delBtn").onclick = function() {
 			location.href = "/write/boardList.write?cpage=1";
 		}
 	</script>
-	
+
 	<script>
 		function goWrite(frm) {
 			var write_title = frm.write_title.value;
