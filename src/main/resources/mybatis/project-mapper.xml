@@ -8,6 +8,29 @@
   	select * from st.project order by pro_seq desc
   </select>
   
+  	<select id="selectAllByPage" resultType="kh.gw.dto.ProjectDTO">
+      select * from (select
+      st.project.*, row_number() over(order by pro_seq
+      desc)
+      rn from st.project)
+      where rn between 
+      #{startRowNum} and #{endRowNum}
+   </select>
+  
+  	<select id="projectSearch" resultType="kh.gw.dto.ProjectDTO">
+		select * from(select st.project.*,row_number() over(order by pro_seq
+		desc)rn from st.project where (${choice}
+		like '%'||#{search}||'%')) where (rn between
+		#{startRowNum} and #{endRowNum})
+	</select>
+  
+  	<select id="getSearchList" resultType="kh.gw.dto.ProjectDTO">
+		select * from st.project
+		<if test="search != ''">
+			where (${choice} like '%'||#{search}||'%')
+		</if>
+	</select>
+  
   <insert id="addProjectProc">
   	insert into st.project values(#{pro_seq},#{pro_title},#{pro_start_date},#{pro_end_date},#{pro_id})
   </insert>
@@ -61,4 +84,7 @@
   	insert into st.project_kanban values(st.pro_kb_seq.nextval,#{pro_seq},#{pro_kb_process_code},'제목 없음','칸반 관련 내용을 추가해주세요.',#{pro_kb_manager})	
   </insert>
   
+  <delete id="destroyKanban">
+  	delete from st.project_kanban where pro_seq=#{pro_seq}
+  </delete>
   </mapper>
