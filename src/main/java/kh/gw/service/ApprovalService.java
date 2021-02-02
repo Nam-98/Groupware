@@ -1,6 +1,8 @@
 package kh.gw.service;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,10 +23,12 @@ import com.google.gson.JsonObject;
 import kh.gw.dao.ApprovalDAO;
 import kh.gw.dto.ApprovalDTO;
 import kh.gw.dto.Approval_attached_filesDTO;
+import kh.gw.dto.Approval_commentsDTO;
 import kh.gw.dto.Approval_signDTO;
 import kh.gw.dto.Approval_sign_typeDTO;
 import kh.gw.dto.Approval_typeDTO;
 import kh.gw.statics.ApprovalConfigurator;
+import kh.gw.statics.BoardConfigurator;
 import kh.gw.statics.AppSeqComparator;
 
 @Service
@@ -37,15 +41,10 @@ public class ApprovalService {
 	private HttpSession session;
 	
 	@Scheduled(cron = "0 0 0 * * *")
-	public String resetConfig() {
+	public void resetConfig() {
 		//매일 자정에 count, date 초기화
 		ApprovalConfigurator.docsCount = 1;
-		
-		//현재날짜 저장
-		SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
-		Date today = new Date();
-		ApprovalConfigurator.docsDate = sdf.format(today);
-		return sdf.format(today);
+
 	}
 	public List<Approval_typeDTO> allDocsType (){
 		return adao.allDocsType();
@@ -55,9 +54,12 @@ public class ApprovalService {
 	}
 	public int writeApp(ApprovalDTO dto) throws Exception {
 		dto.setApp_id((String)session.getAttribute("id"));
-		String docsNum = ApprovalConfigurator.docsDate+"-"+ApprovalConfigurator.docsCount;
+		SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
+		Date today = new Date();
+		String docsNum = sdf.format(today)+"-"+ApprovalConfigurator.docsCount;
 		ApprovalConfigurator.docsCount++;
 		dto.setApp_docs_num(docsNum);
+		String contents = dto.getApp_contents();
 		int result = adao.writeApp(dto);
 		if(result>0) {
 			int app_seq = adao.getLatestSeqById((String)session.getAttribute("id"));
@@ -65,6 +67,10 @@ public class ApprovalService {
 			if(dto.getAttachedfiles()!=null) {
 				this.uploadAttachedFiles(dto.getAttachedfiles(), app_seq);	
 			}
+			//내용파일 저장
+			String sFileName = this.makeTempContent(dto, contents);
+			//// db에 temp로 저장되어 있는 contents를 파일 저장명으로 수정
+			adao.contentsUpdate(app_seq, sFileName);
 			return app_seq;
 		}
 		return -1; 
@@ -111,18 +117,14 @@ public class ApprovalService {
 		List<ApprovalDTO> resultList = new ArrayList<ApprovalDTO>();
 		//올라간 기안 중 내가 결재라인에 포함되어 있는 모든 내역의 Seq를 들고온다.(참조 제외)
 		for (Approval_signDTO dto : signList) {
-			int checkorder = dto.getApp_sign_order()-1;
-			int befOrderCount = adao.countAgree(checkorder, dto.getApp_seq());
-			int yCount = adao.isSignTurn(checkorder, dto.getApp_seq());
-			System.out.println("checkorder : "+checkorder);
-			System.out.println("yCount : "+yCount);
-			System.out.println("befOrderCount : "+befOrderCount);
-			//이전 순서의 y갯수와 합의자(결재자)의 갯수가 같고(이전 결재가 완료됨) 내가 결재 완료한 내역을 넣음
-				if(yCount == befOrderCount && dto.getApp_sign_date()!=null) {
+//			int checkorder = dto.getApp_sign_order()-1;
+//			int befOrderCount = adao.countAgree(checkorder, dto.getApp_seq());
+//			int yCount = adao.isSignTurn(checkorder, dto.getApp_seq());
+			//내가 결재 완료한 내역을 넣음
+				if(dto.getApp_sign_date()!=null) {
 					seqList.add(dto.getApp_seq());
 				}
 		}
-		System.out.println(seqList.size());
 		if(seqList.size()==0) {
 			return resultList;}
 
@@ -134,9 +136,9 @@ public class ApprovalService {
 		
 		//리스트에 표시 할 내 결재완료 여부 저장
 		for(ApprovalDTO dto : resultList) {
-			for(Approval_signDTO sdto : signList) {
-				if(sdto.getApp_seq()==dto.getApp_seq()) {
-					dto.setApp_sign_accept(sdto.getApp_sign_accept());
+			for(Approval_signDTO asdto : signList) {
+				if(asdto.getApp_seq()==dto.getApp_seq()) {
+					dto.setApp_sign_accept(asdto.getApp_sign_accept());
 				}
 			}
 		}
@@ -164,12 +166,12 @@ public class ApprovalService {
 		List<ApprovalDTO> resultList = new ArrayList<ApprovalDTO>();
 		//올라간 기안 중 내가 결재라인에 포함되어 있는 모든 내역의 Seq를 들고온다.(참조 제외)
 		for (Approval_signDTO dto : signList) {
-			int checkorder = dto.getApp_sign_order()-1;
-			int befOrderCount = adao.countAgree(checkorder, dto.getApp_seq());
-			int yCount = adao.isSignTurn(checkorder, dto.getApp_seq());
+//			int checkorder = dto.getApp_sign_order()-1;
+//			int befOrderCount = adao.countAgree(checkorder, dto.getApp_seq());
+//			int yCount = adao.isSignTurn(checkorder, dto.getApp_seq());
 			
-			//이전 순서의 y갯수와 합의자(결재자)의 갯수가 같고(이전 결재가 완료됨) 내가 결재 하지 않은 내역을 넣음
-			if(yCount == befOrderCount && dto.getApp_sign_date()==null) {
+			//내가 결재 하지 않은 내역을 넣음
+			if(dto.getApp_sign_date()==null) {
 				seqList.add(dto.getApp_seq());
 			}
 		}
@@ -181,9 +183,107 @@ public class ApprovalService {
 		int endnum = startnum + ApprovalConfigurator.APP_RECORD_COUNT_PER_PAGE-1;
 		
 		resultList = adao.getAppByCpage(seqList,startnum,endnum);
+		for(ApprovalDTO dto : resultList) {
+			for(Approval_signDTO asdto : signList) {
+				if(asdto.getApp_seq()==dto.getApp_seq()) {
+					dto.setApp_sign_accept(asdto.getApp_sign_accept());
+				}
+			}
+		}
 			//resultList 정렬하기(app_reg_date기준)
 		Collections.sort(resultList, new AppSeqComparator());
 		return resultList;
 	}
 	
+	public String getNavi(int currentPage, List<ApprovalDTO> signList, String hrefText) throws Exception{
+		int recordTotalCount = signList.size(); //총 데이터 개수
+
+		int recordCountPerPage = ApprovalConfigurator.APP_RECORD_COUNT_PER_PAGE;
+		int naviCountPerPage = ApprovalConfigurator.APP_NAVI_COUNT_PER_PAGE;
+
+	int pageTotalCount;
+		if(recordTotalCount % recordCountPerPage > 0) {
+			pageTotalCount = recordTotalCount/recordCountPerPage +1;
+		}else {
+			pageTotalCount = recordTotalCount/recordCountPerPage;
+		}
+
+		if(currentPage < 1) {
+			currentPage = 1;
+		}else if (currentPage > pageTotalCount) {
+			currentPage = pageTotalCount;
+		}
+
+		int startNavi = (currentPage-1)/naviCountPerPage * naviCountPerPage + 1;
+		int endNavi = startNavi + naviCountPerPage -1 ;
+
+		if(endNavi>pageTotalCount) {
+			endNavi = pageTotalCount;
+		}
+
+		boolean needPrev = true;
+		boolean needNext = true;
+
+		if(startNavi == 1) {
+			needPrev = false;
+		}
+		if(endNavi == pageTotalCount) {
+			needNext = false;
+		}
+
+		StringBuilder sb = new StringBuilder();
+
+		if(startNavi != 1) {
+		sb.append("<li><a href='/approval/"+hrefText+"?cPage=1'><span>&laquo;</span></li>");
+		}
+		if(needPrev) {
+			sb.append("<li><a href='/approval/"+hrefText+"?cPage="+(startNavi-1)+"'> <span><</span> </a></li>");
+		}
+		for(int i = startNavi; i <= endNavi; i++) {
+			sb.append("<li><a href='/approval/"+hrefText+"?cPage="+currentPage+"'>"+i+"</a></li>");
+		}
+		if(endNavi != pageTotalCount) {
+			sb.append("<li><a href='/approval/"+hrefText+"?cPage="+pageTotalCount+"'><span> > </span></a></li>");
+		}
+		return sb.toString();
+	}
+	
+	public ApprovalDTO getAppBySeq(int app_seq) {
+		return adao.getAppBySeq(app_seq);
+	}
+	public List<Approval_signDTO> getAppSignBySeq(int app_seq){
+		return adao.getAppSignBySeq(app_seq);
+	}
+	public List<Approval_attached_filesDTO> getAppFileBySeq(int app_seq){
+		return adao.getAppFileBySeq(app_seq);
+	}
+	public List<Approval_commentsDTO> getAppCmtBySeq(int app_seq){
+		return adao.getAppCmtBySeq(app_seq);
+	}
+	private String makeTempContent(ApprovalDTO dto, String contents) throws Exception {
+		// WARING!!!!!! -> project workspace경로가 아닌 project server가 가동되는 경로에 생섣되므로
+		// Project clean시 생성한 file도 삭제됩니다. clean전에 반드시 backup 해주세요!!!!!
+		String sDir = servletContext.getRealPath("/resources/approval_contents");// src/main/webapp/resources/approval_contents폴더
+																				// 경로 출력
+		String sFileName = dto.getApp_seq() + ".html";// 저장할 file이름은 게시판코드_글id.html이 될것입니다.
+		File filesPath = new File(sDir);
+
+		// 파일 디렉토리가 존재한지 검사 없다면 생성
+		if (!filesPath.exists()) {
+			filesPath.mkdir();
+		}
+
+		// BufferedWriter 와 FileWriter를 조합하여 사용 (속도 향상, 기록하고자 하는 파일의 크기가 100K를 넘을때)
+		// sDir경로에 sFileName이름의 파일 생성함
+		File conFile = new File(sDir, sFileName);
+		BufferedWriter fw = new BufferedWriter(new FileWriter(conFile));
+
+		// 파일안에 문자열 쓰기
+		fw.write(contents);
+		fw.flush();
+
+		// 객체 닫기
+		fw.close();
+		return sFileName;
+	}
 }

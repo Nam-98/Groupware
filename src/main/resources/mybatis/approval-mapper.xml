@@ -10,7 +10,7 @@
   		select * from st.approval_sign_type
   	</select>
   	<insert id="writeApp">
-  		insert into st.approval values(st.app_seq.nextval, #{app_type_code}, #{app_id}, #{app_archive}, #{app_title}, #{app_contents}, (select current_date from dual),#{app_docs_num},1)
+  		insert into st.approval values(st.app_seq.nextval, #{app_type_code}, #{app_id}, #{app_archive}, #{app_title}, 'temp', (select current_date from dual),#{app_docs_num},1)
   	</insert>
   	<insert id="setInitAppSign">
   		insert into st.approval_sign values(#{app_seq}, #{app_sign_id}, #{app_sign_order}, null, 'N', #{app_sign_type_code})
@@ -49,4 +49,19 @@
   	<select id="allMyCCList" resultType="int">
   		select app_seq from st.approval_sign where app_sign_id = #{id} and app_sign_type_code = 1
   	</select>
+  	<select id="getAppBySeq" resultType="kh.gw.dto.ApprovalDTO">
+  		select * from st.approval join st.approval_type using (app_type_code) join st.approval_status using (app_status_code) where app_seq=#{app_seq}
+  	</select>
+  	<select id="getAppSignBySeq" resultType="kh.gw.dto.Approval_signDTO">
+  		select * from st.approval_sign where app_seq=#{app_seq} order by app_sign_order
+  	</select>
+  	<select id="getAppFileBySeq" resultType="kh.gw.dto.Approval_attached_filesDTO">
+  		select * from st.approval_attached_files where app_seq=#{app_seq}
+  	</select>
+  	<select id="getAppCmtBySeq" resultType="kh.gw.dto.Approval_commentsDTO">
+  		select * from st.approval where app_seq=#{app_seq}
+  	</select>
+  	<update id="contentsUpdate">
+  		update st.approval set app_contents = #{fileName} where app_seq=#{app_seq}
+  	</update>
   </mapper>

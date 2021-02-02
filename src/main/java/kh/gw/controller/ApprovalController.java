@@ -60,10 +60,33 @@ public class ApprovalController {
 	}
 	
 	@RequestMapping("/toMySignListView.approval")
-	public String toMySignListView (Model model, int cPage) {
-		model.addAttribute("signedList", aservice.getMySignedList(cPage));
-		model.addAttribute("toBeSignList", aservice.getTobeSignList(cPage));
+	public String toMySignListView (Model model, int cPage) throws Exception {
+		List<ApprovalDTO> mySignedList = aservice.getMySignedList(cPage);
+		String signedNavi = aservice.getNavi(1, mySignedList, "toMySignListView.approval");
+		model.addAttribute("signedList", mySignedList);
+		model.addAttribute("signedNavi", signedNavi);
 		return "approval/appMySignListView";
+	}
+	@RequestMapping("/toToBeSignListView.approval")
+	public String toToBeSignListView (Model model, int cPage) throws Exception {
+		List<ApprovalDTO> tobeSignList = aservice.getTobeSignList(cPage);
+		String toBeNavi = aservice.getNavi(1, tobeSignList, "toToBeSignListView.approval");
+		model.addAttribute("toBeSignList", tobeSignList);
+		model.addAttribute("toBeNavi", toBeNavi);
+		return "approval/appToBeSignListView";
+	}
+	@RequestMapping("/toAppDetailView.approval")
+	public String toAppDetailView (Model model, int app_seq) throws Exception {
+		List<MemberDTO> mlist = mservice.listMem();//멤버를 불러옴
+		for(MemberDTO dto : mlist ) {
+			System.out.println(dto.getId());
+		}
+		model.addAttribute("mlist", mlist);
+		model.addAttribute("app", aservice.getAppBySeq(app_seq));
+		model.addAttribute("signs", aservice.getAppSignBySeq(app_seq));
+		model.addAttribute("cmts", aservice.getAppCmtBySeq(app_seq));
+		model.addAttribute("files", aservice.getAppFileBySeq(app_seq));
+		return "approval/appDetailView";
 	}
 	
 	// error

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import kh.gw.dto.ApprovalDTO;
 import kh.gw.dto.Approval_attached_filesDTO;
+import kh.gw.dto.Approval_commentsDTO;
 import kh.gw.dto.Approval_signDTO;
 import kh.gw.dto.Approval_sign_typeDTO;
 import kh.gw.dto.Approval_typeDTO;
@@ -66,5 +67,23 @@ public class ApprovalDAO {
 	}
 	public List<Integer> allMyCCList(String id){
 		return db.selectList("Approval.allMyCCList", id);
+	}
+	public ApprovalDTO getAppBySeq(int app_seq) {
+		return db.selectOne("Approval.getAppBySeq", app_seq);
+	}
+	public List<Approval_signDTO> getAppSignBySeq(int app_seq) {
+		return db.selectList("Approval.getAppSignBySeq",app_seq);
+	}
+	public List<Approval_attached_filesDTO> getAppFileBySeq(int app_seq){
+		return db.selectList("Approval.getAppFileBySeq",app_seq);
+	}
+	public List<Approval_commentsDTO> getAppCmtBySeq(int app_seq){
+		return db.selectList("Approval.getAppCmtBySeq", app_seq);
+	}
+	public int contentsUpdate(int app_seq, String fileName) {
+		HashMap<String, Object> map = new HashMap();
+		map.put("fileName", fileName);
+		map.put("app_seq", app_seq);
+		return db.update("Approval.contentsUpdate", map);
 	}
 }
