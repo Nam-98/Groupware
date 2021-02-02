@@ -5,7 +5,7 @@
   <mapper namespace="Message">
   
   	<insert id="msgProc">
-  		insert into st.message values(st.message_seq.nextval,#{msg_sender},#{msg_receiver},sysdate,null,#{msg_title},#{msg_contents},#{msg_sender_name},#{msg_receiver_name})
+  		insert into st.message values(st.message_seq.nextval,#{msg_sender},#{msg_receiver},(SELECT CURRENT_DATE FROM DUAL),null,#{msg_title},#{msg_contents},#{msg_sender_name},#{msg_receiver_name})
   	</insert>
   	
   	<select id="msgInBoxList" resultType="kh.gw.dto.MessageDTO">
@@ -13,7 +13,7 @@
   	</select>
   	
   	<update id="readDate">
-  		update st.message set msg_receive_date=sysdate where msg_seq=#{value}
+  		update st.message set msg_receive_date=(SELECT CURRENT_DATE FROM DUAL) where msg_seq=#{value}
   	</update>
   	
   	<select id="msgView" resultType="kh.gw.dto.MessageDTO">
@@ -39,5 +39,15 @@
   	<select id="msgOutBoxList" resultType="kh.gw.dto.MessageDTO">
   		select st.message.*, nvl(to_char(msg_receive_date), '읽지않음') as msg_receive_date_str from st.message where msg_sender = #{value} order by msg_seq desc
   	</select>
+  	
+  	<select id="msgInBoxCpage" resultType="kh.gw.dto.MessageDTO">
+  		select * from(select st.message.*,nvl(to_char(to_char(msg_receive_date,'mm/dd HH12:mi')), '읽지않음') as msg_receive_date_str,to_char(msg_send_date,'mm/dd HH12:mi') as msg_sender_date_str,row_number() over(order by msg_seq
+		desc)rn from st.message where (msg_receiver = #{id})) where rn between #{startRowNum} and #{endRowNum}
+  	</select>
+  	
+	<select id="msgOutBoxCpage" resultType="kh.gw.dto.MessageDTO">
+  		select * from(select st.message.*,nvl(to_char(to_char(msg_receive_date,'mm/dd HH12:mi')), '읽지않음') as msg_receive_date_str,to_char(msg_send_date,'mm/dd HH12:mi') as msg_sender_date_str,row_number() over(order by msg_seq
+		desc)rn from st.message where (msg_sender = #{id})) where rn between #{startRowNum} and #{endRowNum}
+  	</select>  	
   	
   </mapper>

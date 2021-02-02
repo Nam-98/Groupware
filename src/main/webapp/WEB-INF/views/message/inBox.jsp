@@ -82,7 +82,7 @@
       							</th>
 								<td><a href="/message/msgReceiveView.message?msg_seq=${i.msg_seq}">${i.msg_title }</a></td>
 								<td>${i.msg_sender_name }</td>
-								<td>${i.msg_send_date }</td>
+								<td>${i.msg_sender_date_str }</td>
 								<td>${i.msg_receive_date_str }</td>
 							</tr>
 						</c:forEach>
