@@ -11,15 +11,6 @@ public class Write_commentsDTO {
 	private Date write_cmt_del;
 	private int write_cmt_parent_id;
 	
-	
-	
-	
-	@Override
-	public String toString() {
-		return "Write_commentsDTO [write_cmt_seq=" + write_cmt_seq + ", write_seq=" + write_seq + ", write_cmt_id="
-				+ write_cmt_id + ", write_cmt_contents=" + write_cmt_contents + ", write_cmt_date=" + write_cmt_date
-				+ ", write_cmt_del=" + write_cmt_del + ", write_cmt_parent_id=" + write_cmt_parent_id + "]";
-	}
 	public int getWrite_cmt_seq() {
 		return write_cmt_seq;
 	}

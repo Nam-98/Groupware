@@ -128,4 +128,7 @@ public class WriteDAO {
 	public List<Write_commentsDTO> commentView(int write_seq) {
 		return db.selectList("Write.commentView", write_seq);
 	}
+	public int commentDelete(int write_cmt_seq) throws Exception{
+		return db.delete("Write.commentDelete", write_cmt_seq);
+	}
 }

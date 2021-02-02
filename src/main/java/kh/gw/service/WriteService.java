@@ -417,12 +417,18 @@ public class WriteService {
 		public int commentWrite(Write_commentsDTO dto) {
 			return wdao.commentWrite(dto);
 		}
-
+		
+		//현재 쓴 댓글부터 select
 		public List<Write_commentsDTO> commentNow(Write_commentsDTO dto) {
 			return wdao.commentNow(dto);
 		}
-
+		// 댓글 리스트로 보이게 하기
 		public List<Write_commentsDTO> commentView(int write_seq) {
 			return wdao.commentView(write_seq);
 		}
+		//댓글 삭제
+		public int commentDelete(int write_cmt_seq) throws Exception{
+			return wdao.commentDelete(write_cmt_seq);
+		}
+
 }

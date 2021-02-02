@@ -53,13 +53,18 @@ public class WriteController {
 
 	//--------------제목 눌렀을때 공지사항 상세로 가기
 	@RequestMapping("noticeView.write")
-	public String noticeView(Model m, HttpServletRequest request, WriteDTO dto) throws Exception{
+	public String noticeView(Model m, HttpServletRequest request, WriteDTO dto, Write_commentsDTO cdto) throws Exception{
 		dto.setWrite_seq(Integer.parseInt(request.getParameter("write_seq")));
 		WriteDTO dtos = wservice.noticeView(dto.getWrite_seq());
 
 		int result = wservice.addViewCount(dto.getWrite_seq()); // 조회수+1
-
+		cdto.setWrite_seq(Integer.parseInt(request.getParameter("write_seq")));
+		List<Write_commentsDTO> list = new ArrayList<Write_commentsDTO>();
+		list = wservice.commentView(cdto.getWrite_seq());
+		
 		m.addAttribute("dtos", dtos);
+		m.addAttribute("list", list);
+
 		return "/write/noticeview";
 	}
 
@@ -93,13 +98,18 @@ public class WriteController {
 
 	//--------------시스템 공지사항 제목 눌렀을때 시스템 공지사항 상세로 가기
 	@RequestMapping("systemNoticeView.write")
-	public String systemNoticeView(Model m, HttpServletRequest request, WriteDTO dto) throws Exception{
+	public String systemNoticeView(Model m, HttpServletRequest request, WriteDTO dto, Write_commentsDTO cdto) throws Exception{
 		dto.setWrite_seq(Integer.parseInt(request.getParameter("write_seq")));
 		WriteDTO dtos = wservice.noticeView(dto.getWrite_seq());
 
 		int result = wservice.addViewCount(dto.getWrite_seq()); // 조회수+1
 
+		cdto.setWrite_seq(Integer.parseInt(request.getParameter("write_seq")));
+		List<Write_commentsDTO> list = new ArrayList<Write_commentsDTO>();
+		list = wservice.commentView(cdto.getWrite_seq());
+		
 		m.addAttribute("dtos", dtos);
+		m.addAttribute("list", list);
 		return "/write/systemnoticeview";
 	}
 	//--------------시스템 공지사항 검색하기
@@ -219,13 +229,18 @@ public class WriteController {
 
 	//------------ 갤러리 게시판 제목 눌렀을 때 상세 게시판
 	@RequestMapping("boardGalleryView.write")
-	public String boardGalleryView(Model m, HttpServletRequest request, WriteDTO dto) throws Exception{
+	public String boardGalleryView(Model m, HttpServletRequest request, WriteDTO dto, Write_commentsDTO cdto) throws Exception{
 		dto.setWrite_seq(Integer.parseInt(request.getParameter("write_seq")));
 		WriteDTO dtos = wservice.noticeView(dto.getWrite_seq());
 
 		int result = wservice.addViewCount(dto.getWrite_seq()); // 조회수+1
+		
+		cdto.setWrite_seq(Integer.parseInt(request.getParameter("write_seq")));
+		List<Write_commentsDTO> list = new ArrayList<Write_commentsDTO>();
+		list = wservice.commentView(cdto.getWrite_seq());
 
 		m.addAttribute("dtos", dtos);
+		m.addAttribute("list", list);
 		return "/write/boardgalleryview";
 	}
 
@@ -292,6 +307,17 @@ public class WriteController {
 		map.put("cmtList", list);
 		String a = gson.toJson(map);
 		System.out.println(a);
+		return a;
+	}
+	
+	//------------- 댓글 삭제
+	@RequestMapping(value = "commentDelete.write", method = RequestMethod.POST)
+	@ResponseBody
+	public Object commentDelete(HttpServletRequest request, Write_commentsDTO cdto) throws Exception{
+		cdto.setWrite_cmt_seq(Integer.parseInt(request.getParameter("write_cmt_seq")));
+		wservice.commentDelete(cdto.getWrite_cmt_seq());
+		Gson gson = new Gson();
+		String a = gson.toJson(1);
 		return a;
 	}
 }

@@ -82,15 +82,17 @@
   	insert into st.write_comments values(st.write_cmt_seq.nextval, #{write_seq}, #{write_cmt_id}, #{write_cmt_contents},sysdate,'','')
   </insert>
 
-   
   <select id="commentNow" resultType="kh.gw.dto.Write_commentsDTO">
 	select * from st.write_comments where write_cmt_seq = (select max(write_cmt_seq) from st.write_comments where write_seq = #{write_seq})
   </select>
   
-  
-   
   <select id="commentView" resultType="kh.gw.dto.Write_commentsDTO">
 	select * from st.write_comments where write_seq = #{write_seq} order by write_cmt_seq desc
   </select>
   
+  <delete id="commentDelete">
+  	delete from st.write_comments where write_cmt_seq = #{value}
+  </delete>
+ 
+
   </mapper>

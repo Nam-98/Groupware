@@ -89,27 +89,6 @@
     padding-left:5px;
     padding-right:5px;
 }
-
-.reply-list > table > tbody > tr[data-modify-mode="N"] .modify-mode-visible {
-    display:none;
-}
-
-.reply-list > table > tbody > tr[data-modify-mode="Y"] .modify-mode-invisible {
-    display:none;
-}
-
-.reply-list > table > tbody > tr > .reply-body-td > .modify-mode-visible > form {
-    width:100%;
-    display:block;
-}
-
-.reply-list > table > tbody > tr > .reply-body-td > .modify-mode-visible > form > textarea {
-    width:100%;
-    height:100px;
-    box-sizing:border-box;
-    display:block;
-}
-
 </style>
 
 </head>
@@ -152,7 +131,6 @@
 			<div class="reply-list con">
     <table>
         <colgroup>
-            <col width="50">
             <col width="150">
             <col width="200">
             <col>
@@ -160,7 +138,6 @@
         </colgroup>
         <thead>
             <tr>
-                <th>번호</th>
                 <th>날짜</th>
                 <th>글쓴이</th>
                 <th>내용</th>
@@ -171,7 +148,6 @@
         <c:if test="${not empty list }">
         	<c:forEach var="i" items="${list }">
             <tr data-modify-mode="N" data-reply-id="9" data-reply-writer-id="3">
-                <td>1</td>
                 <td>
                    ${i.write_cmt_date }
                 </td>
@@ -180,21 +156,11 @@
                 </td>
                 <td class="reply-body-td">
                     <div class="modify-mode-invisible">
-                   	${i.write_cmt_contents }
-                    </div>
-                    <div class="modify-mode-visible">
-                        <form action="" onsubmit="Article__modifyReply(this); return false;">
-                            <input type="hidden" name="id" value="9">
-                            <textarea maxlength="300" name="body"></textarea>
-                            <input type="submit" value="수정완료">
-                            <a href="javascript:;" onclick="Article__turnOffModifyMode(this);">수정취소</a>
-                        </form>
+                   	${i.write_cmt_contents } <input type="hidden" name="cmt_seq" value=${i.write_cmt_seq }>
                     </div>
                 </td>
                 <td>
-                    <a href="javascript:;" onclick="Article__deleteReply(this);">삭제</a>
-                    <a class="modify-mode-invisible" href="javascript:;" onclick="Article__turnOnModifyMode(this);">수정</a>
-                    <a class="modify-mode-visible" href="javascript:;" onclick="Article__turnOffModifyMode(this);">수정취소</a>
+                    <button class="btnDelete">삭제</button>
                 </td>
             </tr>
             </c:forEach>
@@ -203,37 +169,6 @@
     </table>
 </div>
 
-<div class="template-box template-box-2">
-    <table border="1">
-        <tbody>
-            <tr data-modify-mode="N" data-reply-id="{$번호}" data-reply-writer-id="{$작성자번호}">
-                <td>{$번호}</td>
-                <td>
-                    {$날짜}
-                </td>
-                <td>
-                    {$작성자}
-                </td>
-                <td class="reply-body-td">
-                    <div class="modify-mode-invisible">{$내용}</div>
-                    <div class="modify-mode-visible">
-                        <form action="" onsubmit="">
-                            <input type="hidden" name="id" value="{$번호}">
-                            <textarea maxlength="300" name="body"></textarea>
-                            <input type="submit" value="수정완료">
-                            <a href="javascript:;" onclick="Article__turnOffModifyMode(this);">수정취소</a>
-                        </form>
-                    </div>
-                </td>
-                <td>
-                    <a href="javascript:;" onclick="Article__deleteReply(this);">삭제</a>
-                    <a class="modify-mode-invisible" href="javascript:;" onclick="Article__turnOnModifyMode(this);">수정</a>
-                    <a class="modify-mode-visible" href="javascript:;" onclick="Article__turnOffModifyMode(this);">수정취소</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
 <br>
 <div class="reply-write con">
 			        <table>
@@ -279,6 +214,7 @@
 	</div>
 	
 	<!-- END WRAPPER -->
+	</body>
 <script>
 	$('#brWrite').click(function() {
 		var brText = $('#brWriteArea').val();
@@ -310,8 +246,7 @@
 				console.log(data.cmtList[0].write_cmt_id);
 				console.log(data.cmtList[0].write_cmt_seq);
 				insertCommentArea.append(
-						 '<tr data-modify-mode="N" data-reply-id="9" data-reply-writer-id="3">'
-			                +'<td>1</td>'
+						 '<tr>'
 			                +'<td>'
 			                +data.cmtList[0].write_cmt_date
 			                +'</td>'
@@ -324,15 +259,11 @@
 			                    +'<input type="hidden" name="cmt_seq" value="'+data.cmtList[0].write_cmt_seq+'"></div>'
 			                +'</td>'
 			                +'<td>'
-			                 +'   <a href="javascript:;">삭제</a>'
-			                  +'  <a class="modify-mode-invisible" href="javascript:;">수정</a>'
-			                +  '  <a class="modify-mode-visible" href="javascript:;">수정취소</a>'
+			                 +'<button type=button class=btnDelete>삭제</button>'
 			            +   ' </td>'
 			        +  '  </tr> '
 				);
 				
-				
-	
 				},
 				error : function(data) {
 					console.log('컨트롤러 못가');
@@ -341,10 +272,37 @@
 			
 		}
 	})
+	
+	
+	$(document).on('click', '.btnDelete', function() {
+		var parentTr = $(this).parent().parent();
+		var write_cmt_seq = $(this).parent().parent().find('input[name=cmt_seq]').val();
+		console.log(write_cmt_seq);
+		
+		$.ajax({
+			url : "${pageContext.request.contextPath}/write/commentDelete.write",
+			type : "POST",
+			dataType:"json",
+			data : {write_cmt_seq : write_cmt_seq
+			},
+			 success : function(data) {
+				 console.log(data);
+				 parentTr.remove();
+				console.log('삭제됨');
+			}, error : function(data){
+				 console.log(data);
+				console.log('삭제안돼');
+			}
+		});
+		
+		
+	})
+
 
 	document.getElementById("list").onclick=function(){
 		location.href="/write/boardList.write?cpage=1"
 	}
+
 	
 	if ("${dtos.write_id}" == "${sessionScope.id}") {
 		
@@ -354,10 +312,15 @@
 		document.getElementById("modify").onclick = function() {
 			location.href = "/write/modifyBeforeBoard.write?write_seq=${dtos.write_seq}";
 		}
+		$(".btnDelete").css("display","inline");
+		                    
+
 	}else{
 		document.getElementById("delete").style.visibility = "hidden";
 		document.getElementById("modify").style.visibility = "hidden";
+		$(".btnDelete").css("display","none");
+		
 	}
 </script>
-</body>
+
 </html>
