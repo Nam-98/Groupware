@@ -87,7 +87,7 @@
   </select>
   
   <select id="commentView" resultType="kh.gw.dto.Write_commentsDTO">
-	select * from st.write_comments where write_seq = #{write_seq} order by write_cmt_seq desc
+	select * from st.write_comments where write_seq = #{write_seq} order by write_cmt_seq asc
   </select>
   
   <delete id="commentDelete">
