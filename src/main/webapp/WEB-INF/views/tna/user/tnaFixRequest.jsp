@@ -97,16 +97,21 @@
 								<div class="tableBox">
 									<div class="tableLine">
 										<div class="tableTitle">신청 날짜</div>
-										<div class="tableValue">xxxx년 x월 x일 (n요일)</div>
+										<div class="tableValue" id="requestDateDiv">xxxx년 x월 x일 (n요일) [오늘날짜]</div>
 									</div>
 									<div class="tableLine">
 										<div class="tableTitle">현재 상태</div>
-										<div class="tableValue">STATUS (xxxx/x/x/n)</div>
+										<div class="tableValue" id="currentStatusDiv">STATUS (xxxx/x/x/n) [정정할날짜]</div>
 									</div>
 									<div class="tableLine">
 										<div class="tableTitle">변경요청 상태</div>
 										<div class="tableValue">
-											<select></select>
+											<select class="">
+											<c:forEach varStatus="i" var="list" items="${tnaStatusList}">
+												<option value="${list.tna_status_code }">${list.tna_status_name }</option>
+											</c:forEach>
+											</select>
+											
 										</div>
 									</div>
 									<div class="tableLine tableReason">
@@ -118,7 +123,7 @@
 								</div>
 								<div class="buttonBox">
 									<input type="submit" class="btn btn-primary btn-xs" value="신청하기">
-									<input type="button" class="btn btn-gray btn-xs" value="취소">
+									<input type="button" class="btn btn-gray btn-xs" value="취소" id="tnaFixCancel">
 								</div>
 							</form>
 						</div>
@@ -142,6 +147,105 @@
 	</div>
 	<!-- END WRAPPER -->
 
+	<script>
+		// 시간출력함수
+		function printRequestDate() {
+			// 출력할 컴포넌트 아이디 지정
+			var clock = document.getElementById("requestDateDiv");
+			// 현재날짜
+			var now = new Date();
+			// 요일출력 배열
+			var week = [ '일', '월', '화', '수', '목', '금', '토' ];
 
+			// 01월 02월 과 같이 깔끔하지 않은 형태 다듬기 위한 변수
+			var printMonth = now.getMonth() + 1;
+			var printDate = now.getDate();
+
+			// 시,분,초 10보다 작을경우 0 붙이기
+			if (now.getHours() < 10) {
+				printHours = "0" + now.getHours();
+			} else {
+				printHours = now.getHours();
+			}
+			if (now.getMinutes() < 10) {
+				printMinutes = "0" + now.getMinutes();
+			} else {
+				printMinutes = now.getMinutes();
+			}
+			if (now.getSeconds() < 10) {
+				printSeconds = "0" + now.getSeconds();
+			} else {
+				printSeconds = now.getSeconds();
+			}
+
+			var nowTime = now.getFullYear() + "년 " + printMonth + "월 "
+					+ printDate + "일 (" + week[now.getDay()] + "요일) "
+// 					+ printHours + ":" + printMinutes + ":" + printSeconds + ""
+					;
+
+			clock.innerHTML = nowTime;
+			setTimeout("printRequestDate()", 1000);
+		}
+		
+		// 시간출력함수
+		function printCurrentStatus() {
+			// 출력할 컴포넌트 아이디 지정
+			var clock = document.getElementById("currentStatusDiv");
+			var nowStatus = "";
+			// 현재날짜
+			if ("${tna_status}" == "start") {
+				var now = new Date('${tnaCalendarValue.TNA_START_TIME}');
+				nowStatus = '${tnaCalendarValue.TNA_START_STATUS_NAME}';
+			}else {
+				var now = new Date('${tnaCalendarValue.TNA_END_TIME}');
+				nowStatus = '${tnaCalendarValue.TNA_END_STATUS_NAME}';
+			}
+
+			// 요일출력 배열
+			var week = [ '일', '월', '화', '수', '목', '금', '토' ];
+
+			// 01월 02월 과 같이 깔끔하지 않은 형태 다듬기 위한 변수
+			var printMonth = now.getMonth() + 1;
+			var printDate = now.getDate();
+
+			// 시,분,초 10보다 작을경우 0 붙이기
+			if (now.getHours() < 10) {
+				printHours = "0" + now.getHours();
+			} else {
+				printHours = now.getHours();
+			}
+			if (now.getMinutes() < 10) {
+				printMinutes = "0" + now.getMinutes();
+			} else {
+				printMinutes = now.getMinutes();
+			}
+			if (now.getSeconds() < 10) {
+				printSeconds = "0" + now.getSeconds();
+			} else {
+				printSeconds = now.getSeconds();
+			}
+
+			var nowTime = "[" + nowStatus + "] " + now.getFullYear() + "년 " + printMonth + "월 "
+			+ printDate + "일 " 
+				+ printHours + "시 " + printMinutes + "분" 
+// 				+ printSeconds + ""
+				+ " (" + week[now.getDay()] + "요일) "
+				;
+
+			clock.innerHTML = nowTime;
+		}
+		
+
+
+		// 페이지 로드와 동시에 실행
+		window.onload = function() {
+			printRequestDate();
+			printCurrentStatus();
+		}
+		
+		$("#tnaFixCancel").on("click", function() {
+			window.close();
+		});
+	</script>
 </body>
 </html>

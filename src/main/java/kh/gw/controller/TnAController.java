@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import kh.gw.dto.TnA_statusDTO;
 import kh.gw.service.TnAService;
 
 @Controller
@@ -98,15 +99,18 @@ public class TnAController {
 	public String tnaFixRequestPage(HttpServletRequest request, Model model) {
 		// 세션 id값 가져오기
 		String sessionId = (String)session.getAttribute("id");
+		int tna_seq = Integer.parseInt(request.getParameter("tna_seq"));
+		String tna_status = request.getParameter("tna_status");
 		
-//		// 출근시간 조회
-//		Map<String, Object> attendanceValue = tservice.getAttendanceTime(sessionId);
-//		// 퇴근시간 조회
-//		Map<String, Object> leaveWorkValue = tservice.getLeaveWorkTime(sessionId);
-//		// 출퇴근시간 리스트 조회
-//		List<Map<String, Object>> tnaCalendarList = tservice.getTnaCalendarList(sessionId);
+		// 변경할 출퇴근시간 조회
+		Map<String, Object> tnaCalendarValue = tservice.getTnaCalendarValue(sessionId,tna_seq);
+		// 근태상태 리스트 값 조회
+		List<TnA_statusDTO> tnaStatusList = tservice.getTnaStatusList();
 		
-//		model.addAttribute("tnaCalendarList", tnaCalendarList);
+		model.addAttribute("tnaStatusList", tnaStatusList);
+		model.addAttribute("tnaCalendarValue", tnaCalendarValue);
+		model.addAttribute("tna_status", tna_status);
+
 		
 		return "/tna/user/tnaFixRequest";
 	}

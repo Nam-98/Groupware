@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kh.gw.dto.TnADTO;
+import kh.gw.dto.TnA_statusDTO;
 
 @Repository
 public class TnADAO {
@@ -43,5 +44,15 @@ public class TnADAO {
 	public List<Map<String, Object>> getTnaCalendarList(String sessionId) {
 		return db.selectList("TnA.getTnaCalendarList", sessionId);
 	}
+	
+	public Map<String, Object> getTnaCalendarValue(Map<String, Object> param) {
+		return db.selectOne("TnA.getTnaCalendarValue", param);
+	}
+	
+	public List<TnA_statusDTO> getTnaStatusList() {
+		return db.selectList("TnA.getTnaStatusList");
+	}
+	
+	
 	
 }

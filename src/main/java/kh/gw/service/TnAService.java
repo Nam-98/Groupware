@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import kh.gw.dao.TnADAO;
 import kh.gw.dto.TnADTO;
+import kh.gw.dto.TnA_statusDTO;
 import kh.gw.statics.TnAConfigurator;
 
 
@@ -57,8 +58,8 @@ public class TnAService {
 	// 출근시간 입력 프로세스
 	public int attendanceInput(String sessionId) throws ParseException {
 		TnADTO tdto = new TnADTO();
-		tdto.setTnA_id(sessionId);
-		tdto.setTnA_start_status_code(attendanceCheck());
+		tdto.setTna_id(sessionId);
+		tdto.setTna_start_status_code(attendanceCheck());
 		
 		return tdao.attendanceInput(tdto);
 	}
@@ -84,9 +85,9 @@ public class TnAService {
 		int seq = getTnaSeq(sessionId);
 		
 		TnADTO tdto = new TnADTO();
-		tdto.setTnA_id(sessionId);
-		tdto.setTnA_end_status_code(leaveWorkCheck());
-		tdto.setTnA_seq(seq);
+		tdto.setTna_id(sessionId);
+		tdto.setTna_end_status_code(leaveWorkCheck());
+		tdto.setTna_seq(seq);
 		
 		return tdao.leaveWorkInput(tdto);
 	}
@@ -190,6 +191,19 @@ public class TnAService {
 	
 	public List<Map<String, Object>> getTnaCalendarList(String sessionId) {
 		return tdao.getTnaCalendarList(sessionId);
+	}
+	
+	public Map<String, Object> getTnaCalendarValue(String sessionId, int tna_seq) {
+		Map<String, Object> param = new HashMap();
+		
+		param.put("sessionId", sessionId);
+		param.put("tna_seq", tna_seq);
+			
+		return tdao.getTnaCalendarValue(param);
+	}
+	
+	public List<TnA_statusDTO> getTnaStatusList() {
+		return tdao.getTnaStatusList();
 	}
 
 	
