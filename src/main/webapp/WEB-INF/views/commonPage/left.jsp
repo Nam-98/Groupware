@@ -106,7 +106,7 @@
                     </div>
                 </li>
                
-                    <li><a href="/member/enterMyPage.member" class=""><i class="fas fa-sitemap"></i> <span>마이페이지</span></a></li>         
+                    <li><a href="/member/enterMyPage.member" class=""><i class="fas fa-user-cog"></i> <span>마이페이지</span></a></li>         
                     
                
             </ul>
