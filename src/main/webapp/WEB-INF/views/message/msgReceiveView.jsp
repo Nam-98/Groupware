@@ -89,7 +89,7 @@
 							<td class="file" colspan="4">
 								첨부 파일 : 
 								<c:forEach items="${attlist }" var="i">
-									<a href = "/message/attFilesDown.message?msg_seq=${i.msg_seq }&msg_ori_name=${i.msg_ori_name}&msg_saved_name=${i.msg_saved_name}">${i.msg_ori_name}</a>
+									<a href = "/message/attFilesDown.message?msg_seq=${i.msg_seq }&msg_ori_name=${i.msg_ori_name}&msg_saved_name=${i.msg_saved_name}">${i.msg_ori_name}</a><br>
 								</c:forEach>
 							</td>
 						</tr>	

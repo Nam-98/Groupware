@@ -4,6 +4,7 @@ public class Message_attached_filesDTO {
 	private int msg_seq;
 	private String msg_ori_name;
 	private String msg_saved_name;
+	
 	public int getMsg_seq() {
 		return msg_seq;
 	}
@@ -22,14 +23,14 @@ public class Message_attached_filesDTO {
 	public void setMsg_saved_name(String msg_saved_name) {
 		this.msg_saved_name = msg_saved_name;
 	}
+	
 	public Message_attached_filesDTO(int msg_seq, String msg_ori_name, String msg_saved_name) {
 		super();
 		this.msg_seq = msg_seq;
 		this.msg_ori_name = msg_ori_name;
 		this.msg_saved_name = msg_saved_name;
 	}
-	public Message_attached_filesDTO() {
-		super();
-	}
+	
+	public Message_attached_filesDTO() {}
 	
 }
