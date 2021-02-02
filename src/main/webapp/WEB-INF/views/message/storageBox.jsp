@@ -49,50 +49,22 @@
 				<div class="container-fluid">
 					<h3 class="page-title">보관함</h3>
 					
-					<div class="btn-group-ml" role="group" style="text-align: right;">
+					<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" href="#qwe">수신</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#asd">발신</a>
+  </li>
+  
+</ul>
+<div class="tab-content">
+  <div class="tab-pane fade show active" id="inBox">
+   <div class="btn-group-ml" role="group" style="text-align: right;">
   					<button type="button" class="btn btn-primary">삭제</button>
 					</div>
-					<div class="btn-group-ml" role="group">
-  					<button type="button" class="btn btn-secondary" id="btnIn">수신</button>
-  					<button type="button" class="btn btn-secondary" id="btnOut">발신</button>
-					</div>
-					<table class="table table-secondary table-striped" id="inBox">
-					<thead class="table-light">
-						<tr>
-							<th scope="col">
-							<div class="input-group" style="width:5%;">
-							<span class="input-group-addon">
-        					<input type="checkbox" aria-label="...">
-      						</span>
-      						</div>
-      						</th>
-							<th scope="col">제목</th>
-							<th scope="col">발신자</th>
-							<th scope="col">발신일</th>
-							<th scope="col">수신일</th>
-						</tr>
-					</thead>
-					<tbody>
-						<c:forEach var="i" items="${mlist }">
-							<tr>
-								<th scope="col">
-								<div class="input-group" style="width:5%;">
-								<span class="input-group-addon">
-        						<input type="checkbox" aria-label="...">
-      							</span>
-      							</div>
-      							</th>
-								<td><a href="/message/msgView.message?msg_seq=${i.msg_seq}">${i.msg_title }</a></td>
-								<td>${i.msg_sender }</td>
-								<td>${i.msg_send_date }</td>
-								<td>${i.msg_receive_date }</td>
-							</tr>
-						</c:forEach>
-					</tbody>
-				</table>
-				<div class="navi" id="naviIn">${navi }</div>
-				
-				<table class="table table-secondary table-striped" id="outBox">
+					<br>
+					<table class="table table-secondary table-striped">
 					<thead class="table-light">
 						<tr>
 							<th scope="col">
@@ -103,7 +75,7 @@
       						</div>
       						</th>
 							<th scope="col">제목</th>
-							<th scope="col">발신자</th>
+							<th scope="col">수신자</th>
 							<th scope="col">발신일</th>
 							<th scope="col">수신일</th>
 						</tr>
@@ -118,15 +90,64 @@
       							</span>
       							</div>
       							</th>
-								<td><a href="/message/msgView.message?msg_seq=${i.msg_seq}">${i.msg_title }</a></td>
-								<td>${i.msg_sender }</td>
+								<td><a href="/message/msgSenderView.message?msg_seq=${i.msg_seq}">${i.msg_title }</a></td>
+								<td>${i.msg_receiver_name }</td>
 								<td>${i.msg_send_date }</td>
 								<td>${i.msg_receive_date }</td>
 							</tr>
 						</c:forEach>
 					</tbody>
 				</table>
-				<div class="navi" id="naviOut">${navi }</div>
+				<div class="navi" style="text-align: center;">${navi }</div>
+  </div>
+  
+  <div class="tab-pane fade" id="outBox">
+    <div class="container-fluid">
+					<h3 class="page-title">발신함</h3>
+					
+					<div class="btn-group-ml" role="group" style="text-align: right;">
+  					<button type="button" class="btn btn-primary">삭제</button>
+					</div>
+					<br>
+					<table class="table table-secondary table-striped">
+					<thead class="table-light">
+						<tr>
+							<th scope="col">
+							<div class="input-group" style="width:5%;">
+							<span class="input-group-addon">
+        					<input type="checkbox" aria-label="..." class="checkAll">
+      						</span>
+      						</div>
+      						</th>
+							<th scope="col">제목</th>
+							<th scope="col">수신자</th>
+							<th scope="col">발신일</th>
+							<th scope="col">수신일</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach var="i" items="${mlist }">
+							<tr>
+								<th scope="col">
+								<div class="input-group" style="width:5%;">
+								<span class="input-group-addon">
+        						<input type="checkbox" aria-label="..." class="chk">
+      							</span>
+      							</div>
+      							</th>
+								<td><a href="/message/msgSenderView.message?msg_seq=${i.msg_seq}">${i.msg_title }</a></td>
+								<td>${i.msg_receiver_name }</td>
+								<td>${i.msg_send_date }</td>
+								<td>${i.msg_receive_date }</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+				<div class="navi" style="text-align: center;">${navi }</div>
+										
+				</div>
+  </div>
+</div>
 										
 				</div>
 			</div>
@@ -142,20 +163,6 @@
 	</div>
 	<!-- END WRAPPER -->
 	
-	<script>
-		$("#btnIn").on("click",function(){
-			$("#inBox").css("display","block");
-			$("#outBox").css("display","none");
-			$("#naviIn").css("display","block");
-			$("#naviOut").css("display","none");
-		})
-		$("#btnIn").on("click",function(){
-			$("#inBox").css("display","none");
-			$("#outBox").css("display","block");
-			$("#naviIn").css("display","none");
-			$("#naviOut").css("display","block");
-		})
-	</script>
 	<script>
 		$(document).ready(function(){
 			$(".checkAll").click(function(){
