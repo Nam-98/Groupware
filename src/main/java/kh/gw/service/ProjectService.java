@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import kh.gw.dao.ProjectDAO;
 import kh.gw.dto.ProjectDTO;
 import kh.gw.dto.Project_kanbanDTO;
+import kh.gw.statics.BoardConfigurator;
 
 @Service
 public class ProjectService {
@@ -19,6 +20,133 @@ public class ProjectService {
 	public List<ProjectDTO> getList() throws Exception{
 		return pdao.getList();
 	}
+
+	public List<ProjectDTO> listByCpage(int cpage) throws Exception{
+		return pdao.listByCpage(cpage);
+	}
+	
+	public List<ProjectDTO> projectSearch(int cpage, String search, String choice) throws Exception{
+		return pdao.projectSearch(cpage, search, choice);
+	}
+	
+	public String projectSearchNavi(int currentPage, String search, String choice) throws Exception{
+		int recordTotalCount = pdao.getSearchList(search,choice).size(); //총 데이터 개수
+		System.out.println(recordTotalCount);
+		
+		BoardConfigurator configurator = new BoardConfigurator();
+		
+		int recordCountPerPage = configurator.RECORD_COUNT_PER_PAGE;
+		int naviCountPerPage = configurator.NAVI_COUNT_PER_PAGE;
+
+		int pageTotalCount;
+		if(recordTotalCount % recordCountPerPage > 0) {
+			pageTotalCount = recordTotalCount/recordCountPerPage +1;
+		}else {
+			pageTotalCount = recordTotalCount/recordCountPerPage;
+		}
+
+		if(currentPage < 1) {
+			currentPage = 1;
+		}else if (currentPage > pageTotalCount) {
+			currentPage = pageTotalCount;
+		}
+
+		int startNavi = (currentPage-1)/naviCountPerPage * naviCountPerPage + 1;
+		int endNavi = startNavi + naviCountPerPage -1 ;
+
+		if(endNavi>pageTotalCount) {
+			endNavi = pageTotalCount;
+		}
+
+		boolean needPrev = true;
+		boolean needNext = true;
+
+		if(startNavi == 1) {
+			needPrev = false;
+		}
+		if(endNavi == pageTotalCount) {
+			needNext = false;
+		}
+
+		StringBuilder sb = new StringBuilder();
+
+		if(startNavi != 1) {
+			sb.append("<a href='/project/projectSearch.project?choice="+choice+"&search="+search+"&cpage=1> << </a>" + " ");
+		}
+		if(needPrev) {
+			sb.append("<a href='/project/projectSearch.project?choice="+choice+"&search="+search+"&cpage=" + (startNavi-1)+"'> < </a>" + " ");
+		}
+		for(int i = startNavi; i <= endNavi; i++) {
+			sb.append("<a href='/project/projectSearch.project?choice="+choice+"&search="+search+"&cpage=" +i+"'>"+i+"</a>"+" " );
+		}
+		if(endNavi != pageTotalCount) {
+			sb.append("<a href='/project/projectSearch.project?choice="+choice+"&search="+search+"&cpage="+pageTotalCount+"'> >> </a>");
+		}
+		return sb.toString();
+	}
+	
+	public String getListNavi(int currentPage) throws Exception{
+		int recordTotalCount=  pdao.getList().size();
+
+		
+		int recordCountPerPage = BoardConfigurator.RECORD_COUNT_PER_PAGE; 
+		int naviCountPerPage = BoardConfigurator.NAVI_COUNT_PER_PAGE; 
+		int pageTotalCount;
+		if (recordTotalCount % recordCountPerPage > 0) {
+			pageTotalCount = recordTotalCount / recordCountPerPage + 1;
+		} else {
+			pageTotalCount = recordTotalCount / recordCountPerPage;
+		}
+
+				if (currentPage < 1) {
+			currentPage = 1;
+		} else if (currentPage > pageTotalCount) {
+			currentPage = pageTotalCount;
+		}
+
+		int startNavi = (currentPage - 1) / naviCountPerPage * naviCountPerPage + 1;
+		int endNavi = startNavi + naviCountPerPage - 1;
+
+		if (endNavi > pageTotalCount) {
+			endNavi = pageTotalCount;
+		}
+
+		boolean needPrev = true;
+		boolean needNext = true;
+		
+
+		if (startNavi == 1) {
+			needPrev = false;
+		}
+		if (endNavi == pageTotalCount) {
+			needNext = false;
+		}
+		StringBuilder sb = new StringBuilder();
+
+		if (startNavi != 1) {
+			sb.append("<a href ='/project/enterProjectList.project?cpage=1'><맨 앞으로></a>");
+			sb.append("&nbsp;&nbsp;&nbsp;&nbsp;");
+		}
+
+		if (needPrev) {
+			sb.append("<a href ='/project/enterProjectList.project?cpage=" + (startNavi - 1) + "'>◀</a>");
+		}
+		for (int i = startNavi; i <= endNavi; i++) {
+			sb.append("<a href ='/project/enterProjectList.project?cpage=" + i + "'>" + i + "</a>");
+			sb.append(" ");
+		}
+		if (needNext) {
+			sb.append("<a href ='/project/enterProjectList.project?cpage=" + (endNavi + 1) + "'>▶</a>");
+		}
+
+		if (endNavi != pageTotalCount) {
+			sb.append("&nbsp;&nbsp;&nbsp;&nbsp;");
+			sb.append("<a href ='/project/enterProjectList.project?cpage=" + pageTotalCount + "'>" + "<맨 끝으로></a>");
+		}
+
+		return sb.toString();
+	}
+
 	
 	public int addProjectProc(ProjectDTO dto) throws Exception{
 		return pdao.addProjectProc(dto);
@@ -95,5 +223,9 @@ public class ProjectService {
 	
 	public int addKanban(Project_kanbanDTO dto) throws Exception{
 		return pdao.addKanban(dto);
+	}
+	
+	public int destroyKanban(ProjectDTO dto) throws Exception{
+		return pdao.destroyKanban(dto);
 	}
 }

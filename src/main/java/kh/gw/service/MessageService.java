@@ -85,8 +85,8 @@ public class MessageService {
 	}
 	
 	//수신함list 불러오기
-	public List<MessageDTO> msgInBoxList(String id) throws Exception{
-		return mdao.msgInBoxList(id);
+	public List<MessageDTO> msgInBoxCpage(String id,int cpage) throws Exception{
+		return mdao.msgInBoxCpage(id,cpage);
 	}
 	
 	//수신함 navi 불러오기
@@ -146,8 +146,8 @@ public class MessageService {
 	}
 	
 	//발신함 list
-	public List<MessageDTO> msgOutBoxList(String id) throws Exception{
-		return mdao.msgOutBoxList(id);
+	public List<MessageDTO> msgOutBoxCpage(String id,int cpage) throws Exception{
+		return mdao.msgOutBoxCpage(id,cpage);
 	}
 	
 	//발신함 navi 불러오기

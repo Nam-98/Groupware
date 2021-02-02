@@ -105,14 +105,10 @@
                         </ul>
                     </div>
                 </li>
-                <li>
-                    <a href="#subPagesMyp" data-toggle="collapse" class="collapsed"><i class="fas fa-id-card"></i> <span>마이페이지</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
-                    <div id="subPagesMyp" class="collapse ">
-                        <ul class="nav">
-                            <li><a href="/member/enterMyPage.member" class="">개인정보수정</a></li>
-                        </ul>
-                    </div>
-                </li>
+               
+                    <li><a href="/member/enterMyPage.member" class=""><i class="fas fa-user-cog"></i> <span>마이페이지</span></a></li>         
+                    
+               
             </ul>
             </nav>
         </div>

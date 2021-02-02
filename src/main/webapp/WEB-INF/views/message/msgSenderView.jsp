@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>쪽지 쓰기</title>
+<title>쪽지 확인(발신함)</title>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <!-- 아이콘 fontawesome -->
     <script src="https://kit.fontawesome.com/b1e233372d.js"></script>
@@ -31,11 +31,21 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
-    <style>
-    .btn{
+    	<style>
+* { margin: auto;
+	box-sizing: border-box;
+}
+
+.contents {
+	padding: left;
+	width: 400px;
+	height: 400px;
+}
+.btn{
 	margin-left: 5px;
 }
-    </style>
+
+</style>
 </head>
 <body>
 	<!-- WRAPPER -->
@@ -59,23 +69,33 @@
 
 <div style="width: 80%;">
 	<form method="post" enctype="multipart/form-data" action="/message/msgProc.message?msg_receiver=${mdto.msg_receiver }">
-		<div>
-		받는 사람 : <input type="text" name="msg_receiver_name" style="width: 90%;" value="${mdto.msg_receiver_name }" readonly/></div><br>
-		<div>
-		보낸 사람 : <input type="text" name="msg_sender_name" style="width: 90%;" value="${mdto.msg_sender_name }" readonly/></div>
-		<br>
-		<div>
-		제목 : <input type="text" placeholder="제목을 입력하시오." name="msg_title" value="${mdto.msg_title }" style="width: 93%;"/></div>
-		<br>
-		<textarea id="summernote" name="msg_contents" placeholder="내용을 입력하시오.">${mdto.msg_contents }</textarea>
-		
-		<div class="input-group" style="width: 100%;">
-  		<input type="file" class="form-control" name="attfiles" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" style="width: 100%;"> 
-		</div>
+		<table class="table">
+					<thead>
+						<tr>
+							<th scope="col" class="col-7">제목 : ${mdto.msg_title }</th>
+							<th scope="col" class="col-2">발신자 : ${mdto.msg_sender_name }</th>
+							<th scope="col" class="col-2">발신일 : ${mdto.msg_send_date }</th>
+							<th scope="col" class="col-1">수신일 : ${mdto.msg_receive_date }</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="contents" colspan="4">${mdto.msg_contents }</td>
+						</tr>
+						<tr>
+							<td class="file" colspan="4">
+								첨부 파일 : 
+								<c:forEach items="${attlist }" var="i">
+									<a href = "/message/attFilesDown.message?msg_seq=${i.msg_seq }&msg_ori_name=${i.msg_ori_name}&msg_saved_name=${i.msg_saved_name}">${i.msg_ori_name}</a>
+								</c:forEach>
+							</td>
+						</tr>	
+					</tbody>
+				</table>
 		
 		<button type="button" class="btn btn-primary" style="float: right;" id="list">목록으로</button>
 		<button type="button" class="btn btn-primary" style="float: right;" id="reWrite">새로 쓰기</button>
-		<input id="subBtn" class="btn btn-primary" type="submit" value="보내기" style="float: right;" onclick="goWrite(this.form)"/>
+		
 	</form>
 </div>
 				</div>
@@ -91,53 +111,7 @@
 		</footer>
 	</div>
 	<!-- END WRAPPER -->
-	<script>
-$(document).ready(function() {
-    //여기 아래 부분
-    $('#summernote').summernote({
-       height : 300, // 에디터 높이
-       minHeight : 300, // 최소 높이
-       maxHeight : null, // 최대 높이
-       focus : true, // 에디터 로딩후 포커스를 맞출지 여부
-       lang : "ko-KR", // 한글 설정
-       toolbar: [
-              // [groupName, [list of button]]
-              ['fontname', ['fontname']],
-              ['fontsize', ['fontsize']],
-              ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
-              ['color', ['forecolor','color']],
-              ['table', ['table']],
-              ['para', ['ul', 'ol', 'paragraph']],
-              ['height', ['height']],
-              ['insert',['picture','link','video']],
-              ['view', ['fullscreen', 'help']]
-            ],
-          fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋음체','바탕체'],
-          fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
-    });
- });
-</script>	
-<script>
-function goWrite(frm) {
-	var title = frm.title.value;
-	var writer = frm.writer.value;
-	var content = frm.content.value;
-	
-	if (title.trim() == ''){
-		alert("제목을 입력해주세요");
-		return false;
-	}
-	if (writer.trim() == ''){
-		alert("작성자를 입력해주세요");
-		return false;
-	}
-	if (content.trim() == ''){
-		alert("내용을 입력해주세요");
-		return false;
-	}
-	frm.submit();
-}
-</script>
+
 <script>
 	document.getElementById("reWrite").onclick = function(){
 		location.href = "/message/writeMsg.message";

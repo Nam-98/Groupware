@@ -177,7 +177,13 @@ function getReturnValue(returnValue) {
 </script>
 <script>
 $("#date2").change(function(){
-alert(" 날짜 비교 메서드 미구현 주의 ; 프로젝트는 생성됨 ");
+var start_date=document.getElementById("date3").value;
+var end_date=document.getElementById("date2").value;
+
+if(end_date <= start_date){
+	alert("종료일자를 재설정해주세요.");
+	document.getElementById("date2").value='';
+}
 });
 </script>
 </html>

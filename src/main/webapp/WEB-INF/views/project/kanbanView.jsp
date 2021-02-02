@@ -166,52 +166,9 @@
                     $(item).find(".jqx-kanban-item-color-status").html("<span style='line-height: 23px; margin-left: 5px;'>" + resource.name + "</span><img style=' width : 20px; height : 20px; line-height: 23px; margin-left: 5px;' src=" + resource.image + ">");
                     $(item).find(".jqx-kanban-item-text").css('background', item.color);
                     item.on('dblclick', function (event) {
-                        var input = $("<textarea placeholder='(No Title)' style='border: none; width: 100%;' class='jqx-input'></textarea>");
-                        var addToHeader = false;
-                        var header = null;
-                        if (event.target.nodeName == "SPAN" && $(event.target).parent().hasClass('jqx-kanban-item-color-status')) {
-                            var input = $("<input placeholder='(No Title)' style='border: none; background: transparent; width: 80%;' class='jqx-input'/>");
-                            // add to header
-                            header = event.target;
-                            header.innerHTML = "";
-                            input.val($(event.target).text());
-                            $(header).append(input);
-                            addToHeader = true;
-                        }
-                        if (!addToHeader) {
-                            var textElement = item.find(".jqx-kanban-item-text");
-                            input.val(textElement.text());
-                            textElement[0].innerHTML = "";
-                            textElement.append(input);
-                        }
-                        input.mousedown(function (event) {
-                            event.stopPropagation();
-                        });
-                        input.mouseup(function (event) {
-                            event.stopPropagation();
-                        });
-                        input.blur(function () {
-                            var value = input.val();
-                            if (!addToHeader) {
-                                $("<span>" + value + "</span>").appendTo(textElement);
-                            }
-                            else {
-                                header.innerHTML = value;
-                            }
-                            input.remove();
-                        });
-                        input.keydown(function (event) {
-                            if (event.keyCode == 13) {
-                                if (!header) {
-                                    $("<span>" + $(event.target).val() + "</span>").insertBefore($(event.target));
-                                    $(event.target).remove();
-                                }
-                                else {
-                                    header.innerHTML = $(event.target).val();
-                                }
-                            }
-                        });
-                        input.focus();
+                    	var options='top=10, left=10, width=800, height=600, status=no, menubar=no, toolbar=no, resizable=no';
+                        window.open("/project/fixkanbanPop.project?itemId="+data.id,"popup",options);
+                    	
                     });
                 },
                 columns: [
@@ -283,12 +240,12 @@
 						<br><br>
 						<span class="glyphicon glyphicon-ok"
 							aria-hidden="true"></span> <span class="sr-only">Check:</span>&nbsp
-						칸반 이동 시 팝업창이 뜨는 기능 고치기.<br><br>
+						상세 설명 및 내용 변경은 칸반 <strong>더블클릭</strong><br><br>
 					</div>
 					<div class="top-vacant d-none d-lg-block"></div>
 							
 							<button type="button" id="destroyKanban" class="btn btn-primary">초기화</button>
-
+							<button id="back" class="btn btn-info">목록으로</button>
 					<div class="top-vacant d-none d-lg-block"></div>
 					<div class="panel panel-headline demo-icons">
 						<div class="panel-heading">
@@ -314,19 +271,6 @@
 		
 	</div>
 </body>
-
-<!--칸반 클릭 시 이벤트-->
-<script>
-$('#kanban').on('itemAttrClicked', function (event) {
-    var args = event.args;//attribute랑 item 이랑 itemId뽑힘
-    var itemId = args.itemId;
-    var attribute = args.attribute; // template, colorStatus, content, keyword, text, avatar
-    
-    var options='top=10, left=10, width=800, height=600, status=no, menubar=no, toolbar=no, resizable=no';
-	window.open("/project/fixkanbanPop.project?itemId="+itemId,"popup",options);
-	console.log("Clicked");
-});
-</script>
 <!-- 칸반 이동 시 이벤트  -->
 <script>
 $('#kanban').on('itemMoved', function (event) {
@@ -335,13 +279,28 @@ $('#kanban').on('itemMoved', function (event) {
     var newColumn = args.newColumn;
     var newDatafield = newColumn.dataField;
     location.href = "/project/kanbanMoved.project?itemId="+itemId+"&newDatafield="+newDatafield;
-    console.log("Moved");
+    
+});
+</script>
+<!--칸반(x) 클릭 시 이벤트-->
+<script>
+$('#kanban').on('itemAttrClicked', function (event) {
+    var args = event.args;//attribute랑 item 이랑 itemId뽑힘
+    var itemId = args.itemId;
+    
+    if(args.attribute=="template"){
+    	location.href= "/project/deleteKanbanTemplate.project?pro_kb_seq="+itemId;
+    }
+
 });
 </script>
 <!-- 칸반 초기화 -->
 <script>
 $('#destroyKanban').on("click", function() {
-    alert("미구현");
+	location.href = "/project/destroyKanban.project?pro_seq=${pdto.pro_seq}&pro_id=${pdto.pro_id}";
+});
+$("#back").on("click", function() {
+	location.href = "/project/enterProjectList.project?cpage=1";
 });
 </script>
 </html>
