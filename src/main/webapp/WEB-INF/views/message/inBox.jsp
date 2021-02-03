@@ -50,8 +50,77 @@
 					<h3 class="page-title">수신함</h3>
 					
 					<div class="btn-group-ml" role="group" style="text-align: right;">
-  					<button type="button" class="btn btn-primary">보관함 이동</button>
-  					<button type="button" class="btn btn-primary">삭제</button>
+  					<button type="button" class="btn btn-primary" id="cabBtn">보관함 이동</button>
+  					<script>
+  						$("#cabBtn").click(function(){
+  							var confirm_val = confirm("보관함으로 옮기시겠습니까?");
+  							
+  							if(confirm_val){
+  								var chkArr = new Array();
+  								
+  								$("input[class='chk']:checked").each(function(){
+  									chkArr.push($(this).attr("value"));
+  								});
+  								
+  								$.ajax({
+  									url : "/message/msgCabinsert.message",
+  									type : "post",
+  									data : {"chk" : chkArr},
+  								}).done(function(result){
+  										console.log("result123 : "+result);
+										let json = JSON.parse(result);
+  										console.log(json);
+  										if(json.result == 1){
+  										location.href = "/message/msgInBoxList.message?cpage=1";
+  										
+  										for(var i=0; i<chkArr.length;i++){
+  											let temp = ".trChk_"+chkArr[i];
+  											$(temp).remove();
+  										}
+  										}else{
+  											alert("삭제 실패");
+  										}
+  									})
+  							}
+  						})
+  					</script>
+  					
+  					
+  					
+  					<button type="button" class="btn btn-primary" id="delBtn">삭제</button>
+  					<script>
+  						$("#delBtn").click(function(){
+  							var confirm_val = confirm("정말 삭제하시겠습니까?");
+  							
+  							if(confirm_val){
+  								var chkArr = new Array();
+  								
+  								$("input[class='chk']:checked").each(function(){
+  									chkArr.push($(this).attr("value"));
+  								});
+  								
+  								$.ajax({
+  									url : "/message/delMsgInList.message",
+  									type : "post",
+  									data : {"chk" : chkArr},
+  								}).done(function(result){
+  										console.log("result123 : "+result);
+										let json = JSON.parse(result);
+  										console.log(json);
+  										if(json.result == 1){
+  										location.href = "/message/msgInBoxList.message?cpage=1";
+  										
+  										for(var i=0; i<chkArr.length;i++){
+  											let temp = ".trChk_"+chkArr[i];
+  											$(temp).remove();
+  										}
+  										}else{
+  											alert("삭제 실패");
+  										}
+  									})
+  							}
+  						})
+  					</script>
 					</div>
 					<br>
 					<table class="table table-secondary table-striped">
@@ -72,11 +141,11 @@
 					</thead>
 					<tbody>
 						<c:forEach var="i" items="${mlist }">
-							<tr>
+							<tr class="trChk_${i.msg_seq}">
 								<th scope="col">
 								<div class="input-group" style="width:5%;">
 								<span class="input-group-addon">
-        						<input type="checkbox" aria-label="..." class="chk">
+        						<input type="checkbox" class="chk" name="msg_seq" value="${i.msg_seq}">
       							</span>
       							</div>
       							</th>
@@ -88,6 +157,7 @@
 						</c:forEach>
 					</tbody>
 				</table>
+				
 				<div class="navi" style="text-align: center;">${navi }</div>
 										
 				</div>
@@ -96,11 +166,7 @@
 		</div>
 		<!-- END MAIN -->
 		<div class="clearfix"></div>
-		<footer>
-			<div class="container-fluid">
-				<p class="copyright">&copy; 2017 <a href="https://www.themeineed.com" target="_blank">Theme I Need</a>. All Rights Reserved.</p>
-			</div>
-		</footer>
+<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
 	</div>
 	<!-- END WRAPPER -->
 	<script>
@@ -109,6 +175,11 @@
 				$(".chk").prop("checked",this.checked);
 			})
 		})
+	</script>
+	<script>
+		$(".chk").click(function(){
+			$(".checkAll").prop("checked",false);
+		});
 	</script>
 </body>
 </html>

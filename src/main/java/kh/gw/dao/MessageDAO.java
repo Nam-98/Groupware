@@ -47,11 +47,16 @@ public class MessageDAO {
 		return db.selectOne("Message.msgView",msg_seq);
 	}
 	
-	//쪽지 상세보기에서 삭제 버튼 클릭 시
+	//쪽지 삭제(수신)
 	public int msgDelete(int msg_seq) throws Exception{
 		return db.delete("Message.msgDelete",msg_seq);
 	}
 	
+	//쪽지 삭제(발신)
+	public int msgOutBoxDel(int msg_seq) throws Exception{
+		return db.delete("Message.msgOutBoxDel",msg_seq);
+	}
+		
 	//쪽지 수신함 list size구하기
 	public List<MessageDTO> msgInBoxList(String id) throws Exception{
 		return db.selectList("Message.msgInBoxList",id);
@@ -85,5 +90,7 @@ public class MessageDAO {
 		param.put("id", id);
 		return db.selectList("Message.msgOutBoxCpage",param);
 	}
+	
+	
 	
 }

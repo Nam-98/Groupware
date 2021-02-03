@@ -9,6 +9,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import kh.gw.dao.MessageDAO;
@@ -79,9 +81,14 @@ public class MessageService {
 		return mdao.msgView(msg_seq);
 	}
 	
-	//쪽지 상세보기에서 삭제 버튼 클릭 시
+	//쪽지 삭제 (수신)
 	public int msgDelete(int msg_seq) throws Exception{
 		return mdao.msgDelete(msg_seq);
+	}
+	
+	//쪽지 삭제 (발신)
+	public int msgOutBoxDel(int msg_seq) throws Exception{
+		return mdao.msgOutBoxDel(msg_seq);
 	}
 	
 	//수신함list 불러오기
@@ -205,6 +212,9 @@ public class MessageService {
 			}
 			return sb.toString();
 		}
+	
+		//쪽지 chk박스로 보관함
+		
 	
 	
 }
