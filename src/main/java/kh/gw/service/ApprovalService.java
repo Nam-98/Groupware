@@ -2,7 +2,9 @@ package kh.gw.service;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -68,7 +70,7 @@ public class ApprovalService {
 				this.uploadAttachedFiles(dto.getAttachedfiles(), app_seq);	
 			}
 			//내용파일 저장
-			String sFileName = this.makeTempContent(dto, contents);
+			String sFileName = this.makeTempContent(app_seq, contents);
 			//// db에 temp로 저장되어 있는 contents를 파일 저장명으로 수정
 			adao.contentsUpdate(app_seq, sFileName);
 			return app_seq;
@@ -260,14 +262,13 @@ public class ApprovalService {
 	public List<Approval_commentsDTO> getAppCmtBySeq(int app_seq){
 		return adao.getAppCmtBySeq(app_seq);
 	}
-	private String makeTempContent(ApprovalDTO dto, String contents) throws Exception {
+	private String makeTempContent(int app_seq, String contents) throws Exception {
 		// WARING!!!!!! -> project workspace경로가 아닌 project server가 가동되는 경로에 생섣되므로
 		// Project clean시 생성한 file도 삭제됩니다. clean전에 반드시 backup 해주세요!!!!!
 		String sDir = servletContext.getRealPath("/resources/approval_contents");// src/main/webapp/resources/approval_contents폴더
 																				// 경로 출력
-		String sFileName = dto.getApp_seq() + ".html";// 저장할 file이름은 게시판코드_글id.html이 될것입니다.
+		String sFileName = app_seq + ".html";// 저장할 file이름은 게시판코드_글id.html이 될것입니다.
 		File filesPath = new File(sDir);
-
 		// 파일 디렉토리가 존재한지 검사 없다면 생성
 		if (!filesPath.exists()) {
 			filesPath.mkdir();
@@ -284,6 +285,47 @@ public class ApprovalService {
 
 		// 객체 닫기
 		fw.close();
+		
+		/////실 사용시에 하단의 코드는 지워주세요(혹은 주석)
+		String dir2 = "D:\\02_Coding\\FinalWorkspace\\FinalBackWorkspace\\Groupware\\src\\main\\webapp\\resources\\approval_contents";
+		File filesPath2 = new File(dir2);
+		if (!filesPath2.exists()) {
+			filesPath2.mkdir();
+		}
+		
+		File conFile2 = new File(dir2, sFileName);
+		BufferedWriter fw2 = new BufferedWriter(new FileWriter(conFile2));
+
+		// 파일안에 문자열 쓰기
+		fw2.write(contents);
+		fw2.flush();
+
+		// 객체 닫기
+		fw2.close();
 		return sFileName;
+	}
+	
+	public String getHtmlText (int app_seq) throws Exception {
+	      //----------------------html파일 전달하기
+	      int cur = 0;
+	      
+	      //src/main/webapp/resources/write_contents폴더 경로 출력
+	      String sDir = servletContext.getRealPath("/resources/approval_contents");
+	      //저장할 file이름은 게시판코드_글id.html이 될것입니다.
+	      String sFileName = app_seq+".html";
+	      
+	      StringBuilder sb = new StringBuilder();
+	         //sDir 폴더속 sFileName을 가져온다.
+	         File file = new File(sDir, sFileName);
+	         FileReader file_reader = new FileReader(file);
+
+	         while((cur = file_reader.read()) != -1){
+	            sb.append((char)cur);
+	         }
+	         
+	         file_reader.close();
+	     	      
+	      return sb.toString() ;
+	      
 	}
 }

@@ -28,7 +28,7 @@
 	<script src="/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 	<script src="/assets/vendor/chartist/js/chartist.min.js"></script>
 	<script src="/assets/scripts/klorofil-common.js"></script>
-	<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+	<script	src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 </head>
 <body>
 	<!-- WRAPPER -->
@@ -88,7 +88,7 @@
 
 						<!-- pannel 내부의 내용 작성 div-->
 						<div class="panel-body">
-							<div id="tViewer">${app.app_contents}</div>
+							<div id="tViewer">${contents}</div>
 						</div>
 
 						
@@ -106,13 +106,6 @@
 		</footer>
 	</div>
 	<!-- END WRAPPER -->
-	<script>
-	const viewer = toastui.Editor.factory({
-        el: document.querySelector("#tViewer"),
-        viewer: true,
-        height:'500px',
-        initialValue:'# content' //혹은 String값을 가지고 있는 변수
-    })
-	</script>
+
 </body>
 </html>

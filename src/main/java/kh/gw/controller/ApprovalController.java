@@ -77,15 +77,12 @@ public class ApprovalController {
 	}
 	@RequestMapping("/toAppDetailView.approval")
 	public String toAppDetailView (Model model, int app_seq) throws Exception {
-		List<MemberDTO> mlist = mservice.listMem();//멤버를 불러옴
-		for(MemberDTO dto : mlist ) {
-			System.out.println(dto.getId());
-		}
-		model.addAttribute("mlist", mlist);
+		model.addAttribute("mlist", mservice.listMem());
 		model.addAttribute("app", aservice.getAppBySeq(app_seq));
 		model.addAttribute("signs", aservice.getAppSignBySeq(app_seq));
 		model.addAttribute("cmts", aservice.getAppCmtBySeq(app_seq));
 		model.addAttribute("files", aservice.getAppFileBySeq(app_seq));
+		model.addAttribute("contents", aservice.getHtmlText(app_seq));
 		return "approval/appDetailView";
 	}
 	
