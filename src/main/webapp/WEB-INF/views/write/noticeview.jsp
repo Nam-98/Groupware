@@ -210,11 +210,7 @@
 		</div>
 		<!-- END MAIN -->
 		<div class="clearfix"></div>
-		<footer>
-			<div class="container-fluid">
-				<p class="copyright">&copy; 2017 <a href="https://www.themeineed.com" target="_blank">Theme I Need</a>. All Rights Reserved.</p>
-			</div>
-		</footer>
+<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
 	</div>
 	<!-- END WRAPPER -->
 	<script>
@@ -243,6 +239,8 @@
 					write_cmt_contents : brText
 				},
 				success : function(data) {
+				document.getElementById("brWriteArea").value="";
+				
 				console.log(data.cmtList[0].write_cmt_contents);
 				console.log(data.cmtList[0].write_cmt_date);
 				console.log(data.cmtList[0].write_cmt_id);
