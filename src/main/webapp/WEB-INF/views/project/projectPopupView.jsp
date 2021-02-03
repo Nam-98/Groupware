@@ -193,9 +193,7 @@ li>a {
 		</div>
 	<!-- END MAIN CONTENT -->
 	<div class="clearfix"></div>
-	<footer>
 <jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
-	</footer>
 	</div>
 </body>
 
