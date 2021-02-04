@@ -116,7 +116,6 @@
 				<table class="table">
 					<thead>
 						<tr>
-						 
 							<th scope="col" class="col-7">제목 : ${dtos.write_title }<input id="brWriteId" type="hidden" value="${dtos.write_seq }"></th>
 							<th scope="col" class="col-2">작성자 : ${dtos.write_id } <input id="loginId" type="hidden" value="${sessionScope.id}"></th>
 							<th scope="col" class="col-2">작성일 : ${dtos.write_reg_date }</th>
@@ -146,9 +145,9 @@
             </tr>
         </thead>
         <tbody id="commentsBody">
-        <c:if test="${not empty list }">
+        	<c:if test="${not empty list }">
         	<c:forEach var="i" items="${list }">
-            <tr data-modify-mode="N" data-reply-id="9" data-reply-writer-id="3">
+            <tr>
                 <td>
                    ${i.write_cmt_date }
                 </td>
@@ -156,7 +155,7 @@
                 	${i.write_cmt_id }
                 </td>
                 <td class="reply-body-td">
-                    <div class="modify-mode-invisible">
+                    <div>
                    	${i.write_cmt_contents } <input type="hidden" name="cmt_seq" value=${i.write_cmt_seq }>
                     </div>
                 </td>
@@ -165,7 +164,7 @@
                 </td>
             </tr>
             </c:forEach>
-      </c:if>
+     		</c:if>
         </tbody>
     </table>
 </div>
