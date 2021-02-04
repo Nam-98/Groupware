@@ -298,7 +298,6 @@
 											write_cmt_parent_seq : rePid
 										},
 										success : function(data) {
-
 										console.log(data);
 										insertReplyArea.first().append(
 												'<div class="bundle">	'
