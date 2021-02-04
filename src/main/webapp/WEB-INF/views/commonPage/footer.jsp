@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 	<footer style='position:inherit;'>
-	<div  style='border: 1px solid black; '>
+	<div  style='border: 0px solid black; '>
 	<p class="copyright">&nbsp&nbsp&nbsp&nbsp
 		<a href="https://github.com/Nam-98/Groupware.git" target="_blank">Git-hub</a>
 		| <a href="https://www.notion.so/584b28b9b2a14a64ab94712a257cd1b5"
