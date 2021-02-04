@@ -2,6 +2,9 @@ package kh.gw.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +17,9 @@ import kh.gw.statics.BoardConfigurator;
 public class WriteService {
 	@Autowired
 	private WriteDAO wdao;
+	
+	@Autowired
+	private HttpSession session;
 
 	//----------------게시판 list cpage
 	public List<WriteDTO> noticeByCpage(int cpage, String writeCode) throws Exception{
@@ -431,4 +437,15 @@ public class WriteService {
 			return wdao.commentDelete(write_cmt_seq);
 		}
 
+		public List<Write_commentsDTO> reCommentList(Write_commentsDTO dto) {
+			return wdao.reCommentList(dto);
+		}
+
+		public int reCommentWrite(Write_commentsDTO dto) {
+			return wdao.reCommentWrite(dto);
+		}
+
+		public List<Write_commentsDTO> reCommentNow(Write_commentsDTO dto) {
+			return wdao.reCommentNow(dto);
+		}
 }
