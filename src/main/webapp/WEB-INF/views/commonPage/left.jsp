@@ -51,7 +51,7 @@
                                     <ul class="nav">
                                         <li><a href="#" class="">일간일정</a></li>
                                         <li><a href="#" class="">주간일정</a></li>
-                                        <li><a href="#" class="">월간일정</a></li>
+                                        <li><a href="/schedule/monthSchedule.schedule" class="">월간일정</a></li>
                                         <li><a href="#" class="">연간일정</a></li>
                                     </ul>
                                 </div>
