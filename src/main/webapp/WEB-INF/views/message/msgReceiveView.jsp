@@ -77,8 +77,8 @@
 						<tr>
 							<th scope="col" class="col-7">제목 : ${mdto.msg_title }</th>
 							<th scope="col" class="col-2">발신자 : ${mdto.msg_sender_name }</th>
-							<th scope="col" class="col-2">발신일 : ${mdto.msg_send_date }</th>
-							<th scope="col" class="col-1">수신일 : ${mdto.msg_receive_date }</th>
+							<th scope="col" class="col-2">발신일 : ${mdto.msg_sender_date_str }</th>
+							<th scope="col" class="col-1">수신일 : ${mdto.msg_receive_date_str }</th>
 						</tr>
 					</thead>
 					<tbody>

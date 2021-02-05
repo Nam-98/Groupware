@@ -77,6 +77,41 @@
    						 <div class="btn-group-ml" role="group"
                            style="text-align: right;">
                            <button type="button" class="btn btn-primary" id="delBtn">삭제</button>
+                           <script>
+  						$("#delBtn").click(function(){
+  							var confirm_val = confirm("정말 삭제하시겠습니까?");
+  							
+  							if(confirm_val){
+  								var chkArr = new Array();
+  								
+  								$("input[class='chk']:checked").each(function(){
+  									chkArr.push($(this).attr("value"));
+  								});
+  								
+  								$.ajax({
+  									url : "/message/delMsgCabList.message",
+  									type : "post",
+  									data : {"chk" : chkArr},
+  								}).done(function(result){
+  										console.log("result123 : "+result);
+										let json = JSON.parse(result);
+  										console.log(json);
+  										if(json.result == 1){
+  										location.href = "/message/msgCabList.message?cpage=1";
+  										
+  										for(var i=0; i<chkArr.length;i++){
+  											let temp = ".trChk_"+chkArr[i];
+  											$(temp).remove();
+  										}
+  										}else{
+  											alert("삭제 실패");
+  										}
+  									})
+  							}
+  						})
+  					</script>
+                           
+                           
                         </div>
 
                         <table class="table table-secondary table-striped">
@@ -107,7 +142,7 @@
                                        </div>
                                     </th>
                                     <td><a
-                                       href="/message/msgReceiveView.message?msg_seq=${i.MSG_SEQ}">${i.MSG_TITLE }</a></td>
+                                       href="/message/msgCabView.message?msg_seq=${i.MSG_SEQ}">${i.MSG_TITLE }</a></td>
                                     <td>${i.MSG_SENDER_NAME }</td>
                                     <td>${i.MSG_SENDER_DATE_STR }</td>
                                     <td>${i.MSG_RECEIVE_DATE_STR }</td>
@@ -123,7 +158,40 @@
   <div class="tab-pane fade" id="outbox">
     <p><div class="btn-group-ml" role="group"
                            style="text-align: right;">
-                           <button type="button" class="btn btn-primary" id="delBtn">삭제</button>
+                           <button type="button" class="btn btn-primary" id="delBtn1">삭제</button>
+                           <script>
+  						$("#delBtn1").click(function(){
+  							var confirm_val = confirm("정말 삭제하시겠습니까?");
+  							
+  							if(confirm_val){
+  								var chkArr = new Array();
+  								
+  								$("input[class='chk']:checked").each(function(){
+  									chkArr.push($(this).attr("value"));
+  								});
+  								
+  								$.ajax({
+  									url : "/message/delMsgCabList.message",
+  									type : "post",
+  									data : {"chk" : chkArr},
+  								}).done(function(result){
+  										console.log("result123 : "+result);
+										let json = JSON.parse(result);
+  										console.log(json);
+  										if(json.result == 1){
+  										location.href = "/message/msgCabList.message?cpage=1";
+  										
+  										for(var i=0; i<chkArr.length;i++){
+  											let temp = ".trChk_"+chkArr[i];
+  											$(temp).remove();
+  										}
+  										}else{
+  											alert("삭제 실패");
+  										}
+  									})
+  							}
+  						})
+  					</script>
                         </div>
 
                         <table class="table table-secondary table-striped">
@@ -154,7 +222,7 @@
                                        </div>
                                     </th>
                                     <td><a
-                                       href="/message/msgReceiveView.message?msg_seq=${i.msg_seq}">${i.msg_title }</a></td>
+                                       href="/message/msgCabView.message?msg_seq=${i.msg_seq}">${i.msg_title }</a></td>
                                     <td>${i.msg_receiver_name }</td>
                                     <td>${i.msg_sender_date_str }</td>
                                     <td>${i.msg_receive_date_str }</td>

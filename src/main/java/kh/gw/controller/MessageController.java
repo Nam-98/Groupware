@@ -209,7 +209,7 @@ public class MessageController {
 		return result;
 	}
 	
-	//list chk박스로 삭제(수신)
+	//list chk박스로 삭제(발신)
 	@ResponseBody
 	@RequestMapping(value="delMsgOutList.message", method=RequestMethod.POST)
 	public String delMsgOutList(@RequestParam(value="chk[]") List<String> chkArr) throws Exception{
@@ -269,7 +269,6 @@ public class MessageController {
 		int cpage = Integer.parseInt(request.getParameter("cpage"));
 		List<Map<String,Object>> inList = mservice.msgCabInCpage(id,cpage);
 		List<MessageDTO> outList = mservice.msgCabOutCpage(id,cpage);
-		System.out.println("====="+outList.get(0).getMsg_title());
 		String inNavi = mservice.msgCabInNavi(cpage,id);
 		String outNavi = mservice.msgCabOutNavi(cpage,id);
 		m.addAttribute("inList", inList);
@@ -279,11 +278,100 @@ public class MessageController {
 		return "message/storageBox";
 	}
 	
-//	// error
-//	@ExceptionHandler
-//	public String exceptionalHandler(Exception e) {
-//		e.printStackTrace();
-//		return "error";
-//	}
+	//보관함 삭제
+	@ResponseBody
+	@RequestMapping(value="delMsgCabList.message", method=RequestMethod.POST)
+	public String delMsgCabList(@RequestParam(value="chk[]") List<String> chkArr) throws Exception{
+		String id = (String)session.getAttribute("id");
+		String result = "0";
+		int msg_seq = 0;
+		if(id != null) {
+			for(String i : chkArr) {
+				msg_seq = Integer.parseInt(i);
+				mservice.delMsgCabList(id,msg_seq);
+			}
+			result = "{\"result\":1}";
+		}
+		return result;
+	}
+	
+	//보관함 상세페이지 보기
+	@RequestMapping("msgCabView.message")
+	public String msgCabView(HttpServletRequest request, Model m) throws Exception{
+		int msg_seq = Integer.parseInt(request.getParameter("msg_seq"));
+		MessageDTO mdto = mservice.msgView(msg_seq);
+		List<Message_attached_filesDTO> attlist = mservice.attFilesAll(msg_seq);
+		m.addAttribute("mdto", mdto);
+		m.addAttribute("attlist", attlist);
+		return "/message/msgCabView";	
+	}
+	
+	//보관함 상세페이지 삭제 버튼
+	@RequestMapping("delMsgCab.message")
+	public String delMsgCab(HttpServletRequest request,Model m) throws Exception{
+		int msg_seq = Integer.parseInt(request.getParameter("msg_seq"));
+		String id = (String)session.getAttribute("id");
+		int del = mservice.delMsgCabList(id,msg_seq);
+		return "redirect:/message/msgCabList.message?cpage=1";
+	}
+	
+	
+	//내게쓴쪽지함 list불러오기
+	@RequestMapping("msgMyBoxList.message")
+	public String msgMyBoxList(HttpServletRequest request, Model m) throws Exception{
+		String id = (String)session.getAttribute("id");
+		int cpage = Integer.parseInt(request.getParameter("cpage"));
+		List<MessageDTO> mlist = mservice.msgMyBoxCpage(id,cpage);
+		String navi = mservice.msgMyBoxGetNavi(cpage,id);
+		m.addAttribute("mlist", mlist);
+		m.addAttribute("navi", navi);
+		return "/message/myBox";
+		
+	}
+	
+	//내게쓴쪽지 상세페이지 보기
+	@RequestMapping("msgMyView.message")
+	public String msgMyView(HttpServletRequest request, Model m) throws Exception{
+		int msg_seq = Integer.parseInt(request.getParameter("msg_seq"));
+		MessageDTO mdto = mservice.msgView(msg_seq);
+		List<Message_attached_filesDTO> attlist = mservice.attFilesAll(msg_seq);
+		m.addAttribute("mdto", mdto);
+		m.addAttribute("attlist", attlist);
+		return "/message/msgMyView";	
+	}
+	
+	//내게쓴쪽지함 상세페이지 삭제 버튼
+	@RequestMapping("delMyMsg.message")
+	public String delMyMsg(HttpServletRequest request,Model m) throws Exception{
+		int msg_seq = Integer.parseInt(request.getParameter("msg_seq"));
+		int del = mservice.delMyMsg(msg_seq);
+		return "redirect:/message/msgMyBoxList.message?cpage=1";
+	}
+	
+	//내게쓴쪽지함 chk박스로 삭제
+	@ResponseBody
+	@RequestMapping(value="delMsgMyList.message", method=RequestMethod.POST)
+	public String delMsgMyList(@RequestParam(value="chk[]") List<String> chkArr) throws Exception{
+		String id = (String)session.getAttribute("id");
+		String result = "0";
+		int msg_seq = 0;
+		if(id != null) {
+			for(String i : chkArr) {
+				msg_seq = Integer.parseInt(i);
+				mservice.delMyMsg(msg_seq);
+			}
+			
+			result = "{\"result\":1}";
+			}
+			System.out.println("resultjava : "+result);
+			return result;
+		}
+	
+	// error
+	@ExceptionHandler
+	public String exceptionalHandler(Exception e) {
+		e.printStackTrace();
+		return "error";
+	}
 	
 }

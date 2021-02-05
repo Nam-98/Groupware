@@ -49,12 +49,12 @@ public class MessageDAO {
 	
 	//쪽지 삭제(수신)
 	public int msgDelete(int msg_seq) throws Exception{
-		return db.delete("Message.msgDelete",msg_seq);
+		return db.update("Message.msgDelete",msg_seq);
 	}
 	
 	//쪽지 삭제(발신)
 	public int msgOutBoxDel(int msg_seq) throws Exception{
-		return db.delete("Message.msgOutBoxDel",msg_seq);
+		return db.update("Message.msgOutBoxDel",msg_seq);
 	}
 		
 	//쪽지 수신함 list size구하기
@@ -139,6 +139,36 @@ public class MessageDAO {
 	//보관함 (발신) 리스트 사이즈
 	public List<Map<String,Object>> msgCabOutList(String id) throws Exception{
 		return db.selectList("Message.msgCabOutList",id);
-	}	
+	}
+	
+	//보관함 삭제
+	public int delMsgCabList(String id, int msg_seq) throws Exception{
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("id", id);
+		param.put("msg_seq", msg_seq);
+		return db.delete("Message.delMsgCabList",param);
+	}
+	
+	//내게쓴쪽지함 list 불러오기
+	public List<MessageDTO> msgMyBoxCpage(String id,int cpage) throws Exception{
+		BoardConfigurator configurator = new BoardConfigurator();
+		int startRowNum = (cpage-1)*configurator.RECORD_COUNT_PER_PAGE+1;
+		int endRowNum = startRowNum + configurator.RECORD_COUNT_PER_PAGE-1;
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("startRowNum", startRowNum);
+		param.put("endRowNum", endRowNum);
+		param.put("id", id);
+		return db.selectList("Message.msgMyBoxCpage",param);
+	}
+	
+	//내게쓴쪽지함 사이즈 구하기
+	public List<MessageDTO> msgMyBoxList(String id) throws Exception{
+		return db.selectList("Message.msgMyBoxList",id);
+	}
+	
+	//내게쓴쪽지함 상세페이지 삭제 버튼
+	public int delMyMsg(int msg_seq) throws Exception{
+		return db.update("Message.delMyMsg",msg_seq);
+	}
 	
 }
