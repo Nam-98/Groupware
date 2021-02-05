@@ -33,5 +33,7 @@ public class MemberDAO {
 	public Map<String,Object> getMyInfo(String id) throws Exception{
 		return db.selectOne("Member.getMyInfo",id);
 	}
-
+	public int insertMem(MemberDTO dto) throws Exception{
+		return db.insert("Member.insertMem", dto);
+	}
 }

@@ -134,9 +134,7 @@
 		</div>
 		<!-- END MAIN -->
 		<div class="clearfix"></div>
-		<footer>
-			<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
-		</footer>
+<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
 	</div>
 </body>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>

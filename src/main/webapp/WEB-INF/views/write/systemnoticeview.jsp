@@ -208,9 +208,7 @@
 		</div>
 		<!-- END MAIN -->
 		<div class="clearfix"></div>
-		<footer>
 <jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
-		</footer>
 	</div>
 	<!-- END WRAPPER -->
 	<script>
@@ -240,7 +238,7 @@
 				},
 				success : function(data) {
 				document.getElementById("brWriteArea").value="";
-				
+				 
 				console.log(data.cmtList[0].write_cmt_contents);
 				console.log(data.cmtList[0].write_cmt_date);
 				console.log(data.cmtList[0].write_cmt_id);

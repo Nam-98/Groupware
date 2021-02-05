@@ -133,9 +133,7 @@ a {
 		</div>
 		<!-- END MAIN -->
 		<div class="clearfix"></div>
-		<footer>
 <jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
-		</footer>
 	</div>
 	<!-- END WRAPPER -->
 </body>

@@ -17,6 +17,9 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import kh.gw.dto.DepartmentDTO;
@@ -111,8 +114,6 @@ public class MessageController {
 		String id = (String)session.getAttribute("id");
 		int cpage = Integer.parseInt(request.getParameter("cpage"));
 		List<MessageDTO> mlist = mservice.msgInBoxCpage(id,cpage);
-		System.out.println("=============="+mlist.get(0).getMsg_receive_date_str());
-		
 		String navi = mservice.inBoxGetNavi(cpage,id);
 		m.addAttribute("mlist", mlist);
 		m.addAttribute("navi", navi);
@@ -123,21 +124,30 @@ public class MessageController {
 	@RequestMapping("msgReceiveView.message")
 	public String msgReceiveView(HttpServletRequest request, Model m) throws Exception{
 		int msg_seq= Integer.parseInt(request.getParameter("msg_seq"));
-		int readDate = mservice.readDate(msg_seq);
+		String msg_receive_date = request.getParameter("msg_receive_date");
+		System.out.println("=====확인==="+msg_receive_date);
+		int readDate = mservice.readDate(msg_seq,msg_receive_date);
 		List<Message_attached_filesDTO> attlist = mservice.attFilesAll(msg_seq);
-		System.out.println("결과===="+readDate);
 		MessageDTO mdto = mservice.msgView(msg_seq);
 		m.addAttribute("mdto", mdto);
 		m.addAttribute("attlist", attlist);
 		return "/message/msgReceiveView"; 
 	}
 	
-	//쪽지 상세보기에서 삭제 버튼 클릭 시
+	//쪽지 삭제 (수신)
 	@RequestMapping("msgDelete.message")
 	public String msgDelete(HttpServletRequest request, Model m) throws Exception{
 		int msg_seq= Integer.parseInt(request.getParameter("msg_seq"));
-		int delResult = mservice.msgDelete(msg_seq);
-		return "redirect:/message/msgInBoxList.message";
+		int inDel = mservice.msgDelete(msg_seq);
+		return "redirect:/message/msgInBoxList.message?cpage=1";
+	}
+	
+	//쪽지 삭제(발신)
+	@RequestMapping("msgOutBoxDel.message")
+	public String msgOutBoxDel(HttpServletRequest request, Model m) throws Exception{
+		int msg_seq= Integer.parseInt(request.getParameter("msg_seq"));
+		int outDel = mservice.msgOutBoxDel(msg_seq);
+		return "redirect:/message/msgOutBoxList.message?cpage=1";
 	}
 	
 	//쪽지 상세페이지에서 답장하기 버튼
@@ -162,7 +172,6 @@ public class MessageController {
 		String id = (String)session.getAttribute("id");
 		int cpage = Integer.parseInt(request.getParameter("cpage"));
 		List<MessageDTO> mlist = mservice.msgOutBoxCpage(id,cpage);
-		System.out.println("=============="+mlist.get(0).getMsg_sender_date_str());
 		String navi = mservice.outBoxGetNavi(cpage,id);
 		m.addAttribute("mlist", mlist);
 		m.addAttribute("navi", navi);
@@ -180,17 +189,189 @@ public class MessageController {
 		return "/message/msgSenderView";	
 	}
 	
-	//보관함 list
-	@RequestMapping("msgStorageBoxList.message")
-	public String msgStorageBoxList() throws Exception{
-		return "/message/storageBox";
+	
+	//list chk박스로 삭제(수신)
+	@ResponseBody
+	@RequestMapping(value="delMsgInList.message", method=RequestMethod.POST)
+	public String delMsgInList(@RequestParam(value="chk[]") List<String> chkArr) throws Exception{
+		String id = (String)session.getAttribute("id");
+		String result = "0";
+		int msg_seq = 0;
+		if(id != null) {
+			for(String i : chkArr) {
+				msg_seq = Integer.parseInt(i);
+				mservice.msgDelete(msg_seq);
+			}
+			
+			result = "{\"result\":1}";
+		}
+		System.out.println("resultjava : "+result);
+		return result;
 	}
 	
-	// error
-		@ExceptionHandler
-		public String exceptionalHandler(Exception e) {
-			e.printStackTrace();
-			return "error";
+	//list chk박스로 삭제(발신)
+	@ResponseBody
+	@RequestMapping(value="delMsgOutList.message", method=RequestMethod.POST)
+	public String delMsgOutList(@RequestParam(value="chk[]") List<String> chkArr) throws Exception{
+		String id = (String)session.getAttribute("id");
+		String result = "0";
+		int msg_seq = 0;
+		if(id != null) {
+			for(String i : chkArr) {
+				msg_seq = Integer.parseInt(i);
+				mservice.msgOutBoxDel(msg_seq);
+			}
+			
+			result = "{\"result\":1}";
+			}
+			System.out.println("resultjava : "+result);
+			return result;
 		}
+		
+	//list chk박스로 보관함(수신)
+	@ResponseBody
+	@RequestMapping(value="msgInCabinsert.message", method=RequestMethod.POST)
+	public String msgInCabinsert(@RequestParam(value="chk[]") List<String> chkArr) throws Exception{
+		String id = (String)session.getAttribute("id");
+		String result = "0";
+		int msg_seq = 0;
+		if(id != null) {
+			for(String i : chkArr) {
+				msg_seq = Integer.parseInt(i);
+				mservice.msgInCabinsert(id,msg_seq);
+			}
+			result = "{\"result\":1}";
+		}
+		return result;
+	}
+	
+	//list chk박스로 보관함(발신)
+		@ResponseBody
+		@RequestMapping(value="msgOutCabinsert.message", method=RequestMethod.POST)
+		public String msgOutCabinsert(@RequestParam(value="chk[]") List<String> chkArr) throws Exception{
+			String id = (String)session.getAttribute("id");
+			String result = "0";
+			int msg_seq = 0;
+			if(id != null) {
+				for(String i : chkArr) {
+					msg_seq = Integer.parseInt(i);
+					mservice.msgOutCabinsert(id,msg_seq);
+				}
+				result = "{\"result\":1}";
+			}
+			return result;
+		}
+	
+	//보관함 list 불러오기
+	@RequestMapping("msgCabList.message")
+	public String msgCabInList(HttpServletRequest request, Model m) throws Exception{
+		String id = (String)session.getAttribute("id");
+		int cpage = Integer.parseInt(request.getParameter("cpage"));
+		List<Map<String,Object>> inList = mservice.msgCabInCpage(id,cpage);
+		List<MessageDTO> outList = mservice.msgCabOutCpage(id,cpage);
+		String inNavi = mservice.msgCabInNavi(cpage,id);
+		String outNavi = mservice.msgCabOutNavi(cpage,id);
+		m.addAttribute("inList", inList);
+		m.addAttribute("outList", outList);
+		m.addAttribute("inNavi", inNavi);
+		m.addAttribute("outNavi", outNavi);
+		return "message/storageBox";
+	}
+	
+	//보관함 삭제
+	@ResponseBody
+	@RequestMapping(value="delMsgCabList.message", method=RequestMethod.POST)
+	public String delMsgCabList(@RequestParam(value="chk[]") List<String> chkArr) throws Exception{
+		String id = (String)session.getAttribute("id");
+		String result = "0";
+		int msg_seq = 0;
+		if(id != null) {
+			for(String i : chkArr) {
+				msg_seq = Integer.parseInt(i);
+				mservice.delMsgCabList(id,msg_seq);
+			}
+			result = "{\"result\":1}";
+		}
+		return result;
+	}
+	
+	//보관함 상세페이지 보기
+	@RequestMapping("msgCabView.message")
+	public String msgCabView(HttpServletRequest request, Model m) throws Exception{
+		int msg_seq = Integer.parseInt(request.getParameter("msg_seq"));
+		MessageDTO mdto = mservice.msgView(msg_seq);
+		List<Message_attached_filesDTO> attlist = mservice.attFilesAll(msg_seq);
+		m.addAttribute("mdto", mdto);
+		m.addAttribute("attlist", attlist);
+		return "/message/msgCabView";	
+	}
+	
+	//보관함 상세페이지 삭제 버튼
+	@RequestMapping("delMsgCab.message")
+	public String delMsgCab(HttpServletRequest request,Model m) throws Exception{
+		int msg_seq = Integer.parseInt(request.getParameter("msg_seq"));
+		String id = (String)session.getAttribute("id");
+		int del = mservice.delMsgCabList(id,msg_seq);
+		return "redirect:/message/msgCabList.message?cpage=1";
+	}
+	
+	
+	//내게쓴쪽지함 list불러오기
+	@RequestMapping("msgMyBoxList.message")
+	public String msgMyBoxList(HttpServletRequest request, Model m) throws Exception{
+		String id = (String)session.getAttribute("id");
+		int cpage = Integer.parseInt(request.getParameter("cpage"));
+		List<MessageDTO> mlist = mservice.msgMyBoxCpage(id,cpage);
+		String navi = mservice.msgMyBoxGetNavi(cpage,id);
+		m.addAttribute("mlist", mlist);
+		m.addAttribute("navi", navi);
+		return "/message/myBox";
+		
+	}
+	
+	//내게쓴쪽지 상세페이지 보기
+	@RequestMapping("msgMyView.message")
+	public String msgMyView(HttpServletRequest request, Model m) throws Exception{
+		int msg_seq = Integer.parseInt(request.getParameter("msg_seq"));
+		MessageDTO mdto = mservice.msgView(msg_seq);
+		List<Message_attached_filesDTO> attlist = mservice.attFilesAll(msg_seq);
+		m.addAttribute("mdto", mdto);
+		m.addAttribute("attlist", attlist);
+		return "/message/msgMyView";	
+	}
+	
+	//내게쓴쪽지함 상세페이지 삭제 버튼
+	@RequestMapping("delMyMsg.message")
+	public String delMyMsg(HttpServletRequest request,Model m) throws Exception{
+		int msg_seq = Integer.parseInt(request.getParameter("msg_seq"));
+		int del = mservice.delMyMsg(msg_seq);
+		return "redirect:/message/msgMyBoxList.message?cpage=1";
+	}
+	
+	//내게쓴쪽지함 chk박스로 삭제
+	@ResponseBody
+	@RequestMapping(value="delMsgMyList.message", method=RequestMethod.POST)
+	public String delMsgMyList(@RequestParam(value="chk[]") List<String> chkArr) throws Exception{
+		String id = (String)session.getAttribute("id");
+		String result = "0";
+		int msg_seq = 0;
+		if(id != null) {
+			for(String i : chkArr) {
+				msg_seq = Integer.parseInt(i);
+				mservice.delMyMsg(msg_seq);
+			}
+			
+			result = "{\"result\":1}";
+			}
+			System.out.println("resultjava : "+result);
+			return result;
+		}
+	
+	// error
+	@ExceptionHandler
+	public String exceptionalHandler(Exception e) {
+		e.printStackTrace();
+		return "error";
+	}
 	
 }
