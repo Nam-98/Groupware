@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>발신함</title>
+<title>수신함</title>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <!-- 아이콘 fontawesome -->
     <script src="https://kit.fontawesome.com/b1e233372d.js"></script>
@@ -47,44 +47,9 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 class="page-title">발신함</h3>
+					<h3 class="page-title">내게쓴쪽지함</h3>
 					
 					<div class="btn-group-ml" role="group" style="text-align: right;">
-  					<button type="button" class="btn btn-primary" id="cabBtn">보관함 이동</button>
-  					
-  					<script>
-  						$("#cabBtn").click(function(){
-  							var confirm_val = confirm("보관함으로 옮기시겠습니까?");
-  							
-  							if(confirm_val){
-  								var chkArr = new Array();
-  								
-  								$("input[class='chk']:checked").each(function(){
-  									chkArr.push($(this).attr("value"));
-  								});
-  								
-  								$.ajax({
-  									url : "/message/msgOutCabinsert.message",
-  									type : "post",
-  									data : {"chk" : chkArr},
-  								}).done(function(result){
-  										console.log("result123 : "+result);
-										let json = JSON.parse(result);
-  										console.log(json);
-  										if(json.result == 1){
-  										location.href = "/message/msgOutBoxList.message?cpage=1";
-  										
-  										for(var i=0; i<chkArr.length;i++){
-  											let temp = ".trChk_"+chkArr[i];
-  											$(temp).remove();
-  										}
-  										}else{
-  											alert("삭제 실패");
-  										}
-  									})
-  							}
-  						})
-  					</script>
   					
   					<button type="button" class="btn btn-primary" id="delBtn">삭제</button>
   					<script>
@@ -99,7 +64,7 @@
   								});
   								
   								$.ajax({
-  									url : "/message/delMsgOutList.message",
+  									url : "/message/delMsgMyList.message",
   									type : "post",
   									data : {"chk" : chkArr},
   								}).done(function(result){
@@ -107,7 +72,7 @@
 										let json = JSON.parse(result);
   										console.log(json);
   										if(json.result == 1){
-  										location.href = "/message/msgOutBoxList.message?cpage=1";
+  										location.href = "/message/msgMyBoxList.message?cpage=1";
   										
   										for(var i=0; i<chkArr.length;i++){
   											let temp = ".trChk_"+chkArr[i];
@@ -133,29 +98,30 @@
       						</div>
       						</th>
 							<th scope="col">제목</th>
-							<th scope="col">수신자</th>
+							<th scope="col">발신자</th>
 							<th scope="col">발신일</th>
 							<th scope="col">수신일</th>
 						</tr>
 					</thead>
 					<tbody>
 						<c:forEach var="i" items="${mlist }">
-							<tr>
+							<tr class="trChk_${i.msg_seq}">
 								<th scope="col">
 								<div class="input-group" style="width:5%;">
 								<span class="input-group-addon">
-        						<input type="checkbox" aria-label="..." class="chk" name="msg_seq" value="${i.msg_seq}">
+        						<input type="checkbox" class="chk" name="msg_seq" value="${i.msg_seq}">
       							</span>
       							</div>
       							</th>
-								<td><a href="/message/msgSenderView.message?msg_seq=${i.msg_seq}">${i.msg_title }</a></td>
-								<td>${i.msg_receiver_name }</td>
+								<td><a href="/message/msgMyView.message?msg_seq=${i.msg_seq}&msg_receive_date=${msg_receive_date_str }">${i.msg_title }</a></td>
+								<td>${i.msg_sender_name }</td>
 								<td>${i.msg_sender_date_str }</td>
 								<td>${i.msg_receive_date_str }</td>
 							</tr>
 						</c:forEach>
 					</tbody>
 				</table>
+				
 				<div class="navi" style="text-align: center;">${navi }</div>
 										
 				</div>
