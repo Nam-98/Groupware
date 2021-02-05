@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>쪽지 확인(발신함)</title>
+<title>쪽지 내용 보기</title>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <!-- 아이콘 fontawesome -->
     <script src="https://kit.fontawesome.com/b1e233372d.js"></script>
@@ -28,10 +28,8 @@
 	<script src="/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 	<script src="/assets/vendor/chartist/js/chartist.min.js"></script>
 	<script src="/assets/scripts/klorofil-common.js"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-   <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
-    	<style>
+	
+	<style>
 * { margin: auto;
 	box-sizing: border-box;
 }
@@ -46,6 +44,7 @@
 }
 
 </style>
+
 </head>
 <body>
 	<!-- WRAPPER -->
@@ -65,18 +64,14 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 style="text-align: left;">쪽지 보기</h3><br>
-
-<div style="width: 80%;">
-	<form method="post" enctype="multipart/form-data" action="/message/msgProc.message?msg_receiver=${mdto.msg_receiver }">
-	
-		<div class="btn-group-ml" role="group" style="text-align: right;">
-  					<button type="button" class="btn btn-primary" id="reWrite">새로 쓰기</button>
+					<div class="maincontainer">
+					<br><br><br>
+					<div class="btn-group-ml" role="group" style="text-align: right;"> 		
   					<button type="button" class="btn btn-primary" id="delete">삭제</button>
   					<button type="button" class="btn btn-primary" id="list">목록으로</button>
 					</div>
-	
-		<table class="table">
+					<br>
+				<table class="table">
 					<thead>
 						<tr>
 							<th scope="col" class="col-7">제목 : ${mdto.msg_title }</th>
@@ -93,16 +88,14 @@
 							<td class="file" colspan="4">
 								첨부 파일 : 
 								<c:forEach items="${attlist }" var="i">
-									<a href = "/message/attFilesDown.message?msg_seq=${i.msg_seq }&msg_ori_name=${i.msg_ori_name}&msg_saved_name=${i.msg_saved_name}">${i.msg_ori_name}</a>
+									<a href = "/message/attFilesDown.message?msg_seq=${i.msg_seq }&msg_ori_name=${i.msg_ori_name}&msg_saved_name=${i.msg_saved_name}">${i.msg_ori_name}</a><br>
 								</c:forEach>
 							</td>
 						</tr>	
 					</tbody>
 				</table>
-		
-		
-	</form>
-</div>
+				
+			</div>
 				</div>
 			</div>
 			<!-- END MAIN CONTENT -->
@@ -112,18 +105,16 @@
 <jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
 	</div>
 	<!-- END WRAPPER -->
-
+	
 <script>
-	document.getElementById("reWrite").onclick = function(){
-		location.href = "/message/writeMsg.message";
+	document.getElementById("list").onclick=function(){
+		location.href="/message/msgMyBoxList.message?cpage=1"
+	}
+		
+	document.getElementById("delete").onclick = function() {
+		location.href = "/message/delMyMsg.message?msg_seq=${mdto.msg_seq}";
 	}
 	
-	document.getElementById("list").onclick = function(){
-		location.href = "/message/msgOutBoxList.message?cpage=1";
-	}
-	document.getElementById("delete").onclick = function() {
-		location.href = "/message/msgOutBoxDel.message?msg_seq=${mdto.msg_seq}";
-	}
 </script>
 </body>
 </html>
