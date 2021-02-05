@@ -35,4 +35,8 @@ public class MemberService {
 	public Map<String,Object> getMyInfo(String id) throws Exception{
 		return mdao.getMyInfo(id);
 	}
+	
+	public int insertMem(MemberDTO dto) throws Exception{
+		return mdao.insertMem(dto);
+	}
 }

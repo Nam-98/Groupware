@@ -50,7 +50,6 @@ public class AdminController {
 	//dept테이블 로드
 	@RequestMapping("loadDeptList.nexacro")
 	public NexacroResult loadDept() throws Exception {
-		System.out.println("들어오나요?");
 		NexacroResult nr = new NexacroResult();
 		nr.addDataSet("ds_out",dser.listDept());
 		return nr;
@@ -59,16 +58,7 @@ public class AdminController {
 	//회원등록
 	@RequestMapping("insertMem.nexacro")
 	public NexacroResult insertMem(@ParamDataSet(name = "ds_in") MemberDTO dto) throws Exception{
-		System.out.println("id : " + dto.getId());
-		System.out.println("name : " + dto.getName());
-		System.out.println("gender : " + dto.getGender());
-		System.out.println("contact : " + dto.getContact());
-		System.out.println("is_married : " + dto.getIs_married());
-		System.out.println("dept_code : " + dto.getDept_code());
-		System.out.println("position_code : " + dto.getPosition_code());
-		System.out.println("break_total_count : " + dto.getBreak_total_count());
-
-		//mser.insertMem();
+		mser.insertMem(dto);
 		return new NexacroResult();
 	}
 	// error
