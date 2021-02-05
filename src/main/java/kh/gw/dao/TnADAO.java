@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kh.gw.dto.TnADTO;
+import kh.gw.dto.TnA_objectionDTO;
 import kh.gw.dto.TnA_statusDTO;
 
 @Repository
@@ -52,6 +53,20 @@ public class TnADAO {
 	public List<TnA_statusDTO> getTnaStatusList() {
 		return db.selectList("TnA.getTnaStatusList");
 	}
+	
+	public int tnaFixRequestInput(TnA_objectionDTO dto) {
+		return db.insert("TnA.tnaFixRequestInput", dto);
+	}
+	
+	public TnA_objectionDTO tnaCheckOverlap(TnA_objectionDTO dto) {
+		return db.selectOne("TnA.tnaCheckOverlap", dto);
+	}
+	
+	public List<Map<String, Object>> getTnaCountList(String sessionId) {
+		return db.selectList("TnA.getTnaCountList", sessionId);
+	}
+	
+	
 	
 	
 	

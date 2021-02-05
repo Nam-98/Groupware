@@ -192,9 +192,9 @@
         var calendarEl = document.getElementById('calendar');
         
         var calendar = new FullCalendar.Calendar(calendarEl, {
-			header: {
-				left: '',
-				center: 'title',
+        	headerToolbar: {
+				left: 'title',
+				center: '',
 				right: 'today prev,next'
 			},
 // 			height: 100%,

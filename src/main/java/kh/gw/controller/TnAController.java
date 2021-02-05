@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import kh.gw.dto.TnA_objectionDTO;
 import kh.gw.dto.TnA_statusDTO;
 import kh.gw.service.TnAService;
 
@@ -82,14 +84,13 @@ public class TnAController {
 		// 세션 id값 가져오기
 		String sessionId = (String)session.getAttribute("id");
 		
-//		// 출근시간 조회
-//		Map<String, Object> attendanceValue = tservice.getAttendanceTime(sessionId);
-//		// 퇴근시간 조회
-//		Map<String, Object> leaveWorkValue = tservice.getLeaveWorkTime(sessionId);
-//		// 출퇴근시간 리스트 조회
-//		List<Map<String, Object>> tnaCalendarList = tservice.getTnaCalendarList(sessionId);
+		// 근태상태 리스트 값 조회
+		List<TnA_statusDTO> tnaStatusList = tservice.getTnaStatusList();
+		// 나의 근태내역 년-월별 카운트
+		List<Map<String, Object>> tnaCountList = tservice.getTnaCountList(sessionId);
 		
-//		model.addAttribute("tnaCalendarList", tnaCalendarList);
+		model.addAttribute("tnaStatusList", tnaStatusList);
+		model.addAttribute("tnaCountList", tnaCountList);
 		
 		return "/tna/user/tnaMyHistory";
 	}
@@ -102,17 +103,38 @@ public class TnAController {
 		int tna_seq = Integer.parseInt(request.getParameter("tna_seq"));
 		String tna_status = request.getParameter("tna_status");
 		
-		// 변경할 출퇴근시간 조회
+		// 이미 해당 값에 대해 근태조정신청 중복여부체크
+		TnA_objectionDTO dto = tservice.tnaCheckOverlap(tna_seq,tna_status);
+
+		
+		// 변경할 출퇴근시간 값 조회
 		Map<String, Object> tnaCalendarValue = tservice.getTnaCalendarValue(sessionId,tna_seq);
 		// 근태상태 리스트 값 조회
 		List<TnA_statusDTO> tnaStatusList = tservice.getTnaStatusList();
 		
+		
 		model.addAttribute("tnaStatusList", tnaStatusList);
 		model.addAttribute("tnaCalendarValue", tnaCalendarValue);
 		model.addAttribute("tna_status", tna_status);
-
+		
+		if (dto != null) {
+			model.addAttribute("dto", dto);
+			return "/tna/user/tnaFixOverlap";
+		}
 		
 		return "/tna/user/tnaFixRequest";
+	}
+	
+	@RequestMapping("tnaFixRequestSubmit.tna")
+	// 근퇴조정신청 제출 
+	public String tnaFixRequestSubmit(TnA_objectionDTO dto, HttpServletRequest request, Model model) {
+		// 세션 id값 가져오기
+		String sessionId = (String)session.getAttribute("id");
+		
+		// 정정신청값 DB에 제출
+		int result = tservice.tnaFixRequestInput(dto,sessionId);
+
+		return "/tna/user/tnaFixRequestResult";
 	}
 	
 	@RequestMapping("tnaFixHistoryPage.tna")
@@ -132,6 +154,8 @@ public class TnAController {
 		
 		return "/tna/user/tnaFixHistory";
 	}
+	
+
 	
 	
 

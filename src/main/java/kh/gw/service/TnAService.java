@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import kh.gw.dao.TnADAO;
 import kh.gw.dto.TnADTO;
+import kh.gw.dto.TnA_objectionDTO;
 import kh.gw.dto.TnA_statusDTO;
 import kh.gw.statics.TnAConfigurator;
 
@@ -204,6 +205,22 @@ public class TnAService {
 	
 	public List<TnA_statusDTO> getTnaStatusList() {
 		return tdao.getTnaStatusList();
+	}
+	
+	public int tnaFixRequestInput(TnA_objectionDTO dto, String sessionId) {
+		dto.setTna_obj_id(sessionId);
+		return tdao.tnaFixRequestInput(dto);
+	}
+	
+	public TnA_objectionDTO tnaCheckOverlap(int tna_seq, String tna_status) {
+		TnA_objectionDTO dto = new TnA_objectionDTO();
+		dto.setTna_seq(tna_seq);
+		dto.setTna_obj_status(tna_status);
+		return tdao.tnaCheckOverlap(dto);
+	}
+	
+	public List<Map<String, Object>> getTnaCountList(String sessionId) {	
+		return tdao.getTnaCountList(sessionId);
 	}
 
 	

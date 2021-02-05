@@ -87,7 +87,7 @@
 					<div class="panel panel-headline demo-icons">
 						<!-- pannel 내부의 제목 작성 div-->
 						<div class="panel-heading">
-							<h3 class="panel-title">근 태 조 정 신 청</h3>
+							<h3 class="panel-title">근 태 조 정 신 청 내 역</h3>
 						</div>
 						<div class="panel-body">
 							<form action="/tna/tnaFixRequestSubmit.tna" method="post" id="formBox">
@@ -103,25 +103,23 @@
 									<div class="tableLine">
 										<div class="tableTitle">변경요청 상태</div>
 										<div class="tableValue">
-											<select class="" name="tna_obj_changed_code" id="selectStatus">
-												<option value="선택">선택</option>
 											<c:forEach varStatus="none" var="list" items="${tnaStatusList}">
-												<option value="${list.tna_status_code }">${list.tna_status_name }</option>
+												<c:if test='${list.tna_status_code == dto.tna_obj_changed_code}'>
+													${list.tna_status_name }
+												</c:if>
 											</c:forEach>
-											</select>
-											
 										</div>
 									</div>
 									<div class="tableLine tableReason">
 										<div class="tableTitle">사유</div>
 										<div class="tableValue">
-											<textarea name="tna_obj_reason" id="textReason"></textarea>
+											<textarea name="tna_obj_reason" id="textReason" disabled>${dto.tna_obj_reason}</textarea>
 										</div>
 									</div>
 								</div>
 								<div class="buttonBox">
-									<input type="submit" class="btn btn-primary btn-xs" value="신청하기">
-									<input type="button" class="btn btn-gray btn-xs" value="취소" id="tnaFixCancel">
+<!-- 									<input type="submit" class="btn btn-primary btn-xs" value="신청하기"> -->
+									<input type="button" class="btn btn-gray btn-xs" value="닫기" id="tnaFixCancel">
 								</div>
 								<input id="" type="hidden" value="${tnaCalendarValue.TNA_SEQ }" name="tna_seq">
 								<input id="" type="hidden" value="${tna_status }" name="tna_obj_status">
@@ -143,13 +141,21 @@
 	<!-- END WRAPPER -->
 
 	<script>
-				
+		// 이미 신청되었는지 중복체크
+		function checkOverlap() {
+			alert("이미 근태 조정 신청을 제출하였습니다.");
+// 			window.close();
+		}
+			
+	
 		// 시간출력함수
 		function printRequestDate() {
 			// 출력할 컴포넌트 아이디 지정
 			var clock = document.getElementById("requestDateDiv");
 			// 현재날짜
-			var now = new Date();
+// 			alert('${dto.tna_obj_reg_date}');
+			var now = new Date('${dto.tna_obj_reg_date}');
+// 			var now = new Date('${dto.tna_obj_reg_date}');
 			// 요일출력 배열
 			var week = [ '일', '월', '화', '수', '목', '금', '토' ];
 
@@ -180,7 +186,7 @@
 					;
 
 			clock.innerHTML = nowTime;
-			setTimeout("printRequestDate()", 1000);
+// 			setTimeout("printRequestDate()", 1000);
 		}
 		
 		// 시간출력함수
@@ -237,6 +243,9 @@
 		window.onload = function() {
 			printRequestDate();
 			printCurrentStatus();
+			setTimeout(function() {
+				checkOverlap();
+				}, 100);
 		}
 		
 		$("#tnaFixCancel").on("click", function() {

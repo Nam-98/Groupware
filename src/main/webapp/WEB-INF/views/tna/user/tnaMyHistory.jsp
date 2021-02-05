@@ -4,8 +4,36 @@
 <!DOCTYPE html>
 <html>
 <style>
-#calendar{
+.panel-body div{
+	border: 1px solid black;
+}
+.tableBox{
 	width: 100%;
+	height: 280px;
+}
+.tableLine{
+	width: 100%;
+	height: 12%;
+}
+.tableLine>.tableTitle{
+	float: left;
+	width: 15%;
+	height: 100%;
+	text-align: center;
+}
+.tableLine>.tableValue{
+	float: left;
+	width: 85%;
+	height: 100%;
+}
+.tableLine>.sector{
+	float: left;
+	width: 7.1428%;
+	height: 100%;
+}
+
+.buttonBox{
+	text-align: right;
 }
 </style>
 <head>
@@ -58,9 +86,75 @@
 						<div class="panel-heading">
 							<h3 class="panel-title">나 의 근 태 내 역</h3>
 						</div>
+
+
+
 						<div class="panel-body">
-							내용넣기
+							<form action="/tna/tnaFixRequestSubmit.tna" method="post" id="formBox">
+								<div class="tableBox">
+									<div class="tableLine">
+										<div class="sector">구 분</div>
+										<div class="sector">1 월</div>
+										<div class="sector">2 월</div>
+										<div class="sector">3 월</div>
+										<div class="sector">4 월</div>
+										<div class="sector">5 월</div>
+										<div class="sector">6 월</div>
+										<div class="sector">7 월</div>
+										<div class="sector">8 월</div>
+										<div class="sector">9 월</div>
+										<div class="sector">10 월</div>
+										<div class="sector">11 월</div>
+										<div class="sector">12 월</div>
+										<div class="sector">합 계</div>
+									</div>
+									<c:forEach varStatus="none" var="list" items="${tnaStatusList}">
+									<div class="tableLine">
+										<div class="sector">${list.tna_status_name }</div>
+										${tnaCountList[0].TNA_START_STATUS_CODE}
+									</div>
+									</c:forEach>
+									
+									
+									<div class="tableLine">
+										<div class="tableTitle">신청 날짜</div>
+										<div class="tableValue" id="requestDateDiv">xxxx년 x월 x일 (n요일) [오늘날짜]</div>
+									</div>
+									<div class="tableLine">
+										<div class="tableTitle">현재 상태</div>
+										<div class="tableValue" id="currentStatusDiv">STATUS (xxxx/x/x/n) [정정할날짜]</div>
+									</div>
+									<div class="tableLine">
+										<div class="tableTitle">변경요청 상태</div>
+										<div class="tableValue">
+											<select class="" name="tna_obj_changed_code" id="selectStatus">
+												<option value="선택">선택</option>
+											<c:forEach varStatus="none" var="list" items="${tnaStatusList}">
+												<option value="${list.tna_status_code }">${list.tna_status_name }</option>
+											</c:forEach>
+											</select>
+											
+										</div>
+									</div>
+									<div class="tableLine tableReason">
+										<div class="tableTitle">사유</div>
+										<div class="tableValue">
+											<textarea name="tna_obj_reason" id="textReason"></textarea>
+										</div>
+									</div>
+								</div>
+								<div class="buttonBox">
+									<input type="submit" class="btn btn-primary btn-xs" value="신청하기">
+									<input type="button" class="btn btn-gray btn-xs" value="취소" id="tnaFixCancel">
+								</div>
+								<input id="" type="hidden" value="${tnaCalendarValue.TNA_SEQ }" name="tna_seq">
+								<input id="" type="hidden" value="${tna_status }" name="tna_obj_status">
+							</form>
 						</div>
+
+
+
+
 					</div>
 
 

@@ -41,6 +41,15 @@
 	<select id="getTnaStatusList" resultType="kh.gw.dto.TnA_statusDTO">
 		select * from st.tna_status
 	</select>
+	<insert id="tnaFixRequestInput">
+		insert into st.tna_objection values(st.tna_obj_seq.nextval, #{tna_obj_reason}, #{tna_obj_id}, (SELECT CURRENT_DATE FROM DUAL), #{tna_obj_changed_code}, #{tna_seq}, #{tna_obj_status})
+	</insert>
+	<select id="tnaCheckOverlap" resultType="kh.gw.dto.TnA_objectionDTO">
+		select * from st.tna_objection where (tna_seq = #{tna_seq}) and (tna_obj_status = #{tna_obj_status})
+	</select>
+	<select id="getTnaCountList" resultType="java.util.HashMap">
+		select to_char(tna_start_time, 'yyyy-mm'),tna_start_status_code,count(*) from st.tna where (tna_id = #{sessionId}) group by to_char(tna_start_time, 'yyyy-mm'),tna_start_status_code
+	</select>
   	
   	
   	
