@@ -33,7 +33,7 @@
                                     <ul class="nav">
                                         <li><a href="/message/msgInBoxList.message?cpage=1" class="">수신함<span class="badge rounded-pill bg-danger">숫자</span></a></li>
                                         <li><a href="/message/msgOutBoxList.message?cpage=1" class="">발신함</a></li>
-                                        <li><a href="/message/msgStorageBoxList.message?cpage=1" class="">보관함</a></li>
+                                        <li><a href="/message/msgCabList.message?cpage=1" class="">보관함</a></li>
                                     </ul>
                                 </div>
                             </li>

@@ -2,6 +2,7 @@ package kh.gw.service;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
@@ -67,8 +68,12 @@ public class MessageService {
 	}
 	
 	//list에서 쪽지 제목 클릭 시 읽은 날짜 표시
-	public int readDate(int msg_seq) throws Exception{
-		return mdao.readDate(msg_seq);
+	public int readDate(int msg_seq,String msg_receive_date) throws Exception{
+		if(msg_receive_date.contentEquals(" ")) {
+		return mdao.readDate(msg_seq);}
+		return 1;
+		
+		
 	}
 	
 	//첨부파일 list 받아오기
@@ -213,8 +218,137 @@ public class MessageService {
 			return sb.toString();
 		}
 	
-		//쪽지 chk박스로 보관함
+		//쪽지 chk박스로 보관함(수신)
+		public int msgInCabinsert(String id, int msg_seq) throws Exception{
+			return mdao.msgInCabinsert(id,msg_seq);
+		}
 		
+		//쪽지 chk박스로 보관함(발신)
+		public int msgOutCabinsert(String id, int msg_seq) throws Exception{
+			return mdao.msgOutCabinsert(id,msg_seq);
+		}
+		
+		//보관함 list(수신)
+		public List<Map<String,Object>> msgCabInCpage(String id,int cpage) throws Exception{
+			return mdao.msgCabInCpage(id,cpage);
+		}
+		
+		//보관함 list(수신)
+		public List<MessageDTO> msgCabOutCpage(String id,int cpage) throws Exception{
+			return mdao.msgCabOutCpage(id,cpage);
+		}
+		
+		//보관함 navi 불러오기(수신)
+		public String msgCabInNavi(int currentPage,String id) throws Exception{
+			int recordTotalCount = mdao.msgCabInList(id).size(); //총 데이터 개수
+
+			BoardConfigurator configurator = new BoardConfigurator();
+
+			int recordCountPerPage = configurator.RECORD_COUNT_PER_PAGE;
+			int naviCountPerPage = configurator.NAVI_COUNT_PER_PAGE;
+
+			int pageTotalCount;
+			if(recordTotalCount % recordCountPerPage > 0) {
+				pageTotalCount = recordTotalCount/recordCountPerPage +1;
+			}else {
+				pageTotalCount = recordTotalCount/recordCountPerPage;
+			}
+
+			if(currentPage < 1) {
+				currentPage = 1;
+			}else if (currentPage > pageTotalCount) {
+				currentPage = pageTotalCount;
+			}
+
+			int startNavi = (currentPage-1)/naviCountPerPage * naviCountPerPage + 1;
+			int endNavi = startNavi + naviCountPerPage -1 ;
+
+			if(endNavi>pageTotalCount) {
+				endNavi = pageTotalCount;
+			}
+
+			boolean needPrev = true;
+			boolean needNext = true;
+
+			if(startNavi == 1) {
+				needPrev = false;
+			}
+			if(endNavi == pageTotalCount) {
+				needNext = false;
+			}
+
+			StringBuilder sb = new StringBuilder();
+
+			if(startNavi != 1) {
+				sb.append("<a href='/message/msgCabList.message?cpage=1> << </a>" + " ");
+			}
+			if(needPrev) {
+				sb.append("<a href='/message/msgCabList.message?cpage=" + (startNavi-1)+"'> < </a>" + " ");
+			}
+			for(int i = startNavi; i <= endNavi; i++) {
+				sb.append("<a href='/message/msgCabList.message?cpage=" +i+"'>"+i+"</a>"+" " );
+			}
+			if(endNavi != pageTotalCount) {
+				sb.append("<a href='/message/msgCabList.message?cpage="+pageTotalCount+"'> >> </a>");
+			}
+			return sb.toString();
+		}
+		
+		//보관함 navi 불러오기(발신)
+		public String msgCabOutNavi(int currentPage,String id) throws Exception{
+			int recordTotalCount = mdao.msgCabOutList(id).size(); //총 데이터 개수
+
+			BoardConfigurator configurator = new BoardConfigurator();
+
+			int recordCountPerPage = configurator.RECORD_COUNT_PER_PAGE;
+			int naviCountPerPage = configurator.NAVI_COUNT_PER_PAGE;
+
+			int pageTotalCount;
+			if(recordTotalCount % recordCountPerPage > 0) {
+				pageTotalCount = recordTotalCount/recordCountPerPage +1;
+			}else {
+				pageTotalCount = recordTotalCount/recordCountPerPage;
+			}
+
+			if(currentPage < 1) {
+				currentPage = 1;
+			}else if (currentPage > pageTotalCount) {
+				currentPage = pageTotalCount;
+			}
+
+			int startNavi = (currentPage-1)/naviCountPerPage * naviCountPerPage + 1;
+			int endNavi = startNavi + naviCountPerPage -1 ;
+
+			if(endNavi>pageTotalCount) {
+				endNavi = pageTotalCount;
+			}
+
+			boolean needPrev = true;
+			boolean needNext = true;
+
+			if(startNavi == 1) {
+				needPrev = false;
+			}
+			if(endNavi == pageTotalCount) {
+				needNext = false;
+			}
+
+			StringBuilder sb = new StringBuilder();
+
+			if(startNavi != 1) {
+				sb.append("<a href='/message/msgCabList.message?cpage=1> << </a>" + " ");
+			}
+			if(needPrev) {
+				sb.append("<a href='/message/msgCabList.message?cpage=" + (startNavi-1)+"'> < </a>" + " ");
+			}
+			for(int i = startNavi; i <= endNavi; i++) {
+				sb.append("<a href='/message/msgCabList.message?cpage=" +i+"'>"+i+"</a>"+" " );
+			}
+			if(endNavi != pageTotalCount) {
+				sb.append("<a href='/message/msgCabList.message?cpage="+pageTotalCount+"'> >> </a>");
+			}
+			return sb.toString();
+		}
 	
 	
 }

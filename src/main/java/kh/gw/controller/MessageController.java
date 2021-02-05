@@ -114,7 +114,6 @@ public class MessageController {
 		String id = (String)session.getAttribute("id");
 		int cpage = Integer.parseInt(request.getParameter("cpage"));
 		List<MessageDTO> mlist = mservice.msgInBoxCpage(id,cpage);
-		
 		String navi = mservice.inBoxGetNavi(cpage,id);
 		m.addAttribute("mlist", mlist);
 		m.addAttribute("navi", navi);
@@ -125,9 +124,10 @@ public class MessageController {
 	@RequestMapping("msgReceiveView.message")
 	public String msgReceiveView(HttpServletRequest request, Model m) throws Exception{
 		int msg_seq= Integer.parseInt(request.getParameter("msg_seq"));
-		int readDate = mservice.readDate(msg_seq);
+		String msg_receive_date = request.getParameter("msg_receive_date");
+		System.out.println("=====확인==="+msg_receive_date);
+		int readDate = mservice.readDate(msg_seq,msg_receive_date);
 		List<Message_attached_filesDTO> attlist = mservice.attFilesAll(msg_seq);
-		System.out.println("결과===="+readDate);
 		MessageDTO mdto = mservice.msgView(msg_seq);
 		m.addAttribute("mdto", mdto);
 		m.addAttribute("attlist", attlist);
@@ -172,7 +172,6 @@ public class MessageController {
 		String id = (String)session.getAttribute("id");
 		int cpage = Integer.parseInt(request.getParameter("cpage"));
 		List<MessageDTO> mlist = mservice.msgOutBoxCpage(id,cpage);
-		System.out.println("=============="+mlist.get(0).getMsg_sender_date_str());
 		String navi = mservice.outBoxGetNavi(cpage,id);
 		m.addAttribute("mlist", mlist);
 		m.addAttribute("navi", navi);
@@ -190,11 +189,6 @@ public class MessageController {
 		return "/message/msgSenderView";	
 	}
 	
-	//보관함 list
-	@RequestMapping("msgStorageBoxList.message")
-	public String msgStorageBoxList() throws Exception{
-		return "/message/storageBox";
-	}
 	
 	//list chk박스로 삭제(수신)
 	@ResponseBody
@@ -234,28 +228,62 @@ public class MessageController {
 			return result;
 		}
 		
-	//list chk박스로 보관함
+	//list chk박스로 보관함(수신)
 	@ResponseBody
-	@RequestMapping(value="msgCabinsert.message", method=RequestMethod.POST)
-	public String msgCabinsert(@RequestParam(value="chk[]") List<String> chkArr) throws Exception{
+	@RequestMapping(value="msgInCabinsert.message", method=RequestMethod.POST)
+	public String msgInCabinsert(@RequestParam(value="chk[]") List<String> chkArr) throws Exception{
 		String id = (String)session.getAttribute("id");
 		String result = "0";
 		int msg_seq = 0;
 		if(id != null) {
 			for(String i : chkArr) {
 				msg_seq = Integer.parseInt(i);
-				mservice.msgCabinsert(id,msg_seq);
+				mservice.msgInCabinsert(id,msg_seq);
 			}
 			result = "{\"result\":1}";
 		}
 		return result;
 	}
 	
-	// error
-	@ExceptionHandler
-	public String exceptionalHandler(Exception e) {
-		e.printStackTrace();
-		return "error";
+	//list chk박스로 보관함(발신)
+		@ResponseBody
+		@RequestMapping(value="msgOutCabinsert.message", method=RequestMethod.POST)
+		public String msgOutCabinsert(@RequestParam(value="chk[]") List<String> chkArr) throws Exception{
+			String id = (String)session.getAttribute("id");
+			String result = "0";
+			int msg_seq = 0;
+			if(id != null) {
+				for(String i : chkArr) {
+					msg_seq = Integer.parseInt(i);
+					mservice.msgOutCabinsert(id,msg_seq);
+				}
+				result = "{\"result\":1}";
+			}
+			return result;
+		}
+	
+	//보관함 list 불러오기
+	@RequestMapping("msgCabList.message")
+	public String msgCabInList(HttpServletRequest request, Model m) throws Exception{
+		String id = (String)session.getAttribute("id");
+		int cpage = Integer.parseInt(request.getParameter("cpage"));
+		List<Map<String,Object>> inList = mservice.msgCabInCpage(id,cpage);
+		List<MessageDTO> outList = mservice.msgCabOutCpage(id,cpage);
+		System.out.println("====="+outList.get(0).getMsg_title());
+		String inNavi = mservice.msgCabInNavi(cpage,id);
+		String outNavi = mservice.msgCabOutNavi(cpage,id);
+		m.addAttribute("inList", inList);
+		m.addAttribute("outList", outList);
+		m.addAttribute("inNavi", inNavi);
+		m.addAttribute("outNavi", outNavi);
+		return "message/storageBox";
 	}
+	
+//	// error
+//	@ExceptionHandler
+//	public String exceptionalHandler(Exception e) {
+//		e.printStackTrace();
+//		return "error";
+//	}
 	
 }

@@ -35,9 +35,33 @@ select * from st.message_attached_files where msg_seq = #{value} </select>
 select st.message.*, nvl(to_char(msg_receive_date), '읽지않음') as msg_receive_date_str from st.message where msg_sender = #{value} and msg_sender_view='Y' order by msg_seq desc </select>
 
 <select id="msgInBoxCpage" resultType="kh.gw.dto.MessageDTO">
-select * from(select st.message.*,nvl(to_char(to_char(msg_receive_date,'mm/dd HH12:mi')), '읽지않음') as msg_receive_date_str,to_char(msg_send_date,'mm/dd HH12:mi') as msg_sender_date_str,row_number() over(order by msg_seqdesc)rn from st.message where (msg_receiver = #{id}) and (msg_receiver_view='Y')) where rn between #{startRowNum} and #{endRowNum} </select>
+select * from(select st.message.*,nvl(to_char(to_char(msg_receive_date,'mm/dd HH12:mi')), '읽지않음') as msg_receive_date_str,to_char(msg_send_date,'mm/dd HH12:mi') as msg_sender_date_str,row_number() over(order by msg_seq desc)rn from st.message where (msg_receiver = #{id}) and (msg_receiver_view='Y')) where rn between #{startRowNum} and #{endRowNum} </select>
 
 <select id="msgOutBoxCpage" resultType="kh.gw.dto.MessageDTO">
-select * from(select st.message.*,nvl(to_char(to_char(msg_receive_date,'mm/dd HH12:mi')), '읽지않음') as msg_receive_date_str,to_char(msg_send_date,'mm/dd HH12:mi') as msg_sender_date_str,row_number() over(order by msg_seqdesc)rn from st.message where (msg_sender = #{id}) and (msg_sender_view='Y')) where rn between #{startRowNum} and #{endRowNum} </select>
+select * from(select st.message.*,nvl(to_char(to_char(msg_receive_date,'mm/dd HH12:mi')), '읽지않음') as msg_receive_date_str,to_char(msg_send_date,'mm/dd HH12:mi') as msg_sender_date_str,row_number() over(order by msg_seq desc)rn from st.message where (msg_sender = #{id}) and (msg_sender_view='Y')) where rn between #{startRowNum} and #{endRowNum} </select>
+
+<insert id="msgInCabinsert">
+insert into st.message_cabinet values(#{msg_seq},#{id},'IN')
+</insert>
+
+<insert id="msgOutCabinsert">
+insert into st.message_cabinet values(#{msg_seq},#{id},'OUT')
+</insert>
+
+<select id="msgCabInCpage" resultType="java.util.HashMap">
+select * from(select st.m.*,nvl(to_char(to_char(m.msg_receive_date,'mm/dd HH12:mi')), '읽지않음') as msg_receive_date_str,to_char(m.msg_send_date,'mm/dd HH12:mi') as msg_sender_date_str,row_number() over(order by m.msg_seq desc)rn from st.message m,st.message_cabinet c where (m.msg_receiver=c.msg_id) and (m.msg_seq=c.msg_seq) and (msg_receiver = #{id}) and (msg_receiver_view='Y') and (c.msg_division='IN')) where rn between #{startRowNum} and #{endRowNum}
+</select>
+
+<select id="msgCabOutCpage" resultType="kh.gw.dto.MessageDTO">
+select * from(select st.m.*,nvl(to_char(to_char(m.msg_receive_date,'mm/dd HH12:mi')), '읽지않음') as msg_receive_date_str,to_char(m.msg_send_date,'mm/dd HH12:mi') as msg_sender_date_str,row_number() over(order by m.msg_seq desc)rn from st.message m,st.message_cabinet c where (m.msg_sender=c.msg_id) and (m.msg_seq=c.msg_seq) and (msg_sender = #{id}) and (msg_receiver_view='Y') and (c.msg_division='OUT')) where rn between #{startRowNum} and #{endRowNum}
+</select>
+
+<select id="msgCabInList" resultType="java.util.HashMap">
+select st.m.* from st.message m, st.message_cabinet c where m.msg_receiver=c.msg_id and m.msg_seq=c.msg_seq and msg_receiver=#{id} and c.msg_division='IN'
+</select>
+
+<select id="msgCabOutList" resultType="java.util.HashMap">
+select st.m.* from st.message m, st.message_cabinet c where m.msg_sender=c.msg_id and m.msg_seq=c.msg_seq and msg_sender=#{id} and c.msg_division='OUT'
+</select>
 
 </mapper>

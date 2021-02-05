@@ -91,6 +91,54 @@ public class MessageDAO {
 		return db.selectList("Message.msgOutBoxCpage",param);
 	}
 	
+	//쪽지 chk박스로 보관함(수신)
+	public int msgInCabinsert(String id, int msg_seq) throws Exception{
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("id", id);
+		param.put("msg_seq", msg_seq);
+		return db.insert("Message.msgInCabinsert",param);
+	}
 	
+	//쪽지 chk박스로 보관함(발신)
+	public int msgOutCabinsert(String id, int msg_seq) throws Exception{
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("id", id);
+		param.put("msg_seq", msg_seq);
+		return db.insert("Message.msgOutCabinsert",param);
+	}
+	
+	//보관함 list(수신)
+	public List<Map<String,Object>> msgCabInCpage(String id, int cpage) throws Exception{
+		BoardConfigurator configurator = new BoardConfigurator();
+		int startRowNum = (cpage-1)*configurator.RECORD_COUNT_PER_PAGE+1;
+		int endRowNum = startRowNum + configurator.RECORD_COUNT_PER_PAGE-1;
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("startRowNum", startRowNum);
+		param.put("endRowNum", endRowNum);
+		param.put("id", id);
+		return db.selectList("Message.msgCabInCpage",param);		
+	}
+	
+	//보관함 list(발신)
+	public List<MessageDTO> msgCabOutCpage(String id, int cpage) throws Exception{
+		BoardConfigurator configurator = new BoardConfigurator();
+		int startRowNum = (cpage-1)*configurator.RECORD_COUNT_PER_PAGE+1;
+		int endRowNum = startRowNum + configurator.RECORD_COUNT_PER_PAGE-1;
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("startRowNum", startRowNum);
+		param.put("endRowNum", endRowNum);
+		param.put("id", id);
+		return db.selectList("Message.msgCabOutCpage",param);		
+	}
+	
+	//보관함 (수신) 리스트 사이즈
+	public List<Map<String,Object>> msgCabInList(String id) throws Exception{
+		return db.selectList("Message.msgCabInList",id);
+	}
+	
+	//보관함 (발신) 리스트 사이즈
+	public List<Map<String,Object>> msgCabOutList(String id) throws Exception{
+		return db.selectList("Message.msgCabOutList",id);
+	}	
 	
 }
