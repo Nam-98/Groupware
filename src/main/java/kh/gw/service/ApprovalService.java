@@ -2,6 +2,7 @@ package kh.gw.service;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -13,11 +14,14 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.JsonObject;
@@ -86,10 +90,11 @@ public class ApprovalService {
 		}
 	}
 	
+	
 	private void uploadAttachedFiles(List<MultipartFile> attachedfiles, int app_seq) throws Exception {
+		String realPath = servletContext.getRealPath("/resources/Approval_attached_files");
 		for (MultipartFile file : attachedfiles) {
 			if(file.isEmpty()) {return;}
-			String realPath = servletContext.getRealPath("/resources/Approval_attached_files");
 			File filesPath = new File(realPath);
 			// 이 file객체는 realPath에 실제로 해당 객체가 있을지 없을지 모르지만 이런 객체를 임의로 만들어 두고
 
@@ -113,15 +118,29 @@ public class ApprovalService {
 	public List<ApprovalDTO> allMyWriteApp(){
 		return adao.allMyWriteApp((String)session.getAttribute("id"));
 	}
+	public int isMyCheckTurn(int app_seq) {
+		List<Approval_signDTO> signList = adao.getAppSignBySeq(app_seq);
+		for (Approval_signDTO dto : signList) {
+			int checkorder = dto.getApp_sign_order()-1;
+			int befOrderCount = adao.countAgree(checkorder, dto.getApp_seq());
+			int yCount = adao.isSignTurn(checkorder, dto.getApp_seq());
+			
+			//내 결재차례이고, 아직 결재를 하지 않았으며, 이전 결재자의 수와 동의자의 수가 같다면   
+			if(dto.getApp_sign_id().contentEquals((String)session.getAttribute("id")) && dto.getApp_sign_date()==null && yCount==befOrderCount ) {
+				//내 차례가 맞다고 return 함
+				return 1;
+			}
+		}
+		//내 결재차례가 아님을 돌려줌. 
+		return 0;
+
+	}
 	public List<ApprovalDTO> getMySignedList(int cPage){
-		List<Approval_signDTO> signList = adao.allMySignApp((String)session.getAttribute("id"));
+		List<Approval_signDTO> signList = adao.getMySignedApp((String)session.getAttribute("id"));
 		List<Integer> seqList =  new ArrayList<Integer>(); 
 		List<ApprovalDTO> resultList = new ArrayList<ApprovalDTO>();
 		//올라간 기안 중 내가 결재라인에 포함되어 있는 모든 내역의 Seq를 들고온다.(참조 제외)
 		for (Approval_signDTO dto : signList) {
-//			int checkorder = dto.getApp_sign_order()-1;
-//			int befOrderCount = adao.countAgree(checkorder, dto.getApp_seq());
-//			int yCount = adao.isSignTurn(checkorder, dto.getApp_seq());
 			//내가 결재 완료한 내역을 넣음
 				if(dto.getApp_sign_date()!=null) {
 					seqList.add(dto.getApp_seq());
@@ -163,14 +182,11 @@ public class ApprovalService {
 	}
 	
 	public List<ApprovalDTO> getTobeSignList(int cPage){
-		List<Approval_signDTO> signList = adao.allMySignApp((String)session.getAttribute("id"));
+		List<Approval_signDTO> signList = adao.getTobeSignApp((String)session.getAttribute("id"));
 		List<Integer> seqList =  new ArrayList<Integer>(); 
 		List<ApprovalDTO> resultList = new ArrayList<ApprovalDTO>();
 		//올라간 기안 중 내가 결재라인에 포함되어 있는 모든 내역의 Seq를 들고온다.(참조 제외)
 		for (Approval_signDTO dto : signList) {
-//			int checkorder = dto.getApp_sign_order()-1;
-//			int befOrderCount = adao.countAgree(checkorder, dto.getApp_seq());
-//			int yCount = adao.isSignTurn(checkorder, dto.getApp_seq());
 			
 			//내가 결재 하지 않은 내역을 넣음
 			if(dto.getApp_sign_date()==null) {
@@ -197,9 +213,15 @@ public class ApprovalService {
 		return resultList;
 	}
 	
-	public String getNavi(int currentPage, List<ApprovalDTO> signList, String hrefText) throws Exception{
-		int recordTotalCount = signList.size(); //총 데이터 개수
-
+	public String getNavi(int currentPage, String hrefText, String from) throws Exception{
+		int recordTotalCount = 0;
+		if(from.contentEquals("tobe")) {
+			recordTotalCount = adao.countTobeSignApp((String)session.getAttribute("id")); //총 데이터 개수
+		}else {
+			recordTotalCount = adao.countMySignedApp((String)session.getAttribute("id")); //총 데이터 개수
+		}
+		
+		System.out.println("data 총 개수 : "+recordTotalCount);
 		int recordCountPerPage = ApprovalConfigurator.APP_RECORD_COUNT_PER_PAGE;
 		int naviCountPerPage = ApprovalConfigurator.APP_NAVI_COUNT_PER_PAGE;
 
@@ -242,11 +264,13 @@ public class ApprovalService {
 			sb.append("<li><a href='/approval/"+hrefText+"?cPage="+(startNavi-1)+"'> <span><</span> </a></li>");
 		}
 		for(int i = startNavi; i <= endNavi; i++) {
-			sb.append("<li><a href='/approval/"+hrefText+"?cPage="+currentPage+"'>"+i+"</a></li>");
+			sb.append("<li><a href='/approval/"+hrefText+"?cPage="+i+"'>"+i+"</a></li>");
+			System.out.println("linkPage : "+i);
 		}
 		if(endNavi != pageTotalCount) {
 			sb.append("<li><a href='/approval/"+hrefText+"?cPage="+pageTotalCount+"'><span> > </span></a></li>");
 		}
+		System.out.println(sb.toString());
 		return sb.toString();
 	}
 	
@@ -327,5 +351,14 @@ public class ApprovalService {
 	     	      
 	      return sb.toString() ;
 	      
+	}
+	public int updateSign(int app_seq, String isAccept) {
+		Approval_signDTO dto = new Approval_signDTO();
+		dto.setApp_seq(app_seq);
+		dto.setApp_sign_id((String)session.getAttribute("id"));
+		dto.setApp_sign_accept(isAccept);
+			return adao.updateSign(dto);
+		
+
 	}
 }

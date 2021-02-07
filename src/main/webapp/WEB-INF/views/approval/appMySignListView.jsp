@@ -93,7 +93,7 @@
 									<c:forEach items="${signedList}" var="i">
 										<tr>
 											<td>${i.app_docs_num}<input type=hidden value="${i.app_seq}"></td>
-											<td>${i.app_type_code}</td>
+											<td>${i.app_type_name}</td>
 											<td>
 												<c:choose>
 													<c:when test="${i.app_sign_accept=='N'}">반려</c:when>

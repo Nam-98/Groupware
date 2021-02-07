@@ -27,8 +27,17 @@
   	<select id="searchApp" resultType="kh.gw.dto.ApprovalDTO">
   		select * from st.approval where app_seq = #{value}
   	</select>
-  	<select id="allMySignApp" resultType="kh.gw.dto.Approval_signDTO">
-  		select * from st.approval_sign where app_sign_id = #{value} and app_sign_type_code != 1
+  	<select id="getTobeSignApp" resultType="kh.gw.dto.Approval_signDTO">
+  		select * from st.approval_sign where app_sign_id = #{value} and app_sign_type_code != 1 and app_sign_date is null
+  	</select>
+  	 <select id="getMySignedApp" resultType="kh.gw.dto.Approval_signDTO">
+  		select * from st.approval_sign where app_sign_id = #{value} and app_sign_type_code != 1 and app_sign_date is not null
+  	</select>
+  	<select id="countTobeSignApp" resultType="int">
+  		select count(*) from st.approval_sign where app_sign_id = #{value} and app_sign_type_code != 1 and app_sign_date is null
+  	</select>
+  	 <select id="countMySignedApp" resultType="int">
+  		select count(*) from st.approval_sign where app_sign_id = #{value} and app_sign_type_code != 1 and app_sign_date is not null
   	</select>
   	<select id="isSignTurn" resultType="int">
   		select count(*) from st.approval_sign where app_sign_order = #{order} and app_seq = #{app_seq} and app_sign_accept = 'Y'
@@ -53,7 +62,7 @@
   		select * from st.approval join st.approval_type using (app_type_code) join st.approval_status using (app_status_code) where app_seq=#{app_seq}
   	</select>
   	<select id="getAppSignBySeq" resultType="kh.gw.dto.Approval_signDTO">
-  		select * from st.approval_sign where app_seq=#{app_seq} order by app_sign_order
+  		select * from st.approval_sign join st.member on (id=app_sign_id) join st.approval_sign_type using (app_sign_type_code) where app_seq=#{app_seq} order by app_sign_order
   	</select>
   	<select id="getAppFileBySeq" resultType="kh.gw.dto.Approval_attached_filesDTO">
   		select * from st.approval_attached_files where app_seq=#{app_seq}
@@ -64,4 +73,8 @@
   	<update id="contentsUpdate">
   		update st.approval set app_contents = #{fileName} where app_seq=#{app_seq}
   	</update>
+  	<update id="updateSign">
+  		update st.approval_sign set app_sign_accept=#{app_sign_accept}, app_sign_date=(SELECT CURRENT_DATE FROM DUAL) where app_seq=#{app_seq} and app_sign_id=#{app_sign_id}
+  	</update>
+  	
   </mapper>

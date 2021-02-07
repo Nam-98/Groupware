@@ -40,9 +40,6 @@ public class ApprovalDAO {
 	public List<ApprovalDTO> allMyWriteApp(String id){
 		return db.selectList("Approval.allMyWriteApp", id);
 	}
-	public List<Approval_signDTO> allMySignApp(String id){
-		return db.selectList("Approval.allMySignApp", id);
-	}
 	public ApprovalDTO searchApp(int app_seq) {
 		return db.selectOne("Approval.searchApp", app_seq);
 	}
@@ -85,5 +82,20 @@ public class ApprovalDAO {
 		map.put("fileName", fileName);
 		map.put("app_seq", app_seq);
 		return db.update("Approval.contentsUpdate", map);
+	}
+	public int updateSign(Approval_signDTO dto) {
+		return db.update("Approval.updateSign",dto);
+	}
+	public List<Approval_signDTO> getMySignedApp(String id){
+		return db.selectList("Approval.getMySignedApp", id);
+	}
+	public List<Approval_signDTO> getTobeSignApp(String id){
+		return db.selectList("Approval.getTobeSignApp", id);
+	}
+	public int countMySignedApp(String id){
+		return db.selectOne("Approval.countMySignedApp", id);
+	}
+	public int countTobeSignApp(String id){
+		return db.selectOne("Approval.countTobeSignApp", id);
 	}
 }

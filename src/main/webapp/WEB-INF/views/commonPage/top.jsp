@@ -49,3 +49,9 @@
 				</div>
 			</div>
 		</nav>
+		<script>
+			if(${empty sessionScope.id}){
+				alert("로그아웃 되었습니다.");
+				location.href="/";
+			}
+		</script>
