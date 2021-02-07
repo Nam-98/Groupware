@@ -65,17 +65,24 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 style="text-align: left;">쪽지 쓰기</h3><br>
+					<h3 style="text-align: left;">쪽지 보기</h3><br>
 
 <div style="width: 80%;">
 	<form method="post" enctype="multipart/form-data" action="/message/msgProc.message?msg_receiver=${mdto.msg_receiver }">
+	
+		<div class="btn-group-ml" role="group" style="text-align: right;">
+  					<button type="button" class="btn btn-primary" id="reWrite">새로 쓰기</button>
+  					<button type="button" class="btn btn-primary" id="delete">삭제</button>
+  					<button type="button" class="btn btn-primary" id="list">목록으로</button>
+					</div>
+	
 		<table class="table">
 					<thead>
 						<tr>
 							<th scope="col" class="col-7">제목 : ${mdto.msg_title }</th>
 							<th scope="col" class="col-2">발신자 : ${mdto.msg_sender_name }</th>
-							<th scope="col" class="col-2">발신일 : ${mdto.msg_send_date }</th>
-							<th scope="col" class="col-1">수신일 : ${mdto.msg_receive_date }</th>
+							<th scope="col" class="col-2">발신일 : ${mdto.msg_sender_date_str }</th>
+							<th scope="col" class="col-1">수신일 : ${mdto.msg_receive_date_str }</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -93,8 +100,6 @@
 					</tbody>
 				</table>
 		
-		<button type="button" class="btn btn-primary" style="float: right;" id="list">목록으로</button>
-		<button type="button" class="btn btn-primary" style="float: right;" id="reWrite">새로 쓰기</button>
 		
 	</form>
 </div>
@@ -104,9 +109,7 @@
 		</div>
 		<!-- END MAIN -->
 		<div class="clearfix"></div>
-		<footer>
 <jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
-		</footer>
 	</div>
 	<!-- END WRAPPER -->
 
@@ -117,6 +120,9 @@
 	
 	document.getElementById("list").onclick = function(){
 		location.href = "/message/msgOutBoxList.message?cpage=1";
+	}
+	document.getElementById("delete").onclick = function() {
+		location.href = "/message/msgOutBoxDel.message?msg_seq=${mdto.msg_seq}";
 	}
 </script>
 </body>

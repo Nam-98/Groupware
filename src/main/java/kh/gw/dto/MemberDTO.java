@@ -1,6 +1,6 @@
 package kh.gw.dto;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class MemberDTO {
 	private String id;

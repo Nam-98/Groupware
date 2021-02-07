@@ -87,12 +87,23 @@
   </select>
   
   <select id="commentView" resultType="kh.gw.dto.Write_commentsDTO">
-	select * from st.write_comments where write_seq = #{write_seq} order by write_cmt_seq asc
+	select * from st.write_comments where write_seq = #{write_seq} and write_cmt_parent_seq is null order by write_cmt_seq asc
   </select>
   
   <delete id="commentDelete">
   	delete from st.write_comments where write_cmt_seq = #{value}
   </delete>
  
+  <select id="reCommentList" resultType="kh.gw.dto.Write_commentsDTO">
+	select * from st.write_comments where write_cmt_parent_seq = #{write_cmt_seq}
+  </select>
 
+  <insert id="reCommentWrite">
+  	insert into st.write_comments(write_cmt_seq, write_seq, write_cmt_id, write_cmt_contents, write_cmt_date, write_cmt_parent_seq) values(st.write_cmt_seq.nextval, #{write_seq}, #{write_cmt_id}, #{write_cmt_contents}, sysdate, #{write_cmt_parent_seq})
+  </insert>
+  
+    <select id="reCommentNow" resultType="kh.gw.dto.Write_commentsDTO">
+	select * from st.write_comments where write_cmt_seq = (select max(write_cmt_seq) from st.write_comments where write_seq = #{write_seq} and write_cmt_parent_seq = #{write_cmt_parent_seq})
+  </select>
+  
   </mapper>

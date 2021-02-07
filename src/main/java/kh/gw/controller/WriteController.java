@@ -295,7 +295,7 @@ public class WriteController {
 		return "redirect:/write/boardGalleryList.write?cpage=1";
 	}
 	
-	//------------- 댓글 만들기
+	//------------- 댓글 쓰기
 	@RequestMapping(value = "commentWrite.write", method = RequestMethod.POST)
 	@ResponseBody
 	public Object commentWrite(Write_commentsDTO dto, HttpServletRequest request, HttpServletResponse response){
@@ -314,10 +314,53 @@ public class WriteController {
 	@RequestMapping(value = "commentDelete.write", method = RequestMethod.POST)
 	@ResponseBody
 	public Object commentDelete(HttpServletRequest request, Write_commentsDTO cdto) throws Exception{
-		cdto.setWrite_cmt_seq(Integer.parseInt(request.getParameter("write_cmt_seq")));
-		wservice.commentDelete(cdto.getWrite_cmt_seq());
+//		cdto.setWrite_cmt_seq(Integer.parseInt(request.getParameter("write_cmt_seq")));
+		System.out.println(cdto.getWrite_cmt_seq());
+		int ac = wservice.commentDelete(cdto.getWrite_cmt_seq());
+		if(ac == 1) {
+			
+			System.out.println("삭제됨");
+			
+		}else {
+			System.out.println("맘붐?");
+			
+		}
 		Gson gson = new Gson();
-		String a = gson.toJson(1);
+		String a = gson.toJson(ac);
 		return a;
 	}
+	
+	
+	
+	//------------- 대댓글 불러오기
+	@RequestMapping(value = "reCommentList.write", method = RequestMethod.POST)
+	@ResponseBody
+	public Object reCommentList(Write_commentsDTO dto, HttpServletRequest request, HttpServletResponse response){
+		Gson gson = new Gson();
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<Write_commentsDTO> list = new ArrayList<Write_commentsDTO>();
+		list = wservice.reCommentList(dto);
+		map.put("reCmtList", list);
+		String reCmtList = gson.toJson(map);
+		System.out.println(reCmtList);
+		return reCmtList;
+	}
+	
+	//-----------------대댓글 쓰기
+	@RequestMapping(value = "reCommentWrite.write", method = RequestMethod.POST)
+	@ResponseBody
+	public Object reCommentWrite(Write_commentsDTO dto, HttpServletRequest request, HttpServletResponse response){
+		Gson gson = new Gson();
+		System.out.println(dto.toString());
+		int result = wservice.reCommentWrite(dto);
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<Write_commentsDTO> list = new ArrayList<Write_commentsDTO>();
+		list = wservice.reCommentNow(dto);
+		System.out.println(dto.getWrite_cmt_parent_seq());
+		System.out.println("리스트가져와" + list);
+		map.put("reCmtList", list);
+		String reCmtList = gson.toJson(map);
+		return reCmtList;
+	}
+	
 }

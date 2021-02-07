@@ -125,9 +125,7 @@ textarea {
 		</div>
 		<!-- END MAIN CONTENT -->
 		<div class="clearfix"></div>
-		<footer>
-			<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
-		</footer>
+<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
 	</div>
 </body>
 <script>

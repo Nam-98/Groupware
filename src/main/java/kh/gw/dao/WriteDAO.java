@@ -131,4 +131,16 @@ public class WriteDAO {
 	public int commentDelete(int write_cmt_seq) throws Exception{
 		return db.delete("Write.commentDelete", write_cmt_seq);
 	}
+
+	public List<Write_commentsDTO> reCommentList(Write_commentsDTO dto) {
+		return db.selectList("Write.reCommentList", dto);
+	}
+
+	public int reCommentWrite(Write_commentsDTO dto) {
+		return db.insert("Write.reCommentWrite", dto);
+	}
+
+	public List<Write_commentsDTO> reCommentNow(Write_commentsDTO dto) {
+		return db.selectList("Write.reCommentNow", dto);
+	}
 }
