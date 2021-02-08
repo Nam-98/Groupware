@@ -35,8 +35,12 @@ public class MemberService {
 	public Map<String,Object> getMyInfo(String id) throws Exception{
 		return mdao.getMyInfo(id);
 	}
-	
 	public int insertMem(MemberDTO dto) throws Exception{
 		return mdao.insertMem(dto);
+	}
+	public void updateMemList(List<MemberDTO> list) throws Exception {
+		for(MemberDTO dto : list) {
+			mdao.updateMemInfo(dto);
+		}
 	}
 }

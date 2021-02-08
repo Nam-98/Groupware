@@ -1,5 +1,7 @@
 package kh.gw.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -61,6 +63,14 @@ public class AdminController {
 		mser.insertMem(dto);
 		return new NexacroResult();
 	}
+	
+	//회원수정
+	@RequestMapping("updateMemList.nexacro")
+	public NexacroResult updateMemList(@ParamDataSet(name = "ds_in") List<MemberDTO> list) throws Exception{
+		mser.updateMemList(list);
+		return new NexacroResult();
+	}
+	
 	// error
 	@ExceptionHandler
 	public String exceptionalHandler(Exception e) {
