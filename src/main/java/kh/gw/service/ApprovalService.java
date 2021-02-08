@@ -447,7 +447,7 @@ public class ApprovalService {
 		List<Approval_signDTO> signList = adao.getTobeSignApp((String)session.getAttribute("id"));
 		List<Integer> seqList =  new ArrayList<Integer>(); 
 		List<ApprovalDTO> resultList = new ArrayList<ApprovalDTO>();
-		if(seqList.size()==0) {
+		if(signList.size()==0) {
 			return resultList;}
 		//올라간 기안 중 내가 결재라인에 포함되어 있는 모든 내역의 Seq를 들고온다.(참조 제외)
 		for (Approval_signDTO dto : signList) {

@@ -68,8 +68,7 @@
   		select * from st.approval join st.approval_type using (app_type_code) join st.approval_status using (app_status_code) where app_seq=#{app_seq}
   	</select>
   	<select id="getAppSignBySeq" resultType="kh.gw.dto.Approval_signDTO">
-		select * from (select app_seq,app_docs_num,app_title,name,app_reg_date,app_status_name, row_number() over(order by app_seq desc)rn from st.approval join st.approval_type using(app_type_code) join st.approval_status using(app_status_code) join st.member on id=app_id where app_id = #{id} order by app_seq desc) where rn between 1 and 5
-  	</select>
+  		select * from st.approval_sign join st.member on (id=app_sign_id) join st.approval_sign_type using (app_sign_type_code) where app_seq=#{app_seq} order by app_sign_order  	</select>
   	<select id="getAppFileBySeq" resultType="kh.gw.dto.Approval_attached_filesDTO">
   		select * from st.approval_attached_files where app_seq=#{app_seq}
   	</select>
