@@ -11,7 +11,7 @@ insert into st.message values(st.message_seq.nextval,#{msg_sender},#{msg_receive
 select st.message.*, nvl(to_char(msg_receive_date), '읽지않음') as msg_receive_date_str from st.message where msg_receiver = #{value} and msg_receiver_view='Y' order by msg_seq desc </select>
 
 <update id="readDate">
-update st.message set msg_receive_date=(SELECT CURRENT_DATE FROM DUAL) where msg_seq=#{value} </update>
+update st.message.*,nvl(to_char(to_char(msg_receive_date,'mm/dd HH12:mi')), '읽지않음') as msg_receive_date_str,to_char(msg_send_date,'mm/dd HH12:mi') as msg_sender_date_str set msg_receive_date=(SELECT CURRENT_DATE FROM DUAL) where msg_seq=#{value} </update>
 
 <select id="msgView" resultType="kh.gw.dto.MessageDTO">
 select st.message.*,nvl(to_char(to_char(msg_receive_date,'mm/dd HH12:mi')), '읽지않음') as msg_receive_date_str,to_char(msg_send_date,'mm/dd HH12:mi') as msg_sender_date_str from st.message where msg_seq = #{value} </select>
@@ -79,5 +79,8 @@ select st.message.*, nvl(to_char(msg_receive_date), '읽지않음') as msg_recei
 <update id="delMyMsg">
 update st.message set msg_receiver_view = 'N' where msg_seq = #{value} </update>
 
+<select id="msgCount" resultType="int">
+select count(msg_receive_date) from st.message where msg_receiver=#{id};
+</select>
 
 </mapper>

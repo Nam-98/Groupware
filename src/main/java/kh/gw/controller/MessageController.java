@@ -124,9 +124,9 @@ public class MessageController {
 	@RequestMapping("msgReceiveView.message")
 	public String msgReceiveView(HttpServletRequest request, Model m) throws Exception{
 		int msg_seq= Integer.parseInt(request.getParameter("msg_seq"));
-		String msg_receive_date = request.getParameter("msg_receive_date");
-		System.out.println("=====확인==="+msg_receive_date);
-		int readDate = mservice.readDate(msg_seq,msg_receive_date);
+		String msg_receive_date_str = request.getParameter("msg_receive_date_str");
+		System.out.println("=====확인==="+msg_receive_date_str);
+		int readDate = mservice.readDate(msg_seq,msg_receive_date_str);
 		List<Message_attached_filesDTO> attlist = mservice.attFilesAll(msg_seq);
 		MessageDTO mdto = mservice.msgView(msg_seq);
 		m.addAttribute("mdto", mdto);
