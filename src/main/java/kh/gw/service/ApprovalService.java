@@ -383,6 +383,9 @@ public class ApprovalService {
 	      StringBuilder sb = new StringBuilder();
 	         //sDir 폴더속 sFileName을 가져온다.
 	         File file = new File(sDir, sFileName);
+	         if(!file.exists()) {
+	        	 return app_seq+"_contents";
+	         }
 	         FileReader file_reader = new FileReader(file);
 
 	         while((cur = file_reader.read()) != -1){
