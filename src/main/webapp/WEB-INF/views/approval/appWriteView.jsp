@@ -293,7 +293,36 @@ th{width:50px;}
 	<!-- END WRAPPER -->
 
 	</form>
-	
+	<script>
+	//글 작성
+	$("#appWrite").on("click",function(){
+		//title입력 확인
+		if($("#title").val()==''){alert("제목은 필수입력 사항입니다.");return;}
+		//본문 입력 확인
+		if ($('.summernote').summernote('isEmpty')) {
+		  alert('본문내용은 필수 입력사항입니다.');return;
+		}
+		
+		//contents 전송준비
+		let contents = $(".summernote").summernote('code');
+		
+		$("#sign_info_Json").val(JSON.stringify(sign_info_Json));
+		
+		//휴가계일 때 날짜정보 전송 및 내용에도 날짜정보 포함시키기.
+		if($("#docsType").val()==3){
+			 let dStrt = getFormatDate($('#jqxdateStart').jqxDateTimeInput('getDate'));
+			 let dEnd = getFormatDate($('#jqxdateEnd').jqxDateTimeInput('getDate'));
+			$("#breakSrt").val(dStrt);
+			$("#breakEnd").val(dEnd);
+			let str = "<p>휴가 구분 : "+$("#breakType option:checked").text()+"</p><p>신청 기간 : "+dStrt+" ~ "+dEnd+"</p>";
+			console.log(str);
+			contents = str + contents;
+		}
+		$("#contents").val(contents);
+		$("#writeForm").submit();
+		
+	})
+	</script>
 	<!-- /.modal -->
 		<script>
 		let sign_info_Json = {};
@@ -313,26 +342,7 @@ th{width:50px;}
 	              $('#jqxdateEnd').jqxDateTimeInput('setDate', date);
 	          });
 
-			//글 작성
-			$("#appWrite").on("click",function(){
-				//title입력 확인
-				if($("#title").val()==''){alert("제목은 필수입력 사항입니다.");return;}
-				//본문 입력 확인
-				if ($('.summernote').summernote('isEmpty')) {
-				  alert('본문내용은 필수 입력사항입니다.');return;
-				}
-				//휴가계일 때 날짜정보 전송
-				if($("#docsType").val()==3){
-					$("#breakSrt").val(getFormatDate($('#jqxdateStart').jqxDateTimeInput('getDate')));
-					$("#breakEnd").val(getFormatDate($('#jqxdateEnd').jqxDateTimeInput('getDate')));
-				}
-				
-				//contents 전송준비
-				$("#contents").val($(".summernote").summernote('code'));
-				$("#sign_info_Json").val(JSON.stringify(sign_info_Json));
-				$("#writeForm").submit();
-				
-			})
+			
 			//file block
 			$("#addFileBlock").on("click",function(){
 				let block = $(`<div class="input-group fileBlock" style='display:inline-flex; padding:2px;'><div class="custom-file col-sm-10" style='display:inline;'><input type="file" class="approvalFiles" name='attachedfiles'></div><div class="input-group-append col-sm-2" style='display:inline;'><button class="btn btn-danger btn-sm fileDel" type="button">삭제</button></div></div>`);
@@ -379,6 +389,14 @@ th{width:50px;}
 					$(".breakInfo").css("display","none");
 					$(".detInfo").css("display","inline");
 				}
+				
+				$.ajax({
+					url : "/approval/getTemplate.approval?app_docs_type="+this.value,
+					method : 'POST',
+					success : function(template){
+						$('.summernote').summernote('code', template);
+					}
+				})
 			})
 			//결재라인 관련 스크립트
 			

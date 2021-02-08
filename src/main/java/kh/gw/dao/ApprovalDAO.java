@@ -56,11 +56,14 @@ public class ApprovalDAO {
 		map.put("app_seq", app_seq);
 		return db.selectOne("Approval.isSignTurn",map);
 	}
-	public int countAgree(int order, int seq) {
+	public int countBefAgree(int order, int seq) {
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("order", order);
 		map.put("app_seq", seq);
-		return db.selectOne("Approval.countAgree",map);
+		return db.selectOne("Approval.countBefAgree",map);
+	}
+	public int countAgree(int seq) {
+		return db.selectOne("Approval.countAgree",seq);
 	}
 	public List<Integer> allMyCCList(String id){
 		return db.selectList("Approval.allMyCCList", id);
@@ -97,5 +100,30 @@ public class ApprovalDAO {
 	}
 	public int countTobeSignApp(String id){
 		return db.selectOne("Approval.countTobeSignApp", id);
+	}
+	public int writeCmt(Approval_commentsDTO dto) {
+		System.out.println(dto.getApp_cmt_writer());
+		return db.insert("Approval.writeCmt",dto);
+	}
+	public int delAppCmtBySeq(int app_cmt_seq) {
+		return db.update("Approval.delAppCmtBySeq", app_cmt_seq);
+	}
+	public int countMyCCList(String id) {
+		return db.selectOne("Approval.countMyCCList", id);
+	}
+	public int updateAppStatus(int app_status_code, int app_seq) {
+		HashMap<String, Object> map = new HashMap();
+		map.put("app_status_code", app_status_code);
+		map.put("app_seq", app_seq);
+		return db.update("Approval.updateAppStatus", map);
+	}
+	public int totalSign(int app_seq) {
+		return db.selectOne("Approval.totalSign", app_seq);
+	}
+	public List<ApprovalDTO> getAppForMainWrite(String id){
+		return db.selectList("Approval.getAppForMainWrite", id);
+	}
+	public List<ApprovalDTO> getAppForMainCC(String id){
+		return db.selectList("Approval.getAppForMainCC", id);
 	}
 }

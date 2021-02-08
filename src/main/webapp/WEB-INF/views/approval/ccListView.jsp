@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>결재 진행중 문서함</title>
+<title>참조 문서함</title>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <!-- 아이콘 fontawesome -->
     <script src="https://kit.fontawesome.com/b1e233372d.js"></script>
@@ -55,10 +55,10 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 class="page-title">결재 문서함</h3>
+					<h3 class="page-title">참조 문서함</h3>
 					<div class="panel">
 						<div class='panel-heading'>
-							<h3 class='panel-title'>결재 진행중 문서함</h3>
+							<h3 class='panel-title'>참조 문서함</h3>
 							<!--pannel의 최소화 및 닫기 버튼-->
 							<div class="right">
 								<button type="button" class="btn-toggle-collapse">
@@ -70,43 +70,42 @@
 							<table class="table table-striped">
 								<thead>
 									<tr>
-										<th scope="row" class="align-middle">문서번호</th>
-										<th scope="row" class="align-middle">분류</th>
-										<th scope="row" class="align-middle">문서명</th>
-										<th scope="row" class="align-middle">기안자</th>
-										<th scope="row" class="align-middle">기안일</th>
-										<th scope="row" class="align-middle">승인요청 여부</th>
+										<th scope="row" >문서번호</th>
+										<th scope="row" >분류</th>
+										<th scope="row" >문서명</th>
+										<th scope="row" >기안자</th>
+										<th scope="row" >기안일</th>
+										<th scope="row" >최종 결재상태</th>
 									</tr>
-
+									
 								</thead>
 								<tbody>
-									<c:choose>
-										<c:when test="${empty toBeSignList}">
-											<tr>
-												<td colspan=7>결재할 문서가 없습니다.</td>
-											</tr>
-										</c:when>
-										<c:otherwise>
-											<c:forEach items="${toBeSignList}" var="i">
-												<tr>
-													<td>${i.app_docs_num}<input type=hidden value="${i.app_seq}"></td>
-													<td>${i.app_type_name}</td>
-													<td>${i.app_title}</td>
-													<td>${i.name}</td>
-													<td>${i.app_reg_date}</td>
-													<td>
-														${i.app_is_my_sign_turn}
-													</td>
-												</tr>
-											</c:forEach>
-										</c:otherwise>
-									</c:choose>
-
-								</tbody>
+								<c:choose >
+									<c:when test="${empty signedList}">
+										<tr>
+											<td colspan=7>
+												참조된 문서가 없습니다. 
+											</td>
+										</tr>
+									</c:when>
+									<c:otherwise>
+									<c:forEach items="${signedList}" var="i">
+										<tr>
+											<td>${i.app_docs_num}<input type=hidden value="${i.app_seq}"></td>
+											<td>${i.app_type_name}</td>
+											<td>${i.app_title}</td>
+											<td>${i.name}</td>
+											<td>${i.app_reg_date}</td>
+											<td>${i.app_status_name}</td>
+										</tr>
+									</c:forEach>
+									</c:otherwise>
+								</c:choose>
+								</tbody> 
 							</table>
-							<nav aria-label="Page navigation" style="text-align:center;">
+							<nav aria-label="Page navigation"style="text-align:center;">
 								<ul class="pagination">
-									${toBeNavi }
+									${signedNavi}
 								</ul>
 							</nav>
 						</div>
@@ -118,14 +117,9 @@
 		</div>
 		<!-- END MAIN -->
 		<div class="clearfix"></div>
-		<footer>
-			<div class="container-fluid">
-				<p class="copyright">&copy; 2017 <a href="https://www.themeineed.com" target="_blank">Theme I Need</a>. All Rights Reserved.</p>
-			</div>
-		</footer>
+<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
 	<!-- END WRAPPER -->
-	<script>
-		
+		<script>
 		//row눌렀을 때 링크로 이동
 		$("tr").on("click",function(){
 			console.log($(this).children().first().children("input").val());

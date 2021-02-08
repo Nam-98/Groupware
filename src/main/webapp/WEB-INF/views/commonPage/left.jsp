@@ -15,7 +15,7 @@
                                     <ul class="nav">
                                         <li><a href="/approval/toToBeSignListView.approval?cPage=1" class="">결재 진행중 문서함</a></li>
                                         <li><a href="/approval/toMySignListView.approval?cPage=1" class="">결재 완료 문서함</a></li>
-                                        <li><a href="#" class="">참조문서함</a></li>
+                                        <li><a href="/approval/toCCListView.approval?cPage=1" class="">참조문서함</a></li>
                                     </ul>
                                 </div>
                             </li>

@@ -15,9 +15,12 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kh.gw.dto.ApprovalDTO;
 import kh.gw.dto.Approval_attached_filesDTO;
+import kh.gw.dto.Approval_commentsDTO;
 import kh.gw.dto.Approval_signDTO;
 import kh.gw.dto.Approval_sign_typeDTO;
 import kh.gw.dto.BreakDTO;
@@ -41,8 +44,10 @@ public class ApprovalController {
 	private HttpSession session;
 	
 	@RequestMapping("/toAppMainView.approval")
-	public String toAppMainView () {
-		aservice.resetConfig();
+	public String toAppMainView (Model model) {
+		model.addAttribute("writeList", aservice.getMainWriteList());
+		model.addAttribute("toBeSignList", aservice.getMainTobeList());
+		model.addAttribute("ccList", aservice.getMainCCList());
 		return "approval/appMainView";
 	}
 	
@@ -69,7 +74,7 @@ public class ApprovalController {
 			bservice.insertBreak(bdto,dto);
 		}
 		aservice.setInitAppSign(approval_signDTOList, appSeq);
-		return this.toAppWriteView(model);
+		return this.toAppDetailView(model,appSeq);
 	}
 	
 	@RequestMapping("/toMySignListView.approval")
@@ -85,6 +90,7 @@ public class ApprovalController {
 		List<ApprovalDTO> tobeSignList = aservice.getTobeSignList(cPage);
 		String toBeNavi = aservice.getNavi(cPage, "toToBeSignListView.approval","tobe" );
 		model.addAttribute("toBeSignList", tobeSignList);
+		//model.addAttribute("isMyCheckTurnList", aservice.isMyCheckTurnList(tobeSignList));
 		model.addAttribute("toBeNavi", toBeNavi);
 		return "approval/appToBeSignListView";
 	}
@@ -98,15 +104,15 @@ public class ApprovalController {
 		model.addAttribute("files", aservice.getAppFileBySeq(app_seq));
 		model.addAttribute("contents", aservice.getHtmlText(app_seq));
 		model.addAttribute("app_seq", app_seq);
+		model.addAttribute("cmts", aservice.getAppCmtBySeq(app_seq));
 		return "approval/appDetailView";
 	}
 	@RequestMapping("/signApproval.approval")
-	public String signApproval (String isAccept, int app_seq, HttpServletRequest request) {
+	public String signApproval (String isAccept, int app_seq, HttpServletRequest request,Model model) throws Exception {
 		aservice.updateSign(app_seq, isAccept);
-		String referer = request.getHeader("REFERER");
-		return "redirect:" + referer;
+		return this.toAppDetailView(model, app_seq);
 	}
-	@RequestMapping("/dlAttachedFiles.approval")
+	@RequestMapping(value="/dlAttachedFiles.approval", produces="application/text;charset=utf-8")
 	public void dlAttachedFiles(Approval_attached_filesDTO dto, HttpServletResponse resp) throws Exception {
 		String filePath = session.getServletContext().getRealPath("/resources/Approval_attached_files");
 		File targetFile = new File(filePath+"/"+dto.getApp_saved_name());//경로 뒤에 download받고 싶은 file명을 붙이면 해당 file을 absolute path가 되며 이를 이용하여 java에서 객체로 받아올 수 있다.
@@ -114,7 +120,7 @@ public class ApprovalController {
 			//resp의 defualt content type은 text/html이며 현재 우리가 보낼 file이 text/html이 아니므로 어떤 형태인지 설정해주어야 한다.  
 			resp.setContentType("application/octet-steam; charset=utf8");
 			resp.setContentLength((int)targetFile.length());
-			resp.setHeader("Content-Disposition", "attachment; filename=\""+dto.getApp_ori_name()+"\"");//파일이 download될 때 해당 file의 name을 설정해준다. 
+			resp.setHeader("Content-Disposition", "attachment; filename='"+dto.getApp_ori_name()+"'");//파일이 download될 때 해당 file의 name을 설정해준다. 
 			FileInputStream fis = new FileInputStream(targetFile);
 			ServletOutputStream sos = resp.getOutputStream();
 			FileCopyUtils.copy(fis, sos);//param의 왼쪽을 오른쪽으로 copy해라. 
@@ -124,6 +130,40 @@ public class ApprovalController {
 			sos.close();
 			//이렇게 되면 dispatcher에 resp가 가기도 전에 resp가 전송되므로 dispatcher는 아무런 행동도 하지 않는다. 
 		}
+	}
+	@RequestMapping(value="/writeCmt.approval", method = RequestMethod.POST)
+	@ResponseBody
+	public Object writeCmt(Approval_commentsDTO dto,HttpServletRequest request) {
+		int result = aservice.writeCmt(dto);
+		if(result>0) {
+		return "true";
+		}
+		return "false";
+	}
+	
+	@RequestMapping(value="/delCmt.approval",method = RequestMethod.POST)
+	@ResponseBody
+	public Object delAppCmtBySeq(int app_cmt_seq,HttpServletRequest request) {
+		int result = aservice.delAppCmtBySeq(app_cmt_seq);
+		if(result>0) {
+		return "true";
+		}
+		return "false";
+	}
+	
+	@RequestMapping(value="/getTemplate.approval",method = RequestMethod.POST, produces="application/text;charset=utf-8")
+	@ResponseBody
+	public Object getTemplate(int app_docs_type) throws Exception {
+		return aservice.getTemplate(app_docs_type);
+	}
+	
+	@RequestMapping("/toCCListView.approval")
+	public String toMyCCListView (Model model, int cPage) throws Exception {
+		List<ApprovalDTO> mySignedList = aservice.getMyCCList(cPage);
+		String signedNavi = aservice.getNavi(cPage,"toCCListView.approval","CC");
+		model.addAttribute("signedList", mySignedList);
+		model.addAttribute("signedNavi", signedNavi);
+		return "approval/ccListView";
 	}
 	// error
 	@ExceptionHandler
