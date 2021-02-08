@@ -10,9 +10,12 @@ public class Approval_signDTO {
 	private Date app_sign_date;
 	private String app_sign_accept;
 	private String app_sign_type_code;
+	private String name;
+	private String app_sign_type_name;
 	private List<Approval_signDTO> approval_signDTOList;
 	public Approval_signDTO(int app_seq, String app_sign_id, int app_sign_order, Date app_sign_date,
-			String app_sign_accept, String app_sign_type_code, List<Approval_signDTO> approval_signDTOList) {
+			String app_sign_accept, String app_sign_type_code, String name, String app_sign_type_name,
+			List<Approval_signDTO> approval_signDTOList) {
 		super();
 		this.app_seq = app_seq;
 		this.app_sign_id = app_sign_id;
@@ -20,6 +23,8 @@ public class Approval_signDTO {
 		this.app_sign_date = app_sign_date;
 		this.app_sign_accept = app_sign_accept;
 		this.app_sign_type_code = app_sign_type_code;
+		this.name = name;
+		this.app_sign_type_name = app_sign_type_name;
 		this.approval_signDTOList = approval_signDTOList;
 	}
 	public Approval_signDTO() {
@@ -61,11 +66,24 @@ public class Approval_signDTO {
 	public void setApp_sign_type_code(String app_sign_type_code) {
 		this.app_sign_type_code = app_sign_type_code;
 	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getApp_sign_type_name() {
+		return app_sign_type_name;
+	}
+	public void setApp_sign_type_name(String app_sign_type_name) {
+		this.app_sign_type_name = app_sign_type_name;
+	}
 	public List<Approval_signDTO> getApproval_signDTOList() {
 		return approval_signDTOList;
 	}
 	public void setApproval_signDTOList(List<Approval_signDTO> approval_signDTOList) {
 		this.approval_signDTOList = approval_signDTOList;
 	}
+	
 
 }

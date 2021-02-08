@@ -10,7 +10,7 @@
   		select * from st.approval_sign_type
   	</select>
   	<insert id="writeApp">
-  		insert into st.approval values(st.app_seq.nextval, #{app_type_code}, #{app_id}, #{app_archive}, #{app_title}, #{app_contents}, (select current_date from dual),#{app_docs_num},1)
+  		insert into st.approval values(st.app_seq.nextval, #{app_type_code}, #{app_id}, #{app_archive}, #{app_title}, 'temp', (select current_date from dual),#{app_docs_num},1)
   	</insert>
   	<insert id="setInitAppSign">
   		insert into st.approval_sign values(#{app_seq}, #{app_sign_id}, #{app_sign_order}, null, 'N', #{app_sign_type_code})
@@ -27,14 +27,26 @@
   	<select id="searchApp" resultType="kh.gw.dto.ApprovalDTO">
   		select * from st.approval where app_seq = #{value}
   	</select>
-  	<select id="allMySignApp" resultType="kh.gw.dto.Approval_signDTO">
-  		select * from st.approval_sign where app_sign_id = #{value} and app_sign_type_code != 1
+  	<select id="getTobeSignApp" resultType="kh.gw.dto.Approval_signDTO">
+  		select * from st.approval_sign where app_sign_id = #{value} and app_sign_type_code != 1 and app_sign_date is null order by app_seq desc
+  	</select>
+  	 <select id="getMySignedApp" resultType="kh.gw.dto.Approval_signDTO">
+  		select * from st.approval_sign where app_sign_id = #{value} and app_sign_type_code != 1 and app_sign_date is not null order by app_seq desc
+  	</select>
+  	<select id="countTobeSignApp" resultType="int">
+  		select count(*) from st.approval_sign where app_sign_id = #{value} and app_sign_type_code != 1 and app_sign_date is null
+  	</select>
+  	 <select id="countMySignedApp" resultType="int">
+  		select count(*) from st.approval_sign where app_sign_id = #{value} and app_sign_type_code != 1 and app_sign_date is not null
   	</select>
   	<select id="isSignTurn" resultType="int">
   		select count(*) from st.approval_sign where app_sign_order = #{order} and app_seq = #{app_seq} and app_sign_accept = 'Y'
   	</select>
-  	<select id="countAgree" resultType="int">
+  	<select id="countBefAgree" resultType="int">
   		select count(*) from st.approval_sign where app_seq = #{app_seq} and app_sign_order = #{order}
+  	</select>
+  	  	<select id="countAgree" resultType="int">
+  		select count(*) from st.approval_sign where app_seq = #{app_seq} and app_sign_accept = 'Y'
   	</select>
   	<select id="getAppByCpage" resultType="kh.gw.dto.ApprovalDTO">
   		select * from 
@@ -49,4 +61,49 @@
   	<select id="allMyCCList" resultType="int">
   		select app_seq from st.approval_sign where app_sign_id = #{id} and app_sign_type_code = 1
   	</select>
+  	<select id="countMyCCList" resultType="int">
+  		select count(*) from st.approval_sign where app_sign_id = #{id} and app_sign_type_code = 1
+  	</select>
+  	<select id="getAppBySeq" resultType="kh.gw.dto.ApprovalDTO">
+  		select * from st.approval join st.approval_type using (app_type_code) join st.approval_status using (app_status_code) where app_seq=#{app_seq}
+  	</select>
+  	<select id="getAppSignBySeq" resultType="kh.gw.dto.Approval_signDTO">
+  		select * from st.approval_sign join st.member on (id=app_sign_id) join st.approval_sign_type using (app_sign_type_code) where app_seq=#{app_seq} order by app_sign_order  	</select>
+  	<select id="getAppFileBySeq" resultType="kh.gw.dto.Approval_attached_filesDTO">
+  		select * from st.approval_attached_files where app_seq=#{app_seq}
+  	</select>
+  	<update id="contentsUpdate">
+  		update st.approval set app_contents = #{fileName} where app_seq=#{app_seq}
+  	</update>
+  	<update id="updateSign">
+  		update st.approval_sign set app_sign_accept=#{app_sign_accept}, app_sign_date=(SELECT CURRENT_DATE FROM DUAL) where app_seq=#{app_seq} and app_sign_id=#{app_sign_id}
+  	</update>
+  	<insert id="writeCmt">
+  		insert into st.approval_comments values(st.app_cmt_seq.nextval, #{app_seq},#{app_cmt_writer},#{app_cmt_contents},(SELECT CURRENT_DATE FROM DUAL),null)
+  	</insert>
+  	<select id="getAppCmtBySeq" resultType="kh.gw.dto.Approval_commentsDTO">
+  		select * from st.approval_comments where app_seq=#{app_seq} and app_cmt_del is null order by app_cmt_seq
+  	</select>
+  	<update id="delAppCmtBySeq">
+  		update st.approval_comments set app_cmt_del=(SELECT CURRENT_DATE FROM DUAL) where app_cmt_seq=#{app_cmt_seq}
+  	</update>
+  	<update id="updateAppStatus">
+  		update st.approval set app_status_code = #{app_status_code} where app_seq = #{app_seq}
+  	</update>
+  	<select id="totalSign" resultType="int">
+  		select count(*) from st.approval_sign where app_seq = #{app_seq} and app_sign_type_code != 1
+  	</select>
+  	<select id="getAppForMainWrite" resultType="kh.gw.dto.ApprovalDTO">
+		select *
+		    from (select app_seq,app_docs_num,app_title,name,app_reg_date,app_status_name,app_type_name, row_number() over(order by app_seq desc)rn from st.approval join st.approval_type using(app_type_code) join st.approval_status using(app_status_code) join st.member on id=app_id where app_id = #{id})
+            where rn between 1 and 5
+    </select>
+	<select id="getAppForMainCC" resultType="kh.gw.dto.ApprovalDTO">
+		select app.app_seq,app_docs_num,app_title,name,app_reg_date,app_status_name,app_type_name 
+		    from st.approval app join st.approval_type using(app_type_code) join st.approval_status using(app_status_code) join st.member on id=app_id, 
+		        (select app_seq from 
+		        	(select app_seq, row_number() over(order by app_seq desc)rn from st.approval_sign where app_sign_id = #{id}) 
+		        where rn between 1 and 5) seq 
+		where app.app_seq=seq.app_seq	
+	</select>
   </mapper>

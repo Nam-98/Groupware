@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import kh.gw.dto.ApprovalDTO;
 import kh.gw.dto.Approval_attached_filesDTO;
+import kh.gw.dto.Approval_commentsDTO;
 import kh.gw.dto.Approval_signDTO;
 import kh.gw.dto.Approval_sign_typeDTO;
 import kh.gw.dto.Approval_typeDTO;
@@ -39,9 +40,6 @@ public class ApprovalDAO {
 	public List<ApprovalDTO> allMyWriteApp(String id){
 		return db.selectList("Approval.allMyWriteApp", id);
 	}
-	public List<Approval_signDTO> allMySignApp(String id){
-		return db.selectList("Approval.allMySignApp", id);
-	}
 	public ApprovalDTO searchApp(int app_seq) {
 		return db.selectOne("Approval.searchApp", app_seq);
 	}
@@ -58,13 +56,74 @@ public class ApprovalDAO {
 		map.put("app_seq", app_seq);
 		return db.selectOne("Approval.isSignTurn",map);
 	}
-	public int countAgree(int order, int seq) {
+	public int countBefAgree(int order, int seq) {
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("order", order);
 		map.put("app_seq", seq);
-		return db.selectOne("Approval.countAgree",map);
+		return db.selectOne("Approval.countBefAgree",map);
+	}
+	public int countAgree(int seq) {
+		return db.selectOne("Approval.countAgree",seq);
 	}
 	public List<Integer> allMyCCList(String id){
 		return db.selectList("Approval.allMyCCList", id);
+	}
+	public ApprovalDTO getAppBySeq(int app_seq) {
+		return db.selectOne("Approval.getAppBySeq", app_seq);
+	}
+	public List<Approval_signDTO> getAppSignBySeq(int app_seq) {
+		return db.selectList("Approval.getAppSignBySeq",app_seq);
+	}
+	public List<Approval_attached_filesDTO> getAppFileBySeq(int app_seq){
+		return db.selectList("Approval.getAppFileBySeq",app_seq);
+	}
+	public List<Approval_commentsDTO> getAppCmtBySeq(int app_seq){
+		return db.selectList("Approval.getAppCmtBySeq", app_seq);
+	}
+	public int contentsUpdate(int app_seq, String fileName) {
+		HashMap<String, Object> map = new HashMap();
+		map.put("fileName", fileName);
+		map.put("app_seq", app_seq);
+		return db.update("Approval.contentsUpdate", map);
+	}
+	public int updateSign(Approval_signDTO dto) {
+		return db.update("Approval.updateSign",dto);
+	}
+	public List<Approval_signDTO> getMySignedApp(String id){
+		return db.selectList("Approval.getMySignedApp", id);
+	}
+	public List<Approval_signDTO> getTobeSignApp(String id){
+		return db.selectList("Approval.getTobeSignApp", id);
+	}
+	public int countMySignedApp(String id){
+		return db.selectOne("Approval.countMySignedApp", id);
+	}
+	public int countTobeSignApp(String id){
+		return db.selectOne("Approval.countTobeSignApp", id);
+	}
+	public int writeCmt(Approval_commentsDTO dto) {
+		System.out.println(dto.getApp_cmt_writer());
+		return db.insert("Approval.writeCmt",dto);
+	}
+	public int delAppCmtBySeq(int app_cmt_seq) {
+		return db.update("Approval.delAppCmtBySeq", app_cmt_seq);
+	}
+	public int countMyCCList(String id) {
+		return db.selectOne("Approval.countMyCCList", id);
+	}
+	public int updateAppStatus(int app_status_code, int app_seq) {
+		HashMap<String, Object> map = new HashMap();
+		map.put("app_status_code", app_status_code);
+		map.put("app_seq", app_seq);
+		return db.update("Approval.updateAppStatus", map);
+	}
+	public int totalSign(int app_seq) {
+		return db.selectOne("Approval.totalSign", app_seq);
+	}
+	public List<ApprovalDTO> getAppForMainWrite(String id){
+		return db.selectList("Approval.getAppForMainWrite", id);
+	}
+	public List<ApprovalDTO> getAppForMainCC(String id){
+		return db.selectList("Approval.getAppForMainCC", id);
 	}
 }
