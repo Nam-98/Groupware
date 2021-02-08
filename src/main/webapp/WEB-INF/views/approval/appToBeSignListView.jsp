@@ -34,7 +34,7 @@
 	<style>
 		table{width:100%;text-align:center;}
 		th{text-align:center;}
-		tr:hover{cursor:pointer;}
+		.dataRow:hover{cursor:pointer;}
 	</style>
 </head>
 <body>
@@ -88,7 +88,7 @@
 										</c:when>
 										<c:otherwise>
 											<c:forEach items="${toBeSignList}" var="i">
-												<tr>
+												<tr class='dataRow'>
 													<td>${i.app_docs_num}<input type=hidden value="${i.app_seq}"></td>
 													<td>${i.app_type_name}</td>
 													<td>${i.app_title}</td>
@@ -127,7 +127,7 @@
 	<script>
 		
 		//row눌렀을 때 링크로 이동
-		$("tr").on("click",function(){
+		$(".dataRow").on("click",function(){
 			console.log($(this).children().first().children("input").val());
 			location.href="/approval/toAppDetailView.approval?app_seq="+$(this).children().first().children("input").val()
 		})

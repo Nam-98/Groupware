@@ -94,10 +94,9 @@
   		select count(*) from st.approval_sign where app_seq = #{app_seq} and app_sign_type_code != 1
   	</select>
   	<select id="getAppForMainWrite" resultType="kh.gw.dto.ApprovalDTO">
-		select ori.app_seq,app_docs_num,app_title,name,app_reg_date,app_status_name,app_type_name 
-		    from st.approval ori join st.approval_type using(app_type_code) join st.approval_status using(app_status_code) join st.member on id=app_id,
-		        (select app_seq from (select app_seq, row_number() over(order by app_seq desc)rn from st.approval_sign where app_sign_id = 'test1') where rn between 1 and 5) seq 
-		    where ori.app_seq=seq.app_seq	
+		select *
+		    from (select app_seq,app_docs_num,app_title,name,app_reg_date,app_status_name,app_type_name, row_number() over(order by app_seq desc)rn from st.approval join st.approval_type using(app_type_code) join st.approval_status using(app_status_code) join st.member on id=app_id where app_id = #{id})
+            where rn between 1 and 5
     </select>
 	<select id="getAppForMainCC" resultType="kh.gw.dto.ApprovalDTO">
 		select app.app_seq,app_docs_num,app_title,name,app_reg_date,app_status_name,app_type_name 
