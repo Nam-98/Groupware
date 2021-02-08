@@ -87,6 +87,7 @@ ul, #myUL1 {
 th{width:50px;}
 .table>thead>tr>th{border-bottom:none;}
 .jqxdate{margin-top:7px;}
+.selectedOrder{display:none;}
 </style>
 </head>
 <body>
@@ -95,16 +96,13 @@ th{width:50px;}
 		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="btnClose close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
 					<h4 class="modal-title">결재자 선택</h4>
 				</div>
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-sm-4">
 						<div class="orgTree bg-light bg-gradient modalL">
-						<h3 class="text-left">조직도</h3>
+						<h3 class="text-center">조직도</h3>
 							<ul id="myUL1">
 								<c:forEach items="${dlist }" var="i">
 									<li><span class="caret1">${i.dept_name}</span>
@@ -126,11 +124,11 @@ th{width:50px;}
 						</div>
 						<div class="col-sm-8">
 						<div class="modalR">
-							<h3 class="text-right">상세창</h3>
+							<h3 class="text-center">결재 인원창</h3>
 							<table class="table table-sm">
 								<thead class='thead-light'>
 									<tr>
-										<th scope="col">결재순서</th>
+										<th scope="col" style="display:none;">결재순서</th>
 										<th scope="col">부서</th>
 										<th scope="col">이름</th>
 										<th scope="col">직위</th>
@@ -138,7 +136,27 @@ th{width:50px;}
 										<th scope="col">삭제</th>
 									</tr>
 								</thead>
-								<tbody id="selectedContainer"></tbody>
+								<tbody id="selectedContainer">
+									<tr class="selectedBlock">
+										<c:forEach items="${mlist}" var="i">
+											<c:if test="${i.id == sessionScope.id}">
+												<td class="selectedOrder">1</td>
+												<td class="selectedDept">${i.dept_name }</td>
+												<td class="selectedName">${i.name }</td>
+												<td class="selectedPosi">${i.position_name }</td>
+												<td class="selectTypeTd">
+													<select class="form-control form-select-sm selectType">
+														<option value="0">결재자</option>
+													</select>
+												</td>
+												<td></td>
+												<input type="hidden" name="approval_signDTOList[0].app_sign_id" value="${sessionScope.id }" class="hId">
+												<input type="hidden" name="approval_signDTOList[0].app_sign_order" value="1" class="hOrder">
+												<input type="hidden" name="approval_signDTOList[0].app_sign_type_code" value="0" class="hSignType">
+											</c:if>
+										</c:forEach>
+									</tr>
+								</tbody>
 							</table>
 						</div>
 						</div>
@@ -191,7 +209,7 @@ th{width:50px;}
 													</c:forEach>
 												</select>
 												<button type=button id="addSign" class="btn btn-outline-dark btn-sm pull-right" data-bs-toggle="tooltip" data-bs-placement="right" title="결재자를 추가하려면 이 버튼을 누르세요">
-												결재자 / 참조자 선택 <span class='badge badge-pill badge-primary' id="signCount">0</span>						
+												결재자 / 참조자 선택 <span class='badge badge-pill badge-primary' id="signCount">1</span>						
 												</button>
 											</td>
 										</tr>
@@ -275,12 +293,46 @@ th{width:50px;}
 	<!-- END WRAPPER -->
 
 	</form>
-	
+	<script>
+	//글 작성
+	$("#appWrite").on("click",function(){
+		//title입력 확인
+		if($("#title").val()==''){alert("제목은 필수입력 사항입니다.");return;}
+		//본문 입력 확인
+		if ($('.summernote').summernote('isEmpty')) {
+		  alert('본문내용은 필수 입력사항입니다.');return;
+		}
+		
+		//contents 전송준비
+		let contents = $(".summernote").summernote('code');
+		
+		$("#sign_info_Json").val(JSON.stringify(sign_info_Json));
+		
+		//휴가계일 때 날짜정보 전송 및 내용에도 날짜정보 포함시키기.
+		if($("#docsType").val()==3){
+			 let dStrt = getFormatDate($('#jqxdateStart').jqxDateTimeInput('getDate'));
+			 let dEnd = getFormatDate($('#jqxdateEnd').jqxDateTimeInput('getDate'));
+			$("#breakSrt").val(dStrt);
+			$("#breakEnd").val(dEnd);
+			let str = "<p>휴가 구분 : "+$("#breakType option:checked").text()+"</p><p>신청 기간 : "+dStrt+" ~ "+dEnd+"</p>";
+			console.log(str);
+			contents = str + contents;
+		}
+		$("#contents").val(contents);
+		$("#writeForm").submit();
+		
+	})
+	</script>
 	<!-- /.modal -->
 		<script>
-			let sign_info_Json = {};
-			let sign_name_Json = [];
-			
+		let sign_info_Json = {};
+		let sign_name_Json = [];
+		<c:forEach items="${mlist}" var="i">
+			<c:if test="${i.id == sessionScope.id}">
+				sign_name_Json.push("${i.name}");
+				sign_info_Json["${i.name}"] = ["${sessionScope.id}",0];
+			</c:if>
+		</c:forEach>
 			//휴가관련 내용
 			$("#jqxdateStart").jqxDateTimeInput({ width: '200px', height: '20px' });
 			$("#jqxdateEnd").jqxDateTimeInput({ width: '200px', height: '20px' });
@@ -290,38 +342,7 @@ th{width:50px;}
 	              $('#jqxdateEnd').jqxDateTimeInput('setDate', date);
 	          });
 
-			//글 작성
-			$("#appWrite").on("click",function(){
-				//결재자 확인
-				let signCount = 0;
-				if(Object.keys(sign_info_Json).length==0){alert("결재자는 1명 이상이어야 합니다.");return;}
-				for(var i=0; i<Object.keys(sign_info_Json).length;i++){
-					if(sign_info_Json[sign_name_Json[i]][1]==0){
-						signCount++;
-					}
-				}
-				if(signCount==0){
-					alert("결재자는 1명 이상이어야 합니다.");
-					return;
-				}
-				//title입력 확인
-				if($("#title").val()==''){alert("제목은 필수입력 사항입니다.");return;}
-				//본문 입력 확인
-				if ($('.summernote').summernote('isEmpty')) {
-				  alert('본문내용은 필수 입력사항입니다.');return;
-				}
-				//휴가계일 때 날짜정보 전송
-				if($("#docsType").val()==3){
-					$("#breakSrt").val(getFormatDate($('#jqxdateStart').jqxDateTimeInput('getDate')));
-					$("#breakEnd").val(getFormatDate($('#jqxdateEnd').jqxDateTimeInput('getDate')));
-				}
-				
-				//contents 전송준비
-				$("#contents").val($(".summernote").summernote('code'));
-				$("#sign_info_Json").val(JSON.stringify(sign_info_Json));
-				$("#writeForm").submit();
-				
-			})
+			
 			//file block
 			$("#addFileBlock").on("click",function(){
 				let block = $(`<div class="input-group fileBlock" style='display:inline-flex; padding:2px;'><div class="custom-file col-sm-10" style='display:inline;'><input type="file" class="approvalFiles" name='attachedfiles'></div><div class="input-group-append col-sm-2" style='display:inline;'><button class="btn btn-danger btn-sm fileDel" type="button">삭제</button></div></div>`);
@@ -368,6 +389,14 @@ th{width:50px;}
 					$(".breakInfo").css("display","none");
 					$(".detInfo").css("display","inline");
 				}
+				
+				$.ajax({
+					url : "/approval/getTemplate.approval?app_docs_type="+this.value,
+					method : 'POST',
+					success : function(template){
+						$('.summernote').summernote('code', template);
+					}
+				})
 			})
 			//결재라인 관련 스크립트
 			
@@ -414,7 +443,7 @@ th{width:50px;}
 	
 				//왼쪽 상세창에 추가
 				let index;
-				if(Object.keys(sign_info_Json).length==0){index=0}else{index=Object.keys(sign_info_Json).length}
+				if(Object.keys(sign_info_Json).length==0){index=1}else{index=Object.keys(sign_info_Json).length}
 				let sDept = $(this).parent().parent().children(".caret1").html();
 				let sPosi = $(this).children(".modalPosi").val();
 				let block = $("<tr class=selectedBlock>");
@@ -441,7 +470,7 @@ th{width:50px;}
 				let hOrder = $("<input type=hidden name='approval_signDTOList["+index+"].app_sign_order' value='"+(ordercount)+"' class='hOrder'>");
 				let hSignType = $("<input type=hidden name='approval_signDTOList["+index+"].app_sign_type_code' value='"+0+"' class='hSignType'>");
 				block.append(order);block.append(dept);block.append(name);block.append(posi);block.append(signType);block.append(del);block.append(hId);block.append(hOrder);block.append(hSignType);
-				$("#selectedContainer").append(block);
+				$("#selectedContainer").prepend(block);
 				
 				// json저장 형식 => 이름 : [id (이름으로 아이디를 찾을 수 있게):결재자(defualt값이 결재자임)]
 				sign_name_Json.push(sName);
@@ -481,17 +510,33 @@ th{width:50px;}
 			////결재구분 변경
 			$("#selectedContainer").on("change",".selectType",function(){
 				let sName = $(this).closest(".selectedBlock").children(".selectedName").text();
+				let wasCC = $(this).closest(".selectedBlock").children(".hOrder").val();
 				let changed = $(this).closest(".selectType").val();
 				sign_info_Json[sName][1] = changed;
 				$(this).closest(".hSignType").val(changed);
 				if(changed==1){
 					let order = $(this).closest(".selectedBlock").children(".selectedOrder");
 					order.text('참조');
-					console.log($(this).closest(".selectedBlock").children(".hSignType"));
 					$(this).closest(".selectedBlock").children(".hSignType").val(1)
 					$(this).closest(".selectedBlock").children(".hOrder").val(-1);
+					//참조인 블럭은 맨 아래로 옮긴다. 
+					let block = $(this).closest(".selectedBlock");
+					block.clone().appendTo("#selectedContainer");
+					$(".selectType").last().val("1").prop("selected",true);
+					block.remove();
 				}else if(changed==2){
-					$(this).closest(".selectedBlock").children(".hSignType").val(2)
+					 $(this).closest(".selectedBlock").children(".selectedOrder").text(1);
+					$(this).closest(".selectedBlock").children(".hSignType").val(2);
+					
+				}else{
+					$(this).closest(".selectedBlock").children(".selectedOrder").text(1);
+					$(this).closest(".selectedBlock").children(".hSignType").val(0);
+				}
+				if(changed!=1 && wasCC==-1){
+					let block = $(this).closest(".selectedBlock");
+					block.clone().prependTo("#selectedContainer");
+					$(".selectType").first().val(changed).prop("selected",true);
+					block.remove();
 				}
 				
 				//order재정립
@@ -500,23 +545,26 @@ th{width:50px;}
 			});
 			
 			//order순서 재정립 함수
-			let fnRenumbering = function(obj){
+			let fnRenumbering = function(){
 				let orderList = $(".selectedOrder");
 				let horderList = $(".hOrder");
 				let stList = $(".selectType");
 				let ordercount = 1;
-				for(var i = 0; i<orderList.length;i++){
+				for(var i = orderList.length-1; i>=0;i--){
 					//결재구분이 '참조'인 사람을 제외하고 order를 정리한다. 
 					if(orderList[i].innerText=='참조'){continue;}
+					//협의라면 내 아랫순번의 결재순서와 같게 한다. 
 					if(stList[i].value==2){
-						if(stList[i-1].value==2 && stList[i-1].value!=null){
-							ordercount--;
+						//만약 내 이전 순번이 첫 결재자라면 아랫순번과 같은 결재 순서를 가지진 않는다. 
+						if(stList[i+1].value!=2){
+							ordercount++;
 						}
+						ordercount--;
+						
 					}
 						horderList[i].value = ordercount;
 						orderList[i].innerText = ordercount;
-						ordercount++;
-					
+						ordercount++;					
 				}
 			}
 			//날짜변환 yyyy-MM-dd

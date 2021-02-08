@@ -28,6 +28,11 @@
 	<script src="/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 	<script src="/assets/vendor/chartist/js/chartist.min.js"></script>
 	<script src="/assets/scripts/klorofil-common.js"></script>
+	<style>
+		table{width:100%;text-align:center;}
+		th{text-align:center;}
+		.dataRow:hover{cursor:pointer;}
+	</style>
 </head>
 <body>
 	<!-- WRAPPER -->
@@ -48,70 +53,11 @@
 			<div class="main-content">
 				<div class="container-fluid">
                     <h3 class="page-title">전자결재 메인</h3>
-                    <div class="row">
-						<div class="col-12 col-md-3">
-							<div class="panel">
-								<div class='panel-heading'>
-									<h3 class='panel-title'>결재할 문서함</h3>
-									<!--pannel의 최소화 및 닫기 버튼-->
-									<div class="right">
-										<button type="button" class="btn-toggle-collapse">
-											<i class="lnr lnr-chevron-up"></i>
-										</button>
-									</div>
-								</div>
-								<div class="panel-body">미결재 / 결재완료 -> 그래프 등으로 표현하면 좋을 듯</div>
-							</div>
-						</div>
-						<div class="col-12 col-md-3">
-							<div class="panel">
-								<div class='panel-heading'>
-									<h3 class='panel-title'>개인 문서함</h3>
-									<!--pannel의 최소화 및 닫기 버튼-->
-									<div class="right">
-										<button type="button" class="btn-toggle-collapse">
-											<i class="lnr lnr-chevron-up"></i>
-										</button>
-									</div>
-								</div>
-								<div class="panel-body">상신문서 반려문서 임시저장 결재완료 상신취소</div>
-							</div>
-						</div>
-						<div class="col-12 col-md-3">
-							<div class="panel">
-								<div class='panel-heading'>
-									<h3 class='panel-title'>협조 문서함</h3>
-									<!--pannel의 최소화 및 닫기 버튼-->
-									<div class="right">
-										<button type="button" class="btn-toggle-collapse">
-											<i class="lnr lnr-chevron-up"></i>
-										</button>
-									</div>
-								</div>
-								<div class="panel-body">미결재 결재완료 -> 그래프</div>
-							</div>
-						</div>
-						<div class="col-12 col-md-3">
-							<div class="panel">
-								<div class='panel-heading'>
-									<h3 class='panel-title'>부서/참조 수신함</h3>
-									<!--pannel의 최소화 및 닫기 버튼-->
-									<div class="right">
-										<button type="button" class="btn-toggle-collapse">
-											<i class="lnr lnr-chevron-up"></i>
-										</button>
-									</div>
-								</div>
-								<div class="panel-body">부서수신함 참조수신함</div>
-							</div>
-						</div>
-					</div>
-
 					<div class="row">
-						<div class="col-12 col-md-4">
+						<div class="col-12">
 							<div class="panel">
 								<div class='panel-heading'>
-									<h3 class='panel-title'>결재할 문서함 > 미결재 문서</h3>
+									<h3 class='panel-title'>결재 문서함 > 미결재 문서</h3>
 									<!--pannel의 최소화 및 닫기 버튼-->
 									<div class="right">
 										<button type="button" class="btn-toggle-collapse">
@@ -119,13 +65,51 @@
 										</button>
 									</div>
 								</div>
-								<div class="panel-body">문서번호 기안일자 문서명 기안자 나의결재 [상태] 다음결재자 [의견]</div>
+								<div class="panel-body">
+									<table class="table table-striped">
+										<thead>
+											<tr>
+												<th scope="row" class="align-middle">문서번호</th>
+												<th scope="row" class="align-middle">분류</th>
+												<th scope="row" class="align-middle">문서명</th>
+												<th scope="row" class="align-middle">기안자</th>
+												<th scope="row" class="align-middle">기안일</th>
+												<th scope="row" class="align-middle">승인요청 여부</th>
+											</tr>
+		
+										</thead>
+										<tbody>
+											<c:choose>
+												<c:when test="${empty toBeSignList}">
+													<tr>
+														<td colspan=7>결재할 문서가 없습니다.</td>
+													</tr>
+												</c:when>
+												<c:otherwise>
+													<c:forEach items="${toBeSignList}" var="i">
+														<tr class='dataRow'>
+															<td>${i.app_docs_num}<input type=hidden value="${i.app_seq}"></td>
+															<td>${i.app_type_name}</td>
+															<td>${i.app_title}</td>
+															<td>${i.name}</td>
+															<td>${i.app_reg_date}</td>
+															<td>
+																${i.app_is_my_sign_turn}
+															</td>
+														</tr>
+													</c:forEach>
+												</c:otherwise>
+											</c:choose>
+		
+										</tbody>
+									</table>
+								</div>
 							</div>
 						</div>
-						<div class="col-12 col-md-4">
+						<div class="col-12">
 							<div class="panel">
 								<div class='panel-heading'>
-									<h3 class='panel-title'>개인 문서함 > 상신 문서</h3>
+									<h3 class='panel-title'>상신 문서함(최신5개)</h3>
 									<!--pannel의 최소화 및 닫기 버튼-->
 									<div class="right">
 										<button type="button" class="btn-toggle-collapse">
@@ -133,13 +117,50 @@
 										</button>
 									</div>
 								</div>
-								<div class="panel-body">문서번호 기안일자 문서명 [상태] [의견]</div>
+								<div class="panel-body">
+									<table class="table table-striped">
+										<thead>
+											<tr>
+												<th scope="row" >문서번호</th>
+												<th scope="row" >분류</th>
+												<th scope="row" >문서명</th>
+												<th scope="row" >기안자</th>
+												<th scope="row" >기안일</th>
+												<th scope="row" >최종 결재상태</th>
+											</tr>
+											
+										</thead>
+										<tbody>
+										<c:choose >
+											<c:when test="${empty writeList}">
+												<tr>
+													<td colspan=7>
+														상신한 문서가 없습니다. 
+													</td>
+												</tr>
+											</c:when>
+											<c:otherwise>
+											<c:forEach items="${writeList}" var="wri">
+												<tr class='dataRow'>
+													<td>${wri.app_docs_num}<input type=hidden value="${wri.app_seq}"></td>
+													<td>${wri.app_type_name}</td>
+													<td>${wri.app_title}</td>
+													<td>${wri.name}</td>
+													<td>${wri.app_reg_date}</td>
+													<td>${wri.app_status_name}</td>
+												</tr>
+											</c:forEach>
+											</c:otherwise>
+										</c:choose>
+										</tbody> 
+									</table>
+								</div>
 							</div>
 						</div>
-						<div class="col-12 col-md-4">
+						<div class="col-12">
 							<div class="panel">
 								<div class='panel-heading'>
-									<h3 class='panel-title'>협조 문서함 > 미결재 문서</h3>
+									<h3 class='panel-title'>참조 문서함 (최신5개)</h3>
 									<!--pannel의 최소화 및 닫기 버튼-->
 									<div class="right">
 										<button type="button" class="btn-toggle-collapse">
@@ -147,7 +168,44 @@
 										</button>
 									</div>
 								</div>
-								<div class="panel-body">문서번호 기안일자 문서명 기안자 나의결재 [상태] 다음결재자 [의견]</div>
+								<div class="panel-body">
+									<table class="table table-striped">
+										<thead>
+											<tr>
+												<th scope="row" >문서번호</th>
+												<th scope="row" >분류</th>
+												<th scope="row" >문서명</th>
+												<th scope="row" >기안자</th>
+												<th scope="row" >기안일</th>
+												<th scope="row" >최종 결재상태</th>
+											</tr>
+											
+										</thead>
+										<tbody>
+										<c:choose >
+											<c:when test="${empty ccList}">
+												<tr>
+													<td colspan=7>
+														참조된 문서가 없습니다. 
+													</td>
+												</tr>
+											</c:when>
+											<c:otherwise>
+											<c:forEach items="${ccList}" var="i">
+												<tr class='dataRow'>
+													<td>${i.app_docs_num}<input type=hidden value="${i.app_seq}"></td>
+													<td>${i.app_type_name}</td>
+													<td>${i.app_title}</td>
+													<td>${i.name}</td>
+													<td>${i.app_reg_date}</td>
+													<td>${i.app_status_name}</td>
+												</tr>
+											</c:forEach>
+											</c:otherwise>
+										</c:choose>
+										</tbody> 
+									</table>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -159,7 +217,13 @@
 		<!-- END MAIN -->
 		<div class="clearfix"></div>
 <jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
-	</div>
 	<!-- END WRAPPER -->
+	<script>
+		//row눌렀을 때 링크로 이동
+		$(".dataRow").on("click",function(){
+			console.log($(this).children().first().children("input").val());
+			location.href="/approval/toAppDetailView.approval?app_seq="+$(this).children().first().children("input").val()
+		})
+	</script>
 </body>
 </html>
