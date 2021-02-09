@@ -50,8 +50,8 @@
                                 <a href="#subPagesScd2" data-toggle="collapse" class="collapsed"> <i class="fas fa-calendar-check"></i> <span>일정보기</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
                                 <div id="subPagesScd2" class="collapse ">
                                     <ul class="nav">
-                                        <li><a href="#" class="">일간일정</a></li>
-                                        <li><a href="#" class="">주간일정</a></li>
+                                        <li><a href="/schedule/daySchedule.schedule" class="">일간일정</a></li>
+                                        <li><a href="/schedule/weekSchedule.schedule" class="">주간일정</a></li>
                                         <li><a href="/schedule/monthSchedule.schedule" class="">월간일정</a></li>
                                         <li><a href="#" class="">연간일정</a></li>
                                     </ul>

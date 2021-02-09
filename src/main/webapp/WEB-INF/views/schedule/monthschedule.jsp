@@ -107,7 +107,16 @@
       document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
         
+        
         var calendar = new FullCalendar.Calendar(calendarEl, {
+        	
+//         	dayMaxEventRows: true, // for all non-TimeGrid views
+//         	  views: {
+//         	    timeGrid: {
+//         	      dayMaxEventRows: 6 // adjust to 6 only for timeGridWeek/timeGridDay
+//         	    }
+//         	  }
+        	
         	 dateClick: function(info) {
         		 	var popup='top=10, left=10, width=800, height=600, status=no, menubar=no, toolbar=no, resizable=no';
         		 	window.open("/schedule/addSchedulePage.schedule", "popup", popup)
@@ -121,24 +130,33 @@
 			locale: 'ko',
 			businessHours: true,
 			 eventSources: [
-
 				    {
 				      events: [
+				    	  <c:forEach var="i" items="${list }">
 				        {
-				          title  : 'event1',
-				          start  : '2021-02-05'
-				        },
-				        {
-				          title  : 'event2',
-				          start  : '2021-02-10',
-				          end    : '2021-02-15'
+				          title  : '${i.sch_title }',
+				          start  : '${i.sch_start_date }',
+				          end    : '${i.sch_end_date }',
+				          url : '/schedule/scheduleList.schedule'
 				        }
+				          </c:forEach>
 				      ],
 				      color: 'black',
-				      textColor: 'yellow'
+				      textColor: 'yellow',
+				      	
+				    	eventClick: function(info) {
+				    		    info.jsEvent.preventDefault(); // don't let the browser navigate
+				    		    if (info.event.url) {
+				    		      if(confirm("일정 리스트를 확인하겠습니까?")){
+				    		    	  var options='top=10, left=10, width=800, height=600, status=no, menubar=no, toolbar=no, resizable=no';
+					    		      window.open(info.event.url, "popup", options);
+				    		      }
+				    		    }
+				    		  }
 				    }
 				]
         });
+        
         calendar.render();
       });
       
