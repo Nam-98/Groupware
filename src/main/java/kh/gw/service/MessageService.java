@@ -421,5 +421,9 @@ public class MessageService {
 			return mdao.delMyMsg(msg_seq);
 		}
 	
-	
+		//
+		public String msgCount(String id) throws Exception{
+			return mdao.msgCount(id);
+		}
+		
 }

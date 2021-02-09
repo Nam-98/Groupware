@@ -79,8 +79,8 @@ select st.message.*, nvl(to_char(msg_receive_date), '읽지않음') as msg_recei
 <update id="delMyMsg">
 update st.message set msg_receiver_view = 'N' where msg_seq = #{value} </update>
 
-<select id="msgCount" resultType="int">
-select count(msg_receive_date) from st.message where msg_receiver=#{id};
+<select id="msgCount" resultType="String">
+select count(msg_receive_date_str) from(select st.message.*,nvl(to_char(to_char(msg_receive_date,'mm/dd HH12:mi')), '읽지않음') as msg_receive_date_str,to_char(msg_send_date,'mm/dd HH12:mi') as msg_sender_date_str from st.message) where msg_receiver=#{id} and msg_receive_date_str='읽지않음' and msg_receiver_view = 'Y' and msg_sender != #{id}
 </select>
 
 </mapper>

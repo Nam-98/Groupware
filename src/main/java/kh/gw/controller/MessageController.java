@@ -367,6 +367,16 @@ public class MessageController {
 			return result;
 		}
 	
+//	//
+//	@ResponseBody
+//	@RequestMapping(value="msgCount.message", method=RequestMethod.POST)
+//	public String msgCount(HttpServletRequest request) throws Exception{
+//		String id = (String)session.getAttribute("id");
+//		String result = mservice.msgCount(id);
+//		return result;
+//	}
+	
+	
 	// error
 	@ExceptionHandler
 	public String exceptionalHandler(Exception e) {
