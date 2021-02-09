@@ -1,6 +1,7 @@
 package kh.gw.dao;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -62,8 +63,43 @@ public class TnADAO {
 		return db.selectOne("TnA.tnaCheckOverlap", dto);
 	}
 	
-	public List<Map<String, Object>> getTnaCountList(String sessionId) {
-		return db.selectList("TnA.getTnaCountList", sessionId);
+	public List<Map<String, Object>> getTnaStartCountList(String sessionId, String selectYearValue) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("sessionId", sessionId);
+		param.put("selectYearValue", selectYearValue);
+		
+		return db.selectList("TnA.getTnaStartCountList", param);
+	}
+	
+	public List<Map<String, Object>> getTnaStartCountSumList(String sessionId, String selectYearValue) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("sessionId", sessionId);
+		param.put("selectYearValue", selectYearValue);
+		
+		return db.selectList("TnA.getTnaStartCountSumList", param);
+	}
+	
+	public List<Map<String, Object>> getTnaEndCountList(String sessionId, String selectYearValue) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("sessionId", sessionId);
+		param.put("selectYearValue", selectYearValue);
+		
+		return db.selectList("TnA.getTnaEndCountList", param);
+	}
+	
+	public List<Map<String, Object>> getTnaEndCountSumList(String sessionId, String selectYearValue) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("sessionId", sessionId);
+		param.put("selectYearValue", selectYearValue);
+		
+		return db.selectList("TnA.getTnaEndCountSumList", param);
+	}
+	
+	public List<Map<String, Object>> getTnaSelectYearList(String sessionId) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("sessionId", sessionId);
+		
+		return db.selectList("TnA.getTnaSelectYearList", param);
 	}
 	
 	

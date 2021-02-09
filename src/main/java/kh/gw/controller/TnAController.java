@@ -83,14 +83,33 @@ public class TnAController {
 	public String tnaMyHistoryPage(HttpServletRequest request, Model model) {
 		// 세션 id값 가져오기
 		String sessionId = (String)session.getAttribute("id");
+		String selectYearValue = request.getParameter("selectYearValue");
 		
-		// 근태상태 리스트 값 조회
+		// 년도값 판별
+		selectYearValue = tservice.yearVerify(selectYearValue);
+		
+		// 근태상태 리스트 값 조회 (지각,조퇴...)
 		List<TnA_statusDTO> tnaStatusList = tservice.getTnaStatusList();
-		// 나의 근태내역 년-월별 카운트
-		List<Map<String, Object>> tnaCountList = tservice.getTnaCountList(sessionId);
+		// 나의 근태내역 출근 월별 카운트
+		List<Map<String, Object>> tnaStartCountList = tservice.getTnaStartCountList(sessionId,selectYearValue);
+		// 나의 근태내역 출근 합계 카운트
+		List<Map<String, Object>> tnaStartCountSumList = tservice.getTnaStartCountSumList(sessionId,selectYearValue);
+		// 나의 근태내역 퇴근 월별 카운트
+		List<Map<String, Object>> tnaEndCountList = tservice.getTnaEndCountList(sessionId,selectYearValue);
+		// 나의 근태내역 퇴근 합계 카운트
+		List<Map<String, Object>> tnaEndCountSumList = tservice.getTnaEndCountSumList(sessionId,selectYearValue);
+		// 출퇴근 select 리스트 조회
+		List<Map<String, Object>> tnaSelectYearList = tservice.getTnaSelectYearList(sessionId);
+		
 		
 		model.addAttribute("tnaStatusList", tnaStatusList);
-		model.addAttribute("tnaCountList", tnaCountList);
+		model.addAttribute("tnaStartCountList", tnaStartCountList);
+		model.addAttribute("tnaStartCountSumList", tnaStartCountSumList);
+		model.addAttribute("tnaEndCountList", tnaEndCountList);
+		model.addAttribute("tnaEndCountSumList", tnaEndCountSumList);
+		model.addAttribute("tnaSelectYearList", tnaSelectYearList);
+		
+		model.addAttribute("selectYearValue", selectYearValue);
 		
 		return "/tna/user/tnaMyHistory";
 	}
@@ -106,8 +125,8 @@ public class TnAController {
 		// 이미 해당 값에 대해 근태조정신청 중복여부체크
 		TnA_objectionDTO dto = tservice.tnaCheckOverlap(tna_seq,tna_status);
 
-		
-		// 변경할 출퇴근시간 값 조회
+
+		// 변경할 출퇴근시간 값 조회 (지각,조퇴...)
 		Map<String, Object> tnaCalendarValue = tservice.getTnaCalendarValue(sessionId,tna_seq);
 		// 근태상태 리스트 값 조회
 		List<TnA_statusDTO> tnaStatusList = tservice.getTnaStatusList();

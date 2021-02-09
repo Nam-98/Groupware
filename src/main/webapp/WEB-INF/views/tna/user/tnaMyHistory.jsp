@@ -32,7 +32,7 @@
 	height: 100%;
 }
 
-.buttonBox{
+.componentBox{
 	text-align: right;
 }
 </style>
@@ -91,6 +91,18 @@
 
 						<div class="panel-body">
 							<form action="/tna/tnaFixRequestSubmit.tna" method="post" id="formBox">
+								<div class="componentBox">
+									<select class="" name="tnaSelectYearList" id="selectYear">
+									<c:forEach varStatus="a" var="list" items="${tnaSelectYearList}">
+										<c:if test='${list.DATE != selectYearValue}'>
+										<option value="${list.DATE }">${list.DATE }</option>
+										</c:if>
+										<c:if test='${list.DATE == selectYearValue}'>
+										<option value="${list.DATE }" selected>${list.DATE }</option>
+										</c:if>
+									</c:forEach>
+									</select>
+								</div>
 								<div class="tableBox">
 									<div class="tableLine">
 										<div class="sector">구 분</div>
@@ -108,45 +120,44 @@
 										<div class="sector">12 월</div>
 										<div class="sector">합 계</div>
 									</div>
-									<c:forEach varStatus="none" var="list" items="${tnaStatusList}">
+									<c:forEach varStatus="i" var="list" items="${tnaStatusList}">
 									<div class="tableLine">
 										<div class="sector">${list.tna_status_name }</div>
-										${tnaCountList[0].TNA_START_STATUS_CODE}
+										<c:forEach var="j" begin="1" end="12" step="1">
+										<div class="sector">
+											<c:forEach varStatus="k" var="list2" items="${tnaStartCountList}">
+											<c:if test='${list.tna_status_code == list2.TNA_START_STATUS_CODE}'>
+												<c:if test='${list2.DATE == j}'>
+												${list2.COUNTING }
+												</c:if>
+											</c:if>
+											</c:forEach>
+											<c:forEach varStatus="m" var="list4" items="${tnaEndCountList}">
+											<c:if test='${list.tna_status_code == list4.TNA_END_STATUS_CODE}'>
+												<c:if test='${list4.DATE == j}'>
+												${list4.COUNTING }
+												</c:if>
+											</c:if>
+											</c:forEach>
+										</div>
+										</c:forEach>
+										<div class="sector">
+											<c:forEach varStatus="l" var="list3" items="${tnaStartCountSumList}">
+											<c:if test='${list.tna_status_code == list3.TNA_START_STATUS_CODE}'>
+											${list3.COUNTING }
+											</c:if>
+											</c:forEach>
+											<c:forEach varStatus="n" var="list5" items="${tnaEndCountSumList}">
+											<c:if test='${list.tna_status_code == list5.TNA_END_STATUS_CODE}'>
+											${list5.COUNTING }
+											</c:if>
+											</c:forEach>
+										</div>
 									</div>
 									</c:forEach>
-									
-									
-									<div class="tableLine">
-										<div class="tableTitle">신청 날짜</div>
-										<div class="tableValue" id="requestDateDiv">xxxx년 x월 x일 (n요일) [오늘날짜]</div>
-									</div>
-									<div class="tableLine">
-										<div class="tableTitle">현재 상태</div>
-										<div class="tableValue" id="currentStatusDiv">STATUS (xxxx/x/x/n) [정정할날짜]</div>
-									</div>
-									<div class="tableLine">
-										<div class="tableTitle">변경요청 상태</div>
-										<div class="tableValue">
-											<select class="" name="tna_obj_changed_code" id="selectStatus">
-												<option value="선택">선택</option>
-											<c:forEach varStatus="none" var="list" items="${tnaStatusList}">
-												<option value="${list.tna_status_code }">${list.tna_status_name }</option>
-											</c:forEach>
-											</select>
-											
-										</div>
-									</div>
-									<div class="tableLine tableReason">
-										<div class="tableTitle">사유</div>
-										<div class="tableValue">
-											<textarea name="tna_obj_reason" id="textReason"></textarea>
-										</div>
-									</div>
+
 								</div>
-								<div class="buttonBox">
-									<input type="submit" class="btn btn-primary btn-xs" value="신청하기">
-									<input type="button" class="btn btn-gray btn-xs" value="취소" id="tnaFixCancel">
-								</div>
+
 								<input id="" type="hidden" value="${tnaCalendarValue.TNA_SEQ }" name="tna_seq">
 								<input id="" type="hidden" value="${tna_status }" name="tna_obj_status">
 							</form>
@@ -168,6 +179,11 @@
 	</div>
 	<!-- END WRAPPER -->
 
+<script>
+$('#selectYear').on('change', function() {
+	location.href = "/tna/tnaMyHistoryPage.tna?selectYearValue=" + this.value;
+})
+</script>
 
 </body>
 </html>

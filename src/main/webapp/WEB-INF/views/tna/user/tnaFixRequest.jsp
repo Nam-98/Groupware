@@ -35,7 +35,7 @@
 	height: 100%;
 }
 
-.buttonBox{
+.componentBox{
 	text-align: right;
 }
 </style>
@@ -119,7 +119,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="buttonBox">
+								<div class="componentBox">
 									<input type="submit" class="btn btn-primary btn-xs" value="신청하기">
 									<input type="button" class="btn btn-gray btn-xs" value="취소" id="tnaFixCancel">
 								</div>
@@ -136,9 +136,9 @@
 <!-- 		</div> -->
 		<!-- END MAIN -->
 		<div class="clearfix"></div>
-<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
-	</div>
-	<!-- END WRAPPER -->
+			<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
+		</div>
+		<!-- END WRAPPER -->
 
 	<script>
 				

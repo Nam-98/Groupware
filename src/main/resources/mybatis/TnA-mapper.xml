@@ -42,13 +42,25 @@
 		select * from st.tna_status
 	</select>
 	<insert id="tnaFixRequestInput">
-		insert into st.tna_objection values(st.tna_obj_seq.nextval, #{tna_obj_reason}, #{tna_obj_id}, (SELECT CURRENT_DATE FROM DUAL), #{tna_obj_changed_code}, #{tna_seq}, #{tna_obj_status})
+		insert into st.tna_objection values(st.tna_obj_seq.nextval, #{tna_obj_reason}, #{tna_obj_id}, (SELECT CURRENT_DATE FROM DUAL), #{tna_obj_changed_code}, #{tna_seq}, #{tna_obj_status}, #{tna_obj_proc_status_code})
 	</insert>
 	<select id="tnaCheckOverlap" resultType="kh.gw.dto.TnA_objectionDTO">
 		select * from st.tna_objection where (tna_seq = #{tna_seq}) and (tna_obj_status = #{tna_obj_status})
 	</select>
-	<select id="getTnaCountList" resultType="java.util.HashMap">
-		select to_char(tna_start_time, 'yyyy-mm'),tna_start_status_code,count(*) from st.tna where (tna_id = #{sessionId}) group by to_char(tna_start_time, 'yyyy-mm'),tna_start_status_code
+	<select id="getTnaStartCountList" resultType="java.util.HashMap">
+		select to_char(tna_start_time, 'mm')"DATE",tna_start_status_code,count(*)"COUNTING" from st.tna where (tna_id = #{sessionId}) and (to_char(tna_start_time, 'yyyy-mm') like (#{selectYearValue}||'%')) group by to_char(tna_start_time, 'mm'),tna_start_status_code
+	</select>
+	<select id="getTnaStartCountSumList" resultType="java.util.HashMap">
+		select tna_start_status_code,count(*)"COUNTING" from st.tna where (tna_id = #{sessionId}) and (to_char(tna_start_time, 'yyyy-mm') like (#{selectYearValue}||'%')) group by tna_start_status_code
+	</select>
+	<select id="getTnaEndCountList" resultType="java.util.HashMap">
+		select to_char(tna_end_time, 'mm')"DATE",tna_end_status_code,count(*)"COUNTING" from st.tna where (tna_id = #{sessionId}) and (to_char(tna_end_time, 'yyyy-mm') like (#{selectYearValue}||'%')) group by to_char(tna_end_time, 'mm'),tna_end_status_code
+	</select>
+	<select id="getTnaEndCountSumList" resultType="java.util.HashMap">
+		select tna_end_status_code,count(*)"COUNTING" from st.tna where (tna_id = #{sessionId}) and (to_char(tna_end_time, 'yyyy-mm') like (#{selectYearValue}||'%')) group by tna_end_status_code
+	</select>
+	<select id="getTnaSelectYearList" resultType="java.util.HashMap">
+		select to_char(tna_start_time, 'yyyy')"DATE" from st.tna where (tna_id = #{sessionId}) group by to_char(tna_start_time, 'yyyy') order by 1
 	</select>
   	
   	

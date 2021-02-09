@@ -35,7 +35,7 @@
 	height: 100%;
 }
 
-.buttonBox{
+.componentBox{
 	text-align: right;
 }
 </style>
@@ -117,7 +117,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="buttonBox">
+								<div class="componentBox">
 <!-- 									<input type="submit" class="btn btn-primary btn-xs" value="신청하기"> -->
 									<input type="button" class="btn btn-gray btn-xs" value="닫기" id="tnaFixCancel">
 								</div>
@@ -134,11 +134,9 @@
 <!-- 		</div> -->
 		<!-- END MAIN -->
 		<div class="clearfix"></div>
-		<footer>
-<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
-		</footer>
-	</div>
-	<!-- END WRAPPER -->
+			<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
+		</div>
+		<!-- END WRAPPER -->
 
 	<script>
 		// 이미 신청되었는지 중복체크

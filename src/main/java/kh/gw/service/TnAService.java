@@ -118,7 +118,7 @@ public class TnAService {
 			return 9;
 		// 정상퇴근[18:00~19:00] 이전시간에 퇴근(조퇴)
 		}else if(nowDate.before(getEarlyLeaveWorkDate())) {
-			return 4;
+			return 8;
 		// 정상퇴근[18:00~19:00] 이후시간에 퇴근(야근)
 		}else {
 			return 10;
@@ -209,6 +209,7 @@ public class TnAService {
 	
 	public int tnaFixRequestInput(TnA_objectionDTO dto, String sessionId) {
 		dto.setTna_obj_id(sessionId);
+		dto.setTna_obj_proc_status_code(1);
 		return tdao.tnaFixRequestInput(dto);
 	}
 	
@@ -219,8 +220,33 @@ public class TnAService {
 		return tdao.tnaCheckOverlap(dto);
 	}
 	
-	public List<Map<String, Object>> getTnaCountList(String sessionId) {	
-		return tdao.getTnaCountList(sessionId);
+	public List<Map<String, Object>> getTnaStartCountList(String sessionId, String selectYearValue) {
+		return tdao.getTnaStartCountList(sessionId,selectYearValue);
+	}
+	
+	public List<Map<String, Object>> getTnaStartCountSumList(String sessionId, String selectYearValue) {
+		return tdao.getTnaStartCountSumList(sessionId,selectYearValue);
+	}
+	
+	public List<Map<String, Object>> getTnaEndCountList(String sessionId, String selectYearValue) {
+		return tdao.getTnaEndCountList(sessionId,selectYearValue);
+	}
+	
+	public List<Map<String, Object>> getTnaEndCountSumList(String sessionId, String selectYearValue) {
+		return tdao.getTnaEndCountSumList(sessionId,selectYearValue);
+	}
+	
+	public List<Map<String, Object>> getTnaSelectYearList(String sessionId) {
+		return tdao.getTnaSelectYearList(sessionId);
+	}
+	
+	public String yearVerify(String selectYearValue) {
+		if (selectYearValue == null) {
+			// 현재시간 가져옴
+			Date nowDate = new Date(System.currentTimeMillis());
+			selectYearValue = (nowDate.getYear()+1900) + "";
+		}
+		return selectYearValue;
 	}
 
 	

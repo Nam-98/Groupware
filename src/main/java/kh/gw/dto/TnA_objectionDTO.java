@@ -10,10 +10,11 @@ public class TnA_objectionDTO {
 	private int tna_obj_changed_code;
 	private int tna_seq;
 	private String tna_obj_status;
+	private int tna_obj_proc_status_code;
 	
 	public TnA_objectionDTO() {}
 	public TnA_objectionDTO(int tna_obj_seq, String tna_obj_reason, String tna_obj_id, Date tna_obj_reg_date,
-			int tna_obj_changed_code, int tna_seq, String tna_obj_status) {
+			int tna_obj_changed_code, int tna_seq, String tna_obj_status, int tna_obj_proc_status_code) {
 		super();
 		this.tna_obj_seq = tna_obj_seq;
 		this.tna_obj_reason = tna_obj_reason;
@@ -22,6 +23,7 @@ public class TnA_objectionDTO {
 		this.tna_obj_changed_code = tna_obj_changed_code;
 		this.tna_seq = tna_seq;
 		this.tna_obj_status = tna_obj_status;
+		this.tna_obj_proc_status_code = tna_obj_proc_status_code;
 	}
 	public int getTna_obj_seq() {
 		return tna_obj_seq;
@@ -65,5 +67,12 @@ public class TnA_objectionDTO {
 	public void setTna_obj_status(String tna_obj_status) {
 		this.tna_obj_status = tna_obj_status;
 	}
+	public int getTna_obj_proc_status_code() {
+		return tna_obj_proc_status_code;
+	}
+	public void setTna_obj_proc_status_code(int tna_obj_proc_status_code) {
+		this.tna_obj_proc_status_code = tna_obj_proc_status_code;
+	}
+	
 	
 }
