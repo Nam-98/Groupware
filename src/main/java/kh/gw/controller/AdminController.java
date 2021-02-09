@@ -2,10 +2,13 @@ package kh.gw.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.nexacro.uiadapter17.spring.core.annotation.ParamDataSet;
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
@@ -66,9 +69,20 @@ public class AdminController {
 	
 	//회원수정
 	@RequestMapping("updateMemList.nexacro")
-	public NexacroResult updateMemList(@ParamDataSet(name = "ds_in") List<MemberDTO> list) throws Exception{
+	public NexacroResult updateMemList(@ParamDataSet(name = "in_memList") List<MemberDTO> list) throws Exception{
+		System.out.println("들어오나요");
 		mser.updateMemList(list);
 		return new NexacroResult();
+	}
+	
+	//프로필사진등록
+	@RequestMapping("insertProfile.nexacro")
+	public String insertProfile(HttpServletRequest request, MultipartFile profilePic) throws Exception {
+		System.out.println("썸네일 저장 요청 도착");
+		String id = request.getParameter("id");
+		System.out.println(id);
+		mser.insertProfile(profilePic, id);
+		return "redirect:/";
 	}
 	
 	// error
