@@ -20,16 +20,11 @@ public class ApprovalDTO {
 	private int app_status_code;
 	private String app_status_name;
 	private String app_sign_accept;
-	
-	public String getApp_sign_accept() {
-		return app_sign_accept;
-	}
-	public void setApp_sign_accept(String app_sign_accept) {
-		this.app_sign_accept = app_sign_accept;
-	}
+	private String app_is_my_sign_turn;
 	public ApprovalDTO(int app_seq, int app_type_code, String app_type_name, String app_id, String name,
 			int app_archive, String app_title, String app_contents, Date app_reg_date, String app_docs_num,
-			List<MultipartFile> attachedfiles, int app_status_code, String app_status_name, String app_sign_accept) {
+			List<MultipartFile> attachedfiles, int app_status_code, String app_status_name, String app_sign_accept,
+			String app_is_my_sign_turn) {
 		super();
 		this.app_seq = app_seq;
 		this.app_type_code = app_type_code;
@@ -45,9 +40,7 @@ public class ApprovalDTO {
 		this.app_status_code = app_status_code;
 		this.app_status_name = app_status_name;
 		this.app_sign_accept = app_sign_accept;
-	}
-	public ApprovalDTO() {
-		super();
+		this.app_is_my_sign_turn = app_is_my_sign_turn;
 	}
 	public int getApp_seq() {
 		return app_seq;
@@ -127,5 +120,21 @@ public class ApprovalDTO {
 	public void setApp_status_name(String app_status_name) {
 		this.app_status_name = app_status_name;
 	}
+	public String getApp_sign_accept() {
+		return app_sign_accept;
+	}
+	public void setApp_sign_accept(String app_sign_accept) {
+		this.app_sign_accept = app_sign_accept;
+	}
+	public String getApp_is_my_sign_turn() {
+		return app_is_my_sign_turn;
+	}
+	public void setApp_is_my_sign_turn(String app_is_my_sign_turn) {
+		this.app_is_my_sign_turn = app_is_my_sign_turn;
+	}
+	public ApprovalDTO() {
+		super();
+	}
+	
 
 }
