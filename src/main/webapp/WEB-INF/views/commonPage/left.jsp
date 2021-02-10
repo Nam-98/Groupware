@@ -115,39 +115,7 @@
             </nav>
         </div>
         
-<!--         <script src="https://code.jquery.com/jquery-1.9.1.min.js">
-		
-        </script>
 
-	<script type="text/javascript">
-    var wsUri = "ws://localhost/left";
-    function send_message() {
-        websocket = new WebSocket(wsUri);
-        websocket.onopen = function(evt) {
-            onOpen(evt);
-        };
-        websocket.onMessage = function(evt){
-        	onMessage(evt);
-        };
-        websocket.onerror = function(evt){
-        	onError(evt);
-        };
-        
-        }
-    
-    function onOpen(evt){
-    	websocket.send(evt);
-    }
-    function onMessage(evt){
-    	$('#count').append(evt.data);
-    }
-    function onError(evt){
-    	
-    }
-    $(document).ready(function(){
-    	send_message();
-    });
-    </script> -->
 <!--     <script>
 		setInterval(function(){
 				$.ajax({
