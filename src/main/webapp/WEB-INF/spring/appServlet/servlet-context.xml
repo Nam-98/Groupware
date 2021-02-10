@@ -4,65 +4,66 @@
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xsi:schemaLocation="http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.3.xsd
+		http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
-	<!-- DispatcherServlet Context: defines this servlet's request-processing 
-		infrastructure -->
+   <!-- DispatcherServlet Context: defines this servlet's request-processing 
+      infrastructure -->
 
-	<!-- Enables the Spring MVC @Controller programming model -->
-	<annotation-driven />
+   <!-- Enables the Spring MVC @Controller programming model -->
+   <annotation-driven />
 
-	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
-		up static resources in the ${webappRoot}/resources directory -->
-	<resources mapping="/resources/**" location="/resources/" />
-	<resources mapping="/nex/**" location="/nex/" />
-	<resources mapping="/assets/**" location="/assets/" />
+   <!-- Handles HTTP GET requests for /resources/** by efficiently serving 
+      up static resources in the ${webappRoot}/resources directory -->
+   <resources mapping="/resources/**" location="/resources/" />
+   <resources mapping="/nex/**" location="/nex/" />
+   <resources mapping="/assets/**" location="/assets/" />
 
-	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
-		in the /WEB-INF/views directory -->
-	<beans:bean
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<beans:property name="prefix" value="/WEB-INF/views/" />
-		<beans:property name="suffix" value=".jsp" />
-	</beans:bean>
+   <!-- Resolves views selected for rendering by @Controllers to .jsp resources 
+      in the /WEB-INF/views directory -->
+   <beans:bean
+      class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+      <beans:property name="prefix" value="/WEB-INF/views/" />
+      <beans:property name="suffix" value=".jsp" />
+   </beans:bean>
 
-	<context:component-scan base-package="kh.gw" />
+   <context:component-scan base-package="kh.gw" />
 
-	<beans:bean id="nexacroView"
-		class="com.nexacro.uiadapter17.spring.core.view.NexacroView">
-		<beans:property name="defaultContentType"
-			value="PlatformXml" />
-		<beans:property name="defaultCharset" value="UTF-8" />
-	</beans:bean>
+   <beans:bean id="nexacroView"
+      class="com.nexacro.uiadapter17.spring.core.view.NexacroView">
+      <beans:property name="defaultContentType"
+         value="PlatformXml" />
+      <beans:property name="defaultCharset" value="UTF-8" />
+   </beans:bean>
 
-	<!-- Multipart/form-data Parameter를 MultipartFile 형으로 자동 형 변환 해주는 객체 -->
-	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<beans:property name="maxUploadSize" value="10485760"></beans:property>
-	</beans:bean>
+   <!-- Multipart/form-data Parameter를 MultipartFile 형으로 자동 형 변환 해주는 객체 -->
+   <beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+      <beans:property name="maxUploadSize" value="10485760"></beans:property>
+   </beans:bean>
 
-	<!-- 의존성 주입, list형 customReturnValueHandlers에 bean을 하나 더 만들고 이에 nexacroView라는 
-		것을 인자값으로 주입시킴. -->
-	<beans:bean	class="com.nexacro.uiadapter17.spring.core.resolve.NexacroRequestMappingHandlerAdapter"	p:order="0">
-		<!-- <beans:property name="order" value="0"/> ==> p:order="0"과 같은 의미, 이 
-			view Resolver를 0순위로 사용함. -->
-		<beans:property name="customArgumentResolvers">
-			<beans:list>
-				<beans:bean
-					class="com.nexacro.uiadapter17.spring.core.resolve.NexacroMethodArgumentResolver"></beans:bean>
-			</beans:list>
-		</beans:property>
+   <!-- 의존성 주입, list형 customReturnValueHandlers에 bean을 하나 더 만들고 이에 nexacroView라는 
+      것을 인자값으로 주입시킴. -->
+   <beans:bean   class="com.nexacro.uiadapter17.spring.core.resolve.NexacroRequestMappingHandlerAdapter"   p:order="0">
+      <!-- <beans:property name="order" value="0"/> ==> p:order="0"과 같은 의미, 이 
+         view Resolver를 0순위로 사용함. -->
+      <beans:property name="customArgumentResolvers">
+         <beans:list>
+            <beans:bean
+               class="com.nexacro.uiadapter17.spring.core.resolve.NexacroMethodArgumentResolver"></beans:bean>
+         </beans:list>
+      </beans:property>
 
-		<beans:property name="customReturnValueHandlers">
-			<beans:list>
-				<beans:bean
-					class="com.nexacro.uiadapter17.spring.core.resolve.NexacroHandlerMethodReturnValueHandler">
-					<beans:property name="view" ref="nexacroView" />
-				</beans:bean>
-			</beans:list>
-		</beans:property>
-	</beans:bean>
-
+      <beans:property name="customReturnValueHandlers">
+         <beans:list>
+            <beans:bean
+               class="com.nexacro.uiadapter17.spring.core.resolve.NexacroHandlerMethodReturnValueHandler">
+               <beans:property name="view" ref="nexacroView" />
+            </beans:bean>
+         </beans:list>
+      </beans:property>
+   </beans:bean>
 
 </beans:beans>

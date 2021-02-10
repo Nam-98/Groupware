@@ -171,4 +171,8 @@ public class MessageDAO {
 		return db.update("Message.delMyMsg",msg_seq);
 	}
 	
+	public String msgCount(String msg_id) throws Exception{
+		return db.selectOne("Message.msgCount",msg_id);
+	}
+	
 }

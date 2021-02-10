@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+
+
         <div class="sidebar-scroll">
             <nav>
             <ul id="myUL" class="nav">
@@ -23,15 +25,15 @@
                     </div>
                 </li>
                 <li>
-                    <a href="#subPagesMsg1" data-toggle="collapse" class="collapsed"> <i class="fas fa-envelope"></i> <span>쪽지함<span class="badge rounded-pill bg-danger">숫자</span></span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                    <a href="#subPagesMsg1" data-toggle="collapse" class="collapsed"> <i class="fas fa-envelope"></i> <span>쪽지함<span class="badge rounded-pill bg-danger" id="asdd1"></span></span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
                     <div id="subPagesMsg1" class="collapse ">
                         <ul class="nav">
                             <li><a href="/message/writeMsg.message" class="">쪽지보내기(조직도검색)</a></li>
                             <li>
-                                <a href="#subPagesMsg2" data-toggle="collapse" class="collapsed"> <i class="fas fa-mail-bulk"></i> <span>보관함<span class="badge rounded-pill bg-danger">숫자</span></span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                                <a href="#subPagesMsg2" data-toggle="collapse" class="collapsed"> <i class="fas fa-mail-bulk"></i> <span>보관함<span class="badge rounded-pill bg-danger" id="asdd2"></span></span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
                                 <div id="subPagesMsg2" class="collapse ">
                                     <ul class="nav">
-                                        <li><a href="/message/msgInBoxList.message?cpage=1" class="">수신함<span class="badge rounded-pill bg-danger">숫자</span></a></li>
+                                        <li><a href="/message/msgInBoxList.message?cpage=1" class="">수신함<span class="badge rounded-pill bg-danger" id="asdd3"></span></a></li>
                                         <li><a href="/message/msgOutBoxList.message?cpage=1" class="">발신함</a></li>
                                         <li><a href="/message/msgCabList.message?cpage=1" class="">보관함</a></li>
                                         <li><a href="/message/msgMyBoxList.message?cpage=1" class="">내게쓴쪽지함</a></li>
@@ -110,5 +112,54 @@
       </ul>
             </nav>
         </div>
+        
+<!--         <script src="https://code.jquery.com/jquery-1.9.1.min.js">
+		
+        </script>
 
-
+	<script type="text/javascript">
+    var wsUri = "ws://localhost/left";
+    function send_message() {
+        websocket = new WebSocket(wsUri);
+        websocket.onopen = function(evt) {
+            onOpen(evt);
+        };
+        websocket.onMessage = function(evt){
+        	onMessage(evt);
+        };
+        websocket.onerror = function(evt){
+        	onError(evt);
+        };
+        
+        }
+    
+    function onOpen(evt){
+    	websocket.send(evt);
+    }
+    function onMessage(evt){
+    	$('#count').append(evt.data);
+    }
+    function onError(evt){
+    	
+    }
+    $(document).ready(function(){
+    	send_message();
+    });
+    </script> -->
+<!--     <script>
+		setInterval(function(){
+				$.ajax({
+					url : "/message/msgCount.message",
+					type : "post",
+				}).done(function(result){
+						console.log("result123 : "+result);
+					let json = JSON.parse(result);
+						console.log(json);
+						if(result != 0){
+						document.getElementById("asdd1").innerHTML = result;
+						document.getElementById("asdd2").innerHTML = result;
+						document.getElementById("asdd3").innerHTML = result;}
+					})
+			}
+		,5000);
+	</script> -->
