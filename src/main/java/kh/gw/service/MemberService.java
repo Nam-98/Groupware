@@ -1,5 +1,6 @@
 package kh.gw.service;
 
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -62,28 +63,5 @@ public class MemberService {
 		
 		File targetLoc = new File(filesPath.getAbsoluteFile()+"/"+id + ".png");
 		FileCopyUtils.copy(profilePic.getBytes(), targetLoc);
-		
-		System.out.println(targetLoc.length());
-		BufferedImage originalImage = ImageIO.read(targetLoc); 
-		int type = originalImage.getType() == 0? BufferedImage.TYPE_INT_ARGB : originalImage.getType(); 
-		System.out.println("originFile Height : " + originalImage.getHeight()); 
-		System.out.println("originFile Width : " + originalImage.getWidth()); 
-		BufferedImage resizeImagePng = resizeImage(originalImage, type); 
-		ImageIO.write(resizeImagePng, "png", originFile); 
-		BufferedImage resigeImage = ImageIO.read(originFile);
-		
-		System.out.println("==========================================================="); 
-		File resizeFile = new File(imgOriginalPath); 
-		System.out.println("resizeFile Length : " + resizeFile.length()); 
-		System.out.println("resizeFile Height : " + resigeImage.getHeight()); 
-		System.out.println("resizeFile Width : " + resigeImage.getWidth());
-	}
-	
-	public BufferedImage resizeImage(BufferedImage originalImage, int type) {
-		BufferedImage resizedImage = new BufferedImage(IMG_WIDTH, IMG_HEIGHT, type); 
-		Graphics2D g = resizedImage.createGraphics(); 
-		g.drawImage(originalImage, 0, 0, IMG_WIDTH, IMG_HEIGHT, null); 
-		g.dispose(); 
-		return resizedImage;
 	}
 }

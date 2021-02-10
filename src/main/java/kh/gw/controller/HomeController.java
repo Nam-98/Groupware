@@ -28,6 +28,16 @@ public class HomeController {
 			String id = (String) session.getAttribute("id");
 			//model.addAttribute("isWork", tservice.isGoLeave(id));
 			String result = mservice.msgCount(id);
+			
+			//(양혜림)프로젝트관리
+			//담당 프로젝트 갯수? 칸반 갯수?
+			//프로젝트의 진행률(각?)
+			
+			//(김나린)
+			//
+			
+			//(이상형)
+			
 			model.addAttribute("result", result);
 			return "/main/mainpage";
 		} 
