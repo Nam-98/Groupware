@@ -41,8 +41,8 @@ public class ApprovalService {
 	public void resetConfig() {
 		//매일 자정에 count, date 초기화
 		ApprovalConfigurator.docsCount = 1;
-
 	}
+	
 	public List<Approval_typeDTO> allDocsType (){
 		return adao.allDocsType();
 	}
@@ -351,25 +351,22 @@ public class ApprovalService {
 
 		// 객체 닫기
 		fw.close();
-		
-		/////실 사용시에 하단의 코드는 지워주세요(혹은 주석)
-		String dir2 = "D:\\02_Coding\\FinalWorkspace\\FinalBackWorkspace\\Groupware\\src\\main\\webapp\\resources\\approval_contents";
-		File filesPath2 = new File(dir2);
-		if (!filesPath2.exists()) {
-			filesPath2.mkdir();
-		}
-		
-		File conFile2 = new File(dir2, sFileName);
-		BufferedWriter fw2 = new BufferedWriter(new FileWriter(conFile2));
-
-		// 파일안에 문자열 쓰기
-		fw2.write(contents);
-		fw2.flush();
-
-		// 객체 닫기
-		fw2.close();
+		/*
+		 * /////실 사용시에 하단의 코드는 지워주세요(혹은 주석) String dir2 =
+		 * "D:\\02_Coding\\FinalWorkspace\\FinalBackWorkspace\\Groupware\\src\\main\\webapp\\resources\\approval_contents";
+		 * File filesPath2 = new File(dir2); if (!filesPath2.exists()) {
+		 * filesPath2.mkdir(); }
+		 * 
+		 * File conFile2 = new File(dir2, sFileName); BufferedWriter fw2 = new
+		 * BufferedWriter(new FileWriter(conFile2));
+		 * 
+		 * // 파일안에 문자열 쓰기 fw2.write(contents); fw2.flush();
+		 * 
+		 * // 객체 닫기 fw2.close();
+		 */
 		return sFileName;
 	}
+	
 	
 	public String getHtmlText (int app_seq) throws Exception {
 	      //----------------------html파일 전달하기
