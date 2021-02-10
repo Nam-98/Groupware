@@ -7,22 +7,7 @@
 	<select id="getMyDeptMem" resultType="kh.gw.dto.MemberDTO">
 		select * from (select id,name,dept_name,position_name,dept_code from st.member join st.department using(dept_code) join st.position using(position_code)) where dept_code = (select dept_code from st.member where id=#{id})
 	</select>
-	<select id="getDocsType" resultType="kh.gw.dto.BizLog_typeDTO">
-		select * from st.business_log_type
+	<select id="getDocsType" resultType="kh.gw.dto.Approval_typeDTO">
+  		select * from st.approval_type where app_type_name like '%'||'업무일지'||'%' order by app_type_code
 	</select>
-	<insert id="writeBizlog">
-		insert into st.business_log values(st.biz_seq.nextval, #{biz_id}, (select current_date from dual), #{biz_title}, #{biz_contents}, #{biz_type_code}, 1)
-	</insert>
-	<select id="getLatestSeqById" resultType="int">
-		select max(biz_seq) from st.business_log where biz_id=#{id}  
-	</select>
-	<insert id="setInitAppSign">
-		insert into st.business_log_sign values(#{biz_seq}, #{biz_sign_id},#{biz_sign_order},null,'N')
-	</insert>
-	<insert id="insertAF">
-		insert into st.business_log_attached_files values(#{biz_seq}, #{biz_ori_name}, #{biz_saved_name})
-	</insert>
-	<update id="contentsUpdate">
-		update st.business_log set biz_contents = #{biz_contents} where biz_seq = #{biz_seq}
-	</update>
   </mapper>

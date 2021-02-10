@@ -73,19 +73,21 @@ public class ApprovalService {
 		return -1; 
 	}
 	
-	public void setInitAppSign(Approval_signDTO approval_signDTOList, int appSeq) {
+	public int setInitAppSign(Approval_signDTO approval_signDTOList, int appSeq) {
 		List<Approval_signDTO> signList = approval_signDTOList.getApproval_signDTOList();
 		for(Approval_signDTO dto : signList) {
 			dto.setApp_seq(appSeq);
-			adao.setInitAppSign(dto);
+			int result = adao.setInitAppSign(dto);
+			if(result==0) {return -1;}
 		}
+		return 0;
 	}
 	
 	
-	private void uploadAttachedFiles(List<MultipartFile> attachedfiles, int app_seq) throws Exception {
+	private int uploadAttachedFiles(List<MultipartFile> attachedfiles, int app_seq) throws Exception {
 		String realPath = servletContext.getRealPath("/resources/Approval_attached_files");
 		for (MultipartFile file : attachedfiles) {
-			if(file.isEmpty()) {return;}
+			if(file.isEmpty()) {return -1;}
 			File filesPath = new File(realPath);
 			// 이 file객체는 realPath에 실제로 해당 객체가 있을지 없을지 모르지만 이런 객체를 임의로 만들어 두고
 
@@ -102,8 +104,10 @@ public class ApprovalService {
 			if(result>0) {
 				File targetLoc = new File(filesPath.getAbsoluteFile() + "/" + savedName);
 				file.transferTo(targetLoc);	
+				return 0;
 			}
 		}
+		return -1;
 	}
 	
 	public List<ApprovalDTO> allMyWriteApp(){

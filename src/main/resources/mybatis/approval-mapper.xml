@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="Approval">
   	<select id="allDocsType" resultType="kh.gw.dto.Approval_typeDTO">
-  		select * from st.approval_type
+  		select * from st.approval_type where app_type_name not like '%'||'업무일지'||'%' order by app_type_code
   	</select>
   	<select id="allSignType" resultType="kh.gw.dto.Approval_sign_typeDTO">
   		select * from st.approval_sign_type

@@ -8,12 +8,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import kh.gw.dto.ApprovalDTO;
+import kh.gw.dto.Approval_signDTO;
 import kh.gw.dto.Approval_sign_typeDTO;
-import kh.gw.dto.BizLogDTO;
-import kh.gw.dto.BizLog_signDTO;
-import kh.gw.dto.Break_typeDTO;
+import kh.gw.dto.BizLog_periodDTO;
+import kh.gw.dto.BreakDTO;
 import kh.gw.dto.DepartmentDTO;
 import kh.gw.dto.MemberDTO;
+import kh.gw.service.ApprovalService;
 import kh.gw.service.BizLogService;
 import kh.gw.service.MemberService;
 
@@ -22,10 +24,11 @@ import kh.gw.service.MemberService;
 public class BizLogController {
 	@Autowired
 	private BizLogService bservice;
-	
+	@Autowired
+	private ApprovalService aservice;
 	@RequestMapping("/toMainPage.bizlog")
 	public String toMainPage() {
-		return "/bizlog/bizMainPage";
+		return "bizlog/bizMainPage";
 	}
 	
 	@RequestMapping("/toWriteView.bizlog")
@@ -35,15 +38,16 @@ public class BizLogController {
 		List<MemberDTO> mlist = bservice.getMyDeptMem();//멤버를 불러옴
 		model.addAttribute("mlist", mlist);
 		model.addAttribute("docsType", bservice.getDocsType());
-		return "/bizlog/bizlogWriteView";
+		return "bizlog/bizWriteView";
 	}
 	
 	@RequestMapping("/writeBizlog.bizlog")
-	public String writeBizlog(BizLogDTO dto, BizLog_signDTO sign) throws Exception {
-		int writeResult = bservice.writeBizlog(dto);
-		if(writeResult==-1) {return "error";}
-		int signResult = bservice.setInitAppSign(sign.getBiz_signDTOList());
-		if(signResult==-1) {return "error";}
+	public String writeBizlog(ApprovalDTO dto, Approval_signDTO approval_signDTOList, Model model, BizLog_periodDTO period) throws Exception {
+		//글작성
+		int appSeq = aservice.writeApp(dto);
+		if(appSeq<=0) {return "error";}
+
+		aservice.setInitAppSign(approval_signDTOList, appSeq);
 		return "redirect:/bizlog/toMainPage.bizlog";
 	}
 	
