@@ -28,99 +28,82 @@
 	<script src="/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 	<script src="/assets/vendor/chartist/js/chartist.min.js"></script>
 	<script src="/assets/scripts/klorofil-common.js"></script>
+	<!-- jqxtree  -->
+<link rel="stylesheet"
+	href="/resources/lib/jqwidgets/styles/jqx.base.css" type="text/css" />
+<script type="text/javascript"
+	src="/resources/lib/scripts/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/resources/lib/jqwidgets/jqxcore.js"></script>
+<script type="text/javascript"
+	src="/resources/lib/jqwidgets/jqxbuttons.js"></script>
+<script type="text/javascript"
+	src="/resources/lib/jqwidgets/jqxscrollbar.js"></script>
+<script type="text/javascript"
+	src="/resources/lib/jqwidgets/jqxpanel.js"></script>
+<script type="text/javascript" src="/resources/lib/jqwidgets/jqxtree.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		// Create jqxTree
+		$('#jqxTree').jqxTree({
+			height : '500px',
+			width : '120px'
+		});
+		$('#jqxTree').bind('select', function(event) {
+			var htmlElement = event.args.element;
+			var item = $('#jqxTree').jqxTree('getItem', htmlElement);
+		});
+	});
+</script>
 </head>
 <style>
-	*{border: 0px solid black;
-        box-sizing: border-box;       
-         margin: 0;	
-	}
-	
-	.top-vacant{
-		width: 1020px;
-		height: 20px;
-	}
-    .maincontainer{
-        width: 100%;
-        height: 700px;
-    }
-    .orgTree{
-        width: 15%;
-        height: 650px;
-        float: left;
-       
-    }
-    .orgInfo{
-        width: 80%;
-        height: 650px;
-        float: left;       
-    }
-
-    
-    .table table-sm{
-    	width: 100%;
-    }
-    button{
-    	width: 130px;
-    }
-    .profilBox>img{
-    	width: 100%;
-    	height: 100%;
-    }
-    .profilBox{   	
-    	width: 130px;
-    	height: 200px;
-    }
-    li>a{
-    	color: black;
-   		text-decoration: none;
-    }
-    button{
-    	position: relative;
-    	right: 50px;
-    }
-    /* Remove default bullets */
-ul, #myUL1 {
-	list-style-type: none;
+.top-vacant {
+	width: 100%;
+	height: 20px;
+	/* 	background-color: yellow; */
 }
 
-/* Remove margins and padding from the parent ul */
-#myUL1 {
-	
-    margin: 0;
-	padding: 0;
-	position: fixed;
-    width: 200px;
-    height: 100%;
+.panel-body {
+	text-align: center;
 }
 
-/* Style the caret/arrow */
-.caret1 {
-	cursor: pointer;
-	user-select: none; /* Prevent text selection */
+.orgTree {
+	width: 20%;
+	float: left;
 }
 
-/* Create the caret/arrow with a unicode, and style it */
-.caret1::before {
-	content: "\25B6";
+.orgInfo {
+	margin-left: 20px; padding-left : 20px;
+	width: 80%;
+	float: left;
+	padding-left: 20px;
+}
+
+.table table-sm {
+	width: 100%;
+}
+
+li>a {
 	color: black;
-	display: inline-block;
-	margin-right: 6px;
+	text-decoration: none;
 }
 
-/* Rotate the caret/arrow icon when clicked on (using JavaScript) */
-.caret-down1::before {
-	transform: rotate(90deg);
+.profilBox>img {
+	width: 100%;
+	height: 100%;
 }
 
-/* Hide the nested list */
-.nested1 {
-	display: none;
+.profilBox {
+	width: 130px;
+	height: 200px;
+	text-align: center;
+	
 }
 
-/* Show the nested list when the user clicks on the caret/arrow (with JavaScript) */
-.active1 {
-	display: block;
+.demo-icons li {
+	margin-bottom: 0px;
+	text-align: left;
 }
+
 </style>
 <body>
 	<!-- WRAPPER -->
@@ -142,37 +125,35 @@ ul, #myUL1 {
 				<div class="container-fluid">
 					<h3 class="page-title">조직도</h3>
 					<div class ="maincontainer">
-			    <div class="orgTree" >
-			        <ul id="myUL1">
-			<c:forEach items="${dlist }" var="i">			
-			<li><span class="caret1">${i.dept_name}</span>
-				
-				<ul class="nested1">
-				<c:forEach items="${mlist }" var="j">
-				<c:if test="${j.dept_code == i.dept_code }">				
-					<li><a href="/member/orgMemInfo.member?id=${j.id}">${j.name }</a></li>
-				</c:if>
-				</c:forEach>								
-				</ul>
-				
-				</li>	
-						
-			</c:forEach>				
-			</ul>
-			    </div>
+			    <div class="orgTree" id='jqxTree'>
+							<ul>
+								<c:forEach items="${dlist}" var="i">
+									<li item-expanded='true'>${i.dept_name}
+										<ul>
+											<c:forEach items="${mlist}" var="j">
+												<c:if test="${j.dept_code == i.dept_code}">
+													<li class="memberList" id="${j.name}"><a
+														href="/member/orgMemInfo.member?id=${j.id}">${j.name}</a></li>
+												</c:if>
+											</c:forEach>
+										</ul>
+									</li>
+								</c:forEach>
+							</ul>
+						</div>
 			    <div class="orgInfo">
-			    	<div class="maincontainer row">
-				
-
-			
-				<div class="top-vacant d-none d-lg-block"></div>
+			    
+			    	<div class="panel panel-headline demo-icons">	
+			    	
+			    	<div class="panel-heading">
+								<h3 class="panel-title">개 인 정 보</h3>
+							</div>
+			    	<div class="panel-body">		
 				<div class="col-lg-2 col-12">
 					<div class="bodyContents loginInfo">
-						<div class="top-vacant d-none d-lg-block"></div>
-						<div class="top-vacant d-none d-lg-block"></div>
-						<div class="top-vacant d-none d-lg-block"></div>
-						<div class="top-vacant d-none d-lg-block"></div>
 						
+						<div class="top-vacant d-none d-lg-block"></div>
+						<div class="top-vacant d-none d-lg-block"></div>						
 						<div class="profilBox d-none d-lg-block">
 							<img class="profileImg img-thumbnail" alt="${dto.id}"
 								src="/resources/profileImage/${dto.id}.png">
@@ -187,12 +168,8 @@ ul, #myUL1 {
 							<div class="col-lg-2 col-12">
 								<button type="button" id="askFix" class="btn btn-warning">쪽지 보내기</button>
 							</div>
-						</div>
-						<div class="top-vacant d-none d-lg-block"></div>
-						<div class="card">
-							<div class="card-header">
-								<h5>개 인 정 보</h5>
-							</div>
+						</div>																	
+								<div class="top-vacant d-none d-lg-block"></div>				
 							<div class="card-body">
 								<table class="table table-sm">
 									<thead>
@@ -232,15 +209,17 @@ ul, #myUL1 {
 						</div>
 					</div>
 				</div>
+				</div>
+				
 				<div class="maincontainer row">
 					<div class="col-lg-12 col-12">
 						<div class="bodyContents">
-							<div class="top-vacant d-none d-lg-block"></div>
-							<div class="card">
-								<div class="card-header">
-									<h5>사 원 정 보</h5>
+							
+							<div class="panel panel-headline demo-icons">
+								<div class="panel-heading">
+									<h3 class="panel-title">사 원 정 보</h3>
 								</div>
-								<div class="card-body">
+								<div class="panel-body">
 									<table class="table table-sm">
 										<thead>
 											<tr class="table-secondary">
@@ -275,10 +254,12 @@ ul, #myUL1 {
 					</div>
 				</div>
 
+			
+			    
 			</div>
-			    </div>
-			</div>
+			
 				</div>
+			</div>
 			</div>
 			<!-- END MAIN CONTENT -->
 		</div>
@@ -301,7 +282,7 @@ for (i = 0; i < toggler.length; i++) {
 </script>
 <script>
 	document.getElementById("askFix").onclick = function(){
-		loaction.href = "#"
+		location.href = "/message/orgSendMessage.message?msg_receiver=${dto.id}&msg_receiver_name=${dto.dept_name}  ${dto.name}"
 	}
 </script>
 </body>

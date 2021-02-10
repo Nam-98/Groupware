@@ -329,7 +329,7 @@ public class ApprovalService {
 		return adao.getAppCmtBySeq(app_seq);
 	}
 	private String makeTempContent(int app_seq, String contents) throws Exception {
-		// WARING!!!!!! -> project workspace경로가 아닌 project server가 가동되는 경로에 생섣되므로
+		// WARING!!!!!! -> project workspace경로가 아닌 project server가 가동되는 경로에 생되므로
 		// Project clean시 생성한 file도 삭제됩니다. clean전에 반드시 backup 해주세요!!!!!
 		String sDir = servletContext.getRealPath("/resources/approval_contents");// src/main/webapp/resources/approval_contents폴더
 																				// 경로 출력
@@ -351,19 +351,6 @@ public class ApprovalService {
 
 		// 객체 닫기
 		fw.close();
-		/*
-		 * /////실 사용시에 하단의 코드는 지워주세요(혹은 주석) String dir2 =
-		 * "D:\\02_Coding\\FinalWorkspace\\FinalBackWorkspace\\Groupware\\src\\main\\webapp\\resources\\approval_contents";
-		 * File filesPath2 = new File(dir2); if (!filesPath2.exists()) {
-		 * filesPath2.mkdir(); }
-		 * 
-		 * File conFile2 = new File(dir2, sFileName); BufferedWriter fw2 = new
-		 * BufferedWriter(new FileWriter(conFile2));
-		 * 
-		 * // 파일안에 문자열 쓰기 fw2.write(contents); fw2.flush();
-		 * 
-		 * // 객체 닫기 fw2.close();
-		 */
 		return sFileName;
 	}
 	

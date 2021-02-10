@@ -36,5 +36,7 @@ public class MemberDAO {
 	public int insertMem(MemberDTO dto) throws Exception{
 		return db.insert("Member.insertMem", dto);
 	}
-
+	public int updateMemInfo(MemberDTO dto) throws Exception{
+		return db.update("Member.updateMemInfo", dto);
+	}
 }

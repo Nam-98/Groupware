@@ -170,7 +170,7 @@
          <div class="col-lg-6 col-12">
             <div class="btn-group" role="group">
                <button type="button" class="btn btn-outline-primary" id=btnMsg>
-                  Messages <span class="badge rounded-pill bg-danger">숫자</span>
+                  Messages <span class="badge rounded-pill bg-danger" id="msg"></span>
                </button>
                <button type="button" class="btn btn-outline-primary" id=btnApp>Approval</button>
             </div>
@@ -179,6 +179,10 @@
          </div>
       </div>
    </div>
+   
+   <script>
+   		document.getElementById("msg").innerHTML = ${result};
+   </script>
 
    <script type="text/javascript">
       document.getElementById("logout").onclick = function() {
