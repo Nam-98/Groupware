@@ -51,6 +51,7 @@
 }
 
 .profilBox {
+
 	text-align: center;
 }
 </style>
@@ -94,9 +95,10 @@
 								<div class="profilBox d-none d-lg-block">
 									<img class="profileImg img-thumbnail" alt="${id}"
 										src="/resources/profileImage/${id}.png">
+									<div class="top-vacant d-none d-lg-block"></div>	
 									<div class="m-2">
-										<div class="m-2">${sessionScope.id}&nbsp&nbsp
-											${dto.position_name}님</div>
+										<div class="m-2"><b>${sessionScope.id}&nbsp&nbsp
+											${dto.position_name}님</b></div>
 									</div>
 								</div>
 							</div>

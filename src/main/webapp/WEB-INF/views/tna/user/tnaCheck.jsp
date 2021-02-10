@@ -3,11 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
-<style>
-#calendar{
-	width: 100%;
-}
-</style>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -37,6 +32,9 @@
    <link href='/resources/lib/fullcalendar/main.css' rel='stylesheet' />
     <script src='/resources/lib/fullcalendar/main.js'></script>
 </head>
+<style>
+
+</style>
 <body>
    <!-- WRAPPER -->
    <div id="wrapper">
@@ -65,13 +63,18 @@
                   <span id="currentTimeSpan"></span>
                   <div class="">
                      ${attendanceValue.status }
-                     ${attendanceValue.hour }
-                     ${attendanceValue.minute }
+                     <c:if test='${attendanceValue.status != "-"}'>
+                        ${attendanceValue.hour }시
+                        ${attendanceValue.minute }분
+                     </c:if>
+
                   </div>
                   <div class="">
                      ${leaveWorkValue.status }
-                     ${leaveWorkValue.hour }
-                     ${leaveWorkValue.minute }
+                     <c:if test='${leaveWorkValue.status != "-"}'>
+                     ${leaveWorkValue.hour }시
+                     ${leaveWorkValue.minute }분
+                     </c:if>
                   </div>
                   <input type="button" value="출근하기" id="attendanceBtn" class="btn btn-gray btn-xs"> 
                   <input type="button" value="퇴근하기" id="leaveWorkBtn" class="btn btn-gray btn-xs">
@@ -111,7 +114,15 @@
       }else {
          tnaStatus = 2;
          document.getElementById("attendanceBtn").className = "btn btn-gray btn-xs";
-         document.getElementById("leaveWorkBtn").className = "btn btn-warning btn-xs";
+         if ("${leaveWorkValue.status }" == "조퇴"){
+        	 document.getElementById("leaveWorkBtn").className = "btn btn-warning btn-xs";
+         }else if ("${leaveWorkValue.status }" == "퇴근"){
+        	 document.getElementById("leaveWorkBtn").className = "btn btn-success btn-xs";
+         }else{
+        	 document.getElementById("leaveWorkBtn").className = "btn btn-danger btn-xs";
+         }
+         
+         
       }
       // 0 : 출근 X 퇴근 X
       // 1 : 촐근 O 퇴근 X
@@ -179,20 +190,28 @@
         var calendarEl = document.getElementById('calendar');
         
         var calendar = new FullCalendar.Calendar(calendarEl, {
-			header: {
-				left: '',
-				center: 'title',
+        	headerToolbar: {
+				left: 'title',
+				center: '',
 				right: 'today prev,next'
 			},
+// 			height: 100%,
 			locale: 'ko',
-// 			themeSystem: 'sketchy',
+			themeSystem: 'Cerulean',
 			businessHours: true,
 			eventClick: function(arg) {
 				arg.jsEvent.preventDefault();
 				
 				if (arg.event.url) {
 					if (confirm("정정 신청하시겠습니까?")) {
-						var options='top=10, left=10, width=800, height=600, status=no, menubar=no, toolbar=no, resizable=no';
+						var popupWidth = 800;
+						var popupHeight = 600;
+						var popupX = (window.screen.width / 2) - (popupWidth / 2);
+						// 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주었음
+						var popupY = (window.screen.height / 2) - (popupHeight / 2) - 50;
+						// 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주었음
+						
+						var options='top='+popupY+', left='+popupX+', width='+popupWidth+', height='+popupHeight+', status=no, menubar=no, toolbar=no, resizable=no, location=no';
 						window.open(arg.event.url,"popup",options);
 					}
 				}
@@ -203,12 +222,21 @@
 						title: '${list.TNA_START_STATUS_NAME}',
 						start: '${list.TNA_START_TIME}',
 						url: "/tna/tnaFixRequestPage.tna?tna_seq=${list.TNA_SEQ}&tna_status=start"
+						<c:if test='${list.TNA_START_STATUS_NAME == "지각"}'>
+							,color: '#e4cb10'
+						</c:if>
 						
 					},
 					{
 						title: '${list.TNA_END_STATUS_NAME}',
 						start: '${list.TNA_END_TIME}',
 						url: "/tna/tnaFixRequestPage.tna?tna_seq=${list.TNA_SEQ}&tna_status=end"
+						<c:if test='${list.TNA_END_STATUS_NAME == "조퇴"}'>
+							,color: '#e4cb10'
+						</c:if>
+						<c:if test='${list.TNA_END_STATUS_NAME == "야근"}'>
+							,color: '#18640f'
+						</c:if>
 					}
 					<c:if test="${!i.last}">
 					,
@@ -222,11 +250,27 @@
 //                   title: '퇴근',
 //                   start: '2021-01-25T18:32:27'
 //                 }
-          	]
+          	],
+          	// default color
+          	eventColor: '#41B314'
         });
         calendar.render();
       });
 
+   </script>
+   <script>
+   // 메뉴바 축소시 캘린더 크기 조정
+   $(".navbar-btn").on("click",function(){
+	   $(".fc-col-header ").css({
+		   "width": "100%"
+       });
+	   $(".fc-daygrid-body").css({
+		   "width": "100%"
+       });
+	   $(".fc-scrollgrid-sync-table").css({
+		   "width": "100%"
+       });
+   });
    </script>
 </body>
 </html>

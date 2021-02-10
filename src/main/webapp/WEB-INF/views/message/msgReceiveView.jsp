@@ -63,9 +63,15 @@
 		<div class="main">
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
+			<div class="panel panel-headline demo-icons">
+			
 				<div class="container-fluid">
+				<div class="panel-heading">
+							<h3 class="panel-title">쪽 지 보 기</h3>
+						</div>
+				<div class="panel-body">
 					<div class="maincontainer">
-					<br><br><br>
+					
 					<div class="btn-group-ml" role="group" style="text-align: right;">
   					<button type="button" class="btn btn-primary" id="reply">답장 하기</button>
   					<button type="button" class="btn btn-primary" id="delete">삭제</button>
@@ -97,6 +103,9 @@
 				</table>
 				
 			</div>
+			</div>
+				</div>
+				
 				</div>
 			</div>
 			<!-- END MAIN CONTENT -->
@@ -117,8 +126,10 @@
 	}
 	
 	document.getElementById("reply").onclick = function() {
-		location.href = "/message/msgReply.message?msg_sender_name=${mdto.msg_sender_name }&msg_receiver_name=${mdto.msg_receiver_name}&msg_receiver=${mdto.msg_receiver}";
+		location.href = "/message/msgReply.message?msg_receiver_name=${mdto.msg_sender_name }&msg_sender_name=${mdto.msg_receiver_name}&msg_receiver=${mdto.msg_receiver}";
 	}
 </script>
+
+
 </body>
 </html>
