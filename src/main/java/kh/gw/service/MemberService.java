@@ -79,7 +79,7 @@ public class MemberService {
 		System.out.println("resizeFile Width : " + resigeImage.getWidth());
 	}
 	
-	public BufferedImage resize() {
+	public BufferedImage resizeImage(BufferedImage originalImage, int type) {
 		BufferedImage resizedImage = new BufferedImage(IMG_WIDTH, IMG_HEIGHT, type); 
 		Graphics2D g = resizedImage.createGraphics(); 
 		g.drawImage(originalImage, 0, 0, IMG_WIDTH, IMG_HEIGHT, null); 
