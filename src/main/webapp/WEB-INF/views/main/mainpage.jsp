@@ -102,7 +102,7 @@
 									<div class="metric" style=" cursor: pointer;" onclick="location.href='/bizlog/toMainPage.bizlog';">
 										<span class="icon"><i class="fas fa-pen-square fa-4x"></i></span>
 										<p>
-											<span class="number">Daily-journal</span> <span class="title">업무일지</span>
+											<span class="number">Biz-log</span> <span class="title">업무일지</span>
 										</p>
 										<input type=hidden value="/bizlog/toMainPage.bizlog">
 									</div>
@@ -192,12 +192,9 @@
 										<button type="button" class="btn-toggle-collapse">
 											<i class="lnr lnr-chevron-up"></i>
 										</button>
-										<button type="button" class="btn-remove">
-											<i class="lnr lnr-cross"></i>
-										</button>
 									</div>
 								</div>
-								<div class="panel-body no-padding">
+								<div class="panel-body">
 
 									<h3>
 										현재 시간은&nbsp&nbsp&nbsp"<span id="currentTimeSpan"></span>"&nbsp&nbsp&nbsp입니다.
@@ -233,9 +230,6 @@
 										<button type="button" class="btn-toggle-collapse">
 											<i class="lnr lnr-chevron-up"></i>
 										</button>
-										<button type="button" class="btn-remove">
-											<i class="lnr lnr-cross"></i>
-										</button>
 									</div>
 								</div>
 								<div class="panel-body no-padding"></div>
@@ -262,9 +256,6 @@
 							<div class="right">
 								<button type="button" class="btn-toggle-collapse">
 									<i class="lnr lnr-chevron-up"></i>
-								</button>
-								<button type="button" class="btn-remove">
-									<i class="lnr lnr-cross"></i>
 								</button>
 							</div>
 						</div>
@@ -346,9 +337,6 @@
 										<button type="button" class="btn-toggle-collapse">
 											<i class="lnr lnr-chevron-up"></i>
 										</button>
-										<button type="button" class="btn-remove">
-											<i class="lnr lnr-cross"></i>
-										</button>
 									</div>
 								</div>
 								<div class="panel-body no-padding">
@@ -424,9 +412,6 @@
 										<button type="button" class="btn-toggle-collapse">
 											<i class="lnr lnr-chevron-up"></i>
 										</button>
-										<button type="button" class="btn-remove">
-											<i class="lnr lnr-cross"></i>
-										</button>
 									</div>
 								</div>
 								<div class="panel-body">
@@ -445,9 +430,6 @@
 									<div class="right">
 										<button type="button" class="btn-toggle-collapse">
 											<i class="lnr lnr-chevron-up"></i>
-										</button>
-										<button type="button" class="btn-remove">
-											<i class="lnr lnr-cross"></i>
 										</button>
 									</div>
 								</div>
@@ -509,9 +491,6 @@
 										<button type="button" class="btn-toggle-collapse">
 											<i class="lnr lnr-chevron-up"></i>
 										</button>
-										<button type="button" class="btn-remove">
-											<i class="lnr lnr-cross"></i>
-										</button>
 									</div>
 								</div>
 								<div class="panel-body">
@@ -566,9 +545,6 @@
 									<div class="right">
 										<button type="button" class="btn-toggle-collapse">
 											<i class="lnr lnr-chevron-up"></i>
-										</button>
-										<button type="button" class="btn-remove">
-											<i class="lnr lnr-cross"></i>
 										</button>
 									</div>
 								</div>
@@ -648,9 +624,6 @@
 										<button type="button" class="btn-toggle-collapse">
 											<i class="lnr lnr-chevron-up"></i>
 										</button>
-										<button type="button" class="btn-remove">
-											<i class="lnr lnr-cross"></i>
-										</button>
 									</div>
 								</div>
 								<div class="panel-body">
@@ -667,9 +640,6 @@
 									<div class="right">
 										<button type="button" class="btn-toggle-collapse">
 											<i class="lnr lnr-chevron-up"></i>
-										</button>
-										<button type="button" class="btn-remove">
-											<i class="lnr lnr-cross"></i>
 										</button>
 									</div>
 								</div>
