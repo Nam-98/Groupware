@@ -64,7 +64,7 @@ $(document).ready(function() {
               ['table', ['table']],
               ['para', ['ul']],
               ['height', ['height']],
-              ['insert',['picture','link','video']],
+              ['insert',['picture']],
               ['view', ['fullscreen', 'help']]
             ],
           fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋음체','바탕체'],
@@ -225,10 +225,6 @@ function goWrite(frm) {
 	frm.submit();
 }
 </script>
-<script>
-	
-	let ws = new WebSocket("ws://192.168.113.1/chat")
-	
-</script>
+
 </body>
 </html>
