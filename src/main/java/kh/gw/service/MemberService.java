@@ -1,10 +1,12 @@
 package kh.gw.service;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,13 +61,29 @@ public class MemberService {
 		if(!filesPath.exists()) {filesPath.mkdir();}
 		
 		File targetLoc = new File(filesPath.getAbsoluteFile()+"/"+id + ".png");
-		FileCopyUtils.copy(profilePic.getBytes(), targetLoc);			
-		System.out.println(filesPath.getAbsoluteFile());
-		System.out.println("real path : "+realPath);
-		System.out.println(targetLoc);
-		//Context는 맥락이라는 의미인데, 같은 행동을 하더라고 환경에 따라 다르게 output이 나오는 것을 의미한다. (마우스 오른쪽 버튼 메뉴와 비슷함)
-		//session.getServletContext().getRealPath("path")은 session이 존재하는 환경의 realPath를 가져오는 것인데, 이는 이 project가 실행되는 폴더를 의미한다. 
-		//getRealPath에 넣는 param은 realPath뒤쪽에 해당 param이 붙은 경로가 return된다. 
-
+		FileCopyUtils.copy(profilePic.getBytes(), targetLoc);
+		
+		System.out.println(targetLoc.length());
+		BufferedImage originalImage = ImageIO.read(targetLoc); 
+		int type = originalImage.getType() == 0? BufferedImage.TYPE_INT_ARGB : originalImage.getType(); 
+		System.out.println("originFile Height : " + originalImage.getHeight()); 
+		System.out.println("originFile Width : " + originalImage.getWidth()); 
+		BufferedImage resizeImagePng = resizeImage(originalImage, type); 
+		ImageIO.write(resizeImagePng, "png", originFile); 
+		BufferedImage resigeImage = ImageIO.read(originFile);
+		
+		System.out.println("==========================================================="); 
+		File resizeFile = new File(imgOriginalPath); 
+		System.out.println("resizeFile Length : " + resizeFile.length()); 
+		System.out.println("resizeFile Height : " + resigeImage.getHeight()); 
+		System.out.println("resizeFile Width : " + resigeImage.getWidth());
+	}
+	
+	public BufferedImage resize() {
+		BufferedImage resizedImage = new BufferedImage(IMG_WIDTH, IMG_HEIGHT, type); 
+		Graphics2D g = resizedImage.createGraphics(); 
+		g.drawImage(originalImage, 0, 0, IMG_WIDTH, IMG_HEIGHT, null); 
+		g.dispose(); 
+		return resizedImage;
 	}
 }
