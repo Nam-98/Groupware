@@ -166,6 +166,23 @@ public class MessageController {
 		return "/message/replyMessage";
 	}
 	
+	//조직도에서 쪽지보내기 버튼 클릭시
+	@RequestMapping("orgSendMessage.message")
+	public String orgSendMessage(HttpServletRequest request, Model m) throws Exception{
+		String my = (String)session.getAttribute("id");
+		String msg_receiver_name = request.getParameter("msg_receiver_name");
+		String msg_receiver = request.getParameter("msg_receiver");
+		Map<String,Object> myInfo = memservice.getMyInfo(my);
+		List<MemberDTO> mlist = memservice.listMem(); //조직도 전체 리스트 가져옴
+		List<DepartmentDTO> dlist = memservice.listDept(); //부서명 가져옴
+		m.addAttribute("msg_receiver_name", msg_receiver_name);
+		m.addAttribute("msg_receiver", msg_receiver);
+		m.addAttribute("mlist", mlist);
+		m.addAttribute("dlist", dlist);
+		m.addAttribute("myInfo", myInfo);
+		return "/message/orgSendMessage";
+	}
+	
 	//쪽지 발신함 list 불러오기
 	@RequestMapping("msgOutBoxList.message")
 	public String msgOutBoxList(HttpServletRequest request, Model m) throws Exception{

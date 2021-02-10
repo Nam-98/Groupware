@@ -117,39 +117,10 @@
 	}
 	
 	document.getElementById("reply").onclick = function() {
-		location.href = "/message/msgReply.message?msg_sender_name=${mdto.msg_sender_name }&msg_receiver_name=${mdto.msg_receiver_name}&msg_receiver=${mdto.msg_receiver}";
+		location.href = "/message/msgReply.message?msg_receiver_name=${mdto.msg_sender_name }&msg_sender_name=${mdto.msg_receiver_name}&msg_receiver=${mdto.msg_receiver}";
 	}
 </script>
 
-<script>
 
-	var ws = new WebSocket("ws://localhost:8080/replyEcho?bno=1234");
-
-	ws.onopen = function() {
-		console.log('Info: connection opened.');
-		setTimeout(function() {
-			connect();
-		}, 1000); // retry connection!!
-	};
-
-	ws.onmessage = function(event) {
-		console.log(event.data + '\n');
-	};
-
-	ws.onclose = function(event) {
-		console.log('Info: connection closed.');
-	};
-	ws.onerror = function(err) {
-		console.log('Error:',err);
-	};
-
-	$('#btnSend').on('click', function(evt) {
-		evt.preventDefault();
-		if (socket.readyState !== 1)
-			return;
-		let msg = $('input#msg').val();
-		ws.send(msg);
-	});
-</script>
 </body>
 </html>
