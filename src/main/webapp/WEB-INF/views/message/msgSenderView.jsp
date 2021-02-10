@@ -64,8 +64,13 @@
 		<div class="main">
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
+			<div class="panel panel-headline demo-icons">
 				<div class="container-fluid">
-					<h3 style="text-align: left;">쪽지 보기</h3><br>
+				<div class="panel-heading">
+							<h3 class="panel-title">쪽 지 보 기</h3>
+						</div>
+				<div class="panel-body">
+					
 
 <div style="width: 80%;">
 	<form method="post" enctype="multipart/form-data" action="/message/msgProc.message?msg_receiver=${mdto.msg_receiver }">
@@ -75,7 +80,7 @@
   					<button type="button" class="btn btn-primary" id="delete">삭제</button>
   					<button type="button" class="btn btn-primary" id="list">목록으로</button>
 					</div>
-	
+					<br>
 		<table class="table">
 					<thead>
 						<tr>
@@ -104,6 +109,8 @@
 	</form>
 </div>
 				</div>
+			</div>
+			</div>
 			</div>
 			<!-- END MAIN CONTENT -->
 		</div>

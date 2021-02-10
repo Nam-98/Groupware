@@ -225,10 +225,6 @@ function goWrite(frm) {
 	frm.submit();
 }
 </script>
-<script>
-	
-	let ws = new WebSocket("ws://192.168.113.1/chat")
-	
-</script>
+
 </body>
 </html>

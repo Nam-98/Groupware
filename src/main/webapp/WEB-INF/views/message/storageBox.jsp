@@ -54,13 +54,18 @@
 		<div class="main">
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
+			
+			<div class="panel panel-headline demo-icons">
+			
 				<div class="container-fluid">
-					<h3 class="page-title">보관함</h3>
+					<div class="panel-heading">
+					<h3 class="page-title">보 관 함</h3>
+					</div>
 					<div class="panel-body">
 
 						
 
-<ul class="nav nav-tabs">
+<ul class="nav nav-tabs" style="height:50px;">
   <li class="nav-item active">
     <a class="nav-link" data-toggle="tab" href="#inbox" >수신</a>
   </li>
@@ -119,7 +124,7 @@
                               <tr>
                                  <th scope="col">
                                     <div class="input-group" style="width: 5%;">
-                                       <span class="input-group-addon"> <input
+                                       <span class="input-group-addon-default"> <input
                                           type="checkbox" aria-label="..." class="checkAll">
                                        </span>
                                     </div>
@@ -135,7 +140,7 @@
                                  <tr class="trChk_${i.MSG_SEQ}">
                                     <th scope="col">
                                        <div class="input-group" style="width: 5%;">
-                                          <span class="input-group-addon"> <input
+                                          <span class="input-group-addon-default"> <input
                                              type="checkbox" class="chk" name="msg_seq"
                                              value="${i.MSG_SEQ}">
                                           </span>
@@ -199,7 +204,7 @@
                               <tr>
                                  <th scope="col">
                                     <div class="input-group" style="width: 5%;">
-                                       <span class="input-group-addon"> <input
+                                       <span class="input-group-addon-default"> <input
                                           type="checkbox" aria-label="..." class="checkAll">
                                        </span>
                                     </div>
@@ -215,7 +220,7 @@
                                  <tr class="trChk_${i.msg_seq}">
                                     <th scope="col">
                                        <div class="input-group" style="width: 5%;">
-                                          <span class="input-group-addon"> <input
+                                          <span class="input-group-addon-default"> <input
                                              type="checkbox" class="chk" name="msg_seq"
                                              value="${i.msg_seq}">
                                           </span>
@@ -230,15 +235,15 @@
                               </c:forEach>
                            </tbody>
                         </table>
-                        <div class="navi" style="text-align: center;">${outNavi }</div>
-                       
-  </div>
-  
-</div>
-						
-						
+                        <div class="navi" style="text-align: center;">${outNavi }</div>                     
+  </div> 
+</div>										
 					</div>
 				</div>
+				
+				
+			</div>	
+				
 			</div>
 			<!-- END MAIN CONTENT -->
 		</div>
