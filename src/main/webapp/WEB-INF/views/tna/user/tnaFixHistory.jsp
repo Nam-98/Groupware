@@ -4,8 +4,52 @@
 <!DOCTYPE html>
 <html>
 <style>
-#calendar{
+.panel-body div{
+	border: 1px solid black;
+}
+.tableBox{
 	width: 100%;
+	height: 330px;
+}
+.tableLine{
+	width: 100%;
+	height: 9.09090909%;
+}
+.tableLine>.sector1{
+	float: left;
+	width: 10%;
+	height: 100%;
+}
+.tableLine>.sector2{
+	float: left;
+	width: 10%;
+	height: 100%;
+}
+.tableLine>.sector3{
+	float: left;
+	width: 10%;
+	height: 100%;
+}
+.tableLine>.sector4{
+	float: left;
+	width: 60%;
+	height: 100%;
+}
+.tableLine>.sector5{
+	float: left;
+	width: 10%;
+	height: 100%;
+}
+.navi {
+	width: 100%;
+	height: 45px;
+	text-align: center;
+	line-height: 45px;
+	text-decoration: none;
+	color: black;
+}
+.popupSpan {
+	cursor: pointer;
 }
 </style>
 <head>
@@ -59,7 +103,41 @@
 							<h3 class="panel-title">근 태 조 정 내 역</h3>
 						</div>
 						<div class="panel-body">
-							내용넣기
+							<div class="tableBox">
+								<div class="tableLine">
+									<div class="sector1">번 호</div>
+									<div class="sector2">신 청 일</div>
+									<div class="sector3">변 경 요 청 상 태</div>
+									<div class="sector4">내 용</div>
+									<div class="sector5">구 분 상 태</div>
+								</div>
+								<c:forEach varStatus="i" var="list" items="${tnaFixRequestList}">
+								<div class="tableLine">
+									<div class="sector1">${list.TNA_OBJ_SEQ }</div>
+									<div class="sector2">${list.TNA_OBJ_REG_DATE }</div>
+									<div class="sector3">${list.TNA_STATUS_NAME }</div>
+									<div class="sector4">
+									<span class="popupSpan" id="link${list.TNA_SEQ}${list.TNA_OBJ_STATUS}">${list.TNA_ORI_STATUS_NAME } ${list.TNA_OBJ_TIME }</span>
+									</div>
+									<script>
+										$('#link${list.TNA_SEQ}${list.TNA_OBJ_STATUS}').on('click', function(){
+											var url = "/tna/tnaFixRequestPage.tna?tna_seq=${list.TNA_SEQ}&tna_status=${list.TNA_OBJ_STATUS}";
+											var popupWidth = 800;
+											var popupHeight = 600;
+											var popupX = (window.screen.width / 2) - (popupWidth / 2);
+											// 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주었음
+											var popupY = (window.screen.height / 2) - (popupHeight / 2) - 50;
+											// 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주었음
+											
+											var options='top='+popupY+', left='+popupX+', width='+popupWidth+', height='+popupHeight+', status=no, menubar=no, toolbar=no, resizable=no, location=no';
+											window.open(url,"popup",options);
+										})
+									</script>
+									<div class="sector5">${list.TNA_OBJ_PROC_STATUS_NAME }</div>
+								</div>
+								</c:forEach>
+							</div>
+							<div class="navi">${navi }</div>
 						</div>
 					</div>
 

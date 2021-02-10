@@ -46,9 +46,14 @@
 		<div class="main">
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
+			
+			<div class="panel panel-headline demo-icons">
 				<div class="container-fluid">
+				
+					<div class="panel-heading">
 					<h3 class="page-title">내게쓴쪽지함</h3>
-					
+					</div>
+					<div class="panel-body">
 					<div class="btn-group-ml" role="group" style="text-align: right;">
   					
   					<button type="button" class="btn btn-primary" id="delBtn">삭제</button>
@@ -92,7 +97,7 @@
 						<tr>
 							<th scope="col">
 							<div class="input-group" style="width:5%;">
-							<span class="input-group-addon">
+							<span class="input-group-addon-default">
         					<input type="checkbox" aria-label="..." class="checkAll">
       						</span>
       						</div>
@@ -108,7 +113,7 @@
 							<tr class="trChk_${i.msg_seq}">
 								<th scope="col">
 								<div class="input-group" style="width:5%;">
-								<span class="input-group-addon">
+								<span class="input-group-addon-default">
         						<input type="checkbox" class="chk" name="msg_seq" value="${i.msg_seq}">
       							</span>
       							</div>
@@ -123,6 +128,8 @@
 				</table>
 				
 				<div class="navi" style="text-align: center;">${navi }</div>
+				</div>
+				</div>
 										
 				</div>
 			</div>

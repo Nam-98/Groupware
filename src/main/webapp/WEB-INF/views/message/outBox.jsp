@@ -46,9 +46,13 @@
 		<div class="main">
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
+			<div class="panel panel-headline demo-icons">
 				<div class="container-fluid">
-					<h3 class="page-title">발신함</h3>
-					
+				
+					<div class="panel-heading">
+					<h3 class="page-title">발 신 함</h3>
+					</div>
+					<div class="panel-body">
 					<div class="btn-group-ml" role="group" style="text-align: right;">
   					<button type="button" class="btn btn-primary" id="cabBtn">보관함 이동</button>
   					
@@ -127,7 +131,7 @@
 						<tr>
 							<th scope="col">
 							<div class="input-group" style="width:5%;">
-							<span class="input-group-addon">
+							<span class="input-group-addon-default">
         					<input type="checkbox" aria-label="..." class="checkAll">
       						</span>
       						</div>
@@ -143,7 +147,7 @@
 							<tr>
 								<th scope="col">
 								<div class="input-group" style="width:5%;">
-								<span class="input-group-addon">
+								<span class="input-group-addon-default">
         						<input type="checkbox" aria-label="..." class="chk" name="msg_seq" value="${i.msg_seq}">
       							</span>
       							</div>
@@ -157,7 +161,8 @@
 					</tbody>
 				</table>
 				<div class="navi" style="text-align: center;">${navi }</div>
-										
+					</div>
+					</div>					
 				</div>
 			</div>
 			<!-- END MAIN CONTENT -->

@@ -268,18 +268,7 @@ li>a {
 <jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
 	</div>
 	<!-- END WRAPPER -->
-	<script>
-var toggler = document.getElementsByClassName("caret1");
-var i;
 
-for (i = 0; i < toggler.length; i++) {
-	console.log(toggler.length);
-  toggler[i].addEventListener("click", function() {
-    this.parentElement.querySelector(".nested1").classList.toggle("active1");
-    this.classList.toggle("caret-down1");
-  });
-}
-</script>
 <script>
 	document.getElementById("askFix").onclick = function(){
 		location.href = "/message/orgSendMessage.message?msg_receiver=${dto.id}&msg_receiver_name=${dto.dept_name}  ${dto.name}"

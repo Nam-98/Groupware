@@ -8,7 +8,7 @@
 insert into st.message values(st.message_seq.nextval,#{msg_sender},#{msg_receiver},(SELECT CURRENT_DATE FROM DUAL),null,#{msg_title},#{msg_contents},#{msg_sender_name},#{msg_receiver_name},'Y','Y') </insert>
 
 <select id="msgInBoxList" resultType="kh.gw.dto.MessageDTO">
-select st.message.*, nvl(to_char(msg_receive_date), '읽지않음') as msg_receive_date_str from st.message where msg_receiver = #{value} and msg_receiver_view='Y' order by msg_seq desc </select>
+select st.message.*, nvl(to_char(msg_receive_date), '읽지않음') as msg_receive_date_str from st.message where msg_receiver = #{value} and msg_receiver_view='Y' and msg_sender != #{value} order by msg_seq desc </select>
 
 <update id="readDate">
 update st.message.*,nvl(to_char(to_char(msg_receive_date,'mm/dd HH12:mi')), '읽지않음') as msg_receive_date_str,to_char(msg_send_date,'mm/dd HH12:mi') as msg_sender_date_str set msg_receive_date=(SELECT CURRENT_DATE FROM DUAL) where msg_seq=#{value} </update>
@@ -32,7 +32,7 @@ insert into st.message_attached_files values(#{msg_seq},#{msg_ori_name},#{msg_sa
 select * from st.message_attached_files where msg_seq = #{value} </select>
 
 <select id="msgOutBoxList" resultType="kh.gw.dto.MessageDTO">
-select st.message.*, nvl(to_char(msg_receive_date), '읽지않음') as msg_receive_date_str from st.message where msg_sender = #{value} and msg_sender_view='Y' order by msg_seq desc </select>
+select st.message.*, nvl(to_char(msg_receive_date), '읽지않음') as msg_receive_date_str from st.message where msg_sender = #{value} and msg_sender_view='Y' and msg_receiver != #{value} order by msg_seq desc </select>
 
 <select id="msgInBoxCpage" resultType="kh.gw.dto.MessageDTO">
 select * from(select st.message.*,nvl(to_char(to_char(msg_receive_date,'mm/dd HH12:mi')), '읽지않음') as msg_receive_date_str,to_char(msg_send_date,'mm/dd HH12:mi') as msg_sender_date_str,row_number() over(order by msg_seq desc)rn from st.message where (msg_receiver = #{id}) and (msg_sender != #{id}) and (msg_receiver_view='Y')) where rn between #{startRowNum} and #{endRowNum} </select>
