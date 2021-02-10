@@ -24,6 +24,8 @@
                         </ul>
                     </div>
                 </li>
+                 <li><a href="/bizlog/toMainPage.bizlog" class=""><i class="fas fa-pen-square"></i> <span>업무일지</span></a></li>         
+                
                 <li>
                     <a href="#subPagesMsg1" data-toggle="collapse" class="collapsed"> <i class="fas fa-envelope"></i> <span>쪽지함<span class="badge rounded-pill bg-danger" id="asdd1"></span></span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
                     <div id="subPagesMsg1" class="collapse ">

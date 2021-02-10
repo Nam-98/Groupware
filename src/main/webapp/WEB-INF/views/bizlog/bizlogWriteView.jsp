@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>전자결재 작성</title>
+<title>업무일지 작성</title>
 	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <!-- 아이콘 fontawesome -->
     <script src="https://kit.fontawesome.com/b1e233372d.js"></script>
@@ -91,7 +91,10 @@ th{width:50px;}
 </style>
 </head>
 <body>
-<form action="/approval/writeApproval.approval" id="writeForm" method="post" enctype="multipart/form-data" >
+<form action="/bizlog/writeBizlog.bizlog" id="writeForm" method="post" enctype="multipart/form-data" >
+
+
+		<!-- 결재자 선택 modal 창 -->
 		<div class="modal selectSign" tabindex="-1" role="dialog">
 		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
 			<div class="modal-content">
@@ -100,29 +103,24 @@ th{width:50px;}
 				</div>
 				<div class="modal-body">
 					<div class="row">
-						<div class="col-sm-4">
+						<div class="col-sm-4 col-xs-6">
 						<div class="orgTree bg-light bg-gradient modalL">
 						<h3 class="text-center">조직도</h3>
-							<ul id="myUL1">
-								<c:forEach items="${dlist }" var="i">
-									<li><span class="caret1">${i.dept_name}</span>
-										<ul class="nested1">
-											<c:forEach items="${mlist}" var="j">
-												<c:if
-													test="${j.dept_code == i.dept_code && j.id != sessionScope.id}">
-													<li class="modalLi">${j.name}${j.position_name} <input
-														type=hidden class="modalPosi" value="${j.position_name}">
-														<input type=hidden class="modalName" value="${j.name}">
-														<input type=hidden class="modalId" value="${j.id}">
-													</li>
-												</c:if>
-											</c:forEach>
-										</ul></li>
-								</c:forEach>
-							</ul>
+									<ul id="myUL1">
+										<c:forEach items="${mlist}" var="j">
+											<c:if test="${j.id != sessionScope.id}">
+												<li class="modalLi">${j.name}${j.position_name}
+													<input type=hidden class="modalDept" value="${j.dept_name}">
+													<input type=hidden class="modalPosi" value="${j.position_name}">
+													<input type=hidden class="modalName" value="${j.name}">
+													<input type=hidden class="modalId" value="${j.id}">
+												</li>
+											</c:if>
+										</c:forEach>
+									</ul>
+								</div>
 						</div>
-						</div>
-						<div class="col-sm-8">
+						<div class="col-sm-8 col-xs-6">
 						<div class="modalR">
 							<h3 class="text-center">결재 인원창</h3>
 							<table class="table table-sm">
@@ -150,9 +148,9 @@ th{width:50px;}
 													</select>
 												</td>
 												<td></td>
-												<input type="hidden" name="approval_signDTOList[0].app_sign_id" value="${sessionScope.id }" class="hId">
-												<input type="hidden" name="approval_signDTOList[0].app_sign_order" value="1" class="hOrder">
-												<input type="hidden" name="approval_signDTOList[0].app_sign_type_code" value="0" class="hSignType">
+												<input type="hidden" name="biz_signDTOList[0].biz_sign_id" value="${sessionScope.id }" class="hId">
+												<input type="hidden" name="biz_signDTOList[0].biz_sign_order" value="1" class="hOrder">
+												<input type="hidden" name="biz_signDTOList[0].biz_sign_type_code" value="0" class="hSignType">
 											</c:if>
 										</c:forEach>
 									</tr>
@@ -187,7 +185,7 @@ th{width:50px;}
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 class="page-title">전자결재 문서 작성</h3>
+					<h3 class="page-title">업무일지 작성</h3>
 					<div class="panel">
 						<div class="panel-heading">
 							<h3 class="panel-title">기본내용 작성</h3>
@@ -198,32 +196,14 @@ th{width:50px;}
 										<tr>
 											<th scope="row" class="align-middle">문서종류</th>
 											<td>
-												<select class="form-control form-select-sm" id="docsType" name="app_type_code" style='width:auto;display:inline;'>
+												<select class="form-control form-select-sm" id="docsType" name="biz_type_code" style='width:auto;display:inline;'>
 													<c:forEach items="${docsType}" var="dto">
-														<option value="${dto.app_type_code}">${dto.app_type_name}</option>
-													</c:forEach>
-												</select>
-												<select class="form-control form-select-sm" id="breakType" name="break_code" style='width:auto;display:none;'>
-													<c:forEach items="${breakType}" var="dto">
-														<option value="${dto.break_code}">${dto.break_name}</option>
+														<option value="${dto.biz_type_code}">${dto.biz_type_name}</option>
 													</c:forEach>
 												</select>
 												<button type=button id="addSign" class="btn btn-outline-dark btn-sm pull-right" data-bs-toggle="tooltip" data-bs-placement="right" title="결재자를 추가하려면 이 버튼을 누르세요">
 												결재선 선택 <span class='badge badge-pill badge-primary' id="signCount">1</span>						
 												</button>
-											</td>
-										</tr>
-										<tr>
-											<th scope="row">보존기간</th>
-											<td>
-												<div class="form-check form-check-inline">
-													 <label class="radio-inline"><input class="form-check-input" type="radio" name="app_archive" value="1" checked>1년 </label>
-													 <label class="radio-inline"><input class="form-check-input" type="radio" name="app_archive" value="2" >2년 </label>
-													 <label class="radio-inline"><input class="form-check-input" type="radio" name="app_archive" value="3" >3년 </label>
-													 <label class="radio-inline"><input class="form-check-input" type="radio" name="app_archive" value="5" >5년 </label>
-													 <label class="radio-inline"><input class="form-check-input" type="radio" name="app_archive" value="10" >10년 </label>
-
-												</div>
 											</td>
 										</tr>
 										<tr>
@@ -235,7 +215,7 @@ th{width:50px;}
 											</td>
 										</tr>
 										<tr>
-											<td colspan="2"><input type="text" class="form-control form-control-sm" id="title"	placeholder="제목" name="app_title"></td>
+											<td colspan="2"><input type="text" class="form-control form-control-sm" id="title"	placeholder="제목" name="biz_title"></td>
 										</tr>
 										<tr>
 									</thead>
@@ -251,31 +231,15 @@ th{width:50px;}
 
 								<!-- pannel 내부의 내용 작성 div-->
 								<div class="panel-body">
-									
-									<div class=breakInfo style="display:none" >
-									<div class="row">
-										<div class="col-md-2 col-sm-6"><h5>휴가 시작일</h5></div>
-										<div class="col-md-3 col-sm-6">
-											<div id='jqxdateStart' class='jqxdate'></div>
-											<input type=hidden id=breakSrt name='strStartDate'> 
-										</div>
-										<div class="col-md-2 col-sm-6"><h5>휴가 종료일</h5></div>
-										<div class="col-md-3 col-sm-6"><div id='jqxdateEnd'class='jqxdate'></div>
-										<input type=hidden id=breakEnd name='strEndDate'>
-										</div>
-										<div class="col-md-2 col-sm-6"><button type=button id='setDate'>종료일 자동설정</button></div>
-									</div>
-									
-								</div>
 									<div class="row">
 										<textarea class="summernote"  ></textarea>
-										<input type=hidden name="app_contents" id="contents">
+										<input type=hidden name="biz_contents" id="contents">
 									</div>						
 								<!-- pannel footer작성(선택) -->
 								<div class="panel-footer">
 									<div class="row">
 										<div class="col-sm-12 text-right">
-											<button type="button" class="btn btn-primary" id="appWrite">작성하기</button>
+											<button type="button" class="btn btn-primary" id="write">작성하기</button>
 
 										</div>
 									</div>
@@ -295,7 +259,7 @@ th{width:50px;}
 	</form>
 	<script>
 	//글 작성
-	$("#appWrite").on("click",function(){
+	$("#write").on("click",function(){
 		//title입력 확인
 		if($("#title").val()==''){alert("제목은 필수입력 사항입니다.");return;}
 		//본문 입력 확인
@@ -307,23 +271,12 @@ th{width:50px;}
 		let contents = $(".summernote").summernote('code');
 		
 		$("#sign_info_Json").val(JSON.stringify(sign_info_Json));
-		
-		//휴가계일 때 날짜정보 전송 및 내용에도 날짜정보 포함시키기.
-		if($("#docsType").val()==3){
-			 let dStrt = getFormatDate($('#jqxdateStart').jqxDateTimeInput('getDate'));
-			 let dEnd = getFormatDate($('#jqxdateEnd').jqxDateTimeInput('getDate'));
-			$("#breakSrt").val(dStrt);
-			$("#breakEnd").val(dEnd);
-			let str = "<p>휴가 구분 : "+$("#breakType option:checked").text()+"</p><p>신청 기간 : "+dStrt+" ~ "+dEnd+"</p>";
-			console.log(str);
-			contents = str + contents;
-		}
+
 		$("#contents").val(contents);
 		$("#writeForm").submit();
 		
 	})
 	</script>
-	<!-- /.modal -->
 		<script>
 		let sign_info_Json = {};
 		let sign_name_Json = [];
@@ -333,19 +286,11 @@ th{width:50px;}
 				sign_info_Json["${i.name}"] = ["${sessionScope.id}",0];
 			</c:if>
 		</c:forEach>
-			//휴가관련 내용
-			$("#jqxdateStart").jqxDateTimeInput({ width: '200px', height: '20px' });
-			$("#jqxdateEnd").jqxDateTimeInput({ width: '200px', height: '20px' });
-			// 종료일 자동설정
-	          $("#setDate").click(function () {
-	        	  var date = $('#jqxdateStart').jqxDateTimeInput('getDate');
-	              $('#jqxdateEnd').jqxDateTimeInput('setDate', date);
-	          });
 
 			
 			//file block
 			$("#addFileBlock").on("click",function(){
-				let block = $(`<div class="input-group fileBlock" style='display:inline-flex; padding:2px;'><div class="custom-file col-sm-10" style='display:inline;'><input type="file" class="approvalFiles" name='attachedfiles'></div><div class="input-group-append col-sm-2" style='display:inline;'><button class="btn btn-danger btn-sm fileDel" type="button">삭제</button></div></div>`);
+				let block = $(`<div class="input-group fileBlock" style='display:inline-flex; padding:2px;'><div class="custom-file col-sm-10" style='display:inline;'><input type="file" class="biz_Files" name='attachedfiles'></div><div class="input-group-append col-sm-2" style='display:inline;'><button class="btn btn-danger btn-sm fileDel" type="button">삭제</button></div></div>`);
 				$(".fileContainer").append(block);
 			})
 			$(".fileContainer").on("click",".fileDel",function(){
@@ -380,18 +325,9 @@ th{width:50px;}
 			});
 			//문서종류 변경 이벤트
 			$("#docsType").on("change",function(){
-				if(this.value==3){
-					$("#breakType").css("display","inline");
-					$(".breakInfo").css("display","inline");
-					$(".detInfo").css("display","none");
-				}else{
-					$("#breakType").css("display","none");
-					$(".breakInfo").css("display","none");
-					$(".detInfo").css("display","inline");
-				}
 				
 				$.ajax({
-					url : "/approval/getTemplate.approval?app_docs_type="+this.value,
+					url : "/bizlog/getTemplate.bizlog?biz_type_code="+this.value,
 					method : 'POST',
 					success : function(template){
 						$('.summernote').summernote('code', template);
@@ -423,11 +359,7 @@ th{width:50px;}
 			}
 			
 			//sign_type의 객체를 arr형태로 저장
-			let sign_type_arr = new Array();
-			<c:forEach items="${adtList}" var="item" varStatus="i">
-				let arr${i.count}= ["${item.app_sign_type_code}","${item.app_sign_type_name}"];
-				sign_type_arr.push(arr${i.count});	
-			</c:forEach>
+			let sign_type_arr = [["0","결재자"],["1","참조자"]]
 			////조직도에서 인원 클릭시 추가 
 			$(".modalLi").on("click",function(){
 				//이미 같은 사람이 추가되어 있는지 확인
@@ -444,7 +376,7 @@ th{width:50px;}
 				//왼쪽 상세창에 추가
 				let index;
 				if(Object.keys(sign_info_Json).length==0){index=1}else{index=Object.keys(sign_info_Json).length}
-				let sDept = $(this).parent().parent().children(".caret1").html();
+				let sDept = $(this).children(".modalDept").val();
 				let sPosi = $(this).children(".modalPosi").val();
 				let block = $("<tr class=selectedBlock>");
 				let dept = $("<td class='selectedDept'>");
@@ -466,9 +398,9 @@ th{width:50px;}
 					}
 					signType.append(sSt);
 				//form으로 보낼 데이터 작성	
-				let hId = $("<input type=hidden name='approval_signDTOList["+index+"].app_sign_id' value='"+$(this).children(".modalId").val()+"' class='hId'>");
-				let hOrder = $("<input type=hidden name='approval_signDTOList["+index+"].app_sign_order' value='"+(ordercount)+"' class='hOrder'>");
-				let hSignType = $("<input type=hidden name='approval_signDTOList["+index+"].app_sign_type_code' value='"+0+"' class='hSignType'>");
+				let hId = $("<input type=hidden name='biz_signDTOList["+index+"].biz_sign_id' value='"+$(this).children(".modalId").val()+"' class='hId'>");
+				let hOrder = $("<input type=hidden name='biz_signDTOList["+index+"].biz_sign_order' value='"+(ordercount)+"' class='hOrder'>");
+				let hSignType = $("<input type=hidden name='biz_signDTOList["+index+"].biz_sign_type_code' value='"+0+"' class='hSignType'>");
 				block.append(order);block.append(dept);block.append(name);block.append(posi);block.append(signType);block.append(del);block.append(hId);block.append(hOrder);block.append(hSignType);
 				$("#selectedContainer").prepend(block);
 				
@@ -499,9 +431,9 @@ th{width:50px;}
 				let hsignTypeList = $(".hSignType")
 				//배열 index값 수정
 				for(var i = 0; i<orderList.length;i++){
-					horderList[i].name = "approval_signDTOList["+i+"].app_sign_order";
-					hidList[i].name = "approval_signDTOList["+i+"].app_sign_id";
-					hsignTypeList[i].name = "approval_signDTOList["+i+"].app_sign_type_code";
+					horderList[i].name = "biz_signDTOList["+i+"].biz_sign_order";
+					hidList[i].name = "biz_signDTOList["+i+"].biz_sign_id";
+					hsignTypeList[i].name = "biz_signDTOList["+i+"].biz_sign_type_code";
 				}
 				//order값 수정
 				fnRenumbering();
@@ -514,6 +446,8 @@ th{width:50px;}
 				let changed = $(this).closest(".selectType").val();
 				sign_info_Json[sName][1] = changed;
 				$(this).closest(".hSignType").val(changed);
+				
+				//참조자로 변경 시
 				if(changed==1){
 					let order = $(this).closest(".selectedBlock").children(".selectedOrder");
 					order.text('참조');
@@ -524,14 +458,8 @@ th{width:50px;}
 					block.clone().appendTo("#selectedContainer");
 					$(".selectType").last().val("1").prop("selected",true);
 					block.remove();
-				}else if(changed==2){
-					 $(this).closest(".selectedBlock").children(".selectedOrder").text(1);
-					$(this).closest(".selectedBlock").children(".hSignType").val(2);
-					
-				}else{
-					$(this).closest(".selectedBlock").children(".selectedOrder").text(1);
-					$(this).closest(".selectedBlock").children(".hSignType").val(0);
 				}
+				//참조자 -> 결재자로 변경 시
 				if(changed!=1 && wasCC==-1){
 					let block = $(this).closest(".selectedBlock");
 					block.clone().prependTo("#selectedContainer");

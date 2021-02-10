@@ -1,6 +1,7 @@
 package kh.gw.controller;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import kh.gw.dto.TnA_objectionDTO;
+import kh.gw.dto.TnA_statusDTO;
 import kh.gw.service.TnAService;
 
 @Controller
@@ -76,58 +79,131 @@ public class TnAController {
 	}
 	
 	@RequestMapping("tnaMyHistoryPage.tna")
-	// 근퇴조정신청 페이지 접속
+	// 근태조정신청 페이지 접속
 	public String tnaMyHistoryPage(HttpServletRequest request, Model model) {
 		// 세션 id값 가져오기
 		String sessionId = (String)session.getAttribute("id");
+		String selectYearValue = request.getParameter("selectYearValue");
 		
-//		// 출근시간 조회
-//		Map<String, Object> attendanceValue = tservice.getAttendanceTime(sessionId);
-//		// 퇴근시간 조회
-//		Map<String, Object> leaveWorkValue = tservice.getLeaveWorkTime(sessionId);
-//		// 출퇴근시간 리스트 조회
-//		List<Map<String, Object>> tnaCalendarList = tservice.getTnaCalendarList(sessionId);
+		// 년도값 판별
+		selectYearValue = tservice.yearVerify(selectYearValue);
 		
-//		model.addAttribute("tnaCalendarList", tnaCalendarList);
+		// 근태상태 리스트 값 조회 (지각,조퇴...)
+		List<TnA_statusDTO> tnaStatusList = tservice.getTnaStatusList();
+		// 나의 근태내역 출근 월별 카운트
+		List<Map<String, Object>> tnaStartCountList = tservice.getTnaStartCountList(sessionId,selectYearValue);
+		// 나의 근태내역 출근 합계 카운트
+		List<Map<String, Object>> tnaStartCountSumList = tservice.getTnaStartCountSumList(sessionId,selectYearValue);
+		// 나의 근태내역 퇴근 월별 카운트
+		List<Map<String, Object>> tnaEndCountList = tservice.getTnaEndCountList(sessionId,selectYearValue);
+		// 나의 근태내역 퇴근 합계 카운트
+		List<Map<String, Object>> tnaEndCountSumList = tservice.getTnaEndCountSumList(sessionId,selectYearValue);
+		// 출퇴근 select 리스트 조회
+		List<Map<String, Object>> tnaSelectYearList = tservice.getTnaSelectYearList(sessionId);
+		
+		
+		model.addAttribute("tnaStatusList", tnaStatusList);
+		model.addAttribute("tnaStartCountList", tnaStartCountList);
+		model.addAttribute("tnaStartCountSumList", tnaStartCountSumList);
+		model.addAttribute("tnaEndCountList", tnaEndCountList);
+		model.addAttribute("tnaEndCountSumList", tnaEndCountSumList);
+		model.addAttribute("tnaSelectYearList", tnaSelectYearList);
+		
+		model.addAttribute("selectYearValue", selectYearValue);
 		
 		return "/tna/user/tnaMyHistory";
 	}
 	
 	@RequestMapping("tnaFixRequestPage.tna")
-	// 근퇴조정신청 페이지 접속
+	// 근태조정신청 페이지 접속
 	public String tnaFixRequestPage(HttpServletRequest request, Model model) {
 		// 세션 id값 가져오기
 		String sessionId = (String)session.getAttribute("id");
+		int tna_seq = Integer.parseInt(request.getParameter("tna_seq"));
+		String tna_status = request.getParameter("tna_status");
 		
-//		// 출근시간 조회
-//		Map<String, Object> attendanceValue = tservice.getAttendanceTime(sessionId);
-//		// 퇴근시간 조회
-//		Map<String, Object> leaveWorkValue = tservice.getLeaveWorkTime(sessionId);
-//		// 출퇴근시간 리스트 조회
-//		List<Map<String, Object>> tnaCalendarList = tservice.getTnaCalendarList(sessionId);
+		// 이미 해당 값에 대해 근태조정신청 중복여부체크
+		Map<String, Object> dto = tservice.tnaCheckOverlap(tna_seq,tna_status);
+
+
+		// 변경할 출퇴근시간 값 조회 (지각,조퇴...)
+		Map<String, Object> tnaCalendarValue = tservice.getTnaCalendarValue(sessionId,tna_seq);
+		// 근태상태 리스트 값 조회
+		List<TnA_statusDTO> tnaStatusList = tservice.getTnaStatusList();
 		
-//		model.addAttribute("tnaCalendarList", tnaCalendarList);
+		
+		model.addAttribute("tnaStatusList", tnaStatusList);
+		model.addAttribute("tnaCalendarValue", tnaCalendarValue);
+		model.addAttribute("tna_status", tna_status);
+		
+		if (dto != null) {
+			model.addAttribute("dto", dto);
+			return "/tna/user/tnaFixOverlap";
+		}
 		
 		return "/tna/user/tnaFixRequest";
 	}
 	
-	@RequestMapping("tnaFixHistoryPage.tna")
-	// 근퇴조정신청 페이지 접속
-	public String tnaFixHistoryPage(HttpServletRequest request, Model model) {
+	@RequestMapping("tnaFixRequestSubmit.tna")
+	// 근태조정신청 제출 
+	public String tnaFixRequestSubmit(HttpServletRequest request, Model model) throws ParseException {
 		// 세션 id값 가져오기
 		String sessionId = (String)session.getAttribute("id");
 		
-//		// 출근시간 조회
-//		Map<String, Object> attendanceValue = tservice.getAttendanceTime(sessionId);
-//		// 퇴근시간 조회
-//		Map<String, Object> leaveWorkValue = tservice.getLeaveWorkTime(sessionId);
-//		// 출퇴근시간 리스트 조회
-//		List<Map<String, Object>> tnaCalendarList = tservice.getTnaCalendarList(sessionId);
+		int tna_obj_changed_code = Integer.parseInt(request.getParameter("tna_obj_changed_code"));
+		String tna_obj_reason = request.getParameter("tna_obj_reason");
+		int tna_seq = Integer.parseInt(request.getParameter("tna_seq"));
+		String tna_obj_status = request.getParameter("tna_obj_status");
+		int tna_obj_ori_status_code = Integer.parseInt(request.getParameter("tna_obj_ori_status_code"));
+		String tna_obj_time_string = request.getParameter("tna_obj_time");
 		
-//		model.addAttribute("tnaCalendarList", tnaCalendarList);
+		SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		java.util.Date utilDate = fm.parse(tna_obj_time_string);
+
+		TnA_objectionDTO dto = new TnA_objectionDTO();
+		dto.setTna_obj_changed_code(tna_obj_changed_code);
+		dto.setTna_obj_reason(tna_obj_reason);
+		dto.setTna_seq(tna_seq);
+		dto.setTna_obj_status(tna_obj_status);
+		dto.setTna_obj_ori_status_code(tna_obj_ori_status_code);
+		dto.setTna_obj_time(utilDate);
+//		dto.setTna_obj_time(tna_obj_time);
+		
+		
+//		System.out.println(dto.getTna_obj_ori_status_code());
+//		System.out.println(dto.getTna_obj_time());
+		
+		// 정정신청값 DB에 제출
+		int result = tservice.tnaFixRequestInput(dto,sessionId);
+
+		return "/tna/user/tnaFixRequestResult";
+	}
+	
+	@RequestMapping("tnaFixHistoryPage.tna")
+	// 근태조정신청 페이지 접속
+	public String tnaFixHistoryPage(HttpServletRequest request, Model model) {
+		// 세션 id값 가져오기
+		String sessionId = (String)session.getAttribute("id");
+		// 네비게이션 페이지 값
+		String cpage = request.getParameter("cpage");
+
+		// 페이지 값이 없을경우 1로 세팅
+		cpage = tservice.cpageVerify(cpage);
+		
+		// 근태조정신청 내역 리스트
+		List<Map<String, Object>> tnaFixRequestList = tservice.getTnaFixRequestList(sessionId, Integer.parseInt(cpage));
+		// 네비게이션 바
+		String navi = tservice.getTnaFixRequestNavi(sessionId, Integer.parseInt(cpage));
+		
+
+		model.addAttribute("tnaFixRequestList", tnaFixRequestList);
+		model.addAttribute("navi", navi);
+		model.addAttribute("cpage", cpage);
 		
 		return "/tna/user/tnaFixHistory";
 	}
+	
+
 	
 	
 
