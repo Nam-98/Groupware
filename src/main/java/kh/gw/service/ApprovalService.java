@@ -41,8 +41,8 @@ public class ApprovalService {
 	public void resetConfig() {
 		//매일 자정에 count, date 초기화
 		ApprovalConfigurator.docsCount = 1;
-
 	}
+	
 	public List<Approval_typeDTO> allDocsType (){
 		return adao.allDocsType();
 	}
@@ -351,9 +351,9 @@ public class ApprovalService {
 
 		// 객체 닫기
 		fw.close();
-		
 		return sFileName;
 	}
+	
 	
 	public String getHtmlText (int app_seq) throws Exception {
 	      //----------------------html파일 전달하기

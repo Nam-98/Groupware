@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>전자결재 작성</title>
+<title>업무일지 작성</title>
 	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <!-- 아이콘 fontawesome -->
     <script src="https://kit.fontawesome.com/b1e233372d.js"></script>
@@ -203,11 +203,6 @@ th{width:50px;}
 														<option value="${dto.app_type_code}">${dto.app_type_name}</option>
 													</c:forEach>
 												</select>
-												<select class="form-control form-select-sm" id="breakType" name="break_code" style='width:auto;display:none;'>
-													<c:forEach items="${breakType}" var="dto">
-														<option value="${dto.break_code}">${dto.break_name}</option>
-													</c:forEach>
-												</select>
 												<button type=button id="addSign" class="btn btn-outline-dark btn-sm pull-right" data-bs-toggle="tooltip" data-bs-placement="right" title="결재자를 추가하려면 이 버튼을 누르세요">
 												결재선 선택 <span class='badge badge-pill badge-primary' id="signCount">1</span>						
 												</button>
@@ -251,21 +246,17 @@ th{width:50px;}
 
 								<!-- pannel 내부의 내용 작성 div-->
 								<div class="panel-body">
-									
-									<div class=breakInfo style="display:none" >
+									<div class=dateInfo>
 									<div class="row">
-										<div class="col-md-2 col-sm-6"><h5>휴가 시작일</h5></div>
+										<div class="col-md-2 col-sm-6"><h5>업무일</h5></div>
 										<div class="col-md-3 col-sm-6">
 											<div id='jqxdateStart' class='jqxdate'></div>
 											<input type=hidden id=breakSrt name='strStartDate'> 
 										</div>
-										<div class="col-md-2 col-sm-6"><h5>휴가 종료일</h5></div>
 										<div class="col-md-3 col-sm-6"><div id='jqxdateEnd'class='jqxdate'></div>
 										<input type=hidden id=breakEnd name='strEndDate'>
 										</div>
-										<div class="col-md-2 col-sm-6"><button type=button id='setDate'>종료일 자동설정</button></div>
 									</div>
-									
 								</div>
 									<div class="row">
 										<textarea class="summernote"  ></textarea>
@@ -551,17 +542,6 @@ th{width:50px;}
 				let stList = $(".selectType");
 				let ordercount = 1;
 				for(var i = orderList.length-1; i>=0;i--){
-					//결재구분이 '참조'인 사람을 제외하고 order를 정리한다. 
-					if(orderList[i].innerText=='참조'){continue;}
-					//협의라면 내 아랫순번의 결재순서와 같게 한다. 
-					if(stList[i].value==2){
-						//만약 내 이전 순번이 첫 결재자라면 아랫순번과 같은 결재 순서를 가지진 않는다. 
-						if(stList[i+1].value!=2){
-							ordercount++;
-						}
-						ordercount--;
-						
-					}
 						horderList[i].value = ordercount;
 						orderList[i].innerText = ordercount;
 						ordercount++;					
