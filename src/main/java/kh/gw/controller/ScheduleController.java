@@ -1,7 +1,9 @@
 package kh.gw.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -31,7 +33,17 @@ public class ScheduleController {
 	
 	//-------------월간일정 들어오기
 	@RequestMapping("monthSchedule.schedule")
-	public String monthSchedule() throws Exception{
+	public String monthSchedule(HttpServletRequest request, Model m) throws Exception{
+		 
+		 List<ScheduleDTO> list = sservice.listAllSchedule();
+		 
+		 sservice.addDateStr(list);
+		 System.out.println(list.get(0).getSch_start_date_sc());
+		 System.out.println(list.get(0).getSch_end_date_sc());
+		 System.out.println(list.get(0).getSch_title());
+		 
+		 m.addAttribute("list", list);
+		 
 		return "/schedule/monthschedule";
 	}
 	
@@ -69,15 +81,21 @@ public class ScheduleController {
 		return "/schedule/schedulelist";
 	}
 	
-	//-------------일정 리스트 만들기
+	//-------------일정 리스트 게시판 형식
 	@RequestMapping("scheduleListProc.schedule")
-	public String scheduleListProc(Model m, HttpServletRequest request, ScheduleDTO dto) throws Exception{
-		String sessionId = (String)session.getAttribute("id");
-		List<ScheduleDTO>list = sservice.scheduleListProc(dto.getSch_start_date());
-		
-		m.addAttribute("list",list);
+	public String scheduleListProc(Model m, HttpServletRequest request) throws Exception{
+		 String cpage = request.getParameter("cpage");
+		 
+		 List<ScheduleDTO> list = sservice.listByCpage(Integer.parseInt(cpage));
+		 String navi = sservice.getListNavi(Integer.parseInt(cpage));
+		 
+		 sservice.addDateStr(list);
+		 System.out.println(list.get(0).getSch_start_date_sc());
+		 System.out.println(list.get(0).getSch_end_date_sc());
+		 System.out.println(list.get(0).getSch_title());
+		 m.addAttribute("list", list);
+		 m.addAttribute("navi", navi);
+		 
 		return "/schedule/schedulelist";
 	}
-	
-	
 }

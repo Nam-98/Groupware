@@ -28,6 +28,11 @@
    <script src="/assets/scripts/klorofil-common.js"></script>
 <meta charset="UTF-8">
 <title>스케쥴 리스트</title>
+<style>
+.navi{
+	text-align: center;
+}
+</style>
 </head>
 <body>
 <div class="panel panel-default">
@@ -36,7 +41,6 @@
   <div class="panel-body">
   </div>
   <!-- Table -->
-  <c:forEach var="i" items="${list }">
   <table class="table">
   	<thead>
   		<tr>
@@ -47,15 +51,17 @@
   		</tr>
     </thead>
     <tbody>
+    <c:forEach var="i" items="${list }">
     	<tr>
     		<td>${i.sch_seq }</td>
     		<td>${i.sch_title }</td>
-    		<td>${i.sch_start_date }</td>
-    		<td>${i.sch_end_date }</td>
+    		<td>${i.sch_start_date_sc }</td>
+    		<td>${i.sch_end_date_sc }</td>
     	</tr>
+   	</c:forEach>
     </tbody>
   </table>
-  </c:forEach>
 </div>
+ <div class="navi">${navi }</div>
 </body>
 </html>

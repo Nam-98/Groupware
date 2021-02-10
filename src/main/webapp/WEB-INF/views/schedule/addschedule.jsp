@@ -68,7 +68,7 @@
 										</thead>
 										<tbody>
 											<tr>
-												<th scope="row">일 정 명</th>
+												<th scope="row">일 정 명</th><input type="hidden" name="sch_id" value="${sessionScope.id }">
 												<td><input type="text" class="textContents" name="sch_title" required placeholder="일정명을 입력하세요."></td>
 											</tr>
 											<tr>
@@ -78,8 +78,8 @@
 											<tr>
 												<th scope="row">일 자</th>
 												<td>
-												<input required type="date" id="date3" name="sch_start_date_sc" size="12" />&nbsp&nbsp
-												<input required type="date" id="date2" name="sch_end_date_sc" size="12" /></td>
+												<input required type="date" id="date3" name="sch_start_date_sc" size="12"/>&nbsp&nbsp
+												<input required type="date" id="date2" name="sch_end_date_sc" size="12"/></td>
 											</tr>
 										</tbody>
 									</table>
@@ -96,11 +96,8 @@
 			</div>
 			
 			<script>
-// 				document.getElementById("addSubmit").onclick=function(){
-// 					location.href="#";
-// 				}
 				document.getElementById("addCancel").onclick=function(){
-					location.href="#";
+					window.close();
 				}
 			</script>
 </body>

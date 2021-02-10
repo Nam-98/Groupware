@@ -95,7 +95,7 @@
                         <li class="nav-item"><a class="nav-link active" aria-current="근태관리" href="/tna/tnaCheckPage.tna">근태관리</a></li>
                         <li class="nav-item"><a class="nav-link active" aria-current="조직관리" href="/member/orgnizationChart.member">조직관리</a></li>
                         <li class="nav-item"><a class="nav-link active" aria-current="프로젝트관리" href="/project/enterProjectList.project?cpage=1">프로젝트관리</a></li>
-                        <li class="nav-item"><a class="nav-link active" aria-current="커뮤니티" href="/write/enterCommunity.write">커뮤니티</a></li>
+                        <li class="nav-item"><a class="nav-link active" aria-current="커뮤니티" href="/write/boardList.write?cpage=1">커뮤니티</a></li>
                         <li class="nav-item"><a class="nav-link active" aria-current="마이페이지" href="/member/enterMyPage.member">마이페이지</a></li>
                      </ul>
                   </div>
@@ -140,7 +140,7 @@
          </div>
          <div class="col-1 iconbox d-lg-inline d-none">
             <i class="fas fa-users fa-4x"></i>
-            <h6>커뮤니티</h6><input type=hidden value="/write/enterCommunity.write">
+            <h6>커뮤니티</h6><input type=hidden value="/write/boardList.write?cpage=1">
          </div>
          <div class="col-1 iconbox d-lg-inline d-none">
             <i class="fas fa-id-card fa-4x"></i>

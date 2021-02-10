@@ -9,12 +9,13 @@ public class ScheduleDTO {
 	private Date sch_start_date;
 	private Date sch_end_date;
 	private String sch_type;
+	private String sch_id;
 	private String sch_start_date_sc;
 	private String sch_end_date_sc;
 	
 	public ScheduleDTO() {}
 	public ScheduleDTO(int sch_seq, String sch_title, String sch_contents, Date sch_start_date, Date sch_end_date,
-			String sch_type, String sch_start_date_sc, String sch_end_date_sc) {
+			String sch_type, String sch_id, String sch_start_date_sc, String sch_end_date_sc) {
 		super();
 		this.sch_seq = sch_seq;
 		this.sch_title = sch_title;
@@ -22,6 +23,7 @@ public class ScheduleDTO {
 		this.sch_start_date = sch_start_date;
 		this.sch_end_date = sch_end_date;
 		this.sch_type = sch_type;
+		this.sch_id = sch_id;
 		this.sch_start_date_sc = sch_start_date_sc;
 		this.sch_end_date_sc = sch_end_date_sc;
 	}
@@ -60,6 +62,12 @@ public class ScheduleDTO {
 	}
 	public void setSch_type(String sch_type) {
 		this.sch_type = sch_type;
+	}
+	public String getSch_id() {
+		return sch_id;
+	}
+	public void setSch_id(String sch_id) {
+		this.sch_id = sch_id;
 	}
 	public String getSch_start_date_sc() {
 		return sch_start_date_sc;

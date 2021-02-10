@@ -85,11 +85,12 @@
                <div class="panel panel-headline demo-icons">
                   <div class="panel-heading">
                   <h3 class="panel-title">월 간 일 정</h3>
-                  <input type="button" id="addSchedule" class="btn btn-gray btn-xs" value="일정 추가하기"> 
+                  <input type="button" id="addSchedule" class="btn btn-gray btn-xs" value="일정 추가하기">
                   </div>
                   <div class="panel-body">
                      <div id='calendar' class="col-6"></div>
                   </div>
+                  <button id="golist">리스트</button>
                </div>
                
             </div>
@@ -101,26 +102,21 @@
 		<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
    </div>
    <!-- END WRAPPER -->
-   
+   <script>
+   	document.getElementById("golist").onclick=function(){
+   		location.href="/schedule/scheduleListProc.schedule?cpage=1";
+   	}
+   </script>
    <script>
    
       document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
         
-        
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-        	
-//         	dayMaxEventRows: true, // for all non-TimeGrid views
-//         	  views: {
-//         	    timeGrid: {
-//         	      dayMaxEventRows: 6 // adjust to 6 only for timeGridWeek/timeGridDay
-//         	    }
-//         	  }
-        	
-        	 dateClick: function(info) {
-        		 	var popup='top=10, left=10, width=800, height=600, status=no, menubar=no, toolbar=no, resizable=no';
-        		 	window.open("/schedule/addSchedulePage.schedule", "popup", popup)
-        		  },
+        var calendar = new FullCalendar.Calendar(calendarEl, {        	
+//         	 dateClick: function(info) {
+//         		 	var popup='top=10, left=10, width=800, height=600, status=no, menubar=no, toolbar=no, resizable=no';
+//         		 	window.open("/schedule/addSchedulePage.schedule", "popup", popup)
+//         		  },
         
         	headerToolbar: {
 				left: '',
@@ -133,30 +129,34 @@
 				    {
 				      events: [
 				    	  <c:forEach var="i" items="${list }">
-				        {
-				          title  : '${i.sch_title }',
-				          start  : '${i.sch_start_date }',
-				          end    : '${i.sch_end_date }',
-				          url : '/schedule/scheduleList.schedule'
-				        }
+				    	  {
+					          title  : '${i.sch_title }',
+					          start  : '${i.sch_start_date_sc }',
+					          end    : '${i.sch_end_date_sc }',
+					          url : "/schedule/scheduleListProc.schedule?cpage=1"
+				    	  },
 				          </c:forEach>
+				    	  {
+					          title  : 'event1',
+					          start  : '2021-02-18',
+					          end    : '2021-02-22',
+					          url : "/schedule/scheduleListProc.schedule?cpage=1"
+				    	  }
 				      ],
 				      color: 'black',
-				      textColor: 'yellow',
-				      	
-				    	eventClick: function(info) {
-				    		    info.jsEvent.preventDefault(); // don't let the browser navigate
-				    		    if (info.event.url) {
-				    		      if(confirm("일정 리스트를 확인하겠습니까?")){
+				      textColor: 'yellow',  	
+				     eventClick: function(info) {
+				    	info.jsEvent.preventDefault(); // don't let the browser navigate
+				    		if (info.event.url) {
+				    			if(confirm("일정 리스트를 확인하겠습니까?")){
 				    		    	  var options='top=10, left=10, width=800, height=600, status=no, menubar=no, toolbar=no, resizable=no';
-					    		      window.open(info.event.url, "popup", options);
-				    		      }
-				    		    }
-				    		  }
+					    		      window.open(info.event.url,"popup",options);
+				    			}
+				    		}
+				    	}
 				    }
 				]
         });
-        
         calendar.render();
       });
       
