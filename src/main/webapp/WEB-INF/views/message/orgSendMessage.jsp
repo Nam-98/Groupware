@@ -62,9 +62,9 @@ $(document).ready(function() {
               ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
               ['color', ['forecolor','color']],
               ['table', ['table']],
-              ['para', ['ul', 'ol', 'paragraph']],
+              ['para', ['ul']],
               ['height', ['height']],
-              ['insert',['picture']],
+              ['insert',['picture','link','video']],
               ['view', ['fullscreen', 'help']]
             ],
           fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋음체','바탕체'],
@@ -163,14 +163,14 @@ $(document).ready(function() {
 			    
 			    <div class="orgInfo">
 			    <div class="panel panel-headline demo-icons">
-			   <div class="panel-heading">
+			    <div class="panel-heading">
 							<h3 class="panel-title">쪽 지 작 성</h3>
 						</div>
 			<div class="panel-body">	
 <div style="width: 80%;">
-	<form method="post" enctype="multipart/form-data" action="/message/msgProc.message?msg_receiver=${dto.id }">
+	<form method="post" enctype="multipart/form-data" action="/message/msgProc.message?msg_receiver=${msg_receiver }">
 		<div>
-		<b>받는 사람 :</b> <input class="msgInput" type="text" name="msg_receiver_name" style="width: 85%;" value="${dto.dept_name}  ${dto.name} " readonly/></div><br>
+		<b>받는 사람 :</b> <input class="msgInput" type="text" name="msg_receiver_name" style="width: 85%;" value="${msg_receiver_name} " readonly/></div><br>
 		<div>
 		<b>보낸 사람 :</b> <input class="msgInput" type="text" name="msg_sender_name" style="width: 85%;" value="${myInfo.DEPT_NAME}  ${myInfo.NAME} " readonly/></div>
 		<br>
@@ -203,7 +203,7 @@ $(document).ready(function() {
 	<!-- END WRAPPER -->
 	
 </body>
-
+s
 <script>
 function goWrite(frm) {
 	var title = frm.title.value;

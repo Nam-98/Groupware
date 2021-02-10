@@ -149,7 +149,7 @@
       							</span>
       							</div>
       							</th>
-								<td><a href="/message/msgReceiveView.message?msg_seq=${i.msg_seq}&msg_receive_date=${msg_receive_date_str }">${i.msg_title }</a></td>
+								<td><a href="/message/msgReceiveView.message?msg_seq=${i.msg_seq}&msg_receive_date_str=${msg_receive_date_str }">${i.msg_title }</a></td>
 								<td>${i.msg_sender_name }</td>
 								<td>${i.msg_sender_date_str }</td>
 								<td>${i.msg_receive_date_str }</td>

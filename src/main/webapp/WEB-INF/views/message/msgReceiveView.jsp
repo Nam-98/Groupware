@@ -117,8 +117,10 @@
 	}
 	
 	document.getElementById("reply").onclick = function() {
-		location.href = "/message/msgReply.message?msg_sender_name=${mdto.msg_sender_name }&msg_receiver_name=${mdto.msg_receiver_name}&msg_receiver=${mdto.msg_receiver}";
+		location.href = "/message/msgReply.message?msg_receiver_name=${mdto.msg_sender_name }&msg_sender_name=${mdto.msg_receiver_name}&msg_receiver=${mdto.msg_receiver}";
 	}
 </script>
+
+
 </body>
 </html>

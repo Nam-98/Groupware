@@ -88,7 +88,7 @@
                      <ul class="navbar-nav">
                         <li class="nav-item adminitem"><a class="nav-link active" aria-current="관리자" href="/nex/admin.nexacro">관리자</a></li>
                         <li class="nav-item"><a class="nav-link active" aria-current="전자결재" href="/approval/toAppMainView.approval">전자결재</a></li>
-                        <li class="nav-item"><a class="nav-link active" aria-current="업무일지" href="#">업무일지</a></li>
+                        <li class="nav-item"><a class="nav-link active" aria-current="업무일지" href="/bizlog/toMainPage.bizlog">업무일지</a></li>
                         <li class="nav-item"><a class="nav-link active" aria-current="쪽지함" href="/message/msgInBoxList.message?cpage=1">쪽지함</a></li>
                         <li class="nav-item"><a class="nav-link active" aria-current="일정관리" href="#">일정관리</a></li>
                         <li class="nav-item"><a class="nav-link active" aria-current="웹하드" href="#">웹하드</a></li>
@@ -112,7 +112,7 @@
          </div>
          <div class="col-1 iconbox d-lg-inline d-none">
             <i class="fas fa-pen-square fa-4x"></i>
-            <h6>업무일지</h6><input type=hidden value="/">
+            <h6>업무일지</h6><input type=hidden value="/bizlog/toMainPage.bizlog">
          </div>
          <div class="col-1 iconbox d-lg-inline d-none">
             <i class="fas fa-envelope fa-4x"></i>
@@ -170,7 +170,7 @@
          <div class="col-lg-6 col-12">
             <div class="btn-group" role="group">
                <button type="button" class="btn btn-outline-primary" id=btnMsg>
-                  Messages <span class="badge rounded-pill bg-danger">숫자</span>
+                  Messages <span class="badge rounded-pill bg-danger" id="msg"></span>
                </button>
                <button type="button" class="btn btn-outline-primary" id=btnApp>Approval</button>
             </div>
@@ -179,6 +179,10 @@
          </div>
       </div>
    </div>
+   
+   <script>
+   		document.getElementById("msg").innerHTML = ${result};
+   </script>
 
    <script type="text/javascript">
       document.getElementById("logout").onclick = function() {
@@ -213,7 +217,6 @@
       }
    </script>
    <script>
->>>>>>> cdec4f9a2dbbbceb61a62c46d33d2d54c6e46253
    // 출퇴근 여부 (미완)
    let tnaData = JSON.parse(${isWork});
    let isWork = tnaData[status]
