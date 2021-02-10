@@ -9,29 +9,17 @@
 }
 .tableBox{
 	width: 100%;
-	height: 280px;
+	height: 330px;
 }
 .tableLine{
 	width: 100%;
-	height: 12%;
-}
-.tableLine>.tableTitle{
-	float: left;
-	width: 15%;
-	height: 100%;
-	text-align: center;
-}
-.tableLine>.tableValue{
-	float: left;
-	width: 85%;
-	height: 100%;
+	height: 9.09090909%;
 }
 .tableLine>.sector{
 	float: left;
 	width: 7.1428%;
 	height: 100%;
 }
-
 .componentBox{
 	text-align: right;
 }

@@ -104,7 +104,7 @@
 										<div class="tableTitle">변경요청 상태</div>
 										<div class="tableValue">
 											<c:forEach varStatus="none" var="list" items="${tnaStatusList}">
-												<c:if test='${list.tna_status_code == dto.tna_obj_changed_code}'>
+												<c:if test='${list.tna_status_code == dto.TNA_OBJ_CHANGED_CODE}'>
 													${list.tna_status_name }
 												</c:if>
 											</c:forEach>
@@ -113,7 +113,7 @@
 									<div class="tableLine tableReason">
 										<div class="tableTitle">사유</div>
 										<div class="tableValue">
-											<textarea name="tna_obj_reason" id="textReason" disabled>${dto.tna_obj_reason}</textarea>
+											<textarea name="tna_obj_reason" id="textReason" disabled>${dto.TNA_OBJ_REASON}</textarea>
 										</div>
 									</div>
 								</div>
@@ -141,7 +141,7 @@
 	<script>
 		// 이미 신청되었는지 중복체크
 		function checkOverlap() {
-			alert("이미 근태 조정 신청을 제출하였습니다.");
+// 			alert("이미 근태 조정 신청을 제출하였습니다.");
 // 			window.close();
 		}
 			
@@ -152,7 +152,7 @@
 			var clock = document.getElementById("requestDateDiv");
 			// 현재날짜
 // 			alert('${dto.tna_obj_reg_date}');
-			var now = new Date('${dto.tna_obj_reg_date}');
+			var now = new Date('${dto.TNA_OBJ_REG_DATE}');
 // 			var now = new Date('${dto.tna_obj_reg_date}');
 			// 요일출력 배열
 			var week = [ '일', '월', '화', '수', '목', '금', '토' ];

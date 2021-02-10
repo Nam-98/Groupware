@@ -16,6 +16,7 @@ import kh.gw.dao.TnADAO;
 import kh.gw.dto.TnADTO;
 import kh.gw.dto.TnA_objectionDTO;
 import kh.gw.dto.TnA_statusDTO;
+import kh.gw.statics.BoardConfigurator;
 import kh.gw.statics.TnAConfigurator;
 
 
@@ -213,7 +214,7 @@ public class TnAService {
 		return tdao.tnaFixRequestInput(dto);
 	}
 	
-	public TnA_objectionDTO tnaCheckOverlap(int tna_seq, String tna_status) {
+	public Map<String, Object> tnaCheckOverlap(int tna_seq, String tna_status) {
 		TnA_objectionDTO dto = new TnA_objectionDTO();
 		dto.setTna_seq(tna_seq);
 		dto.setTna_obj_status(tna_status);
@@ -247,6 +248,81 @@ public class TnAService {
 			selectYearValue = (nowDate.getYear()+1900) + "";
 		}
 		return selectYearValue;
+	}
+	
+	public String cpageVerify(String cpage) {
+		if (cpage == null) {
+			// 현재시간 가져옴
+			cpage = 1 + "";
+		}
+		return cpage;
+	}
+	
+	public List<Map<String, Object>> getTnaFixRequestList(String sessionId, int cpage) {
+		return tdao.getTnaFixRequestList(sessionId, cpage);
+	}
+	
+	// 네비게이터 메서드
+	public String getTnaFixRequestNavi(String sessionId, int cpage) {
+		int recordTotalCount = tdao.getTnaFixRequestListAll(sessionId).size();
+
+		// 총 페이지의 개수
+		int pageTotalCount;
+		if (recordTotalCount % BoardConfigurator.RECORD_COUNT_PER_PAGE > 0) {
+			pageTotalCount = recordTotalCount / BoardConfigurator.RECORD_COUNT_PER_PAGE + 1;
+		}else {
+			pageTotalCount = recordTotalCount / BoardConfigurator.RECORD_COUNT_PER_PAGE;
+		}
+		
+		// 보안처리코드 (가능한페이지가 아닌 음수,초과하는 페이지의 경우 처리)
+		if (cpage < 1) {
+			cpage = 1;
+		}else if (cpage > pageTotalCount){
+			cpage = pageTotalCount;
+		}
+		
+		
+		// 페이지 목록 도출
+		
+		// 현재페이지의 가장 앞에 들어가야 할 값을 도출하기 위해서 한페이지에 나타나는 개수로 나눠서 시작값을 뽑고 다시 곱해서 자리를 복귀한뒤 +1
+		// 단, 가장 마지막 페이지는 다음 페이지로 밀려나므로 한자리씩 당기기 위해 시작할때 현재페이지 -1을 한다
+		int startNavi = (cpage-1) / BoardConfigurator.NAVI_COUNT_PER_PAGE * BoardConfigurator.NAVI_COUNT_PER_PAGE + 1;
+		
+		// 마지막 페이지값 보정
+		int endNavi = startNavi + (BoardConfigurator.NAVI_COUNT_PER_PAGE - 1);
+		if(endNavi > pageTotalCount) {
+			endNavi = pageTotalCount;
+		}
+		
+		// 다음페이지로 가기 보정 < > (가장 앞과 뒤의 경우 존재하지 않도록)
+		boolean needPrev = true;
+		boolean needNext = true;
+		
+		if (startNavi == 1) {
+			needPrev = false;
+		}
+		if (endNavi == pageTotalCount) {
+			needNext = false;
+		}
+		
+		//StringBuilder 스트링 값 연결해서 한번에 뽑아내기
+		StringBuilder sb = new StringBuilder();
+		if(needPrev) {
+//			sb.append("<a href='/mypage/bookmarkWindow.mypage?cpage="+(startNavi-1) +"&search="+search+ "&option="+option+"'>< </a>");
+			sb.append("<a href='/tna/tnaFixHistoryPage.tna?cpage="+(startNavi-1)+"'> < </a>");
+		}
+		for (int i = startNavi; i <= endNavi; i++) {
+//			sb.append("<a href='/mypage/bookmarkWindow.mypage?cpage="+i+"&search="+search+ "&option="+option+"'>" + i + " </a>");
+			sb.append("<a href='/tna/tnaFixHistoryPage.tna?cpage="+i+"'>" + i + " </a>");
+		}
+		if(needNext) {
+//			sb.append("<a href='/mypage/bookmarkWindow.mypage?cpage="+(endNavi+1) +"&search="+search+ "&option="+option+"'> > </a>");
+			sb.append("<a href='/tna/tnaFixHistoryPage.tna?cpage="+(endNavi+1)+"'> > </a>");
+		}
+		
+		
+		
+		return sb.toString();
 	}
 
 	

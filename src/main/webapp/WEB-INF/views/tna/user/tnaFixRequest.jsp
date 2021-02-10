@@ -125,6 +125,9 @@
 								</div>
 								<input id="" type="hidden" value="${tnaCalendarValue.TNA_SEQ }" name="tna_seq">
 								<input id="" type="hidden" value="${tna_status }" name="tna_obj_status">
+								
+								<input id="tna_obj_ori_status_code" type="hidden" value="" name="tna_obj_ori_status_code">
+								<input id="tna_obj_time" type="hidden" value="" name="tna_obj_time">
 							</form>
 						</div>
 					</div>
@@ -190,9 +193,13 @@
 			if ("${tna_status}" == "start") {
 				var now = new Date('${tnaCalendarValue.TNA_START_TIME}');
 				nowStatus = '${tnaCalendarValue.TNA_START_STATUS_NAME}';
+				$('#tna_obj_ori_status_code').val('${tnaCalendarValue.TNA_START_STATUS_CODE}');
+				$('#tna_obj_time').val('${tnaCalendarValue.TNA_START_TIME}');
 			}else {
 				var now = new Date('${tnaCalendarValue.TNA_END_TIME}');
 				nowStatus = '${tnaCalendarValue.TNA_END_STATUS_NAME}';
+				$('#tna_obj_ori_status_code').val('${tnaCalendarValue.TNA_END_STATUS_CODE}');
+				$('#tna_obj_time').val('${tnaCalendarValue.TNA_END_TIME}');
 			}
 
 			// 요일출력 배열

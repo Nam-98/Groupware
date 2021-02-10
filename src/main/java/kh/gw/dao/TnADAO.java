@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import kh.gw.dto.TnADTO;
 import kh.gw.dto.TnA_objectionDTO;
 import kh.gw.dto.TnA_statusDTO;
+import kh.gw.statics.BoardConfigurator;
 
 @Repository
 public class TnADAO {
@@ -59,7 +60,7 @@ public class TnADAO {
 		return db.insert("TnA.tnaFixRequestInput", dto);
 	}
 	
-	public TnA_objectionDTO tnaCheckOverlap(TnA_objectionDTO dto) {
+	public Map<String, Object> tnaCheckOverlap(TnA_objectionDTO dto) {
 		return db.selectOne("TnA.tnaCheckOverlap", dto);
 	}
 	
@@ -102,7 +103,26 @@ public class TnADAO {
 		return db.selectList("TnA.getTnaSelectYearList", param);
 	}
 	
+	public List<Map<String, Object>> getTnaFixRequestList(String sessionId, int cpage) {
+		
+		int startRowNum = (cpage-1) * BoardConfigurator.RECORD_COUNT_PER_PAGE + 1;
+		int endRowNum = startRowNum + BoardConfigurator.RECORD_COUNT_PER_PAGE - 1;
+		
+		Map<String, Object> param = new HashMap<>();
+		param.put("sessionId", sessionId);
+		param.put("startRowNum", startRowNum);
+		param.put("endRowNum", endRowNum);
+		
+		return db.selectList("TnA.getTnaFixRequestList", param);
+	}
 	
+	public List<Map<String, Object>> getTnaFixRequestListAll(String sessionId) {
+		
+		Map<String, Object> param = new HashMap<>();
+		param.put("sessionId", sessionId);
+		
+		return db.selectList("TnA.getTnaFixRequestListAll", param);
+	}
 	
 	
 	

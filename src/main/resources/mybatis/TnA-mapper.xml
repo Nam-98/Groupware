@@ -42,9 +42,9 @@
 		select * from st.tna_status
 	</select>
 	<insert id="tnaFixRequestInput">
-		insert into st.tna_objection values(st.tna_obj_seq.nextval, #{tna_obj_reason}, #{tna_obj_id}, (SELECT CURRENT_DATE FROM DUAL), #{tna_obj_changed_code}, #{tna_seq}, #{tna_obj_status}, #{tna_obj_proc_status_code})
+		insert into st.tna_objection values(st.tna_obj_seq.nextval, #{tna_obj_reason}, #{tna_obj_id}, (SELECT CURRENT_DATE FROM DUAL), #{tna_obj_changed_code}, #{tna_seq}, #{tna_obj_status}, #{tna_obj_proc_status_code}, #{tna_obj_ori_status_code}, #{tna_obj_time})
 	</insert>
-	<select id="tnaCheckOverlap" resultType="kh.gw.dto.TnA_objectionDTO">
+	<select id="tnaCheckOverlap" resultType="java.util.HashMap">
 		select * from st.tna_objection where (tna_seq = #{tna_seq}) and (tna_obj_status = #{tna_obj_status})
 	</select>
 	<select id="getTnaStartCountList" resultType="java.util.HashMap">
@@ -61,6 +61,17 @@
 	</select>
 	<select id="getTnaSelectYearList" resultType="java.util.HashMap">
 		select to_char(tna_start_time, 'yyyy')"DATE" from st.tna where (tna_id = #{sessionId}) group by to_char(tna_start_time, 'yyyy') order by 1
+	</select>
+	<select id="getTnaFixRequestList" resultType="java.util.HashMap">
+		select * from 
+		(select a.*, row_number() over(order by a.tna_obj_seq desc)rn from (select objt.TNA_OBJ_SEQ, objt.TNA_OBJ_REASON, objt.TNA_OBJ_ID, objt.tna_obj_reg_date, objt.TNA_OBJ_CHANGED_CODE, stlist.TNA_STATUS_NAME, objt.tna_seq, objt.tna_obj_status, objt.TnA_obj_ori_status_code, stlist2.TNA_STATUS_NAME"TNA_ORI_STATUS_NAME", objt.TnA_obj_time, objt.tna_obj_proc_status_code, stat.TNA_OBJ_PROC_STATUS_NAME from st.tna_objection objt, st.tna_obj_proc_status stat, st.tna_status stlist, st.tna_status stlist2 where (objt.tna_obj_id = #{sessionId}) and (objt.tna_obj_proc_status_code = stat.TNA_OBJ_PROC_STATUS_CODE) and (objt.tna_obj_changed_code = stlist.TNA_STATUS_CODE) and (objt.TnA_obj_ori_status_code = stlist2.TNA_STATUS_CODE))
+		a)
+		where (rn between #{startRowNum} and #{endRowNum})
+	</select>
+	<select id="getTnaFixRequestListAll" resultType="java.util.HashMap">
+		select * from 
+		(select a.*, row_number() over(order by a.tna_obj_seq desc)rn from (select * from st.tna_objection obj where (obj.tna_obj_id = #{sessionId}))
+		a)
 	</select>
   	
   	
