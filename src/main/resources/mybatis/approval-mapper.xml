@@ -105,7 +105,7 @@
   	<select id="getAppForMainWrite" resultType="kh.gw.dto.ApprovalDTO">
 		select *
 		    from (select app_seq,app_docs_num,app_title,name,app_reg_date,app_status_name,app_type_name, row_number() over(order by app_seq desc)rn from st.approval join st.approval_type using(app_type_code) join st.approval_status using(app_status_code) join st.member on id=app_id where app_id = #{id})
-            where rn between 1 and 5
+            where rn between 1 and #{max}
     </select>
 	<select id="getAppForMainCC" resultType="kh.gw.dto.ApprovalDTO">
 		select app.app_seq,app_docs_num,app_title,name,app_reg_date,app_status_name,app_type_name 

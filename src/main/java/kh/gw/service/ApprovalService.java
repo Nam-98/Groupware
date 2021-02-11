@@ -485,9 +485,8 @@ public class ApprovalService {
 		return resultList;
 	}
 	
-	public List<ApprovalDTO> getMainWriteList(){
-		List<ApprovalDTO> list = adao.getAppForMainWrite((String)session.getAttribute("id"));
-		return adao.getAppForMainWrite((String)session.getAttribute("id"));		
+	public List<ApprovalDTO> getMainWriteList(int max){
+		return adao.getAppForMainWrite((String)session.getAttribute("id"),max);		
 	}
 	public List<ApprovalDTO> getMainCCList(){
 		return adao.getAppForMainCC((String)session.getAttribute("id"));		

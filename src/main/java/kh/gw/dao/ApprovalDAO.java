@@ -125,8 +125,11 @@ public class ApprovalDAO {
 	public int totalSign(int app_seq) {
 		return db.selectOne("Approval.totalSign", app_seq);
 	}
-	public List<ApprovalDTO> getAppForMainWrite(String id){
-		return db.selectList("Approval.getAppForMainWrite", id);
+	public List<ApprovalDTO> getAppForMainWrite(String id, int max){
+		HashMap<String, Object> map = new HashMap();
+		map.put("id", id);
+		map.put("max", max);
+		return db.selectList("Approval.getAppForMainWrite", map);
 	}
 	public List<ApprovalDTO> getAppForMainCC(String id){
 		return db.selectList("Approval.getAppForMainCC", id);
