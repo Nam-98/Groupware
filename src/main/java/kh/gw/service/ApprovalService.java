@@ -3,6 +3,7 @@ package kh.gw.service;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -26,7 +27,7 @@ import kh.gw.dto.Approval_signDTO;
 import kh.gw.dto.Approval_sign_typeDTO;
 import kh.gw.dto.Approval_typeDTO;
 import kh.gw.statics.ApprovalConfigurator;
-import kh.gw.statics.AppSeqComparator;
+import kh.gw.statics.ApprovalComparator;
 
 @Service
 public class ApprovalService {
@@ -160,20 +161,29 @@ public class ApprovalService {
 
 	}
 	public List<ApprovalDTO> getMySignedList(int cPage){
-		List<Approval_signDTO> signList = adao.getMySignedApp((String)session.getAttribute("id"));
+		//올라간 기안 중 내가 결재라인에 포함되어 있는 모든 내역의 Seq를 들고온다.(참조 제외)
+		List<Approval_signDTO> signList = adao.getMySignApp((String)session.getAttribute("id"));
+		List<Integer> confirmList =  new ArrayList<Integer>(); 
 		List<Integer> seqList =  new ArrayList<Integer>(); 
 		List<ApprovalDTO> resultList = new ArrayList<ApprovalDTO>();
-		if(seqList.size()==0) {
+		if(signList.size()==0) {
 			return resultList;}
 		
-		//올라간 기안 중 내가 결재라인에 포함되어 있는 모든 내역의 Seq를 들고온다.(참조 제외)
 		for (Approval_signDTO dto : signList) {
-			//내가 결재 완료한 내역을 넣음
-				if(dto.getApp_sign_date()!=null) {
-					seqList.add(dto.getApp_seq());
-				}
+			
+			if(dto.getApp_sign_date()==null){
+				//결재하지 않은 내역이라면
+				//내가 결재하기 전에 해당 내역이 반송된 것인지 확인하기 위한 리스트에 app_seq를 추가함
+				confirmList.add(dto.getApp_seq());
+			}else if(dto.getApp_sign_date()!=null) {
+				//내가 결재 완료한 내역을 넣음
+				seqList.add(dto.getApp_seq());
+			}
 		}
-
+		
+		//내가결재하지 않았는데 반송된 내역도 approval을 뽑아올 내역에 추가한다.
+		for(int seq : adao.confirmReject(confirmList)) {
+			seqList.add(seq);}
 
 		//cPage기준으로 뽑아올 양 선택
 		int startnum = (cPage-1)*ApprovalConfigurator.APP_RECORD_COUNT_PER_PAGE+1;
@@ -185,12 +195,18 @@ public class ApprovalService {
 		for(ApprovalDTO dto : resultList) {
 			for(Approval_signDTO asdto : signList) {
 				if(asdto.getApp_seq()==dto.getApp_seq()) {
-					dto.setApp_sign_accept(asdto.getApp_sign_accept());
+					//이전 차례에서 반송되었을 때
+					if(asdto.getApp_sign_date()==null) {
+						dto.setApp_sign_accept("rejeced");
+					}else {
+						dto.setApp_sign_accept(asdto.getApp_sign_accept());	
+					}
+					
 				}
 			}
 		}
 			//resultList 정렬하기(app_reg_date기준)
-		Collections.sort(resultList, new AppSeqComparator());
+		Collections.sort(resultList, new ApprovalComparator());
 		return resultList;
 	}
 	public List<ApprovalDTO> getMyCCList(int cPage){
@@ -206,7 +222,7 @@ public class ApprovalService {
 		
 		
 		//resultList 정렬하기(app_reg_date기준)
-		Collections.sort(resultList, new AppSeqComparator());
+		Collections.sort(resultList, new ApprovalComparator());
 		Collections.reverse(resultList);//최신의 글이 앞에 보이도록 내림차순 정렬함. 
 		return resultList;
 	}
@@ -215,17 +231,12 @@ public class ApprovalService {
 		List<Approval_signDTO> signList = adao.getTobeSignApp((String)session.getAttribute("id"));
 		List<Integer> seqList =  new ArrayList<Integer>(); 
 		List<ApprovalDTO> resultList = new ArrayList<ApprovalDTO>();
-		System.out.println(seqList.size());
 		if(signList.size()==0) {
 			return resultList;}
-		//올라간 기안 중 내가 결재라인에 포함되어 있는 모든 내역의 Seq를 들고온다.(참조 제외)
 		for (Approval_signDTO dto : signList) {
-			//내가 결재 하지 않은 내역을 넣음
-			if(dto.getApp_sign_date()==null) {
-				seqList.add(dto.getApp_seq());
-			}
+			//app_seq만 따로 가져옴.
+			seqList.add(dto.getApp_seq());
 		}
-
 		
 		//cPage기준으로 뽑아올 양 선택
 		int startnum = (cPage-1)*ApprovalConfigurator.APP_RECORD_COUNT_PER_PAGE+1;
@@ -246,7 +257,7 @@ public class ApprovalService {
 						//내 차례가 맞음
 						dto.setApp_is_my_sign_turn("승인 요청중");
 					}else if(asdto.getApp_sign_id().contentEquals((String)session.getAttribute("id")) && asdto.getApp_sign_date()==null && yCount!=befOrderCount ){
-						dto.setApp_is_my_sign_turn("결재 대기중");
+						dto.setApp_is_my_sign_turn("결재 순서 대기중");
 					}
 				}
 			
@@ -254,7 +265,7 @@ public class ApprovalService {
 			
 		}
 			//resultList 정렬하기(app_reg_date기준)
-		Collections.sort(resultList, new AppSeqComparator());
+		Collections.sort(resultList, new ApprovalComparator());
 		return resultList;
 	}
 	
@@ -470,7 +481,7 @@ public class ApprovalService {
 			
 		}
 			//resultList 정렬하기(app_reg_date기준)
-		Collections.sort(resultList, new AppSeqComparator());
+		Collections.sort(resultList, new ApprovalComparator());
 		return resultList;
 	}
 	
@@ -480,5 +491,57 @@ public class ApprovalService {
 	}
 	public List<ApprovalDTO> getMainCCList(){
 		return adao.getAppForMainCC((String)session.getAttribute("id"));		
+	}
+	
+	public HashMap<String, Object> knrMainTobeSignList(){
+		List<Approval_signDTO> signList = adao.getTobeSignApp((String)session.getAttribute("id"));
+		List<Integer> seqList =  new ArrayList<Integer>(); 
+		List<ApprovalDTO> resultList = new ArrayList<ApprovalDTO>();
+		HashMap<String, Object> map = new HashMap();
+		
+		if(signList.size()==0) {
+			map.put("error", -1);
+			return map;}
+		for (Approval_signDTO dto : signList) {
+			//현재 내 결제차례인 리스트만 가져옴
+			int checkorder = dto.getApp_sign_order()-1;
+			int befOrderCount = adao.countBefAgree(checkorder, dto.getApp_seq());
+			int yCount = adao.isSignTurn(checkorder, dto.getApp_seq());
+			if(dto.getApp_sign_date()==null && yCount==befOrderCount) {
+				seqList.add(dto.getApp_seq());
+			}
+			
+		}
+		map.put("toBeSignCount", seqList.size());
+		//cPage기준으로 뽑아올 양 선택
+		int startnum = 1;
+		int endnum = 3;
+		
+		resultList = adao.getAppByCpage(seqList,startnum,endnum);
+		for(ApprovalDTO dto : resultList) {
+			for(Approval_signDTO asdto : signList) {
+				if(asdto.getApp_seq()==dto.getApp_seq()) {
+					dto.setApp_sign_accept(asdto.getApp_sign_accept());
+					// 내 결제차례 정보 넣기
+					int checkorder = asdto.getApp_sign_order()-1;
+					int befOrderCount = adao.countBefAgree(checkorder, dto.getApp_seq());
+					int yCount = adao.isSignTurn(checkorder, dto.getApp_seq());
+					//내 결재차례이고 == 아직 결재를 하지 않았으며, 이전 결재자의 수와 동의자의 수가 같음   
+					if(asdto.getApp_sign_id().contentEquals((String)session.getAttribute("id")) && asdto.getApp_sign_date()==null && yCount==befOrderCount ) {
+						dto.setApp_is_my_sign_turn("승인 요청중");
+					//내 결재차례가 아니지만 미래에 결재를 하게될 수도 있음 == 아직 결재를 하지 않았으며, 이전 결재자의 수와 동의자의 수가 다름
+					}else if(asdto.getApp_sign_id().contentEquals((String)session.getAttribute("id")) && asdto.getApp_sign_date()==null && yCount!=befOrderCount ){
+						dto.setApp_is_my_sign_turn("결재 순서 대기중");
+					}
+				}
+			
+			}
+			
+		}
+			//resultList 정렬하기(app_reg_date기준)
+		Collections.sort(resultList, new ApprovalComparator());
+		map.put("resultList", resultList);
+		map.put("error", 0);
+		return map;
 	}
 }

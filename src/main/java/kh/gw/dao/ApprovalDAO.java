@@ -89,8 +89,13 @@ public class ApprovalDAO {
 	public int updateSign(Approval_signDTO dto) {
 		return db.update("Approval.updateSign",dto);
 	}
-	public List<Approval_signDTO> getMySignedApp(String id){
-		return db.selectList("Approval.getMySignedApp", id);
+	public List<Approval_signDTO> getMySignApp(String id){
+		return db.selectList("Approval.getMySignApp", id);
+	}
+	public List<Integer> confirmReject(List<Integer> confirmList){
+		HashMap<String, Object> map = new HashMap();
+		map.put("confirmList",confirmList);
+		return db.selectList("Approval.confirmReject", map);
 	}
 	public List<Approval_signDTO> getTobeSignApp(String id){
 		return db.selectList("Approval.getTobeSignApp", id);

@@ -1,5 +1,7 @@
 package kh.gw.controller;
 
+import java.util.HashMap;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import kh.gw.service.ApprovalService;
 import kh.gw.service.MessageService;
 
 
@@ -15,6 +18,9 @@ public class HomeController {
 	
 	@Autowired
 	private HttpSession session;
+	
+	@Autowired
+	private ApprovalService aservice;
 	
 	@Autowired
 	private MessageService mservice;
@@ -34,7 +40,11 @@ public class HomeController {
 			//프로젝트의 진행률(각?)
 			
 			//(김나린)
+			HashMap<String, Object> knrAppResult = aservice.knrMainTobeSignList();
+			if(((int)knrAppResult.get("error"))==-1) {System.out.println("MainPage의 app서비스 가져오는 중 에러 발생");return "error";}
 			//승인요청중인리스트 & 갯수
+			model.addAttribute("knrToBeList", knrAppResult.get("resultList"));
+			model.addAttribute("knrToBeCount",  knrAppResult.get("toBeSignCount"));
 			//상신 문서 리스트
 			
 			//(최재준)
