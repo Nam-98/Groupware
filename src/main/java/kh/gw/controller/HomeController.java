@@ -3,6 +3,7 @@ package kh.gw.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import kh.gw.dto.ProjectDTO;
 import kh.gw.dto.Project_kanbanDTO;
+import kh.gw.service.ApprovalService;
 import kh.gw.service.MessageService;
 import kh.gw.service.ProjectService;
 
@@ -22,6 +24,9 @@ public class HomeController {
 	
 	@Autowired
 	private HttpSession session;
+	
+	@Autowired
+	private ApprovalService aservice;
 	
 	@Autowired
 	private MessageService mservice;
@@ -49,8 +54,13 @@ public class HomeController {
 			//프로젝트의 진행률(각?)
 			
 			//----------------------------------------------------------------(김나린)
+			HashMap<String, Object> knrAppResult = aservice.knrMainTobeSignList();
+			if(((int)knrAppResult.get("error"))==-1) {System.out.println("MainPage의 app서비스 가져오는 중 에러 발생");return "error";}
 			//승인요청중인리스트 & 갯수
-			//상신 문서 리스트
+			model.addAttribute("knrToBeList", knrAppResult.get("resultList"));
+			model.addAttribute("knrToBeCount",  knrAppResult.get("toBeSignCount"));
+			//상신 문서 리스트 - 인자값으로 넣는 숫자는 가져올 목록의 갯수로, 원하는대로 변경하여 사용하시면 됩니다.
+			model.addAttribute("knrWriteList",aservice.getMainWriteList(3));
 			
 			//----------------------------------------------------------------(최재준)
 			//월간일정완성되면 달력에 띄울수 있도록리스트 받아주기

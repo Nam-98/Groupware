@@ -97,7 +97,8 @@
 											<td>
 												<c:choose>
 													<c:when test="${i.app_sign_accept=='N'}">반려</c:when>
-													<c:otherwise>결재완료</c:otherwise>
+													<c:when test="${i.app_sign_accept=='Y'}">결재완료</c:when>
+													<c:otherwise>미결재</c:otherwise>
 												</c:choose>
 											</td>
 											<td>${i.app_title}</td>
