@@ -96,7 +96,7 @@ th{width:50px;}
 
 </head>
 <body>
-<form action="/bizlog/writeBizlog.bizLog" id="writeForm" method="post" enctype="multipart/form-data" >
+<form action="/bizlog/writeBizlog.bizlog" id="writeForm" method="post" enctype="multipart/form-data" >
 		<div class="modal selectSign" tabindex="-1" role="dialog">
 		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
 			<div class="modal-content">
@@ -218,14 +218,53 @@ th{width:50px;}
 										<tr>
 											<th scope="row" class="align-middle">업무일</th>								
 											<td>
-												<div class="in-block strDate">
+												<input type=hidden name=biz_periodstart id=bizPerSrt>
+												<input type=hidden name=biz_periodend id=bizPerEnd>
+												<div class="in-block dateBox">
 													<div id='jqxdateStart' class='jqxdate' ></div>
 													<input type=hidden id=perSrt name='biz_period_start'> 
 												</div>
-												<div class="endDate" style="display:none;">
-													<span id="boldText"> ~ </span>
-													<div id='jqxdateEnd' class='jqxdate in-block'></div>
-													<input type=hidden id=perEnd name='biz_period_end'>
+												<div class="weekBox" style='display:none;'>
+													<select name="sh_year" id="sh_year"	onchange="makeWeekSelectOptions();">
+													<option value='${thisYear-1}' selected='selected'>${thisYear-1}년</option>
+														<option value='${thisYear}' selected='selected'>${thisYear}년</option>
+													</select> 
+													<select name="sh_month" id="sh_month"
+														onchange="makeWeekSelectOptions();">
+														<option value='01'>01월</option>
+														<option value='02'>02월</option>
+														<option value='03'>03월</option>
+														<option value='04'>04월</option>
+														<option value='05'>05월</option>
+														<option value='06'>06월</option>
+														<option value='07'>07월</option>
+														<option value='08'>08월</option>
+														<option value='09'>09월</option>
+														<option value='10'>10월</option>
+														<option value='11'>11월</option>
+														<option value='12'>12월</option>
+													</select> 
+													<select name="sh_week" id="sh_week" style='display:none;'></select>
+												</div>
+												<div class="monthBox" style='display:none;'>
+													<select id="mbYear">
+														<option value='${thisYear-1}' selected='selected'>${thisYear-1}년</option>
+														<option value='${thisYear}' selected='selected'>${thisYear}년</option>
+													</select>
+													<select  id="mbMonth">
+														<option value='01'>01월</option>
+														<option value='02'>02월</option>
+														<option value='03'>03월</option>
+														<option value='04'>04월</option>
+														<option value='05'>05월</option>
+														<option value='06'>06월</option>
+														<option value='07'>07월</option>
+														<option value='08'>08월</option>
+														<option value='09'>09월</option>
+														<option value='10'>10월</option>
+														<option value='11'>11월</option>
+														<option value='12'>12월</option>
+													</select>
 												</div>
 											</td>
 										</tr>
@@ -291,19 +330,32 @@ th{width:50px;}
 		
 		//contents 전송준비
 		let contents = $(".summernote").summernote('code');
-		
-		$("#sign_info_Json").val(JSON.stringify(sign_info_Json));
-		
-		//휴가계일 때 날짜정보 전송 및 내용에도 날짜정보 포함시키기.
-		if($("#docsType").val()==3){
-			 let dStrt = getFormatDate($('#jqxdateStart').jqxDateTimeInput('getDate'));
-			 let dEnd = getFormatDate($('#jqxdateEnd').jqxDateTimeInput('getDate'));
-			$("#breakSrt").val(dStrt);
-			$("#breakEnd").val(dEnd);
-			let str = "<p>휴가 구분 : "+$("#breakType option:checked").text()+"</p><p>신청 기간 : "+dStrt+" ~ "+dEnd+"</p>";
-			console.log(str);
-			contents = str + contents;
+				
+		//업무일지 기간 넣기
+		let docsType = $("#docsType").val();
+		let dStrt = new Date();
+		let dEnd = new Date();
+		if(docsType==7){
+			//일일 업무일지
+			dStrt = getFormatDate($('#jqxdateStart').jqxDateTimeInput('getDate'));
+			dEnd = dStrt;
+		}else if(docsType==8){
+			//주간 업무일지
+			let temp = document.getElementById("sh_week").value
+			if(temp==''){alert('주간 업무일지의 기간은 필수 선택사항입니다.');return;}
+			let arr = temp.split('|');
+			dStrt = arr[0];
+			dEnd = arr[1];
+		}else{
+			//월간 업무일지
+			let year = document.getElementById("mbYear").value;
+			let mon = document.getElementById("mbMonth").value;
+			dStrt = new Date(year, mon-1, 1);
+			dEnd = new Date(year, mon, 0);
 		}
+		//input type hidden에 담아 form을 통해 controller로 전송
+		document.getElementById("bizPerSrt").value = dStrt;
+		document.getElementById("bizPerEnd").value = dEnd;
 		$("#contents").val(contents);
 		$("#writeForm").submit();
 		
@@ -342,12 +394,17 @@ th{width:50px;}
 			//문서종류 변경 이벤트
 			$("#docsType").on("change",function(){
 				if(this.value==7){
-					$(".endDate").css("display","none");
-				
+					$(".dateBox").css("display","inline-block");
+					$(".weekBox").css("display","none");
+					$(".monthBox").css("display","none");
 				}else if(this.value==8){
-					$(".endDate").css("display","inline-block");
+					$(".dateBox").css("display","none");
+					$(".weekBox").css("display","inline-block");
+					$(".monthBox").css("display","none");
 				}else{
-					$(".endDate").css("display","inline-block");
+					$(".dateBox").css("display","none");
+					$(".weekBox").css("display","none");
+					$(".monthBox").css("display","inline-block");
 				}
 				
 				$.ajax({
@@ -358,6 +415,10 @@ th{width:50px;}
 					}
 				})
 			})
+			
+			
+			
+			
 			//결재라인 관련 스크립트
 			
 			////모달창 열기
@@ -487,8 +548,66 @@ th{width:50px;}
                 return year + '-' + month + '-' + day;
             }
 		</script>
-
-<jsp:include page="/WEB-INF/views/commonPage/summernote-plugin.jsp" />
+	<script>
+	//주간 select box생성
+	function makeWeekSelectOptions() {
+			
+		//선택한 연도,달을 가져옴
+		  var year = $("#sh_year").val();
+		  var month = $("#sh_month").val();
+		//오늘 날짜 가져옴
+		  var today = new Date();
+		
+		  var sdate = new Date(year, month-1, 01); //선택한 달의 지난달 1일
+		  var lastDay = (new Date(sdate.getFullYear(), sdate.getMonth()+1, 0)).getDate(); //선택한 달의 마지막 날(day값 반환) -> day부분에 0을 넣으면 앞에 설정한 month의 이전달의 마지막날을 반환한다.
+		  var endDate = new Date(sdate.getFullYear(), sdate.getMonth(), lastDay); // 이번달의 마지막 날
+		
+		  var week = sdate.getDay(); // 지난달 1일의 요일 반환
+		  sdate.setDate(sdate.getDate() - week); 
+		  var edate = new Date(sdate.getFullYear(), sdate.getMonth(), sdate.getDate());
+		
+		  var obj = document.getElementById("sh_week");
+		  obj.options.length = 0;
+		  var seled = "";
+		  
+		  
+		  while(endDate.getTime() >= edate.getTime()) {
+		
+		    var sYear = sdate.getFullYear();
+		    var sMonth = (sdate.getMonth()+1);
+		    var sDay = sdate.getDate();
+		
+		    sMonth = (sMonth < 10) ? "0"+sMonth : sMonth;
+		    sDay = (sDay < 10) ? "0"+sDay : sDay;
+		
+		    var stxt = sYear + "-" + sMonth + "-" + sDay;
+		
+		    edate.setDate(sdate.getDate() + 6);
+		
+		    var eYear = edate.getFullYear();
+		    var eMonth = (edate.getMonth()+1);
+		    var eDay = edate.getDate();
+		
+		    eMonth = (eMonth < 10) ? "0"+eMonth : eMonth;
+		    eDay = (eDay < 10) ? "0"+eDay : eDay;
+		
+		    var etxt = eYear + "-" + eMonth + "-" + eDay;
+		
+		    if(today.getTime() >= sdate.getTime() && today.getTime() <= edate.getTime()) {
+		      seled = stxt+"|"+etxt;
+		    }
+		
+		    obj.options[obj.options.length] = new Option(stxt+"~"+etxt, stxt+"|"+etxt);
+		
+		    sdate = new Date(edate.getFullYear(), edate.getMonth(), edate.getDate() + 1);
+		    edate = new Date(sdate.getFullYear(), sdate.getMonth(), sdate.getDate());
+		  }
+		
+		  if(seled) obj.value = seled;
+		  $("#sh_week").css("display","inline-block");
+		}
+	</script>
+	<jsp:include page="/WEB-INF/views/commonPage/summernote-plugin.jsp" />
 
 
 </body>

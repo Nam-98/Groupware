@@ -10,4 +10,7 @@
 	<select id="getDocsType" resultType="kh.gw.dto.Approval_typeDTO">
   		select * from st.approval_type where app_type_name like '%'||'업무일지'||'%' order by app_type_code
 	</select>
+	<insert id="setPeriod">
+		insert into st.business_log_period values(#{app_seq},#{biz_periodstart},#{biz_periodend})
+	</insert>
   </mapper>

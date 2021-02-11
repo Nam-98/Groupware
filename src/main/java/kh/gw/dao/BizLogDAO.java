@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kh.gw.dto.Approval_typeDTO;
+import kh.gw.dto.BizLog_periodDTO;
 import kh.gw.dto.MemberDTO;
 
 @Repository
@@ -25,5 +26,8 @@ public class BizLogDAO {
 		map.put("biz_contents", contents);
 		map.put("biz_seq",biz_seq);
 		return db.update("BizLog.contentsUpdate", map);
+	}
+	public int setPeriod(BizLog_periodDTO dto) {
+		return db.insert("BizLog.setPeriod", dto);
 	}
 }

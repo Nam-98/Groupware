@@ -26,16 +26,9 @@ public class BizLogService {
 	public List<Approval_typeDTO> getDocsType(){
 		return bdao.getDocsType();
 	}
-    public int insertPeriod(BizLog_periodDTO dto, int seq, int app_type_code) {
-		//biz_period 맞춰서 넣기
-		if(app_type_code==7) {
-			dto.getBiz_period_start();
-		}else if(app_type_code==8) {
-			
-		}else if(app_type_code==9) {
-			
-		}else {return -1;}
-    	return -1;
+    public int setPeriod(BizLog_periodDTO dto, int seq) {
+		dto.setApp_seq(seq);
+		return bdao.setPeriod(dto);
     }
 	
 }
