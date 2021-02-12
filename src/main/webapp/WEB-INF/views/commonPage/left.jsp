@@ -24,7 +24,7 @@
                         </ul>
                     </div>
                 </li>
-                 <li><a href="/bizlog/toMainPage.bizlog" class=""><i class="fas fa-pen-square"></i> <span>업무일지</span></a></li>         
+                 <li><a href="/bizlog/toMainPage.bizlog" class="" id="bizlogHref"><i class="fas fa-pen-square"></i> <span>업무일지</span></a></li>         
                 
                 <li>
                     <a href="#subPagesMsg1" data-toggle="collapse" class="collapsed"> <i class="fas fa-envelope"></i> <span>쪽지함<span class="badge rounded-pill bg-danger" id="asdd1"></span></span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
@@ -116,8 +116,8 @@
         </div>
         
 
-<!--     <script>
-		setInterval(function(){
+     <script>
+/* 		setInterval(function(){
 				$.ajax({
 					url : "/message/msgCount.message",
 					type : "post",
@@ -131,5 +131,12 @@
 						document.getElementById("asdd3").innerHTML = result;}
 					})
 			}
-		,5000);
-	</script> -->
+		,5000); */
+		window.addEventListener('DOMContentLoaded', function(){
+			var aBiz = document.getElementById("bizlogHref");
+			var today = new Date();
+			var sYear = today.getFullYear();
+			var sMonth = today.getMonth();
+			aBiz.setAttribute("href", "/bizlog/toMainPage.bizlog?strDate="+sYear+"-"+sMonth);
+		})
+	</script> 

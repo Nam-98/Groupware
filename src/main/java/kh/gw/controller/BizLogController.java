@@ -27,7 +27,7 @@ public class BizLogController {
 	@Autowired
 	private ApprovalService aservice;
 	@RequestMapping("/toMainPage.bizlog")
-	public String toMainPage() {
+	public String toMainPage(String strDate) {
 		return "bizlog/bizMainPage";
 	}
 	
