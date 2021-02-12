@@ -5,16 +5,15 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>업무일지 작성</title>
-	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <!-- 아이콘 fontawesome -->
     <script src="https://kit.fontawesome.com/b1e233372d.js"></script>
 	<!-- VENDOR CSS -->
-	<!--<link rel="stylesheet" href="/assets/vendor/bootstrap/css/bootstrap.min.css">-->
+	<link rel="stylesheet" href="/assets/vendor/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="/assets/vendor/font-awesome/css/font-awesome.min.css">
 	<link rel="stylesheet" href="/assets/vendor/linearicons/style.css">
 	<link rel="stylesheet" href="/assets/vendor/chartist/css/chartist-custom.css">
-	<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
 	<!-- MAIN CSS -->
 	<link rel="stylesheet" href="/assets/css/main.css">
 	<!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
@@ -25,10 +24,10 @@
 	<link rel="apple-touch-icon" sizes="76x76" href="/assets/img/apple-icon.png">
     <link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicon.png">
     <script src="/assets/vendor/jquery/jquery.min.js"></script>
+	<script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
 	<script src="/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 	<script src="/assets/vendor/chartist/js/chartist.min.js"></script>
 	<script src="/assets/scripts/klorofil-common.js"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 	<style>
 .align-right {
 	text-align: right;
@@ -39,7 +38,7 @@
 }
 
 /*collapse css*/
-.collapsible2 {
+.collapsible {
 	cursor: pointer;
 	padding: 18px;
 	width: 100%;
@@ -59,11 +58,11 @@ background-color:#1687a7;
 .btn3n{background-color:#d3e0ea;	color: gray;}
 
 
-.active2, .collapsible2:hover {
+.active2, .collapsible:hover {
 	background-color: #555;
 }
 
-.collapsible2:after {
+.collapsible:after {
 	content: '\002B';
 	color: white;
 	font-weight: bold;
@@ -87,8 +86,6 @@ p{margin-top:10px;margin-bottom:10px;}
 #searchType{padding-left:10px;width:25%;display:inline-block;}
 .dateSelect{width:fit-content;display:inline-block;}
 </style>
-
-
 </head>
 <body>
 	<!-- WRAPPER -->
@@ -143,8 +140,8 @@ p{margin-top:10px;margin-bottom:10px;}
 							<!-- 업무일지 리스트업-->
 							번호, 업무일지 유형, 제목, 작성자, 등록일, 상태(확인,반송 등) Copy
 							<div class="collapseContainer">
-								<p>collapsible2 Set:</p>
-								<button class="collapsible2">Open Section 1</button>
+								<p>Collapsible Set:</p>
+								<button class="collapsible">Open Section 1</button>
 								<div class="content">
 									<p>Lorem ipsum dolor sit amet, consectetur adipisicing
 										elit, sed do eiusmod tempor incididunt ut labore et dolore
@@ -152,7 +149,7 @@ p{margin-top:10px;margin-bottom:10px;}
 										exercitation ullamco laboris nisi ut aliquip ex ea commodo
 										consequat.</p>
 								</div>
-								<button class="collapsible2">Open Section 2</button>
+								<button class="collapsible">Open Section 2</button>
 								<div class="content">
 									<p>Lorem ipsum dolor sit amet, consectetur adipisicing
 										elit, sed do eiusmod tempor incididunt ut labore et dolore
@@ -160,7 +157,7 @@ p{margin-top:10px;margin-bottom:10px;}
 										exercitation ullamco laboris nisi ut aliquip ex ea commodo
 										consequat.</p>
 								</div>
-								<button class="collapsible2">Open Section 3</button>
+								<button class="collapsible">Open Section 3</button>
 								<div class="content">
 									<p>Lorem ipsum dolor sit amet, consectetur adipisicing
 										elit, sed do eiusmod tempor incididunt ut labore et dolore
@@ -198,7 +195,6 @@ p{margin-top:10px;margin-bottom:10px;}
 						
 						
 					</div><!-- panel 종료 -->
-					
 				</div>
 			</div>
 			<!-- END MAIN CONTENT -->
@@ -208,7 +204,7 @@ p{margin-top:10px;margin-bottom:10px;}
 <jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
 	</div>
 	<!-- END WRAPPER -->
-		<script type="text/javascript">
+	<script type="text/javascript">
 		document.getElementById("toWrite").onclick = function(){
 			location.href = "/bizlog/toWriteView.bizlog";
 		}
@@ -225,7 +221,7 @@ p{margin-top:10px;margin-bottom:10px;}
 	</script>
 	<script>
 	//collapse 전용 javascript
-var coll = document.getElementsByClassName("collapsible2");
+var coll = document.getElementsByClassName("collapsible");
 var i;
 
 for (i = 0; i < coll.length; i++) {
@@ -246,11 +242,11 @@ let btncnt = 1;
 for(let btn of buttons){
 	if(btncnt%3==0){
 		//btn.addClass("even");
-		btn.setAttribute("class","collapsible2 btn3n");
+		btn.setAttribute("class","collapsible btn3n");
 	}else if(btncnt%3==1){
-		btn.setAttribute("class","collapsible2 btn3n-2");
+		btn.setAttribute("class","collapsible btn3n-2");
 	}else{
-		btn.setAttribute("class","collapsible2 btn3n-1");
+		btn.setAttribute("class","collapsible btn3n-1");
 	}
 	btncnt++;
 }
