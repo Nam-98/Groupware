@@ -64,6 +64,7 @@
                         </ul>
                     </div>
                 </li>
+                <li><a href="javascript:void(0);" id="leftWebhard"><i class="glyphicon glyphicon-cloud-download"></i> <span>웹하드</span></a></li>
                 <li>
                     <a href="#subPagesTna" data-toggle="collapse" class="collapsed"><i class="fas fa-clock"></i> <span>근태관리</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
                     <div id="subPagesTna" class="collapse ">
@@ -133,3 +134,17 @@
 			}
 		,5000);
 	</script> -->
+		<script>
+			$('#leftWebhard').on('click', function(){
+				var url = "/webhard/webhardMain.webhard";
+				var popupWidth = 1440;
+				var popupHeight = 810;
+				var popupX = (window.screen.width / 2) - (popupWidth / 2);
+				// 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주었음
+				var popupY = (window.screen.height / 2) - (popupHeight / 2) - 50;
+				// 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주었음
+				
+				var options='top='+popupY+', left='+popupX+', width='+popupWidth+', height='+popupHeight+', status=no, menubar=no, toolbar=no, resizable=no, location=no';
+				window.open(url,"popup",options);
+			})
+		</script>
