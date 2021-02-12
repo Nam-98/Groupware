@@ -45,7 +45,7 @@ public class ApprovalController {
 	
 	@RequestMapping("/toAppMainView.approval")
 	public String toAppMainView (Model model) {
-		model.addAttribute("writeList", aservice.getMainWriteList());
+		model.addAttribute("writeList", aservice.getMainWriteList(5));
 		model.addAttribute("toBeSignList", aservice.getMainTobeList());
 		model.addAttribute("ccList", aservice.getMainCCList());
 		return "approval/appMainView";

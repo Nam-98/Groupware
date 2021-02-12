@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="Approval">
   	<select id="allDocsType" resultType="kh.gw.dto.Approval_typeDTO">
-  		select * from st.approval_type
+  		select * from st.approval_type where app_type_name not like '%'||'업무일지'||'%' order by app_type_code
   	</select>
   	<select id="allSignType" resultType="kh.gw.dto.Approval_sign_typeDTO">
   		select * from st.approval_sign_type
@@ -22,16 +22,25 @@
   		insert into st.approval_attached_files values(#{app_seq},#{app_ori_name},#{app_saved_name})
   	</insert>
   	<select id="allMyWriteApp" resultType="kh.gw.dto.ApprovalDTO">
-  		select * from st.approval where app_id = #{value}
+  		select * from st.approval where app_id = #{value} and app_type_code not in (7,8,9)
   	</select>
   	<select id="searchApp" resultType="kh.gw.dto.ApprovalDTO">
-  		select * from st.approval where app_seq = #{value}
+  		select * from st.approval where app_seq = #{value} and app_type_code not in (7,8,9)
   	</select>
   	<select id="getTobeSignApp" resultType="kh.gw.dto.Approval_signDTO">
-  		select * from st.approval_sign where app_sign_id = #{value} and app_sign_type_code != 1 and app_sign_date is null order by app_seq desc
+  		select * from st.approval_sign join st.approval using (app_seq) where app_sign_id = #{value} and app_sign_type_code != 1 and app_sign_date is null and app_status_code !='2' order by app_seq desc
   	</select>
-  	 <select id="getMySignedApp" resultType="kh.gw.dto.Approval_signDTO">
-  		select * from st.approval_sign where app_sign_id = #{value} and app_sign_type_code != 1 and app_sign_date is not null order by app_seq desc
+  	 <select id="getMySignApp" resultType="kh.gw.dto.Approval_signDTO">
+  		<!-- 내가 결재라인에 있는 내역 들고옴 -->
+  		<!-- select * from st.approval_sign where app_sign_id = #{value} and app_sign_type_code != 1 and app_sign_date is not null order by app_seq desc -->
+  		select * from st.approval_sign where app_sign_type_code != 1 and app_sign_id = #{value} order by app_seq desc
+  	</select>
+  	<select id="confirmReject" resultType="int">
+  	<!-- 내가 결재라인에 있는 내역 중 결재하지 않은 내역 seq리스트를 넘기고, 해당 결재문서가 반송된 상태인 seq를 넘긴다. -->
+  		select app_seq from st.approval where app_status_code = '2' and app_seq in
+  		<foreach collection="confirmList" item="i" separator="," open="(" close=")">
+  			#{i}
+  		</foreach> 
   	</select>
   	<select id="countTobeSignApp" resultType="int">
   		select count(*) from st.approval_sign where app_sign_id = #{value} and app_sign_type_code != 1 and app_sign_date is null
@@ -53,8 +62,8 @@
   			(select app_seq, app_docs_num, app_type_name, app_title, name, app_reg_date, app_status_name, row_number() over(order by app_seq desc)rn 
   				from st.approval join st.approval_type using (app_type_code) join st.approval_status using (app_status_code) join st.member on id = app_id 
   				where app_seq in 
-  		<foreach collection="seqList" item="i" separator="," open="(" close=")">
-  			#{i}
+  		<foreach collection="seqList" item="seq" separator="," open="(" close=")">
+  			#{seq}
   		</foreach>
   		) where rn between #{startnum} and #{endnum} order by app_seq desc
   	</select>
@@ -96,7 +105,7 @@
   	<select id="getAppForMainWrite" resultType="kh.gw.dto.ApprovalDTO">
 		select *
 		    from (select app_seq,app_docs_num,app_title,name,app_reg_date,app_status_name,app_type_name, row_number() over(order by app_seq desc)rn from st.approval join st.approval_type using(app_type_code) join st.approval_status using(app_status_code) join st.member on id=app_id where app_id = #{id})
-            where rn between 1 and 5
+            where rn between 1 and #{max}
     </select>
 	<select id="getAppForMainCC" resultType="kh.gw.dto.ApprovalDTO">
 		select app.app_seq,app_docs_num,app_title,name,app_reg_date,app_status_name,app_type_name 
@@ -106,4 +115,5 @@
 		        where rn between 1 and 5) seq 
 		where app.app_seq=seq.app_seq	
 	</select>
+	
   </mapper>
