@@ -57,7 +57,7 @@
                                         <li><a href="/schedule/daySchedule.schedule" class="">일간일정</a></li>
                                         <li><a href="/schedule/weekSchedule.schedule" class="">주간일정</a></li>
                                         <li><a href="/schedule/monthSchedule.schedule" class="">월간일정</a></li>
-                                        <li><a href="#" class="">연간일정</a></li>
+                                        <li><a href="/schedule/yearSchedule.schedule" class="">연간일정</a></li>
                                     </ul>
                                 </div>
                             </li>

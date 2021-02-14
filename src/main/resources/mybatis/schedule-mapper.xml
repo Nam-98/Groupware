@@ -16,6 +16,23 @@
   	</select>
   	
   	<select id="listAllSchedule" resultType="kh.gw.dto.ScheduleDTO">
-  		select * from (select st.schedule.*, row_number() over (order by sch_seq desc) rn from st.schedule)
+  		select * from (select st.schedule.*, row_number() over (order by sch_seq desc) rn from st.schedule) where sch_id = #{value}
   	</select>
+  	
+  	<select id="scheduleView" resultType="kh.gw.dto.ScheduleDTO">
+  		select * from st.schedule where sch_seq = #{value} order by sch_start_date desc
+  	</select>
+  	
+  	<delete id="scheduleDelete">
+  		delete from st.schedule where sch_seq = #{value}
+  	</delete>
+  	
+  	<select id="scheduleModifyBefore" resultType="kh.gw.dto.ScheduleDTO">
+  		select * from st.schedule where sch_seq=#{sch_seq}
+  	</select>
+  	
+  	<update id="scheduleModify">
+  		update st.schedule set sch_title=#{sch_title}, sch_contents=#{sch_contents}, sch_start_date=#{sch_start_date}, sch_end_date=#{sch_end_date} where sch_seq=#{value}
+  	</update>
+
   </mapper>

@@ -34,8 +34,12 @@
    <script src="/assets/vendor/chartist/js/chartist.min.js"></script>
    <script src="/assets/scripts/klorofil-common.js"></script>
    <!-- Calendar -->
-   <link href='/resources/lib/fullcalendar/main.css' rel='stylesheet' />
-    <script src='/resources/lib/fullcalendar/main.js'></script>
+   <link rel="stylesheet" href="/resources/lib/jqwidgets/styles/jqx.base.css" type="text/css"/>
+	<script type="text/javascript" src="/resources/lib/scripts/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="/resources/lib/jqwidgets/jqxcore.js"></script>
+	<script type="text/javascript" src="/resources/lib/jqwidgets/jqxdatetimeinput.js"></script>
+	<script type="text/javascript" src="/resources/lib/jqwidgets/jqxcalendar.js"></script>
+	<script type="text/javascript" src="/resources/lib/jqwidgets/globalization/globalize.js"></script>
 </head>
 <body>
    <!-- WRAPPER -->
@@ -55,11 +59,11 @@
          <!-- MAIN CONTENT -->
          <div class="main-content">
             <div class="container-fluid">
-               <h3 class="page-title">일정 관리 > 월간 일정</h3>
+               <h3 class="page-title"></h3>
                <div class="panel panel-headline demo-icons">
                   <!-- pannel 내부의 제목 작성 div-->
                   <div class="panel-heading">
-                  <h3 class="panel-title">뭐로 할까 여기는</h3>
+                  <h3 class="panel-title"></h3>
                   </div>
                   <div class="panel-body">
                   <span id="currentTimeSpan"></span>
@@ -71,14 +75,20 @@
                   </div>
                   <input type="button" class="btn btn-gray btn-xs"> 
                   <input type="button" class="btn btn-gray btn-xs">
-</div>               
-</div>
+				</div>               
+				</div>
                <div class="panel panel-headline demo-icons">
                   <div class="panel-heading">
-                  <h3 class="panel-title">월 간 일 정</h3>
+                  <h3 class="panel-title">연 간 일 정</h3>
                   </div>
                   <div class="panel-body">
-                     <div id='calendar'></div>
+                  	<script type="text/javascript">
+					    $(document).ready(function () {
+					        $(".jqxcalendar").jqxCalendar({ width: '250px', height: '250px', theme: 'summer'});
+					        $(".jqxcalendar").jqxCalendar('setDate', new Date(2010, 1, 1));
+					    });
+					</script>
+                     <div class='jqxcalendar'></div>
                   </div>
                </div>
                
@@ -91,28 +101,6 @@
 		<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
    </div>
    <!-- END WRAPPER -->
-   
-   <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-        
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-			header: {
-				left: '',
-				center: 'title',
-				right: 'today prev,next'
-			},
-			locale: 'ko',
-			businessHours: true,
-			eventClick: function(arg) {
-				
-	        },
-			events: [
-          	]	
-        });
-        calendar.render();
-      });
-
-   </script>
+  
 </body>
 </html>

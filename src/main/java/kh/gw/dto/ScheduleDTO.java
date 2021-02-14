@@ -81,9 +81,4 @@ public class ScheduleDTO {
 	public void setSch_end_date_sc(String sch_end_date_sc) {
 		this.sch_end_date_sc = sch_end_date_sc;
 	}
-	
-	
-	
-
-	
 }

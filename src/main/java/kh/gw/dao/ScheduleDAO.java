@@ -17,7 +17,7 @@ public class ScheduleDAO {
 	@Autowired
 	private SqlSession db;
 
-	public int insertSchedule(ScheduleDTO dto) {
+	public int insertSchedule(ScheduleDTO dto) throws Exception{
 		return db.insert("Schedule.insertSchedule",dto);
 	}
 
@@ -36,7 +36,23 @@ public class ScheduleDAO {
 		return db.selectList("Schedule.getList");
 	}
 
-	public List<ScheduleDTO> listAllSchedule() {
-		return db.selectList("Schedule.listAllSchedule");
+	public List<ScheduleDTO> listAllSchedule(String id) throws Exception{
+		return db.selectList("Schedule.listAllSchedule", id);
+	}
+
+	public ScheduleDTO scheduleView(int sch_seq) throws Exception{
+		return db.selectOne("Schedule.scheduleView", sch_seq);
+	}
+
+	public int scheduleDelete(int sch_seq) {
+		return db.delete("Schedule.scheduleDelete", sch_seq);
+	}
+	
+	public ScheduleDTO scheduleModifyBefore(int sch_seq) {
+		return db.selectOne("Schedule.scheduleModifyBefore", sch_seq);
+	}
+
+	public int scheduleModify(ScheduleDTO dto) {
+		return db.update("Schedule.scheduleModify", dto);
 	}
 }

@@ -16,7 +16,7 @@ public class ScheduleService {
 	@Autowired
 	private ScheduleDAO sdao;
 
-	public int insertSchedule(ScheduleDTO dto) {
+	public int insertSchedule(ScheduleDTO dto) throws Exception{
 		return sdao.insertSchedule(dto);
 	}
 
@@ -95,7 +95,23 @@ public class ScheduleService {
 		}
 	}
 
-	public List<ScheduleDTO> listAllSchedule() {
-		return sdao.listAllSchedule();
+	public List<ScheduleDTO> listAllSchedule(String id) throws Exception{
+		return sdao.listAllSchedule(id);
+	}
+
+	public ScheduleDTO scheduleView(int sch_seq) throws Exception{
+		return sdao.scheduleView(sch_seq);
+	}
+
+	public int scheduleDelete(int sch_seq) {
+		return sdao.scheduleDelete(sch_seq);
+	}
+	
+	public ScheduleDTO scheduleModifyBefore(int sch_seq) {
+		return sdao.scheduleModifyBefore(sch_seq);
+	}
+
+	public int scheduleModify(ScheduleDTO dto) {
+		return sdao.scheduleModify(dto);
 	}
 }

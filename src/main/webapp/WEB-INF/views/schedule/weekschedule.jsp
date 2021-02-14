@@ -69,6 +69,7 @@
 			<div class="main-content">
 				<div class="container-fluid">
 					<h3 class="page-title">주간 일정</h3>
+					 <input type="button" id="addSchedule" class="btn btn-gray btn-xs" value="일정 추가하기">
 				</div>
 			</div>
 			<div class="panel panel-headline demo-icons">
@@ -91,7 +92,7 @@
 	 	document.addEventListener('DOMContentLoaded', function() {
 		    var calendarE2 = document.getElementById('calendar');
 			var calendar = new FullCalendar.Calendar(calendarE2, {
-				initialView: 'timeGridWeek',
+				initialView: 'dayGridWeek',
 				
 				headerToolbar: {
 					left: '',
@@ -101,11 +102,37 @@
 				
 				locale: 'ko',
 				businessHours: true,
+				 eventSources: [
+					    {
+					      events: [
+					    	  <c:forEach var="i" items="${list }">
+					    	  {
+						          title  : '${i.sch_title }',
+						          start  : '${i.sch_start_date_sc }',
+						          end    : '${i.sch_end_date_sc }',
+						          url : "/schedule/scheduleView.schedule?sch_seq=${i.sch_seq}"
+					    	  },
+					          </c:forEach>
+					      ],
+					    },
+					  ]
 			  
 			});
 			 calendar.render();
 	 	});
 	</script>
+	
+	<script>
+   	document.getElementById("addSchedule").onclick=function(){
+   		var con = confirm("일정을 추가하시겠습니까?")
+   		var popup='top=10, left=10, width=800, height=600, status=no, menubar=no, toolbar=no, resizable=no';
+   		if(con == true){
+   			window.open("/schedule/addSchedulePage.schedule", "popup", popup)
+   		}else{
+   			location.href="/schedule/monthSchedule.schedule"
+   		}
+   	}
+   </script>
 	
 </body>
 </html>

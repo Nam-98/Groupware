@@ -27,51 +27,43 @@
    <script src="/assets/vendor/chartist/js/chartist.min.js"></script>
    <script src="/assets/scripts/klorofil-common.js"></script>
 <meta charset="UTF-8">
-<title>스케쥴 리스트</title>
+<title>일정 추가하기</title>
 <style>
-.navi{
-	text-align: center;
-}
+    *{box-sizing: border-box}
+
+	.top-vacant {
+		width: 100%;
+		height: 20px;
+	}
 </style>
 </head>
 <body>
-<div class="panel panel-default">
-  <!-- Default panel contents -->
-  <div class="panel-heading">Schedule List</div>
-  <div class="panel-body">
-  </div>
-  <!-- Table -->
-  <table class="table">
-  	<thead>
-  		<tr>
-  			<th scope="col">#</th>
-		    <th scope="col">제목</th>
-		    <th scope="col">시작날짜</th>
-		    <th scope="col">종료날짜 </th>
-  		</tr>
-    </thead>
-    <tbody>
-    <c:forEach var="i" items="${list }">
-    	<tr>
-    		<td>${i.sch_seq }</td>
-    		<td>${i.sch_title }</td>
-    		<td>${i.sch_start_date_sc }</td>
-    		<td>${i.sch_end_date_sc }</td>
-    	</tr>
-   	</c:forEach>
-    </tbody>
-  </table>
-  <div class="btnHome">
-  	<button id="goHome">홈으로</button>
-  	<input type="button" id="btnDelete" value="삭제하기">
-  </div>
-</div>
- <div class="navi">${navi }</div>
- 
- <script>
- 	document.getElementById("goHome").onclick=function(){
- 		window.close();
- 	}
- </script>
+<div class="main">
+			<!-- MAIN CONTENT -->
+			<div class="main-content">
+				<div class="container-fluid">
+					<h3 class="page-title">일정 추가하기</h3>					
+					</div>
+					<div class="top-vacant d-none d-lg-block"></div>
+
+					<div class="panel panel-headline demo-icons">
+						<div class="panel-heading">
+							<h3 class="panel-title">일 정 추 가 하 기</h3>
+						</div>
+						<div class="panel-body">
+							<form action="#" method="post">
+								<table>
+									<tr>
+										<th>일정 제목 : <input type="text"></th>
+										<th>일정 내용 : <textarea></textarea></th>
+										<th>일정 날짜 : <input type="date"> <br> 
+													 <select></select>
+									</tr>
+								</table>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
 </body>
 </html>

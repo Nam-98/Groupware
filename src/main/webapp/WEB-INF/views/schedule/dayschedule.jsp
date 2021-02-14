@@ -10,41 +10,45 @@
 <!-- 아이콘 fontawesome -->
 <script src="https://kit.fontawesome.com/b1e233372d.js"></script>
 <!-- VENDOR CSS -->
-<link rel="stylesheet"
-	href="/assets/vendor/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="/assets/vendor/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/assets/vendor/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="/assets/vendor/font-awesome/css/font-awesome.min.css">
 <link rel="stylesheet" href="/assets/vendor/linearicons/style.css">
-<link rel="stylesheet"
-	href="/assets/vendor/chartist/css/chartist-custom.css">
+<link rel="stylesheet" href="/assets/vendor/chartist/css/chartist-custom.css">
 <!-- MAIN CSS -->
 <link rel="stylesheet" href="/assets/css/main.css">
 <!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
 <link rel="stylesheet" href="/assets/css/demo.css">
 <!-- GOOGLE FONTS -->
-<link
-	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700"
-	rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
 <!-- ICONS -->
-<link rel="apple-touch-icon" sizes="76x76"
-	href="/assets/img/apple-icon.png">
-<link rel="icon" type="image/png" sizes="96x96"
-	href="/assets/img/favicon.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/assets/img/apple-icon.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicon.png">
 <script src="/assets/vendor/jquery/jquery.min.js"></script>
 <script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <script src="/assets/vendor/chartist/js/chartist.min.js"></script>
 <script src="/assets/scripts/klorofil-common.js"></script>
+
+ <!-- Calendar -->
+   <link href='/resources/lib/fullcalendar/main.css' rel='stylesheet'/>
+    <script src='/resources/lib/fullcalendar/main.js'></script>
+<!--     <script src='/resources/lib/fullcalendar/main.min.css'></script> -->
+<!--     <script src='/resources/lib/fullcalendar/main.min.js'></script> -->
+    
 </head>
 <style>
 * {
 	box-sizing: border-box;
 }
 
-/* .addDiv{ */
-/* 	text-align: center; */
-/* } */
+#calendar{
+	width: 100%;
+}
 
+.fc-toolbar-chunk {
+  display: flex; // 일렬로 나란히
+  align-items: center; // 수직 가운데 정렬
+}
 </style>
 <body>
 	<!-- WRAPPER -->
@@ -66,93 +70,49 @@
 				<div class="container-fluid">
 					<h3 class="page-title">일간 일정</h3>
 				</div>
-				<div class="panel panel-headline demo-icons">
+			</div>
+			<div class="panel panel-headline demo-icons">
 					<div class="panel-heading">
 						<h3 class="panel-title">일 간 일 정</h3>
 					</div>
 					<div class="panel-body">
-						<div>
-							
-						</div>
-<!-- 						<div class="addDiv"> -->
-<!-- 							<button id="addBtn">일정 추가하기</button> -->
-<!-- 						</div> -->
-<!-- 						<div> -->
-<!-- 							<div class="col">시간<button class="glyphicon glyphicon-plus"></button></div> -->
-<!-- 						</div> -->
+						<div id="calendar" class="col-6"></div>
 					</div>
-					
-					<table class="table">
-						<thead>
-							<tr>
-								<th scope="col">시간</th>
-								<th>일정 리스트 : 총 n 개</th>
-							</tr>
-						</thead>
-						<tbody>					
-							<tr>
-								<td><a href="#">오전6시</a></td>
-								<td>일간 일정 리스트</td>
-							</tr>
-							<tr>
-								<td><a href="#">오전7시</a></td>
-								<td>일간 일정 리스트</td>
-							</tr>
-							<tr>
-								<td><a href="#">오전8시</a></td>
-								<td>일간 일정 리스트</td>
-							</tr>
-							<tr>
-								<td><a href="#">오전9시</a></td>
-								<td>일간 일정 리스트</td>
-							</tr>
-							<tr>
-								<td><a href="#">오전10시</a></td>
-								<td>일간 일정 리스트</td>
-							</tr>
-							<tr>
-								<td><a href="#">오전11시</a></td>
-								<td>일간 일정 리스트</td>
-							</tr>
-							<tr>
-								<td><a href="#">오후12시</a></td>
-								<td>일간 일정 리스트</td>
-							</tr>
-							<tr>
-								<td><a href="#">오후1시</a></td>
-								<td>일간 일정 리스트</td>
-							</tr>
-							<tr>
-								<td><a href="#">오후2시</a></td>
-								<td>일간 일정 리스트</td>
-							</tr>
-							<tr>
-								<td><a href="#">오후3시</a></td>
-								<td>일간 일정 리스트</td>
-							</tr>
-							<tr>
-								<td><a href="#">오후4시</a></td>
-								<td>일간 일정 리스트</td>
-							</tr>
-							<tr>
-								<td><a href="#">오후5시</a></td>
-								<td>일간 일정 리스트</td>
-							</tr>
-							<tr>
-								<td><a href="#">오후6시</a></td>
-								<td>일간 일정 리스트</td>
-							</tr>
-							
-						</tbody>
-					</table>
-				</div>
 			<!-- END MAIN CONTENT -->
-			</div>
+		</div>
 		<!-- END MAIN -->
 		<div class="clearfix"></div>
 			<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
 		</div>
 	<!-- END WRAPPER -->
 	</div>
+	
+	<script>
+	 	document.addEventListener('DOMContentLoaded', function() {
+		    var calendarE3 = document.getElementById('calendar');
+			var calendar = new FullCalendar.Calendar(calendarE3, {
+				initialView: 'timeGridWeek',
+				
+				headerToolbar: {
+					left: '',
+					center: 'prev title next',
+					right: 'today'
+				},
+				locale: 'ko',
+				businessHours: true,
+				dayMaxEvents: true,
+				events: [
+			    	  <c:forEach var="i" items="${list }">
+			    	  {
+				          title  : '${i.sch_title }',
+				          start  : '${i.sch_start_date }',
+				          url : "/schedule/scheduleView.schedule?sch_seq=${i.sch_seq}"
+			    	  },
+			          </c:forEach>
+			      ],
+			});
+			 calendar.render();
+	 	});
+	</script>
 </body>
 </html>
