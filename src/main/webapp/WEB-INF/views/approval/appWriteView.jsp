@@ -32,6 +32,7 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    
      <!-- jqwidget -->
      <link rel="stylesheet" href="/resources/lib/jqwidgets/styles/jqx.base.css" type="text/css" />
    <!--  <script type="text/javascript" src="/resources/lib/scripts/jquery-1.11.1.min.js"></script> -->
@@ -41,6 +42,7 @@
     <script type="text/javascript" src="/resources/lib/jqwidgets/jqxbuttons.js"></script>
     <script type="text/javascript" src="/resources/lib/jqwidgets/jqxtooltip.js"></script>
    	<script type="text/javascript" src="/resources/lib/jqwidgets/globalization/globalize.js"></script>
+   	
 <style type="text/css">
 /* Remove default bullets */
 ul, #myUL1 {
@@ -88,6 +90,22 @@ th{width:50px;}
 .table>thead>tr>th{border-bottom:none;}
 .jqxdate{margin-top:7px;}
 .selectedOrder{display:none;}
+td.resize-col {
+    padding: 0;
+    vertical-align: middle;
+    cursor: col-resize;
+    user-select: none;
+    background-color: #f5f5f5;
+    color: #a9a9a9;
+  }
+  .resize-width {
+    display: flex;
+    vertical-align: middle;
+    height: 100%;
+  }
+    .resize-width i{
+      transform: rotate(90deg);
+    }
 </style>
 </head>
 <body>
@@ -351,33 +369,7 @@ th{width:50px;}
 			$(".fileContainer").on("click",".fileDel",function(){
 				$(this).closest(".fileBlock").remove();
 			})
-			//summernote 관련 스크립트 
-			$(document).ready(function() {
-				//여기 아래 부분
-				$('.summernote').summernote({
-					height : 300, // 에디터 높이
-					minHeight : 300, // 최소 높이
-					maxHeight : null, // 최대 높이
-					focus : true, // 에디터 로딩후 포커스를 맞출지 여부
-					lang : "ko-KR", // 한글 설정
-					toolbar: [
-							// [groupName, [list of button]]
-							['fontname', ['fontname']],
-							['fontsize', ['fontsize']],
-							['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
-							['color', ['forecolor','color']],
-							['table', ['table']],
-							['para', ['ul', 'ol', 'paragraph']],
-							['height', ['height']],
-							['insert',['picture','link','video']],
-							['view', ['fullscreen', 'help']]
-						  	],
-						fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋음체','바탕체'],
-						fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
-				});
-				var HTMLstring = `상기와 같은 내용으로 휴가를 신청합니다.`;
-				$('#breakEditor').summernote('pasteHTML', HTMLstring);
-			});
+
 			//문서종류 변경 이벤트
 			$("#docsType").on("change",function(){
 				if(this.value==3){
@@ -577,5 +569,7 @@ th{width:50px;}
                 return year + '-' + month + '-' + day;
             }
 		</script>
+<jsp:include page="/WEB-INF/views/commonPage/summernote-plugin.jsp" />
+
 </body>
 </html>
