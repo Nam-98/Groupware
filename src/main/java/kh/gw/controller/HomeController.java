@@ -48,10 +48,9 @@ public class HomeController {
 			//월간일정완성되면 달력에 띄울수 있도록리스트 받아주기
 			//공지사항 리스트 최근 3개
 			List<ScheduleDTO> list = sservice.listAllSchedule(id);
-			 
 			sservice.addDateStr(list);
-			 
 			model.addAttribute("list", list);
+			
 			//(김근수)
 			//수신쪽지 리스트 최신 5?
 			//안읽은 총 갯수
