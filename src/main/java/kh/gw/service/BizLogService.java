@@ -41,14 +41,9 @@ public class BizLogService {
     	BizLog_periodDTO dto = new BizLog_periodDTO(seq, biz_periodstart, biz_periodend);
 		return bdao.setPeriod(dto);
     }
-    public List<HashMap<String,Object>> getMainList(String strDate) {
-    	List<HashMap<String,Object>> result = new ArrayList<HashMap<String,Object>>();
-    	HashMap<String,Object> weekList = new HashMap<String, Object>();
-    	HashMap<String,Object> weekPer = new HashMap<String, Object>();
-    	HashMap<String,Object> dailyList = new HashMap<String, Object>();
-    	HashMap<String,Object> dailyPer = new HashMap<String, Object>();
-    	HashMap<String,Object> monList = new HashMap<String, Object>();
-    	HashMap<String,Object> monPer = new HashMap<String, Object>();
+    public HashMap<String,Object> getMainList(String strDate) {
+    	HashMap<String,Object> result = new HashMap<String, Object>();
+
     	//시간설정
     	int year = Integer.parseInt(strDate.split("-")[0]);
     	int month = Integer.parseInt(strDate.split("-")[1]);
@@ -59,15 +54,37 @@ public class BizLogService {
     	
     	//weekList
     	List<ApprovalDTO> weekTemp =  bdao.getWeekList((String)session.getAttribute("id"),dStart,dEnd);
-    	weekList.put("weekList", weekTemp);
-    	weekPer.put("weekPeriod", bdao.getPeriod(weekTemp));
+    	result.put("weekList", weekTemp);
+    	if(weekTemp.size()==0) {
+    		result.put("weekPeriod", null);
+    	}else {
+    		result.put("weekPeriod", bdao.getPeriod(this.getSeqList(weekTemp)));
+    	}
     	//MonthList
-    	List<ApprovalDTO> monTemp =  bdao.getWeekList((String)session.getAttribute("id"),dStart,dEnd);
-    	weekList.put("monList",  monTemp);
-    	weekPer.put("monPeriod", bdao.getPeriod(monTemp));
-    	//weekList
-    	weekList.put("weekList",  bdao.getWeekList((String)session.getAttribute("id"),dStart,dEnd));
-    	weekPer.put("weekPeriod", bdao.getPeriod((List<ApprovalDTO>) weekList.get("weekList")));
+    	List<ApprovalDTO> monTemp =  bdao.getMonList((String)session.getAttribute("id"),dStart,dEnd);
+    	result.put("monList",  monTemp);
+    	if(monTemp.size()==0) {
+    		result.put("monPeriod", null);
+    	}else {
+    		result.put("monPeriod", bdao.getPeriod(this.getSeqList(monTemp)));
+    	}
+    	//DailyList
+    	List<ApprovalDTO> dailyTemp =  bdao.getDailyList((String)session.getAttribute("id"),dStart,dEnd);
+    	result.put("dailyList",  dailyTemp);
+    	if(dailyTemp.size()==0) {
+    		result.put("dailyPeriod", null);
+    	}else {
+    		result.put("dailyPeriod", bdao.getPeriod(this.getSeqList(dailyTemp)));
+    	}
+    	
+    	System.out.println(result.size());
+    	return result;
+    }
+    private List<Integer> getSeqList(List<ApprovalDTO> list){
+    	List<Integer> result = new ArrayList<>();
+    	for(ApprovalDTO dto : list) {
+    		result.add(dto.getApp_seq());
+    	}
     	return result;
     }
 	

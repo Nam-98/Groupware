@@ -2,6 +2,7 @@ package kh.gw.controller;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,8 @@ public class BizLogController {
 	private ApprovalService aservice;
 	@RequestMapping("/toMainPage.bizlog")
 	public String toMainPage(String strDate, Model model) {
-		bservice.getMainList(strDate);
+		HashMap<String,Object> list = bservice.getMainList(strDate);
+		model.addAllAttributes(list);
 		model.addAttribute("strDate", strDate);
 		return "bizlog/bizMainPage";
 	}

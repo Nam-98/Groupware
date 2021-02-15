@@ -54,7 +54,9 @@ public class BizLogDAO {
 		map.put("biz_periodend", biz_periodend);
 		return db.selectList("BizLog.getDailyList", map);
 	}
-	public List<BizLog_periodDTO> getPeriod(List<ApprovalDTO> seqList){
-		return db.selectList("BizLog.getPeriod", seqList);
+	public List<BizLog_periodDTO> getPeriod(List<Integer> seqList){
+		HashMap<String,Object> map = new HashMap();
+		map.put("seqList", seqList);
+		return db.selectList("BizLog.getPeriod", map);
 	}
 }

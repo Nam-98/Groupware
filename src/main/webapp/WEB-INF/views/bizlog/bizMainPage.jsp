@@ -86,6 +86,9 @@ p{margin-top:10px;margin-bottom:10px;}
 #searchInput{width:60%;display:inline-flex;}
 #searchType{padding-left:10px;width:25%;display:inline-block;}
 .dateSelect{width:fit-content;display:inline-block;}
+table{width:100%;text-align:center;}
+th{text-align:center;}
+.dataRow:hover{cursor:pointer;}
 </style>
 </head>
 <body>
@@ -143,33 +146,136 @@ p{margin-top:10px;margin-bottom:10px;}
 								<c:set var="selectedDate" value="${fn:split(strDate,'-')}"></c:set>
 								<c:out value="${selectedDate[0]}"></c:out>년 <c:out value="${selectedDate[1]}"></c:out>월 업무일지 
 							</h2>
-							번호, 업무일지 유형, 제목, 등록일, 상태(확인,반송 등) Copy
 							
 							<div class="collapseContainer">
-								<p>Collapsible Set:</p>
-								<button class="collapsible">Open Section 1</button>
+								<button class="collapsible">월간 업무일지</button>
 								<div class="content">
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing
-										elit, sed do eiusmod tempor incididunt ut labore et dolore
-										magna aliqua. Ut enim ad minim veniam, quis nostrud 
-										exercitation ullamco laboris nisi ut aliquip ex ea commodo
-										consequat.</p>
+									<table class="table table-striped">
+										<thead>
+											<tr>
+												<th scope="row" >문서번호</th>
+												<th scope="row" >분류</th>
+												<th scope="row" >문서명</th>
+												<th scope="row" >기안자</th>
+												<th scope="row" >업무일</th>
+												<th scope="row" >최종 결재상태</th>
+											</tr>
+											
+										</thead>
+										<tbody>
+										<c:choose >
+											<c:when test="${empty monList}">
+												<tr>
+													<td colspan=7>
+														작성한 문서가 없습니다. 
+													</td>
+												</tr>
+											</c:when>
+											<c:otherwise>
+											<c:forEach items="${monList}" var="i">
+												<tr class='dataRow'>
+													<td>${i.app_docs_num}<input type=hidden value="${i.app_seq}"></td>
+													<td>${i.app_type_name}</td>
+													<td>${i.app_title}</td>
+													<td>${i.name}</td>
+													<c:forEach items="${monPeriod}" var="p">
+														<c:if test="${p.app_seq eq i.app_seq }">
+															<td>${p.biz_periodstart} ~ ${p.biz_periodend}</td>
+														</c:if>
+													</c:forEach>
+													<td>${i.app_status_name}</td>
+												</tr>
+											</c:forEach>
+											</c:otherwise>
+										</c:choose>
+										</tbody> 
+									</table>
 								</div>
-								<button class="collapsible">Open Section 2</button>
+								<button class="collapsible">주간 업무일지</button>
 								<div class="content">
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing
-										elit, sed do eiusmod tempor incididunt ut labore et dolore
-										magna aliqua. Ut enim ad minim veniam, quis nostrud
-										exercitation ullamco laboris nisi ut aliquip ex ea commodo
-										consequat.</p>
+									<table class="table table-striped">
+										<thead>
+											<tr>
+												<th scope="row" >문서번호</th>
+												<th scope="row" >분류</th>
+												<th scope="row" >문서명</th>
+												<th scope="row" >기안자</th>
+												<th scope="row" >업무일</th>
+												<th scope="row" >최종 결재상태</th>
+											</tr>
+											
+										</thead>
+										<tbody>
+										<c:choose >
+											<c:when test="${empty weekList}">
+												<tr>
+													<td colspan=7>
+														작성한 문서가 없습니다. 
+													</td>
+												</tr>
+											</c:when>
+											<c:otherwise>
+											<c:forEach items="${weekList}" var="i">
+												<tr class='dataRow'>
+													<td>${i.app_docs_num}<input type=hidden value="${i.app_seq}"></td>
+													<td>${i.app_type_name}</td>
+													<td>${i.app_title}</td>
+													<td>${i.name}</td>
+													<c:forEach items="${weekPeriod}" var="p">
+														<c:if test="${p.app_seq eq i.app_seq }">
+															<td>${p.biz_periodstart} ~ ${p.biz_periodend}</td>
+														</c:if>
+													</c:forEach>
+													<td>${i.app_status_name}</td>
+												</tr>
+											</c:forEach>
+											</c:otherwise>
+										</c:choose>
+										</tbody> 
+									</table>
 								</div>
-								<button class="collapsible">Open Section 3</button>
+								<button class="collapsible">일일 업무일지</button>
 								<div class="content">
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing
-										elit, sed do eiusmod tempor incididunt ut labore et dolore
-										magna aliqua. Ut enim ad minim veniam, quis nostrud
-										exercitation ullamco laboris nisi ut aliquip ex ea commodo
-										consequat.</p>
+									<table class="table table-striped">
+										<thead>
+											<tr>
+												<th scope="row" >문서번호</th>
+												<th scope="row" >분류</th>
+												<th scope="row" >문서명</th>
+												<th scope="row" >기안자</th>
+												<th scope="row" >업무일</th>
+												<th scope="row" >최종 결재상태</th>
+											</tr>
+											
+										</thead>
+										<tbody>
+										<c:choose >
+											<c:when test="${empty dailyList}">
+												<tr>
+													<td colspan=7>
+														작성한 문서가 없습니다. 
+													</td>
+												</tr>
+											</c:when>
+											<c:otherwise>
+											<c:forEach items="${dailyList}" var="i">
+												<tr class='dataRow'>
+													<td>${i.app_docs_num}<input type=hidden value="${i.app_seq}"></td>
+													<td>${i.app_type_name}</td>
+													<td>${i.app_title}</td>
+													<td>${i.name}</td>
+													<c:forEach items="${dailyPeriod}" var="p">
+														<c:if test="${p.app_seq eq i.app_seq }">
+															<td>${p.biz_periodstart}</td>
+														</c:if>
+													</c:forEach>
+													<td>${i.app_status_name}</td>
+												</tr>
+											</c:forEach>
+											</c:otherwise>
+										</c:choose>
+										</tbody> 
+									</table>
 								</div>
 							</div>
 							<!-- 업무일지 리스트업 종료-->
@@ -179,7 +285,8 @@ p{margin-top:10px;margin-bottom:10px;}
 
 						</div><!-- panel body 종료 -->
 						<div class="panel-footer">
-							<div class="row">
+						<!--  검색기능 row -->
+							<!-- <div class="row">
 								<div class="col-md-5 col-sm-12">
 									<select id="searchType"
 										class="form-control input-sm selectInline" name="searchType">
@@ -195,7 +302,7 @@ p{margin-top:10px;margin-bottom:10px;}
 												style="all: none;">Go!</button></span>
 									</div>
 								</div>
-							</div>
+							</div> -->
 							<!-- row종료 -->
 						</div>
 						
@@ -266,7 +373,14 @@ p{margin-top:10px;margin-bottom:10px;}
 			}
 			btncnt++;
 		}
-
 </script>
+	<script>
+		
+		//row눌렀을 때 링크로 이동
+		$(".dataRow").on("click",function(){
+			console.log($(this).children().first().children("input").val());
+			location.href="/approval/toAppDetailView.approval?app_seq="+$(this).children().first().children("input").val()
+		})
+	</script>
 </body>
 </html>

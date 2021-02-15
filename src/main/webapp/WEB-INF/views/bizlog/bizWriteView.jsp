@@ -295,30 +295,37 @@ th{width:50px;}
 			//일일 업무일지
 			if(document.getElementById("bizDate").value==''){alert("날짜를 선택해 주세요");return;}
 			dStrt = document.getElementById("bizDate").value.split("-");
-			dStrt = new Date(dStrt[0],dStrt[1],dStrt[2]);
+			dStrt = new Date(dStrt[0],dStrt[1]-1,dStrt[2]);//month는 0부터 시작하기 때문에 -1을 해줌
 			//dStrt = getFormatDate($('#jqxdateStart').jqxDateTimeInput('getDate'));
 			dEnd = dStrt;
-			console.log(dStrt);
+
 		}else if(docsType==8){
 			//주간 업무일지
 			if(document.getElementById("sh_week").value==''){alert("날짜를 선택해 주세요");return;}
 			let temp = document.getElementById("sh_week").value
 			dStrt = getStartDateFromISOWeek(temp);
+			//dStrt setting시에 하루 앞으로 당겨져 date가 지정되는 오류가 있어 하루 뒤의 date를 넣어줌
+			dStrt.setDate(dStrt.getDate()+1);
 			dEnd.setDate(dStrt.getDate()+6);
 
+			
 		}else{
 			//월간 업무일지
 			if(document.getElementById("sh_month").value==''){alert("날짜를 선택해 주세요");return;}
 			var monthFull = document.getElementById("sh_month").value.split("-");
 			let year = monthFull[0];
 			let mon = monthFull[1];
-			dStrt = new Date(year, mon-1, 1);
-			dEnd = new Date(year, mon, 0);
+			//input type date에 넣을 때 하루씩 앞으로 당겨지는 오류가 있어 하루 뒤의 date를 setting해준다.
+			dStrt = new Date(year, mon-1, 2);
+			dEnd = new Date(year, mon, 1);
+
 		}
 
 		//input type date에 담아 form을 통해 controller로 전송
 		document.getElementById("bizPerSrt").value = dStrt.toISOString().substring(0, 10);
 		document.getElementById("bizPerEnd").value = dEnd.toISOString().substring(0, 10);
+		console.log(document.getElementById("bizPerSrt").value);
+		console.log(document.getElementById("bizPerEnd").value);
 		$("#contents").val(contents);
 		$("#writeForm").submit();
 		
