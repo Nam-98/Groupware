@@ -63,7 +63,7 @@
 	height: 20px;
 	/* 	background-color: yellow; */
 }
-
+.dataRow:hover{cursor:pointer;}
 .fc-toolbar-chunk {
 	display: flex;
 	//
@@ -148,15 +148,12 @@
 					</div>
 					<!-- END MainMenu -->
 					<div class="row">
+
 						<div class="col-md-4">
 							<div class="panel">
 								<div class="panel-heading">
 									<h3 class="panel-title">Commuting check</h3>
-									<div class="right">
-										<button type="button" class="btn-toggle-collapse">
-											<i class="lnr lnr-chevron-up"></i>
-										</button>
-									</div>
+									<div class="right"></div>
 								</div>
 								<div class="panel-body">
 									<h4>
@@ -172,20 +169,14 @@
 									<div class="">
 										<span class="glyphicon glyphicon-flag" aria-hidden="true">&nbsp<b>${attendanceValue.status }</b>&nbsp
 										</span>
-										<c:if test='${attendanceValue.status != "-"}'>
-                        ${attendanceValue.hour }시
-                        ${attendanceValue.minute }분
-                     </c:if>
+										<c:if test='${attendanceValue.status != "-"}'>${attendanceValue.hour }시${attendanceValue.minute }분</c:if>
 
 									</div>
 									<hr>
 									<div class="">
 										<span class="glyphicon glyphicon-home" aria-hidden="true">&nbsp<b>${leaveWorkValue.status }</b>&nbsp
 										</span>
-										<c:if test='${leaveWorkValue.status != "-"}'>
-                     ${leaveWorkValue.hour }시
-                     ${leaveWorkValue.minute }분
-                     </c:if>
+										<c:if test='${leaveWorkValue.status != "-"}'> ${leaveWorkValue.hour }시 ${leaveWorkValue.minute }분</c:if>
 									</div>
 									<hr>
 								</div>
@@ -195,21 +186,99 @@
 											<span class="panel-note"></span>
 										</div>
 										<div class="col-md-6 text-right">
-											<a href="#" class="btn btn-primary">Go</a>
+											<a href="/tna/tnaCheckPage.tna" class="btn btn-primary">Go</a>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
+						<div class="col-md-8">
+							<!-- TASKS -->
+							<div class="panel">
+								<div class="panel-heading">
+									<h3 class="panel-title">e-Approval</h3>
+									<div class="right"></div>
+								</div>
+								<div class="panel-body">
+									<div id='jqxtabs'>
+										<ul style='margin-left: 20px;'>
+											<li>상신 문서</li>
+											<li>승인 요청중&nbsp<span class="badge">${knrToBeCount}</span></li>
+										</ul>
+										<div>
+											<div class="panel-body">
+												<table class="table table-hover">
+													<thead>
+														<tr>
+															<th scope="col">#</th>
+															<th scope="col">제 목</th>
+															<th scope="col">기안자(ID)</th>
+															<th scope="col">기안날짜</th>
+															<th scope="col">문서상태</th>
+														</tr>
+													</thead>
+													<tbody>
+														<c:forEach var="i" items="${knrWriteList}">
+															<tr class='dataRow'>
+																<th scope="row">${i.app_docs_num}<input type=hidden value="${i.app_seq}"></th>
+																<td>${i.app_title}</td>
+																<td>${i.name}</td>
+																<td>${i.app_reg_date}</td>
+																<td>${i.app_status_name}</td>
+															</tr>
+														</c:forEach>
+													</tbody>
+												</table>
+											</div>
+										</div>
+										<div>
+											<div class="panel-body">
+												<table class="table table-hover">
+													<thead>
+														<tr>
+															<th scope="col">#</th>
+															<th scope="col">제 목</th>
+															<th scope="col">기안자(ID)</th>
+															<th scope="col">기안날짜</th>
+															<th scope="col">현재 상태</th>
+														</tr>
+													</thead>
+													<tbody>
+														<c:forEach var="i" items="${knrToBeList}">
+															<tr class='dataRow'>
+																<th scope="row">${i.app_docs_num}<input type=hidden value="${i.app_seq}"></th>
+																<td>${i.app_title}</td>
+																<td>${i.name}</td>
+																<td>${i.app_reg_date}</td>
+																<td>${i.app_is_my_sign_turn}</td>
+															</tr>
+														</c:forEach>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="panel-footer">
+									<div class="row">
+										<div class="col-md-6">
+											<span class="panel-note"></span>
+										</div>
+										<div class="col-md-6 text-right">
+											<a href="/approval/toAppMainView.approval" class="btn btn-primary">more</a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- END TASKS -->
+						</div>
+					</div>
+					<div class="row">
 						<div class="col-md-4">
 							<div class="panel">
 								<div class="panel-heading">
 									<h3 class="panel-title">My Projects</h3>
-									<div class="right">
-										<button type="button" class="btn-toggle-collapse">
-											<i class="lnr lnr-chevron-up"></i>
-										</button>
-									</div>
+									<div class="right"></div>
 								</div>
 								<div class="panel-body">
 									<ul class="list-unstyled task-list">
@@ -236,21 +305,64 @@
 											<span class="panel-note"></span>
 										</div>
 										<div class="col-md-6 text-right">
-											<a href="#" class="btn btn-primary">Go</a>
+											<a href="/project/enterProjectList.project?cpage=1" class="btn btn-primary">Go</a>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
+
+						<div class="col-md-4">
+
+							<!-- TASKS -->
+
+							<div class="panel">
+
+								<div class="panel-heading">
+									<h3 class="panel-title">
+										Inbox&nbsp<span class="badge rounded-pill bg-danger">${kgsMsgCount}</span>
+									</h3>
+									<div class="right"></div>
+								</div>
+								<div class="panel-body no-padding">
+									<table class="table table-hover">
+										<thead>
+											<tr>
+												<th scope="col">발신날짜</th>
+												<th scope="col">제 목</th>
+												<th scope="col">발신인</th>
+											</tr>
+										</thead>
+										<tbody>
+											<c:forEach var="i" items="${kgsMsgList}">
+												<tr>
+													<td>${i.msg_send_date}</td>
+													<th scope="row"><a href="/message/msgReceiveView.message?msg_seq=${i.msg_seq}&msg_receive_date_str=${msg_receive_date_str }">${i.msg_title}</a></th>
+													<td>${i.msg_sender_name}</td>
+												</tr>
+											</c:forEach>
+										</tbody>
+									</table>
+								</div>
+								<div class="panel-footer">
+									<div class="row">
+										<div class="col-md-6">
+											<span class="panel-note"></span>
+										</div>
+										<div class="col-md-6 text-right">
+											<a href="/message/msgInBoxList.message?cpage=1" class="btn btn-primary">more</a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- END TASKS -->
+
+						</div>
 						<div class="col-md-4">
 							<div class="panel">
 								<div class="panel-heading">
 									<h3 class="panel-title">Schedule</h3>
-									<div class="right">
-										<button type="button" class="btn-toggle-collapse">
-											<i class="lnr lnr-chevron-up"></i>
-										</button>
-									</div>
+									<div class="right"></div>
 								</div>
 								<div class="panel-body">
 									<div class="metric">
@@ -260,129 +372,14 @@
 								<div class="panel-footer">
 									<div class="row">
 										<div class="col-md-6">
-											<span class="panel-note"><i class="fa fa-clock-o"></i>
-												Latest 3 posts</span>
+											
 										</div>
 										<div class="col-md-6 text-right">
-											<a href="#" class="btn btn-primary">Go</a>
+											<a href="/schedule/monthSchedule.schedule" class="btn btn-primary">Go</a>
 										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-4">
-							<!-- TASKS -->
-
-							<div class="panel">
-
-								<div class="panel-heading">
-									<h3 class="panel-title">Notice</h3>
-									<div class="right">
-										<button type="button" class="btn-toggle-collapse">
-											<i class="lnr lnr-chevron-up"></i>
-										</button>
-									</div>
-								</div>
-								<div class="panel-body no-padding"></div>
-								<div class="panel-footer">
-									<div class="row">
-										<div class="col-md-6">
-											<span class="panel-note"><i class="fa fa-clock-o"></i>
-												Latest 3 posts</span>
-										</div>
-										<div class="col-md-6 text-right">
-											<a href="#" class="btn btn-primary">Go</a>
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- END TASKS -->
-						</div>
-						<div class="col-md-8">
-							<!-- TASKS -->
-							<div class="panel">
-								<div class="panel-heading">
-									<h3 class="panel-title">e-Approval</h3>
-									<div class="right">
-										<button type="button" class="btn-toggle-collapse">
-											<i class="lnr lnr-chevron-up"></i>
-										</button>
-									</div>
-								</div>
-								<div class="panel-body">
-									<div id='jqxtabs'>
-										<ul style='margin-left: 20px;'>
-											<li>상신 문서</li>
-											<li>승인 요청중&nbsp<span class="badge">${knrToBeCount}</span></li>
-										</ul>
-										<div>
-											<div class="panel-body">
-												<table class="table table-hover">
-													<thead>
-														<tr>
-															<th scope="col">#</th>
-															<th scope="col">제 목</th>
-															<th scope="col">기안자(ID)</th>
-															<th scope="col">기안날짜</th>
-															<th scope="col">문서상태코드</th>
-														</tr>
-													</thead>
-													<tbody>
-														<c:forEach var="i" items="${knrWriteList}">
-															<tr>
-																<th scope="row">${i.app_docs_num}</th>
-																<td>${i.app_title}</td>
-																<td>${i.name}</td>
-																<td>${i.app_reg_date}</td>
-																<td>${i.app_status_code}</td>
-															</tr>
-														</c:forEach>
-													</tbody>
-												</table>
-											</div>
-										</div>
-										<div>
-											<div class="panel-body">
-												<table class="table table-hover">
-													<thead>
-														<tr>
-															<th scope="col">#</th>
-															<th scope="col">제 목</th>
-															<th scope="col">기안자(ID)</th>
-															<th scope="col">기안날짜</th>
-															<th scope="col">현재 상태</th>
-														</tr>
-													</thead>
-													<tbody>
-														<c:forEach var="i" items="${knrToBeList}">
-															<tr>
-																<th scope="row">${i.app_docs_num}</th>
-																<td>${i.app_title}</td>
-																<td>${i.name}</td>
-																<td>${i.app_reg_date}</td>
-																<td>${i.app_is_my_sign_turn}</td>
-															</tr>
-														</c:forEach>
-													</tbody>
-												</table>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="panel-footer">
-									<div class="row">
-										<div class="col-md-6">
-											<span class="panel-note"></span>
-										</div>
-										<div class="col-md-6 text-right">
-											<a href="#" class="btn btn-primary">Go</a>
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- END TASKS -->
 						</div>
 					</div>
 				</div>
@@ -501,5 +498,12 @@
 	      });
 
    </script>
+   		<script>
+		//row눌렀을 때 링크로 이동
+		$(".dataRow").on("click",function(){
+			console.log($(this).children().first().children("input").val());
+			location.href="/approval/toAppDetailView.approval?app_seq="+$(this).children().first().children("input").val()
+		});
+	</script>
 </body>
 </html>

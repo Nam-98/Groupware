@@ -76,7 +76,7 @@ public class HomeController {
 			model.addAttribute("knrToBeList", knrAppResult.get("resultList"));
 			model.addAttribute("knrToBeCount",  knrAppResult.get("toBeSignCount"));
 			//상신 문서 리스트 - 인자값으로 넣는 숫자는 가져올 목록의 갯수로, 원하는대로 변경하여 사용하시면 됩니다.
-			model.addAttribute("knrWriteList",aservice.getMainWriteList(3));
+			model.addAttribute("knrWriteList",aservice.getMainWriteList(5));
 
 			//(최재준)
 			//월간일정완성되면 달력에 띄울수 있도록리스트 받아주기
