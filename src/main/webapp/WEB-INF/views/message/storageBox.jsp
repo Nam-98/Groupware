@@ -147,7 +147,7 @@
                                        </div>
                                     </th>
                                     <td><a
-                                       href="/message/msgCabView.message?msg_seq=${i.MSG_SEQ}">${i.MSG_TITLE }</a></td>
+                                       href="/message/msgCabView.message?msg_seq=${i.MSG_SEQ}&msg_receive_date_str=${i.msg_receive_date_str }">${i.MSG_TITLE }</a></td>
                                     <td>${i.MSG_SENDER_NAME }</td>
                                     <td>${i.MSG_SENDER_DATE_STR }</td>
                                     <td>${i.MSG_RECEIVE_DATE_STR }</td>
@@ -227,7 +227,7 @@
                                        </div>
                                     </th>
                                     <td><a
-                                       href="/message/msgCabView.message?msg_seq=${i.msg_seq}">${i.msg_title }</a></td>
+                                       href="/message/msgCabView.message?msg_seq=${i.msg_seq}&msg_receive_date_str=${i.msg_receive_date_str }">${i.msg_title }</a></td>
                                     <td>${i.msg_receiver_name }</td>
                                     <td>${i.msg_sender_date_str }</td>
                                     <td>${i.msg_receive_date_str }</td>
