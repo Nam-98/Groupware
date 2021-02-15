@@ -5,7 +5,11 @@
 <html>
 <style>
 #calendar{
-	width: 20%;
+	width: 100%;
+}
+.fc-toolbar-chunk {
+  display: flex; // 일렬로 나란히
+  align-items: center; // 수직 가운데 정렬
 }
 </style>
 <head>
@@ -33,13 +37,10 @@
    <script src="/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
    <script src="/assets/vendor/chartist/js/chartist.min.js"></script>
    <script src="/assets/scripts/klorofil-common.js"></script>
-   <!-- Calendar -->
-   <link rel="stylesheet" href="/resources/lib/jqwidgets/styles/jqx.base.css" type="text/css"/>
-	<script type="text/javascript" src="/resources/lib/scripts/jquery-1.11.1.min.js"></script>
-	<script type="text/javascript" src="/resources/lib/jqwidgets/jqxcore.js"></script>
-	<script type="text/javascript" src="/resources/lib/jqwidgets/jqxdatetimeinput.js"></script>
-	<script type="text/javascript" src="/resources/lib/jqwidgets/jqxcalendar.js"></script>
-	<script type="text/javascript" src="/resources/lib/jqwidgets/globalization/globalize.js"></script>
+    <!-- Calendar -->
+    <link href='/resources/lib/fullcalendar/main.css' rel='stylesheet' />
+    <script src='/resources/lib/fullcalendar/main.js'></script>
+
 </head>
 <body>
    <!-- WRAPPER -->
@@ -70,27 +71,17 @@
                   <div class="">
                      
                   </div>
-                  <div class="">
-                     
-                  </div>
-                  <input type="button" class="btn btn-gray btn-xs"> 
-                  <input type="button" class="btn btn-gray btn-xs">
-				</div>               
+                  <div class="">             
 				</div>
                <div class="panel panel-headline demo-icons">
                   <div class="panel-heading">
                   <h3 class="panel-title">연 간 일 정</h3>
                   </div>
                   <div class="panel-body">
-                  	<script type="text/javascript">
-					    $(document).ready(function () {
-					        $(".jqxcalendar").jqxCalendar({ width: '250px', height: '250px', theme: 'summer'});
-					        $(".jqxcalendar").jqxCalendar('setDate', new Date(2010, 1, 1));
-					    });
-					</script>
-                     <div class='jqxcalendar'></div>
+  				 	<div id='calendar'></div>       
                   </div>
                </div>
+              </div>
                
             </div>
          </div>
@@ -101,6 +92,43 @@
 		<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
    </div>
    <!-- END WRAPPER -->
+   </div>
+ <script>
+   	document.getElementById("golist").onclick=function(){
+   		location.href="/schedule/scheduleListProc.schedule?cpage=1";
+   	}
+   </script>
+   <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        
+        var calendar = new FullCalendar.Calendar(calendarEl, {        	
+        	headerToolbar: {
+				left: '',
+				center: 'prev title next',
+				right: 'today'
+			},
+			locale: 'ko',
+			businessHours: true,
+			 eventSources: [
+				    {
+				      events: [
+				    	  <c:forEach var="i" items="${list }">
+				    	  {
+					          title  : '${i.sch_title }',
+					          start  : '${i.sch_start_date_sc }',
+					          end    : '${i.sch_end_date_sc }',
+					          url : "/schedule/scheduleView.schedule?sch_seq=${i.sch_seq}"
+				    	  },
+				          </c:forEach>
+				      ],
+				    }
+				]
+
+        });
+        calendar.render();
+      });
+</script>
   
 </body>
 </html>

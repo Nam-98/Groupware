@@ -52,6 +52,10 @@
 	height: 20px;
 	/* 	background-color: yellow; */
 }
+.fc-toolbar-chunk {
+  display: flex; // 일렬로 나란히
+  align-items: center; // 수직 가운데 정렬
+}
 </style>
 <body>
 	<!-- WRAPPER -->
@@ -864,49 +868,44 @@
    </script>
 	<script>
 
-      document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-        
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-			header: {
-				left: '',
-				center: 'title',
-				right: 'today prev,next'
-			},
-			locale: 'ko',
-// 			themeSystem: 'sketchy',
-			businessHours: true,
-			eventClick: function(arg) {
-				arg.jsEvent.preventDefault();
-				
-				if (arg.event.url) {
-					if (confirm("정정 신청하시겠습니까?")) {
-						var options='top=10, left=10, width=800, height=600, status=no, menubar=no, toolbar=no, resizable=no';
-						window.open(arg.event.url,"popup",options);
-					}
-				}
-	        },
-			events: [
-				<c:forEach varStatus="i" var="list" items="${tnaCalendarList}">
-					{
-						title: '${list.TNA_START_STATUS_NAME}',
-						start: '${list.TNA_START_TIME}',
-						url: "/tna/tnaFixRequestPage.tna?tna_seq=${list.TNA_SEQ}&tna_status=start"
-						
-					},
-					{
-						title: '${list.TNA_END_STATUS_NAME}',
-						start: '${list.TNA_END_TIME}',
-						url: "/tna/tnaFixRequestPage.tna?tna_seq=${list.TNA_SEQ}&tna_status=end"
-					}
-					<c:if test="${!i.last}">
-					,
-					</c:if>
-				</c:forEach>
-          	]
-        });
-        calendar.render();
-      });
+	  document.addEventListener('DOMContentLoaded', function() {
+	        var calendarEl = document.getElementById('calendar');
+	        
+	        var calendar = new FullCalendar.Calendar(calendarEl, {        	
+	        	headerToolbar: {
+					left: '',
+					center: 'prev title next',
+					right: 'today'
+				},
+				locale: 'ko',
+				businessHours: true,
+				 eventSources: [
+					    {
+					      events: [
+					    	  <c:forEach var="i" items="${list }">
+					    	  {
+						          title  : '${i.sch_title }',
+						          start  : '${i.sch_start_date_sc }',
+						          end    : '${i.sch_end_date_sc }',
+						          url : "/schedule/scheduleView.schedule?sch_seq=${i.sch_seq}"
+					    	  },
+					          </c:forEach>
+					      ],
+//	 				     eventClick: function(info) {
+//	 				    	info.jsEvent.preventDefault();
+//	 				    		if (info.event.url) {
+//	 				    			if(confirm("일정 리스트를 확인하겠습니까?")){
+//	 				    		    	  var options='top=10, left=10, width=800, height=600, status=no, menubar=no, toolbar=no, resizable=no';
+//	 					    		      window.open(info.event.url,"popup",options);
+//	 				    			}
+//	 				    		}
+//	 				    	}
+					    }
+					]
+
+	        });
+	        calendar.render();
+	      });
 
    </script>
 </body>

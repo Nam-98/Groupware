@@ -103,22 +103,22 @@ public class ScheduleController {
 	}
 	
 	//------------- 일정 리스트 게시판 형식
-	@RequestMapping("scheduleListProc.schedule")
-	public String scheduleListProc(Model m, HttpServletRequest request) throws Exception{
-		 String cpage = request.getParameter("cpage");
-		 
-		 List<ScheduleDTO> list = sservice.listByCpage(Integer.parseInt(cpage));
-		 String navi = sservice.getListNavi(Integer.parseInt(cpage));
-		 
-		 sservice.addDateStr(list);
-		 System.out.println(list.get(0).getSch_start_date_sc());
-		 System.out.println(list.get(0).getSch_end_date_sc());
-		 System.out.println(list.get(0).getSch_title());
-		 m.addAttribute("list", list);
-		 m.addAttribute("navi", navi);
-		 
-		return "/schedule/schedulelist";
-	}
+//	@RequestMapping("scheduleListProc.schedule")
+//	public String scheduleListProc(Model m, HttpServletRequest request) throws Exception{
+//		 String cpage = request.getParameter("cpage");
+//		 
+//		 List<ScheduleDTO> list = sservice.listByCpage(Integer.parseInt(cpage));
+//		 String navi = sservice.getListNavi(Integer.parseInt(cpage));
+//		 
+//		 sservice.addDateStr(list);
+//		 System.out.println(list.get(0).getSch_start_date_sc());
+//		 System.out.println(list.get(0).getSch_end_date_sc());
+//		 System.out.println(list.get(0).getSch_title());
+//		 m.addAttribute("list", list);
+//		 m.addAttribute("navi", navi);
+//		 
+//		return "/schedule/schedulelist";
+//	}
 	
 	//------------- 일정 상세
 	@RequestMapping("scheduleView.schedule")
@@ -160,11 +160,5 @@ public class ScheduleController {
 		int result = sservice.scheduleModify(dto);
 		System.out.println("글수정 성공유무 ::"+result);
 		return "redirect:/schedule/monthSchedule.schedule";
-	}
-	
-	//----------- 일간 일정 추가하기
-	@RequestMapping("dayScheduleAdd.schedule")
-	public String dayScheduleAdd()throws Exception{
-		return "/schedule/add_dayschedule";
 	}
 }

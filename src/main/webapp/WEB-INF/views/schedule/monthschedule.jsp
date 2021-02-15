@@ -91,9 +91,9 @@
                   </div>
                   <div class="panel-body">
                      <div id='calendar' class="col-6"></div>
-                  </div>
-                  <button id="golist">리스트</button>
-               </div>
+<!--                   </div> -->
+<!--                   <button id="golist">리스트</button> -->
+<!--                </div> -->
                
             </div>
          </div>
@@ -121,6 +121,7 @@
 			},
 			locale: 'ko',
 			businessHours: true,
+			eventLimit: true,
 			 eventSources: [
 				    {
 				      events: [
