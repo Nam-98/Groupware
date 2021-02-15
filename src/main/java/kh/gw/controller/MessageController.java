@@ -399,11 +399,11 @@ public class MessageController {
 //	}
 	
 	
-//	// error
-//	@ExceptionHandler
-//	public String exceptionalHandler(Exception e) {
-//		e.printStackTrace();
-//		return "error";
-//	}
+	// error
+	@ExceptionHandler
+	public String exceptionalHandler(Exception e) {
+		e.printStackTrace();
+		return "error";
+	}
 	
 }
