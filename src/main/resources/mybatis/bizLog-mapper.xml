@@ -13,4 +13,30 @@
 	<insert id="setPeriod">
 		insert into st.business_log_period values(#{app_seq},#{biz_periodstart},#{biz_periodend})
 	</insert>
+	
+	<!-- hashmap 형태로 결과가 나옴 -> List<Map<String, Object>> -->
+	<resultMap type="java.util.HashMap" id="bizLogResult">
+		<result javaType="int" column="app_seq" property="app_seq"/>
+		<result javaType="java.lang.String" column="app_docs_num" property="app_docs_num"/>
+		<result javaType="int" column="app_type_code" property="app_type_code"/>
+		<result javaType="java.lang.String" column="app_type_name" property="app_type_name"/>
+		<result javaType="java.lang.String" column="app_title" property="app_title"/>
+		<result javaType="java.sql.Date" column="app_reg_date" property="app_reg_date"/>
+		<result javaType="java.lang.String" column="app_status_name" property="app_status_name"/>
+		<result javaType="java.sql.Date" column="biz_periodstart" property="biz_periodstart"/>
+		<result javaType="java.sql.Date" column="biz_periodend" property="biz_periodend"/>
+	</resultMap>
+	
+	<select id="getWeekList" resultType="kh.gw.dto.ApprovalDTO">
+		select * from st.approval join st.approval_type using (app_type_code) join st.approval_status using (app_status_code) join st.BUSINESS_LOG_PERIOD using (app_seq) 
+        where app_id = #{app_id} and app_type_code ='8' and (biz_periodstart between #{biz_periodstart, jdbcType=DATE} and #{biz_periodend, jdbcType=DATE} or biz_periodend between #{biz_periodstart, jdbcType=DATE} and #{biz_periodend, jdbcType=DATE})
+	</select>
+	<select id="getMonDailyList" resultType="kh.gw.dto.ApprovalDTO">
+		select * from st.approval join st.approval_type using (app_type_code) join st.approval_status using (app_status_code) join st.BUSINESS_LOG_PERIOD using (app_seq) 
+        where app_id = #{app_id} and app_type_code in('7','9') and biz_periodstart between #{biz_periodstart, jdbcType=DATE} and #{biz_periodend, jdbcType=DATE}
+	</select>
+<!-- 	<select id="getWeekPeriod" resultType="kh.gw.dto.BizLog_period">
+		select * from st.business_log_period where app_seq in 
+		<foreach collection="seq"></foreach>
+	</select> -->
   </mapper>

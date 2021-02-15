@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>업무일지 메인</title>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <!-- 아이콘 fontawesome -->
     <script src="https://kit.fontawesome.com/b1e233372d.js"></script>
@@ -126,7 +127,7 @@ p{margin-top:10px;margin-bottom:10px;}
 										<option value='11'>11월</option>
 										<option value='12'>12월</option>
 								</select>
-								<button type="button" class="btn btn-primary btn-xs">날짜 변경</button>
+								<button type="button" class="btn btn-primary btn-xs" id="changeDate">날짜 변경</button>
 								</div>
 								<div class="col-md-6 col-xs-12">
 									<button type="button" class="btn btn-success pull-right btn-xs" id="toWrite">글작성하기</button>	
@@ -138,14 +139,19 @@ p{margin-top:10px;margin-bottom:10px;}
 						<hr></hr>
 
 							<!-- 업무일지 리스트업-->
-							번호, 업무일지 유형, 제목, 작성자, 등록일, 상태(확인,반송 등) Copy
+							<h2>
+								<c:set var="selectedDate" value="${fn:split(strDate,'-')}"></c:set>
+								<c:out value="${selectedDate[0]}"></c:out>년 <c:out value="${selectedDate[1]}"></c:out>월 업무일지 
+							</h2>
+							번호, 업무일지 유형, 제목, 등록일, 상태(확인,반송 등) Copy
+							
 							<div class="collapseContainer">
 								<p>Collapsible Set:</p>
 								<button class="collapsible">Open Section 1</button>
 								<div class="content">
 									<p>Lorem ipsum dolor sit amet, consectetur adipisicing
 										elit, sed do eiusmod tempor incididunt ut labore et dolore
-										magna aliqua. Ut enim ad minim veniam, quis nostrud
+										magna aliqua. Ut enim ad minim veniam, quis nostrud 
 										exercitation ullamco laboris nisi ut aliquip ex ea commodo
 										consequat.</p>
 								</div>
@@ -208,48 +214,58 @@ p{margin-top:10px;margin-bottom:10px;}
 		document.getElementById("toWrite").onclick = function(){
 			location.href = "/bizlog/toWriteView.bizlog";
 		}
-		//페이지가 로딩된 후 현재 날짜에 맞추어 year부분 select를 설정한다. 
-		window.onload = function(){
-			var today = new Date();
-			var sYear = today.getFullYear();
+		
+		//페이지가 로딩된 후 선택된 날짜에 맞추어 year부분 select를 설정한다.
+		let selectedDate = "${strDate}";
+		window.onload = function(){			
+			var sYear = selectedDate.split("-")[0];
 			var year = document.getElementById("date-year");
 			for(var i=0; i<10; i++){
 				year.options[year.options.length] = new Option(sYear-i+"년", sYear-i);
 			}
+			//이번달로 select를 자동 세팅함
+			var sMonth = selectedDate.split("-")[1];
+			document.getElementById("date-month").options[sMonth-1].selected = true;
 		}
-
+		
+		//날짜변경 버튼 클릭 시
+		document.getElementById("changeDate").onclick = function(){
+			var sYear = document.getElementById("date-year").value;
+			var sMonth = document.getElementById("date-month").value;
+			location.href = "/bizlog/toMainPage.bizlog?strDate="+sYear+"-"+sMonth;
+		}
 	</script>
 	<script>
 	//collapse 전용 javascript
-var coll = document.getElementsByClassName("collapsible");
-var i;
-
-for (i = 0; i < coll.length; i++) {
-  coll[i].addEventListener("click", function() {
-    this.classList.toggle("active2");
-    var content = this.nextElementSibling;
-    if (content.style.maxHeight){
-      content.style.maxHeight = null;
-    } else {
-      content.style.maxHeight = content.scrollHeight + "px";
-    } 
-  });
-}
-
-let buttons = $(".collapseContainer").children("button");
-let btncnt = 1;
-//collpase 색깔 배치 바꾸기
-for(let btn of buttons){
-	if(btncnt%3==0){
-		//btn.addClass("even");
-		btn.setAttribute("class","collapsible btn3n");
-	}else if(btncnt%3==1){
-		btn.setAttribute("class","collapsible btn3n-2");
-	}else{
-		btn.setAttribute("class","collapsible btn3n-1");
-	}
-	btncnt++;
-}
+		var coll = document.getElementsByClassName("collapsible");
+		var i;
+		
+		for (i = 0; i < coll.length; i++) {
+		  coll[i].addEventListener("click", function() {
+		    this.classList.toggle("active2");
+		    var content = this.nextElementSibling;
+		    if (content.style.maxHeight){
+		      content.style.maxHeight = null;
+		    } else {
+		      content.style.maxHeight = content.scrollHeight + "px";
+		    } 
+		  });
+		}
+		
+		let buttons = $(".collapseContainer").children("button");
+		let btncnt = 1;
+		//collpase 색깔 배치 바꾸기
+		for(let btn of buttons){
+			if(btncnt%3==0){
+				//btn.addClass("even");
+				btn.setAttribute("class","collapsible btn3n");
+			}else if(btncnt%3==1){
+				btn.setAttribute("class","collapsible btn3n-2");
+			}else{
+				btn.setAttribute("class","collapsible btn3n-1");
+			}
+			btncnt++;
+		}
 
 </script>
 </body>
