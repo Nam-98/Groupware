@@ -14,6 +14,7 @@
 .tableLine{
 	width: 100%;
 	height: 9.09090909%;
+	text-align : center;
 }
 .tableLine>.sector{
 	float: left;
@@ -26,7 +27,7 @@
 </style>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>나의 근태내역</title>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <!-- 아이콘 fontawesome -->
     <script src="https://kit.fontawesome.com/b1e233372d.js"></script>
@@ -68,7 +69,7 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 class="page-title">근태관리</h3>
+					<h3 class="page-title">My TnA</h3>
 					<div class="panel panel-headline demo-icons">
 						<!-- pannel 내부의 제목 작성 div-->
 						<div class="panel-heading">

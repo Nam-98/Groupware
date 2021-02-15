@@ -2,6 +2,8 @@ package kh.gw.controller;
 
 import java.util.List;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -10,10 +12,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import kh.gw.dto.Project_kanbanDTO;
 import kh.gw.dto.ScheduleDTO;
-
 import kh.gw.service.ApprovalService;
 import kh.gw.service.MessageService;
+import kh.gw.service.ProjectService;
 import kh.gw.service.ScheduleService;
 
 
@@ -35,6 +38,11 @@ public class HomeController {
 	@Autowired
 	private ScheduleService sservice;
 
+
+	@Autowired
+	private ProjectService pservice;
+	
+
 	@RequestMapping("/")
 	public String home(Model model) throws Exception{
 		if (session.getAttribute("id") != null) {
@@ -43,7 +51,12 @@ public class HomeController {
 			String result = mservice.msgCount(id);
 			
 			//(양혜림)프로젝트관리
-			//담당 프로젝트 갯수? 칸반 갯수?
+			//담당 칸반 갯수?
+			List<Project_kanbanDTO> pkdtoList = pservice.getProKanInfoById(id);
+			//완성도 계산
+			List<Map<String,Object>> HLMap = pservice.proPercent(pkdtoList);
+
+			model.addAttribute("map",HLMap);
 			//프로젝트의 진행률(각?)
 			
 			//(김나린)

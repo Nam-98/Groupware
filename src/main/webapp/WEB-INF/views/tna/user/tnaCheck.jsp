@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>근태관리</title>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <!-- 아이콘 fontawesome -->
     <script src="https://kit.fontawesome.com/b1e233372d.js"></script>
@@ -53,31 +53,32 @@
          <!-- MAIN CONTENT -->
          <div class="main-content">
             <div class="container-fluid">
-               <h3 class="page-title">근태관리</h3>
+               <h3 class="page-title">My TnA</h3>
                <div class="panel panel-headline demo-icons">
                   <!-- pannel 내부의 제목 작성 div-->
                   <div class="panel-heading">
-                  <h3 class="panel-title">출 퇴 근 체 크</h3>
+                  <h1 class="panel-title"><span id="currentTimeSpan"></span></h1>
                   </div>
                   <div class="panel-body">
-                  <span id="currentTimeSpan"></span>
+                  <input type="button" value="출근하기" id="attendanceBtn" class="btn btn-gray btn-xs"><input type="button" value="퇴근하기" id="leaveWorkBtn" class="btn btn-gray btn-xs">
+                  <hr> 
                   <div class="">
-                     ${attendanceValue.status }
+                     <span class="glyphicon glyphicon-flag" aria-hidden="true">&nbsp<b>${attendanceValue.status }</b>&nbsp</span>
                      <c:if test='${attendanceValue.status != "-"}'>
                         ${attendanceValue.hour }시
                         ${attendanceValue.minute }분
                      </c:if>
 
                   </div>
+<hr>
                   <div class="">
-                     ${leaveWorkValue.status }
+                    <span class="glyphicon glyphicon-home" aria-hidden="true">&nbsp<b>${leaveWorkValue.status }</b>&nbsp</span>
                      <c:if test='${leaveWorkValue.status != "-"}'>
                      ${leaveWorkValue.hour }시
                      ${leaveWorkValue.minute }분
                      </c:if>
                   </div>
-                  <input type="button" value="출근하기" id="attendanceBtn" class="btn btn-gray btn-xs"> 
-                  <input type="button" value="퇴근하기" id="leaveWorkBtn" class="btn btn-gray btn-xs">
+                  <hr>
 </div>               
 </div>
                <div class="panel panel-headline demo-icons">
