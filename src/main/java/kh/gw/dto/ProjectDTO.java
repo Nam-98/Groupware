@@ -67,14 +67,4 @@ public class ProjectDTO {
 	}
 	public ProjectDTO() {
 	}
-	public ProjectDTO(int pro_seq, String pro_title, Date pro_start_date, Date pro_end_date, String pro_id) {
-		this.pro_seq = pro_seq;
-		this.pro_title = pro_title;
-		this.pro_start_date = pro_start_date;
-		this.pro_end_date = pro_end_date;
-		this.pro_id = pro_id;
-	}
-
-	
-	
 }

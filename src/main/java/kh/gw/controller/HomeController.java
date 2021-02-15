@@ -1,5 +1,6 @@
 package kh.gw.controller;
 
+import java.util.List;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import kh.gw.service.MessageService;
 import kh.gw.service.ProjectService;
 import kh.gw.service.ScheduleService;
 
+
 @Controller
 public class HomeController {
 	
@@ -32,6 +34,9 @@ public class HomeController {
 	
 //	@Autowired
 //	private TnAService tservice;
+	
+	@Autowired
+	private ScheduleService sservice;
 
 
 	@Autowired
@@ -66,13 +71,13 @@ public class HomeController {
 			//(최재준)
 			//월간일정완성되면 달력에 띄울수 있도록리스트 받아주기
 			//공지사항 리스트 최근 3개
-	        
+			List<ScheduleDTO> list = sservice.listAllSchedule(id);
+			sservice.addDateStr(list);
+			model.addAttribute("list", list);
+			
 			//(김근수)
 			//수신쪽지 리스트 최신 5?
 			//안읽은 총 갯수
-			
-			
-			
 			
 			model.addAttribute("result", result);
 			return "/main/mainpage";
