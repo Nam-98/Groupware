@@ -175,4 +175,16 @@ public class MessageDAO {
 		return db.selectOne("Message.msgCount",msg_id);
 	}
 	
+	//메인 팝업 msg
+	public List<MessageDTO> kgsMsgList(String id, int cpage) throws Exception{
+		BoardConfigurator configurator = new BoardConfigurator();
+		int startRowNum = (cpage-1)*configurator.RECORD_COUNT_POP_UP+1;
+		int endRowNum = startRowNum + configurator.RECORD_COUNT_POP_UP-1;
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("startRowNum", startRowNum);
+		param.put("endRowNum", endRowNum);
+		param.put("id", id);
+		return db.selectList("Message.msgInBoxCpage",param);
+	}
+	
 }
