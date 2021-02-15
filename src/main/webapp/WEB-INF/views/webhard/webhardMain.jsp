@@ -104,11 +104,10 @@
 						<!-- pannel 내부의 제목 작성 div-->
 						<div class="panel-body">
 						<form method="post" enctype="multipart/form-data" action="/webhard/uploadFile.webhard?dirSeq=${dirSeq }">
-							<label class="btn btn-primary btn-file">
-								Upload <input type="file" style="display: none;">
-							</label>
+							<input type="submit" value="upload">
+							<input type="button" value="download">
+							<input type="file" name="attfiles" multiple>
 						</form>
-						<input type="button" value="download">
 						</div>
 					</div>
 

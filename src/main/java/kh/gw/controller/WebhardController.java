@@ -33,7 +33,7 @@ public class WebhardController {
 		whservice.personalMkdir(sessionId);
 		// 개인 최상위 디렉토리 번호값 가져옴
 		Map<String,Object> info = whservice.getTopDirInfo(sessionId);
-		int dirSeq = (int) info.get("WH_DIR_SEQ");
+		int dirSeq = Integer.parseInt(String.valueOf(info.get("WH_DIR_SEQ")));
 		
 		
 		model.addAttribute("dirSeq", dirSeq);
@@ -41,8 +41,21 @@ public class WebhardController {
 		return "/webhard/webhardMain";
 	}
 	
+	// 파일 업로드
+	@RequestMapping("uploadFile.webhard")
+	public String uploadFile(List<MultipartFile> attfiles, HttpServletRequest request, Model model) {
+		// 저장할 dirSeq 값 도출
+		int dirSeq = Integer.parseInt(request.getParameter("dirSeq"));
+		
+		// 파일 리스트, 디렉토리 번호에 저장
+		whservice.uploadFile(dirSeq, attfiles);
+		
+		
+		return "/";
+	}
 	
 	
 	
-//	List<MultipartFile> attfiles
+	
+
 }

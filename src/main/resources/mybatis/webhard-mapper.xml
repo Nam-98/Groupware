@@ -17,8 +17,10 @@
   		insert into st.webhard_access values(#{wh_id}, #{wh_dir_seq}, #{wh_dir_type_code})
   	</insert>
   	<select id="getTopDirInfo" resultType="java.util.HashMap">
-  		select acc.wh_id, acc.wh_dir_seq, acc.wh_dir_type_code, dir.wh_dir_name, dir.wh_dir_parent_seq from webhard_access acc, webhard_dir dir where (acc.wh_id = #{sessionId}) and (acc.wh_dir_type_code = 0) and (acc.wh_dir_seq = dir.wh_dir_seq) and (dir.wh_dir_parent_seq = 0)
+  		select acc.wh_id, acc.wh_dir_seq, acc.wh_dir_type_code, dir.wh_dir_name, dir.wh_dir_parent_seq from st.webhard_access acc, st.webhard_dir dir where (acc.wh_id = #{sessionId}) and (acc.wh_dir_type_code = 0) and (acc.wh_dir_seq = dir.wh_dir_seq) and (dir.wh_dir_parent_seq = 0)
   	</select>
-  
+	<insert id="uploadFile">
+		insert into st.webhard_files values(st.wh_files_seq.nextval, #{wh_dir_seq}, #{wh_ori_name}, #{wh_saved_name}, (SELECT CURRENT_DATE FROM DUAL))
+	</insert>
   
   </mapper>
