@@ -39,9 +39,25 @@
 <!-- Calendar -->
 <link href='/resources/lib/fullcalendar/main.css' rel='stylesheet' />
 <script src='/resources/lib/fullcalendar/main.js'></script>
+<!--jqwidgets  -->
+<link rel="stylesheet"
+	href="/resources/lib/jqwidgets/styles/jqx.base.css" type="text/css" />
+<script type="text/javascript"
+	src="/resources/lib/scripts/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/resources/lib/jqwidgets/jqxcore.js"></script>
+<script type="text/javascript" src="/resources/lib/jqwidgets/jqxtabs.js"></script>
+<script type="text/javascript">
+        $(document).ready(function () {
+            // create jqxtabs.
+            $('#jqxtabs').jqxTabs({ width: 700, height: 225 });
+            $('#jqxtabs').bind('selected', function (event) {
+                var item = event.args.item;
+                var title = $('#jqxtabs').jqxTabs('getTitleAt', item);
+            });
+        });
+    </script>
 </head>
 <style>
-
 .top-vacant {
 	width: 100%;
 	height: 20px;
@@ -84,7 +100,8 @@
 									</div>
 								</div>
 								<div class="col-md-3">
-									<div class="metric"  style=" cursor: pointer;" onclick="location.href='/nex/admin.nexacro';">
+									<div class="metric" style="cursor: pointer;"
+										onclick="location.href='/nex/admin.nexacro';">
 										<span class="icon"><i
 											class="fas fa-user-cog fa-4x adminitem"></i></span>
 										<p>
@@ -94,7 +111,8 @@
 									</div>
 								</div>
 								<div class="col-md-3">
-									<div class="metric" style=" cursor: pointer;" onclick="location.href='/approval/toAppMainView.approval';">
+									<div class="metric" style="cursor: pointer;"
+										onclick="location.href='/approval/toAppMainView.approval';">
 										<span class="icon"><i
 											class="fas fa-file-signature fa-4x"></i></span>
 										<p>
@@ -103,7 +121,8 @@
 									</div>
 								</div>
 								<div class="col-md-3">
-									<div class="metric"style=" cursor: pointer;" onclick="location.href='/message/msgInBoxList.message?cpage=1';">
+									<div class="metric" style="cursor: pointer;"
+										onclick="location.href='/message/msgInBoxList.message?cpage=1';">
 										<span class="icon"><i class="fas fa-envelope fa-4x"></i></span>
 										<p>
 											<span class="number">Message</span> <span class="title">쪽지함</span>
@@ -125,7 +144,10 @@
 										</button>
 									</div>
 								</div>
-								<div class="panel-body"><h4><span id="currentTimeSpan"></span></h4>
+								<div class="panel-body">
+									<h4>
+										<span id="currentTimeSpan"></span>
+									</h4>
 
 									<div class="">${attendanceValue.status }
 										${attendanceValue.hour } ${attendanceValue.minute }</div>
@@ -184,9 +206,10 @@
 									</div>
 								</div>
 								<div class="panel-body">
-								<div class="metric">
+									<div class="metric">
 										<div id='calendar'></div>
-									</div></div>
+									</div>
+								</div>
 								<div class="panel-footer">
 									<div class="row">
 										<div class="col-md-6">
@@ -202,7 +225,7 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-6">
+						<div class="col-md-4">
 							<!-- TASKS -->
 							<div class="panel">
 								<div class="panel-heading">
@@ -215,19 +238,20 @@
 								</div>
 								<div class="panel-body">
 									<ul class="list-unstyled task-list">
- 										<c:forEach var="i" items="${map}">
-										<li>
-											<p>
-												${i.title}<span class="label-percent">${i.perfection}%</span>
-											</p>
-											<div class="progress progress-xs">
-												<div class="progress-bar progress-bar-danger"
-													role="progressbar" aria-valuenow="${i.perfection}" aria-valuemin="0"
-													aria-valuemax="100" style="width: ${i.perfection}%">
-													<span class="sr-only">${i.perfection}% Complete</span>
+										<c:forEach var="i" items="${map}">
+											<li>
+												<p>
+													${i.title}<span class="label-percent">${i.perfection}%</span>
+												</p>
+												<div class="progress progress-xs">
+													<div class="progress-bar progress-bar-danger"
+														role="progressbar" aria-valuenow="${i.perfection}"
+														aria-valuemin="0" aria-valuemax="100"
+														style="width: ${i.perfection}%">
+														<span class="sr-only">${i.perfection}% Complete</span>
+													</div>
 												</div>
-											</div>
-										</li>
+											</li>
 										</c:forEach>
 									</ul>
 								</div>
@@ -244,11 +268,11 @@
 							</div>
 							<!-- END TASKS -->
 						</div>
-						<div class="col-md-6">
-							<!-- MULTI CHARTS -->
+						<div class="col-md-8">
+							<!-- TASKS -->
 							<div class="panel">
 								<div class="panel-heading">
-									<h3 class="panel-title">Projection vs. Realization</h3>
+									<h3 class="panel-title">e-Approval</h3>
 									<div class="right">
 										<button type="button" class="btn-toggle-collapse">
 											<i class="lnr lnr-chevron-up"></i>
@@ -256,10 +280,77 @@
 									</div>
 								</div>
 								<div class="panel-body">
-									<div id="visits-trends-chart" class="ct-chart"></div>
+									<div id='jqxtabs'>
+										<ul style='margin-left: 20px;'>
+											<li>상신 문서</li>
+											<li>승인 요청중&nbsp<span class="badge">${knrToBeCount}</span></li>
+										</ul>
+										<div>
+											<div class="panel-body">
+												<table class="table table-hover">
+													<thead>
+														<tr>
+															<th scope="col">#</th>
+															<th scope="col">제  목</th>
+															<th scope="col">기안자(ID)</th>
+															<th scope="col">기안날짜</th>
+															<th scope="col">문서상태코드</th>
+														</tr>
+													</thead>
+													<tbody>
+														<c:forEach var="i" items="${knrWriteList}">
+															<tr>
+																<th scope="row">${i.app_docs_num}</th>
+																<td>${i.app_title}</td>
+																<td>${i.name}</td>
+																<td>${i.app_reg_date}</td>
+																<td>${i.app_status_code}</td>
+															</tr>
+														</c:forEach>
+													</tbody>
+												</table>
+											</div>
+										</div>
+										<div>
+										<div class="panel-body">
+												<table class="table table-hover">
+													<thead>
+														<tr>
+															<th scope="col">#</th>
+															<th scope="col">제  목</th>
+															<th scope="col">기안자(ID)</th>
+															<th scope="col">기안날짜</th>
+															<th scope="col">현재 상태</th>
+														</tr>
+													</thead>
+													<tbody>
+														<c:forEach var="i" items="${knrToBeList}">
+															<tr>
+																<th scope="row">${i.app_docs_num}</th>
+																<td>${i.app_title}</td>
+																<td>${i.name}</td>
+																<td>${i.app_reg_date}</td>
+																<td>${i.app_is_my_sign_turn}</td>
+															</tr>
+														</c:forEach>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="panel-footer">
+									<div class="row">
+										<div class="col-md-6">
+											<span class="panel-note"></span>
+										</div>
+										<div class="col-md-6 text-right">
+											<a href="#" class="btn btn-primary">Go</a>
+										</div>
+									</div>
 								</div>
 							</div>
-							<!-- END MULTI CHARTS -->
+							<!-- END TASKS -->
 						</div>
 					</div>
 					<div class="row">
@@ -378,8 +469,7 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-4">
-						</div>
+						<div class="col-md-4"></div>
 						<div class="col-md-4">
 							<!-- VISIT CHART -->
 							<div class="panel">
