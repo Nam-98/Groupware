@@ -30,4 +30,8 @@ public class WebhardDAO {
 	public int dirAssign(Webhard_accessDTO accDTO) {
 		return db.insert("Webhard.dirAssign", accDTO);
 	}
+	
+	public Map<String,Object> getTopDirInfo(String sessionId) {
+		return db.selectOne("webhard.getTopDirInfo", sessionId);
+	}
 }

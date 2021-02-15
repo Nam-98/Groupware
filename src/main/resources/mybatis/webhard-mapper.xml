@@ -8,7 +8,7 @@
 	  	where (wh_id = #{sessionId}) and (wh_dir_type_code = 0)
   	</select>
   	<insert id="newDirMake">
-  		insert into st.webhard_dir values(#{wh_dir_seq}, #{wh_dir_name}, null)
+  		insert into st.webhard_dir values(#{wh_dir_seq}, #{wh_dir_name}, #{wh_dir_parent_seq})
   	</insert>
   	<select id="newDirSeqGet" resultType="Integer">
   		select st.wh_dir_seq.nextval from dual
@@ -16,6 +16,9 @@
   	<insert id="dirAssign">
   		insert into st.webhard_access values(#{wh_id}, #{wh_dir_seq}, #{wh_dir_type_code})
   	</insert>
+  	<select id="getTopDirInfo" resultType="java.util.HashMap">
+  		select acc.wh_id, acc.wh_dir_seq, acc.wh_dir_type_code, dir.wh_dir_name, dir.wh_dir_parent_seq from webhard_access acc, webhard_dir dir where (acc.wh_id = #{sessionId}) and (acc.wh_dir_type_code = 0) and (acc.wh_dir_seq = dir.wh_dir_seq) and (dir.wh_dir_parent_seq = 0)
+  	</select>
   
   
   </mapper>

@@ -1,5 +1,7 @@
 package kh.gw.service;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +24,8 @@ public class WebhardService {
 			// 최상위 디렉토리 생성
 			Webhard_dirDTO dirDTO = new Webhard_dirDTO();
 			dirDTO.setWh_dir_seq(seq);
-			dirDTO.setWh_dir_name("TOP");
+			dirDTO.setWh_dir_name(sessionId);
+			dirDTO.setWh_dir_parent_seq(0);
 			newDirMake(dirDTO);
 			
 			// 개인 아이디에 할당
@@ -35,6 +38,10 @@ public class WebhardService {
 		}
 		
 		return 0;
+	}
+	
+	public Map<String,Object> getTopDirInfo(String sessionId) {
+		return whdao.getTopDirInfo(sessionId);
 	}
 	
 	public int personalDirIsExist(String sessionId) {
