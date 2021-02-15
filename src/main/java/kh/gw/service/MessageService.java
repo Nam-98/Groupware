@@ -421,9 +421,14 @@ public class MessageService {
 			return mdao.delMyMsg(msg_seq);
 		}
 	
-		//
+		//msg count
 		public String msgCount(String id) throws Exception{
 			return mdao.msgCount(id);
+		}
+		
+		//메인 팝업 msg
+		public List<MessageDTO> kgsMsgList(String id, int cpage) throws Exception{
+			return mdao.kgsMsgList(id,cpage);
 		}
 		
 }

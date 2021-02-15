@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import kh.gw.dto.MessageDTO;
 import kh.gw.dto.Project_kanbanDTO;
 import kh.gw.dto.ScheduleDTO;
 import kh.gw.service.ApprovalService;
@@ -47,8 +48,9 @@ public class HomeController {
 	public String home(Model model) throws Exception{
 		if (session.getAttribute("id") != null) {
 			String id = (String) session.getAttribute("id");
-
 			String result = mservice.msgCount(id);
+			//model.addAttribute("isWork", tservice.isGoLeave(id));
+
 			
 			// 출근시간 조회
 			Map<String, Object> attendanceValue = tservice.getAttendanceTime(id);
@@ -85,9 +87,12 @@ public class HomeController {
 			
 			//(김근수)
 			//수신쪽지 리스트 최신 5?
+			int cpage = 1;
+			List<MessageDTO> kgsMsgList = mservice.kgsMsgList(id,cpage);
+			model.addAttribute("kgsMsgList",kgsMsgList);
 			//안읽은 총 갯수
-			
-			model.addAttribute("result", result);
+			String kgsMsgCount = mservice.msgCount(id);
+			model.addAttribute("kgsMsgCount", kgsMsgCount);
 			return "/main/mainpage";
 		} 
 			return "home";
