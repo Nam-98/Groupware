@@ -31,12 +31,18 @@
 		select * from st.approval join st.approval_type using (app_type_code) join st.approval_status using (app_status_code) join st.BUSINESS_LOG_PERIOD using (app_seq) 
         where app_id = #{app_id} and app_type_code ='8' and (biz_periodstart between #{biz_periodstart, jdbcType=DATE} and #{biz_periodend, jdbcType=DATE} or biz_periodend between #{biz_periodstart, jdbcType=DATE} and #{biz_periodend, jdbcType=DATE})
 	</select>
-	<select id="getMonDailyList" resultType="kh.gw.dto.ApprovalDTO">
+	<select id="getMonList" resultType="kh.gw.dto.ApprovalDTO">
 		select * from st.approval join st.approval_type using (app_type_code) join st.approval_status using (app_status_code) join st.BUSINESS_LOG_PERIOD using (app_seq) 
-        where app_id = #{app_id} and app_type_code in('7','9') and biz_periodstart between #{biz_periodstart, jdbcType=DATE} and #{biz_periodend, jdbcType=DATE}
+        where app_id = #{app_id} and app_type_code = '9' and biz_periodstart between #{biz_periodstart, jdbcType=DATE} and #{biz_periodend, jdbcType=DATE}
 	</select>
-<!-- 	<select id="getWeekPeriod" resultType="kh.gw.dto.BizLog_period">
+		<select id="getMonList" resultType="kh.gw.dto.ApprovalDTO">
+		select * from st.approval join st.approval_type using (app_type_code) join st.approval_status using (app_status_code) join st.BUSINESS_LOG_PERIOD using (app_seq) 
+        where app_id = #{app_id} and app_type_code = '7' and biz_periodstart between #{biz_periodstart, jdbcType=DATE} and #{biz_periodend, jdbcType=DATE}
+	</select>
+ 	<select id="getPeriod" resultType="kh.gw.dto.BizLog_period">
 		select * from st.business_log_period where app_seq in 
-		<foreach collection="seq"></foreach>
-	</select> -->
+  		<foreach collection="dtoList" item="dto" separator="," open="(" close=")">
+  			#{app_seq}
+  		</foreach>
+	</select>
   </mapper>

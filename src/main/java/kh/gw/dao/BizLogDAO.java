@@ -40,11 +40,21 @@ public class BizLogDAO {
 		map.put("biz_periodend", biz_periodend);
 		return db.selectList("BizLog.getWeekList", map);
 	}
-	public List<ApprovalDTO> getMonDailyList(String app_id, Date biz_periodstart,Date biz_periodend){
+	public List<ApprovalDTO> getMonList(String app_id, Date biz_periodstart,Date biz_periodend){
 		HashMap<String,Object> map = new HashMap();
 		map.put("app_id",app_id);
 		map.put("biz_periodstart",biz_periodstart);
 		map.put("biz_periodend", biz_periodend);
-		return db.selectList("BizLog.getMonDailyList", map);
+		return db.selectList("BizLog.getMonList", map);
+	}
+	public List<ApprovalDTO> getDailyList(String app_id, Date biz_periodstart,Date biz_periodend){
+		HashMap<String,Object> map = new HashMap();
+		map.put("app_id",app_id);
+		map.put("biz_periodstart",biz_periodstart);
+		map.put("biz_periodend", biz_periodend);
+		return db.selectList("BizLog.getDailyList", map);
+	}
+	public List<BizLog_periodDTO> getPeriod(List<ApprovalDTO> seqList){
+		return db.selectList("BizLog.getPeriod", seqList);
 	}
 }
