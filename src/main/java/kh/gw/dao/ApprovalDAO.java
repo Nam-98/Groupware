@@ -19,8 +19,11 @@ public class ApprovalDAO {
 	@Autowired
 	private SqlSession db;
 	
-	public List<Approval_typeDTO> allDocsType() {
-		return db.selectList("Approval.allDocsType");
+	public List<Approval_typeDTO> appDocsType() {
+		return db.selectList("Approval.appDocsType");
+	}
+	public List<Approval_typeDTO> nxAllDocsType() {
+		return db.selectList("Approval.nxAllDocsType");
 	}
 	public List<Approval_sign_typeDTO> allSignType(){
 		return db.selectList("Approval.allSignType");

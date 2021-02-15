@@ -4,39 +4,14 @@
 <!DOCTYPE html>
 <html>
 <style>
-.panel-body div{
-	border: 1px solid black;
-}
-.tableBox{
-	width: 100%;
-	height: 280px;
-}
-.tableLine{
-	width: 100%;
-	height: 12%;
-}
-.tableLine>.tableTitle{
-	float: left;
-	width: 15%;
-	height: 100%;
-	text-align: center;
-}
-.tableLine>.tableValue{
-	float: left;
-	width: 85%;
-	height: 100%;
-}
-.tableReason{
-	height: 64%;
-}
-.tableValue>textarea{
+#textReason{
 	resize: none;
 	width: 100%;
 	height: 100%;
 }
 
 .componentBox{
-	text-align: right;
+	text-align: center;
 }
 </style>
 <head>
@@ -79,7 +54,7 @@
 <!-- 		</div> -->
 		<!-- END LEFT SIDEBAR -->
 		<!-- MAIN -->
-<!-- 		<div class="main"> -->
+ 		<div class="main">
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
@@ -89,18 +64,26 @@
 							<h3 class="panel-title">조정신청내역</h3>
 						</div>
 						<div class="panel-body">
-							<form action="/tna/tnaFixRequestSubmit.tna" method="post" id="formBox">
-								<div class="tableBox">
-									<div class="tableLine">
-										<div class="tableTitle">신청 날짜</div>
-										<div class="tableValue" id="requestDateDiv">xxxx년 x월 x일 (n요일) [오늘날짜]</div>
-									</div>
-									<div class="tableLine">
-										<div class="tableTitle">현재 상태</div>
-										<div class="tableValue" id="currentStatusDiv">STATUS (xxxx/x/x/n) [정정할날짜]</div>
-									</div>
-									<div class="tableLine">
-										<div class="tableTitle">변경요청 상태</div>
+								
+								<table class="table table-hover">
+								<thead>
+									<tr>
+										<th scope="col">항목</th>
+										<th scope="col">내용</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row">신청 날짜</th>
+										<td><div class="tableValue" id="requestDateDiv">xxxx년 x월 x일 (n요일) [오늘날짜]</div></td>
+									</tr>
+									<tr>
+										<th scope="row">현재 상태</th>
+										<td><div class="tableValue" id="currentStatusDiv">STATUS (xxxx/x/x/n) [정정할날짜]</div></td>
+									</tr>
+									<tr>
+										<th scope="row">변경요청 상태</th>
+										<td>
 										<div class="tableValue">
 											<c:forEach varStatus="none" var="list" items="${tnaStatusList}">
 												<c:if test='${list.tna_status_code == dto.TNA_OBJ_CHANGED_CODE}'>
@@ -108,29 +91,25 @@
 												</c:if>
 											</c:forEach>
 										</div>
-									</div>
-									<div class="tableLine tableReason">
-										<div class="tableTitle">사유</div>
-										<div class="tableValue">
+										</td>
+									</tr>
+									<tr>
+										<th scope="row">사유</th>
+										<td><div class="tableValue">
 											<textarea name="tna_obj_reason" id="textReason" disabled>${dto.TNA_OBJ_REASON}</textarea>
-										</div>
-									</div>
-								</div>
+										</div></td>
+									</tr>
+								</tbody>
+							</table>
 								<div class="componentBox">
-<!-- 									<input type="submit" class="btn btn-primary btn-xs" value="신청하기"> -->
 									<input type="button" class="btn btn-gray btn-xs" value="닫기" id="tnaFixCancel">
 								</div>
-								<input id="" type="hidden" value="${tnaCalendarValue.TNA_SEQ }" name="tna_seq">
-								<input id="" type="hidden" value="${tna_status }" name="tna_obj_status">
-							</form>
 						</div>
 					</div>
-
-
 				</div>
 			</div>
 			<!-- END MAIN CONTENT -->
-<!-- 		</div> -->
+ 		</div> 
 		<!-- END MAIN -->
 		<div class="clearfix"></div>
 			<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
@@ -138,13 +117,6 @@
 		<!-- END WRAPPER -->
 
 	<script>
-		// 이미 신청되었는지 중복체크
-		function checkOverlap() {
-// 			alert("이미 근태 조정 신청을 제출하였습니다.");
-// 			window.close();
-		}
-			
-	
 		// 시간출력함수
 		function printRequestDate() {
 			// 출력할 컴포넌트 아이디 지정
@@ -248,18 +220,6 @@
 		$("#tnaFixCancel").on("click", function() {
 			window.close();
 		});
-		
-		// 정정신청제출 Submit
-		document.getElementById("formBox").onsubmit = function() {
-			if (document.getElementById("selectStatus").value == "선택") {
-				alert("변경 요청할 상태를 선택해 주세요.");
-				return false;
-			}
-			if (document.getElementById("textReason").value == "") {
-				alert("사유를 입력해주세요.");
-				return false;
-			}
-		}
 		
 	</script>
 </body>

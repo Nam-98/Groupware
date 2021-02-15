@@ -44,8 +44,8 @@ public class ApprovalService {
 		ApprovalConfigurator.docsCount = 1;
 	}
 	
-	public List<Approval_typeDTO> allDocsType (){
-		return adao.allDocsType();
+	public List<Approval_typeDTO> appDocsType (){
+		return adao.appDocsType();
 	}
 	public List<Approval_sign_typeDTO> allSignType(){
 		return adao.allSignType();
@@ -543,4 +543,10 @@ public class ApprovalService {
 		map.put("error", 0);
 		return map;
 	}
+	
+	
+//	///nexacro
+//	public List<Approval_typeDTO> nxAllDocsType(){
+//		return adao.nxAllDocsType();
+//	}
 }

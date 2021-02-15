@@ -329,9 +329,7 @@ public class WriteController {
 		String a = gson.toJson(ac);
 		return a;
 	}
-	
-	
-	
+
 	//------------- 대댓글 불러오기
 	@RequestMapping(value = "reCommentList.write", method = RequestMethod.POST)
 	@ResponseBody
