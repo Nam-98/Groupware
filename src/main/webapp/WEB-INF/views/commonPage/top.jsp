@@ -41,7 +41,7 @@
 							<ul class="dropdown-menu">
 								<li><a href="/member/enterMyPage.member"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp&nbsp <span>My Profile</span></a></li>
 								<li><a href="/message/msgInBoxList.message?cpage=1"><span class="glyphicon glyphicon-send" aria-hidden="true"></span>&nbsp&nbsp  <span>Message</span></a></li>
-								<li><a href="javascript:void(0);" id="topWebhard"> <span class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span>&nbsp&nbsp <span>Webhard</span></a></li>
+								<li><a href="javascript:void(0);" class="goWebhard"> <span class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span>&nbsp&nbsp <span>Webhard</span></a></li>
 								<li><a href="/member/logout.member"><span class="glyphicon glyphicon-off" aria-hidden="true"></span>&nbsp&nbsp <span>Logout</span></a></li>
 							</ul>
 						</li>
@@ -57,16 +57,16 @@
 			
 		</script>
 		<script>
-			$('#topWebhard').on('click', function(){
-				var url = "/webhard/webhardMain.webhard";
-				var popupWidth = 1440;
-				var popupHeight = 810;
-				var popupX = (window.screen.width / 2) - (popupWidth / 2);
-				// 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주었음
-				var popupY = (window.screen.height / 2) - (popupHeight / 2) - 50;
-				// 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주었음
+// 			$('.goWebhard').on('click', function(){
+// 				var url = "/webhard/webhardMain.webhard";
+// 				var popupWidth = 1440;
+// 				var popupHeight = 810;
+// 				var popupX = (window.screen.width / 2) - (popupWidth / 2);
+// 				// 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주었음
+// 				var popupY = (window.screen.height / 2) - (popupHeight / 2) - 50;
+// 				// 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주었음
 				
-				var options='top='+popupY+', left='+popupX+', width='+popupWidth+', height='+popupHeight+', status=no, menubar=no, toolbar=no, resizable=no, location=no';
-				window.open(url,"popup",options);
-			})
+// 				var options='top='+popupY+', left='+popupX+', width='+popupWidth+', height='+popupHeight+', status=no, menubar=no, toolbar=no, resizable=no, location=no';
+// 				window.open(url,"popup",options);
+// 			})
 		</script>
