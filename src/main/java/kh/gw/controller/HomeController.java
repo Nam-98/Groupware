@@ -85,6 +85,7 @@ public class HomeController {
 			String kgsMsgCount = mservice.msgCount(id);
 			System.out.println("==========="+kgsMsgCount);
 			model.addAttribute("kgsMsgCount", kgsMsgCount);
+			
 			return "/main/mainpage";
 		} 
 			return "home";

@@ -127,6 +127,7 @@ public class MessageController {
 		String msg_receive_date_str = request.getParameter("msg_receive_date_str");
 		System.out.println("=====확인==="+msg_receive_date_str);
 		int readDate = mservice.readDate(msg_seq,msg_receive_date_str);
+		System.out.println(readDate);
 		List<Message_attached_filesDTO> attlist = mservice.attFilesAll(msg_seq);
 		MessageDTO mdto = mservice.msgView(msg_seq);
 		m.addAttribute("mdto", mdto);
@@ -316,6 +317,8 @@ public class MessageController {
 	@RequestMapping("msgCabView.message")
 	public String msgCabView(HttpServletRequest request, Model m) throws Exception{
 		int msg_seq = Integer.parseInt(request.getParameter("msg_seq"));
+		String msg_receive_date_str = request.getParameter("msg_receive_date_str");
+		int readDate = mservice.readDate(msg_seq,msg_receive_date_str);
 		MessageDTO mdto = mservice.msgView(msg_seq);
 		List<Message_attached_filesDTO> attlist = mservice.attFilesAll(msg_seq);
 		m.addAttribute("mdto", mdto);
@@ -350,6 +353,8 @@ public class MessageController {
 	@RequestMapping("msgMyView.message")
 	public String msgMyView(HttpServletRequest request, Model m) throws Exception{
 		int msg_seq = Integer.parseInt(request.getParameter("msg_seq"));
+		String msg_receive_date_str = request.getParameter("msg_receive_date_str");
+		int readDate = mservice.readDate(msg_seq,msg_receive_date_str);		
 		MessageDTO mdto = mservice.msgView(msg_seq);
 		List<Message_attached_filesDTO> attlist = mservice.attFilesAll(msg_seq);
 		m.addAttribute("mdto", mdto);
@@ -394,11 +399,11 @@ public class MessageController {
 //	}
 	
 	
-	// error
-	@ExceptionHandler
-	public String exceptionalHandler(Exception e) {
-		e.printStackTrace();
-		return "error";
-	}
+//	// error
+//	@ExceptionHandler
+//	public String exceptionalHandler(Exception e) {
+//		e.printStackTrace();
+//		return "error";
+//	}
 	
 }
