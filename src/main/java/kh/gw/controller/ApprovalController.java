@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
+
 import kh.gw.dto.ApprovalDTO;
 import kh.gw.dto.Approval_attached_filesDTO;
 import kh.gw.dto.Approval_commentsDTO;
@@ -54,7 +56,7 @@ public class ApprovalController {
 	@RequestMapping("/toAppWriteView.approval")
 	public String toAppWriteView (Model model) throws Exception {
 		//전자문서 종류 가져오기
-		model.addAttribute("docsType", aservice.allDocsType());
+		model.addAttribute("docsType", aservice.appDocsType());
 		//결재선 선택용 자료 보내기
 		List<MemberDTO> mlist = mservice.listMem();//멤버를 불러옴
 		List<DepartmentDTO> dlist = mservice.listDept(); //부서명 가져옴
@@ -165,6 +167,17 @@ public class ApprovalController {
 		model.addAttribute("signedNavi", signedNavi);
 		return "approval/ccListView";
 	}
+	
+	
+	
+//	/////////////////////////////////////////넥사크로 part/////////////////////////////////////////
+//	@RequestMapping("/nxAppTypeLoad.approval")
+//	public NexacroResult nxAppTypeLoad() {
+//		NexacroResult nr = new NexacroResult();
+//		nr.addDataSet("ds_out", aservice.nxAllDocsType());
+//		return nr;
+//	}
+	
 	// error
 	@ExceptionHandler
 	public String exceptionalHandler(Exception e) {

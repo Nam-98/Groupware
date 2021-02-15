@@ -106,4 +106,8 @@
 	select * from st.write_comments where write_cmt_seq = (select max(write_cmt_seq) from st.write_comments where write_seq = #{write_seq} and write_cmt_parent_seq = #{write_cmt_parent_seq})
   </select>
   
+  <insert id="insertWrite">
+  	insert into st.write values(st.write_seq.nextval,#{write_code},#{write_title},#{write_contents},#{write_id},sysdate,'','Y',0)
+  </insert>
+  
   </mapper>

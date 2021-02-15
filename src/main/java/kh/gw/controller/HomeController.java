@@ -93,6 +93,7 @@ public class HomeController {
 			//안읽은 총 갯수
 			String kgsMsgCount = mservice.msgCount(id);
 			model.addAttribute("kgsMsgCount", kgsMsgCount);
+			
 			return "/main/mainpage";
 		} 
 			return "home";

@@ -183,7 +183,8 @@ $(document).ready(function() {
   		<input type="file" class="form-control" name="attfiles" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" style="width: 100%;"> 
 		</div>
 		
-		<input id="subBtn" class="btn btn-primary" type="submit" value="보내기" style="float: right;" onclick="goWrite(this.form)"/>
+		<input id="subBtn" class="btn btn-primary" type="button" style="float: right;" value="보내기" onclick="goWrite(this.form)"/>
+			
 	</form>
 </div>
 </div>
@@ -201,30 +202,32 @@ $(document).ready(function() {
 <jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
 	</div>
 	<!-- END WRAPPER -->
-	
-</body>
-
-<script>
+	<script>
 function goWrite(frm) {
-	var title = frm.title.value;
-	var writer = frm.writer.value;
-	var content = frm.content.value;
+	var title = frm.msg_title.value;
+	var writer = frm.msg_receiver_name.value;
+	var content = frm.msg_contents.value;
 	
 	if (title.trim() == ''){
 		alert("제목을 입력해주세요");
-		return false;
+		return;
 	}
 	if (writer.trim() == ''){
 		alert("작성자를 입력해주세요");
-		return false;
+		return;
 	}
 	if (content.trim() == ''){
 		alert("내용을 입력해주세요");
-		return false;
+		return;
 	}
+	console.log("리턴 타고왔니?");
 	frm.submit();
 }
 </script>
 
+	
 </body>
+
+
+
 </html>

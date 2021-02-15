@@ -375,5 +375,16 @@
 			}
 		}
 	</script>
+	<script>
+		// 결재버튼 누른 후 뒤로가기 버튼 눌렀을 시, 버튼 눌리기 전 페이지로 가는 문제 해결
+		window.onpageshow = function(event) {
+		    if ( event.persisted || (window.performance && window.performance.navigation.type == 2)) {
+			// Back Forward Cache로 브라우저가 로딩될 경우 혹은 브라우저 뒤로가기 했을 경우
+			//해당 페이지가 불려온 페이지로 돌아간다.
+			history.back();
+		    }
+
+		}
+	</script>
 </body>
 </html>
