@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import kh.gw.dto.MessageDTO;
 import kh.gw.dto.Project_kanbanDTO;
 import kh.gw.dto.ScheduleDTO;
 import kh.gw.service.ApprovalService;
@@ -48,7 +49,7 @@ public class HomeController {
 		if (session.getAttribute("id") != null) {
 			String id = (String) session.getAttribute("id");
 			//model.addAttribute("isWork", tservice.isGoLeave(id));
-			String result = mservice.msgCount(id);
+			
 			
 			//(양혜림)프로젝트관리
 			//담당 칸반 갯수?
@@ -77,9 +78,13 @@ public class HomeController {
 			
 			//(김근수)
 			//수신쪽지 리스트 최신 5?
+			int cpage = 1;
+			List<MessageDTO> kgsMsgList = mservice.kgsMsgList(id,cpage);
+			model.addAttribute("kgsMsgList",kgsMsgList);
 			//안읽은 총 갯수
-			
-			model.addAttribute("result", result);
+			String kgsMsgCount = mservice.msgCount(id);
+			System.out.println("==========="+kgsMsgCount);
+			model.addAttribute("kgsMsgCount", kgsMsgCount);
 			return "/main/mainpage";
 		} 
 			return "home";
