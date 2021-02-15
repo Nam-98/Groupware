@@ -1,6 +1,5 @@
 package kh.gw.controller;
 
-import java.util.List;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +17,7 @@ import kh.gw.service.ApprovalService;
 import kh.gw.service.MessageService;
 import kh.gw.service.ProjectService;
 import kh.gw.service.ScheduleService;
+import kh.gw.service.TnAService;
 
 
 @Controller
@@ -32,8 +32,8 @@ public class HomeController {
 	@Autowired
 	private MessageService mservice;
 	
-//	@Autowired
-//	private TnAService tservice;
+	@Autowired
+	private TnAService tservice;
 	
 	@Autowired
 	private ScheduleService sservice;
@@ -47,8 +47,16 @@ public class HomeController {
 	public String home(Model model) throws Exception{
 		if (session.getAttribute("id") != null) {
 			String id = (String) session.getAttribute("id");
-			//model.addAttribute("isWork", tservice.isGoLeave(id));
+
 			String result = mservice.msgCount(id);
+			
+			// 출근시간 조회
+			Map<String, Object> attendanceValue = tservice.getAttendanceTime(id);
+			// 퇴근시간 조회
+			Map<String, Object> leaveWorkValue = tservice.getLeaveWorkTime(id);
+			model.addAttribute("attendanceValue", attendanceValue);
+			model.addAttribute("leaveWorkValue", leaveWorkValue);
+			
 			
 			//(양혜림)프로젝트관리
 			//담당 칸반 갯수?

@@ -63,9 +63,19 @@
 	height: 20px;
 	/* 	background-color: yellow; */
 }
+
 .fc-toolbar-chunk {
-  display: flex; // 일렬로 나란히
-  align-items: center; // 수직 가운데 정렬
+	display: flex;
+	//
+	일렬로
+	나란히
+	align-items
+	:
+	center;
+	//
+	수직
+	가운데
+	정렬
 }
 </style>
 <body>
@@ -153,15 +163,31 @@
 										<span id="currentTimeSpan"></span>
 									</h4>
 
-									<div class="">${attendanceValue.status }
-										${attendanceValue.hour } ${attendanceValue.minute }</div>
-									<div class="">${leaveWorkValue.status }
-										${leaveWorkValue.hour } ${leaveWorkValue.minute }</div>
 
 									<div class="top-vacant d-none d-lg-block"></div>
 									<input type="button" value="출근하기" id="attendanceBtn"
 										class="btn btn-gray btn-xs"> <input type="button"
 										value="퇴근하기" id="leaveWorkBtn" class="btn btn-gray btn-xs">
+									<hr>
+									<div class="">
+										<span class="glyphicon glyphicon-flag" aria-hidden="true">&nbsp<b>${attendanceValue.status }</b>&nbsp
+										</span>
+										<c:if test='${attendanceValue.status != "-"}'>
+                        ${attendanceValue.hour }시
+                        ${attendanceValue.minute }분
+                     </c:if>
+
+									</div>
+									<hr>
+									<div class="">
+										<span class="glyphicon glyphicon-home" aria-hidden="true">&nbsp<b>${leaveWorkValue.status }</b>&nbsp
+										</span>
+										<c:if test='${leaveWorkValue.status != "-"}'>
+                     ${leaveWorkValue.hour }시
+                     ${leaveWorkValue.minute }분
+                     </c:if>
+									</div>
+									<hr>
 								</div>
 								<div class="panel-footer">
 									<div class="row">
@@ -178,19 +204,36 @@
 						<div class="col-md-4">
 							<div class="panel">
 								<div class="panel-heading">
-									<h3 class="panel-title">Notice</h3>
+									<h3 class="panel-title">My Projects</h3>
 									<div class="right">
 										<button type="button" class="btn-toggle-collapse">
 											<i class="lnr lnr-chevron-up"></i>
 										</button>
 									</div>
 								</div>
-								<div class="panel-body no-padding"></div>
+								<div class="panel-body">
+									<ul class="list-unstyled task-list">
+										<c:forEach var="i" items="${map}">
+											<li>
+												<p>
+													${i.title}<span class="label-percent">${i.perfection}%</span>
+												</p>
+												<div class="progress progress-xs">
+													<div class="progress-bar progress-bar-danger"
+														role="progressbar" aria-valuenow="${i.perfection}"
+														aria-valuemin="0" aria-valuemax="100"
+														style="width: ${i.perfection}%">
+														<span class="sr-only">${i.perfection}% Complete</span>
+													</div>
+												</div>
+											</li>
+										</c:forEach>
+									</ul>
+								</div>
 								<div class="panel-footer">
 									<div class="row">
 										<div class="col-md-6">
-											<span class="panel-note"><i class="fa fa-clock-o"></i>
-												Latest 3 posts</span>
+											<span class="panel-note"></span>
 										</div>
 										<div class="col-md-6 text-right">
 											<a href="#" class="btn btn-primary">Go</a>
@@ -231,38 +274,23 @@
 					<div class="row">
 						<div class="col-md-4">
 							<!-- TASKS -->
+
 							<div class="panel">
+
 								<div class="panel-heading">
-									<h3 class="panel-title">My Projects</h3>
+									<h3 class="panel-title">Notice</h3>
 									<div class="right">
 										<button type="button" class="btn-toggle-collapse">
 											<i class="lnr lnr-chevron-up"></i>
 										</button>
 									</div>
 								</div>
-								<div class="panel-body">
-									<ul class="list-unstyled task-list">
-										<c:forEach var="i" items="${map}">
-											<li>
-												<p>
-													${i.title}<span class="label-percent">${i.perfection}%</span>
-												</p>
-												<div class="progress progress-xs">
-													<div class="progress-bar progress-bar-danger"
-														role="progressbar" aria-valuenow="${i.perfection}"
-														aria-valuemin="0" aria-valuemax="100"
-														style="width: ${i.perfection}%">
-														<span class="sr-only">${i.perfection}% Complete</span>
-													</div>
-												</div>
-											</li>
-										</c:forEach>
-									</ul>
-								</div>
+								<div class="panel-body no-padding"></div>
 								<div class="panel-footer">
 									<div class="row">
 										<div class="col-md-6">
-											<span class="panel-note"></span>
+											<span class="panel-note"><i class="fa fa-clock-o"></i>
+												Latest 3 posts</span>
 										</div>
 										<div class="col-md-6 text-right">
 											<a href="#" class="btn btn-primary">Go</a>
@@ -295,7 +323,7 @@
 													<thead>
 														<tr>
 															<th scope="col">#</th>
-															<th scope="col">제  목</th>
+															<th scope="col">제 목</th>
 															<th scope="col">기안자(ID)</th>
 															<th scope="col">기안날짜</th>
 															<th scope="col">문서상태코드</th>
@@ -316,12 +344,12 @@
 											</div>
 										</div>
 										<div>
-										<div class="panel-body">
+											<div class="panel-body">
 												<table class="table table-hover">
 													<thead>
 														<tr>
 															<th scope="col">#</th>
-															<th scope="col">제  목</th>
+															<th scope="col">제 목</th>
 															<th scope="col">기안자(ID)</th>
 															<th scope="col">기안날짜</th>
 															<th scope="col">현재 상태</th>
@@ -357,168 +385,6 @@
 							<!-- END TASKS -->
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-md-7">
-							<!-- TODO LIST -->
-							<div class="panel">
-								<div class="panel-heading">
-									<h3 class="panel-title">To-Do List</h3>
-									<div class="right">
-										<button type="button" class="btn-toggle-collapse">
-											<i class="lnr lnr-chevron-up"></i>
-										</button>
-									</div>
-								</div>
-								<div class="panel-body">
-									<ul class="list-unstyled todo-list">
-										<li><label class="control-inline fancy-checkbox">
-												<input type="checkbox"><span></span>
-										</label>
-											<p>
-												<span class="title">Restart Server</span> <span
-													class="short-description">Dynamically integrate
-													client-centric technologies without cooperative resources.</span>
-												<span class="date">Oct 9, 2016</span>
-											</p>
-											<div class="controls">
-												<a href="#"><i
-													class="icon-software icon-software-pencil"></i></a> <a href="#"><i
-													class="icon-arrows icon-arrows-circle-remove"></i></a>
-											</div></li>
-										<li><label class="control-inline fancy-checkbox">
-												<input type="checkbox"><span></span>
-										</label>
-											<p>
-												<span class="title">Retest Upload Scenario</span> <span
-													class="short-description">Compellingly implement
-													clicks-and-mortar relationships without highly efficient
-													metrics.</span> <span class="date">Oct 23, 2016</span>
-											</p>
-											<div class="controls">
-												<a href="#"><i
-													class="icon-software icon-software-pencil"></i></a> <a href="#"><i
-													class="icon-arrows icon-arrows-circle-remove"></i></a>
-											</div></li>
-										<li><label class="control-inline fancy-checkbox">
-												<input type="checkbox"><span></span>
-										</label>
-											<p>
-												<strong>Functional Spec Meeting</strong> <span
-													class="short-description">Monotonectally formulate
-													client-focused core competencies after parallel
-													web-readiness.</span> <span class="date">Oct 11, 2016</span>
-											</p>
-											<div class="controls">
-												<a href="#"><i
-													class="icon-software icon-software-pencil"></i></a> <a href="#"><i
-													class="icon-arrows icon-arrows-circle-remove"></i></a>
-											</div></li>
-									</ul>
-								</div>
-							</div>
-							<!-- END TODO LIST -->
-						</div>
-						<div class="col-md-5">
-							<!-- TIMELINE -->
-							<div class="panel panel-scrolling">
-								<div class="panel-heading">
-									<h3 class="panel-title">Recent User Activity</h3>
-									<div class="right">
-										<button type="button" class="btn-toggle-collapse">
-											<i class="lnr lnr-chevron-up"></i>
-										</button>
-									</div>
-								</div>
-								<div class="panel-body">
-									<ul class="list-unstyled activity-list">
-										<li><img src="assets/img/user1.png" alt="Avatar"
-											class="img-circle pull-left avatar">
-											<p>
-												<a href="#">Michael</a> has achieved 80% of his completed
-												tasks <span class="timestamp">20 minutes ago</span>
-											</p></li>
-										<li><img src="assets/img/user2.png" alt="Avatar"
-											class="img-circle pull-left avatar">
-											<p>
-												<a href="#">Daniel</a> has been added as a team member to
-												project <a href="#">System Update</a> <span
-													class="timestamp">Yesterday</span>
-											</p></li>
-										<li><img src="assets/img/user3.png" alt="Avatar"
-											class="img-circle pull-left avatar">
-											<p>
-												<a href="#">Martha</a> created a new heatmap view <a
-													href="#">Landing Page</a> <span class="timestamp">2
-													days ago</span>
-											</p></li>
-										<li><img src="assets/img/user4.png" alt="Avatar"
-											class="img-circle pull-left avatar">
-											<p>
-												<a href="#">Jane</a> has completed all of the tasks <span
-													class="timestamp">2 days ago</span>
-											</p></li>
-										<li><img src="assets/img/user5.png" alt="Avatar"
-											class="img-circle pull-left avatar">
-											<p>
-												<a href="#">Jason</a> started a discussion about <a href="#">Weekly
-													Meeting</a> <span class="timestamp">3 days ago</span>
-											</p></li>
-									</ul>
-									<button type="button"
-										class="btn btn-primary btn-bottom center-block">Load
-										More</button>
-								</div>
-							</div>
-							<!-- END TIMELINE -->
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-4"></div>
-						<div class="col-md-4">
-							<!-- VISIT CHART -->
-							<div class="panel">
-								<div class="panel-heading">
-									<h3 class="panel-title">Website Visits</h3>
-									<div class="right">
-										<button type="button" class="btn-toggle-collapse">
-											<i class="lnr lnr-chevron-up"></i>
-										</button>
-									</div>
-								</div>
-								<div class="panel-body">
-									<div id="visits-chart" class="ct-chart"></div>
-								</div>
-							</div>
-							<!-- END VISIT CHART -->
-						</div>
-						<div class="col-md-4">
-							<!-- REALTIME CHART -->
-							<div class="panel">
-								<div class="panel-heading">
-									<h3 class="panel-title">System Load</h3>
-									<div class="right">
-										<button type="button" class="btn-toggle-collapse">
-											<i class="lnr lnr-chevron-up"></i>
-										</button>
-									</div>
-								</div>
-								<div class="panel-body">
-									<div id="system-load" class="easy-pie-chart" data-percent="70">
-										<span class="percent">70</span>
-									</div>
-									<h4>CPU Load</h4>
-									<ul class="list-unstyled list-justify">
-										<li>High: <span>95%</span></li>
-										<li>Average: <span>87%</span></li>
-										<li>Low: <span>20%</span></li>
-										<li>Threads: <span>996</span></li>
-										<li>Processes: <span>259</span></li>
-									</ul>
-								</div>
-							</div>
-							<!-- END REALTIME CHART -->
-						</div>
-					</div>
 				</div>
 			</div>
 			<!-- END MAIN CONTENT -->
@@ -528,125 +394,6 @@
 		<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
 	</div>
 	<!-- END WRAPPER -->
-	<script>
-	$(function() {
-		var data, options;
-
-		// headline charts
-		data = {
-			labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-			series: [
-				[23, 29, 24, 40, 25, 24, 35],
-				[14, 25, 18, 34, 29, 38, 44],
-			]
-		};
-
-		options = {
-			height: 300,
-			showArea: true,
-			showLine: false,
-			showPoint: false,
-			fullWidth: true,
-			axisX: {
-				showGrid: false
-			},
-			lineSmooth: false,
-		};
-
-		new Chartist.Line('#headline-chart', data, options);
-
-
-		// visits trend charts
-		data = {
-			labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-			series: [{
-				name: 'series-real',
-				data: [200, 380, 350, 320, 410, 450, 570, 400, 555, 620, 750, 900],
-			}, {
-				name: 'series-projection',
-				data: [240, 350, 360, 380, 400, 450, 480, 523, 555, 600, 700, 800],
-			}]
-		};
-
-		options = {
-			fullWidth: true,
-			lineSmooth: false,
-			height: "270px",
-			low: 0,
-			high: 'auto',
-			series: {
-				'series-projection': {
-					showArea: true,
-					showPoint: false,
-					showLine: false
-				},
-			},
-			axisX: {
-				showGrid: false,
-
-			},
-			axisY: {
-				showGrid: false,
-				onlyInteger: true,
-				offset: 0,
-			},
-			chartPadding: {
-				left: 20,
-				right: 20
-			}
-		};
-
-		new Chartist.Line('#visits-trends-chart', data, options);
-
-
-		// visits chart
-		data = {
-			labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-			series: [
-				[6384, 6342, 5437, 2764, 3958, 5068, 7654]
-			]
-		};
-
-		options = {
-			height: 300,
-			axisX: {
-				showGrid: false
-			},
-		};
-
-		new Chartist.Bar('#visits-chart', data, options);
-
-
-		// real-time pie chart
-		var sysLoad = $('#system-load').easyPieChart({
-			size: 130,
-			barColor: function(percent) {
-				return "rgb(" + Math.round(200 * percent / 100) + ", " + Math.round(200 * (1.1 - percent / 100)) + ", 0)";
-			},
-			trackColor: 'rgba(245, 245, 245, 0.8)',
-			scaleColor: false,
-			lineWidth: 5,
-			lineCap: "square",
-			animate: 800
-		});
-
-		var updateInterval = 3000; // in milliseconds
-
-		setInterval(function() {
-			var randomVal;
-			randomVal = getRandomInt(0, 100);
-
-			sysLoad.data('easyPieChart').update(randomVal);
-			sysLoad.find('.percent').text(randomVal);
-		}, updateInterval);
-
-		function getRandomInt(min, max) {
-			return Math.floor(Math.random() * (max - min + 1)) + min;
-		}
-
-	});
-	</script>
-
 	<script>
       
       var tnaStatus;
