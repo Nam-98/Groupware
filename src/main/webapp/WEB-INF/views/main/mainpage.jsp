@@ -39,18 +39,33 @@
 <!-- Calendar -->
 <link href='/resources/lib/fullcalendar/main.css' rel='stylesheet' />
 <script src='/resources/lib/fullcalendar/main.js'></script>
+<!--jqwidgets  -->
+<link rel="stylesheet"
+	href="/resources/lib/jqwidgets/styles/jqx.base.css" type="text/css" />
+<script type="text/javascript"
+	src="/resources/lib/scripts/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/resources/lib/jqwidgets/jqxcore.js"></script>
+<script type="text/javascript" src="/resources/lib/jqwidgets/jqxtabs.js"></script>
+<script type="text/javascript">
+        $(document).ready(function () {
+            // create jqxtabs.
+            $('#jqxtabs').jqxTabs({ width: 700, height: 225 });
+            $('#jqxtabs').bind('selected', function (event) {
+                var item = event.args.item;
+                var title = $('#jqxtabs').jqxTabs('getTitleAt', item);
+            });
+        });
+    </script>
 </head>
 <style>
-.profilBox {
-	width: 130px;
-	height: 200px;
-	text-align: center;
-}
-
 .top-vacant {
 	width: 100%;
 	height: 20px;
 	/* 	background-color: yellow; */
+}
+.fc-toolbar-chunk {
+  display: flex; // 일렬로 나란히
+  align-items: center; // 수직 가운데 정렬
 }
 </style>
 <body>
@@ -80,51 +95,6 @@
 						<div class="panel-body">
 							<div class="row">
 								<div class="col-md-3">
-									<div class="metric"  style=" cursor: pointer;" onclick="location.href='/nex/admin.nexacro';">
-										<span class="icon"><i
-											class="fas fa-user-cog fa-4x adminitem"></i></span>
-										<p>
-											<span class="number">Administrator</span><span class="title">관리자</span>
-										</p>
-										<input type=hidden value="/nex/admin.nexacro">
-									</div>
-								</div>
-								<div class="col-md-3">
-									<div class="metric" style=" cursor: pointer;" onclick="location.href='/approval/toAppMainView.approval';">
-										<span class="icon"><i
-											class="fas fa-file-signature fa-4x"></i></span>
-										<p>
-											<span class="number">e-Approval</span> <span class="title">전자결재</span>
-										</p>
-									</div>
-								</div>
-								<div class="col-md-3">
-									<div class="metric" style=" cursor: pointer;" onclick="location.href='/bizlog/toMainPage.bizlog';">
-										<span class="icon"><i class="fas fa-pen-square fa-4x"></i></span>
-										<p>
-											<span class="number">Biz-log</span> <span class="title">업무일지</span>
-										</p>
-										<input type=hidden value="/bizlog/toMainPage.bizlog">
-									</div>
-								</div>
-								<div class="col-md-3">
-									<div class="metric"style=" cursor: pointer;" onclick="location.href='/message/msgInBoxList.message?cpage=1';">
-										<span class="icon"><i class="fas fa-envelope fa-4x"></i></span>
-										<p>
-											<span class="number">Message</span> <span class="title">쪽지함</span>
-										</p>
-									</div>
-								</div>
-								<div class="col-md-3">
-									<div class="metric">
-										<span class="icon"><i class="fas fa-calendar-alt fa-4x"></i></span>
-										<p>
-											<span class="number">Schedule</span> <span class="title">일정관리</span>
-										</p>
-										<input type=hidden value="/">
-									</div>
-								</div>
-								<div class="col-md-3">
 									<div class="metric">
 										<span class="icon"><i class="fas fa-inbox fa-4x"></i></span>
 										<p>
@@ -134,49 +104,33 @@
 									</div>
 								</div>
 								<div class="col-md-3">
-									<div class="metric">
-										<span class="icon"><i class="fas fa-user-clock fa-4x"></i></span>
+									<div class="metric" style="cursor: pointer;"
+										onclick="location.href='/nex/admin.nexacro';">
+										<span class="icon"><i
+											class="fas fa-user-cog fa-4x adminitem"></i></span>
 										<p>
-											<span class="number">TnA Manage</span><span class="title">근태관리</span>
+											<span class="number">Administrator</span><span class="title">관리자</span>
 										</p>
-										<input type=hidden value="/tna/tnaCheckPage.tna">
+										<input type=hidden value="/nex/admin.nexacro">
 									</div>
 								</div>
 								<div class="col-md-3">
-									<div class="metric">
-										<span class="icon"><i class="fas fa-sitemap fa-4x"></i></span>
+									<div class="metric" style="cursor: pointer;"
+										onclick="location.href='/approval/toAppMainView.approval';">
+										<span class="icon"><i
+											class="fas fa-file-signature fa-4x"></i></span>
 										<p>
-											<span class="number">Organization</span><span class="title">조직도</span>
+											<span class="number">e-Approval</span> <span class="title">전자결재</span>
 										</p>
-										<input type=hidden value="/member/orgnizationChart.member">
 									</div>
 								</div>
 								<div class="col-md-3">
-									<div class="metric">
-										<span class="icon"><i class="fab fa-trello fa-4x"></i></span>
+									<div class="metric" style="cursor: pointer;"
+										onclick="location.href='/message/msgInBoxList.message?cpage=1';">
+										<span class="icon"><i class="fas fa-envelope fa-4x"></i></span>
 										<p>
-											<span class="number">Project</span><span class="title">프로젝트관리</span>
+											<span class="number">Message</span> <span class="title">쪽지함</span>
 										</p>
-										<input type=hidden
-											value="/project/enterProjectList.project?cpage=1">
-									</div>
-								</div>
-								<div class="col-md-3">
-									<div class="metric">
-										<span class="icon"><i class="fas fa-users fa-4x"></i></span>
-										<p>
-											<span class="number">Community</span><span class="title">커뮤니티</span>
-										</p>
-										<input type=hidden value="/write/enterCommunity.write">
-									</div>
-								</div>
-								<div class="col-md-3">
-									<div class="metric">
-										<span class="icon"><i class="fas fa-id-card fa-4x"></i></span>
-										<p>
-											<span class="number">Mypage</span><span class="title">마이페이지</span>
-										</p>
-										<input type=hidden value="/member/enterMyPage.member">
 									</div>
 								</div>
 							</div>
@@ -184,7 +138,7 @@
 					</div>
 					<!-- END MainMenu -->
 					<div class="row">
-						<div class="col-md-6">
+						<div class="col-md-4">
 							<div class="panel">
 								<div class="panel-heading">
 									<h3 class="panel-title">Commuting check</h3>
@@ -195,10 +149,9 @@
 									</div>
 								</div>
 								<div class="panel-body">
-
-									<h3>
-										현재 시간은&nbsp&nbsp&nbsp"<span id="currentTimeSpan"></span>"&nbsp&nbsp&nbsp입니다.
-									</h3>
+									<h4>
+										<span id="currentTimeSpan"></span>
+									</h4>
 
 									<div class="">${attendanceValue.status }
 										${attendanceValue.hour } ${attendanceValue.minute }</div>
@@ -222,7 +175,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-md-6">
+						<div class="col-md-4">
 							<div class="panel">
 								<div class="panel-heading">
 									<h3 class="panel-title">Notice</h3>
@@ -246,168 +199,10 @@
 								</div>
 							</div>
 						</div>
-					</div>
-
-					<!-- Schedule -->
-					<div class="panel panel-headline">
-						<div class="panel-heading">
-							<h3 class="panel-title">Schedule</h3>
-							<p class="panel-subtitle">이 달의 일정</p>
-							<div class="right">
-								<button type="button" class="btn-toggle-collapse">
-									<i class="lnr lnr-chevron-up"></i>
-								</button>
-							</div>
-						</div>
-						<div class="panel-body">
-							<div class="row">
-								<div class="col-md-5">
-									<div class="metric">
-										<div id='calendar'></div>
-									</div>
-								</div>
-								<div class="col-md-7">
-									<div class="panel">
-										<div class="panel-heading"></div>
-										<div class="panel-body no-padding">
-											<table class="table table-striped">
-												<thead>
-													<tr>
-														<th>Order No.</th>
-														<th>Name</th>
-														<th>Amount</th>
-														<th>Date &amp; Time</th>
-														<th>Status</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr>
-														<td><a href="#">763648</a></td>
-														<td>Steve</td>
-														<td>$122</td>
-														<td>Oct 21, 2016</td>
-														<td><span class="label label-success">COMPLETED</span></td>
-													</tr>
-													<tr>
-														<td><a href="#">763649</a></td>
-														<td>Amber</td>
-														<td>$62</td>
-														<td>Oct 21, 2016</td>
-														<td><span class="label label-warning">PENDING</span></td>
-													</tr>
-													<tr>
-														<td><a href="#">763650</a></td>
-														<td>Michael</td>
-														<td>$34</td>
-														<td>Oct 18, 2016</td>
-														<td><span class="label label-danger">FAILED</span></td>
-													</tr>
-													<tr>
-														<td><a href="#">763651</a></td>
-														<td>Roger</td>
-														<td>$186</td>
-														<td>Oct 17, 2016</td>
-														<td><span class="label label-success">SUCCESS</span></td>
-													</tr>
-													<tr>
-														<td><a href="#">763652</a></td>
-														<td>Smith</td>
-														<td>$362</td>
-														<td>Oct 16, 2016</td>
-														<td><span class="label label-success">SUCCESS</span></td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
-
-									</div>
-								</div>
-
-							</div>
-						</div>
-					</div>
-					<!-- END Schedule -->
-					<div class="row">
-						<div class="col-md-6">
-							<!-- RECENT PURCHASES -->
+						<div class="col-md-4">
 							<div class="panel">
 								<div class="panel-heading">
-									<h3 class="panel-title">Recent Purchases</h3>
-									<div class="right">
-										<button type="button" class="btn-toggle-collapse">
-											<i class="lnr lnr-chevron-up"></i>
-										</button>
-									</div>
-								</div>
-								<div class="panel-body no-padding">
-									<table class="table table-striped">
-										<thead>
-											<tr>
-												<th>Order No.</th>
-												<th>Name</th>
-												<th>Amount</th>
-												<th>Date &amp; Time</th>
-												<th>Status</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td><a href="#">763648</a></td>
-												<td>Steve</td>
-												<td>$122</td>
-												<td>Oct 21, 2016</td>
-												<td><span class="label label-success">COMPLETED</span></td>
-											</tr>
-											<tr>
-												<td><a href="#">763649</a></td>
-												<td>Amber</td>
-												<td>$62</td>
-												<td>Oct 21, 2016</td>
-												<td><span class="label label-warning">PENDING</span></td>
-											</tr>
-											<tr>
-												<td><a href="#">763650</a></td>
-												<td>Michael</td>
-												<td>$34</td>
-												<td>Oct 18, 2016</td>
-												<td><span class="label label-danger">FAILED</span></td>
-											</tr>
-											<tr>
-												<td><a href="#">763651</a></td>
-												<td>Roger</td>
-												<td>$186</td>
-												<td>Oct 17, 2016</td>
-												<td><span class="label label-success">SUCCESS</span></td>
-											</tr>
-											<tr>
-												<td><a href="#">763652</a></td>
-												<td>Smith</td>
-												<td>$362</td>
-												<td>Oct 16, 2016</td>
-												<td><span class="label label-success">SUCCESS</span></td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-								<div class="panel-footer">
-									<div class="row">
-										<div class="col-md-6">
-											<span class="panel-note"><i class="fa fa-clock-o"></i>
-												Last 24 hours</span>
-										</div>
-										<div class="col-md-6 text-right">
-											<a href="#" class="btn btn-primary">View All Purchases</a>
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- END RECENT PURCHASES -->
-						</div>
-						<div class="col-md-6">
-							<!-- MULTI CHARTS -->
-							<div class="panel">
-								<div class="panel-heading">
-									<h3 class="panel-title">Projection vs. Realization</h3>
+									<h3 class="panel-title">Schedule</h3>
 									<div class="right">
 										<button type="button" class="btn-toggle-collapse">
 											<i class="lnr lnr-chevron-up"></i>
@@ -415,10 +210,151 @@
 									</div>
 								</div>
 								<div class="panel-body">
-									<div id="visits-trends-chart" class="ct-chart"></div>
+									<div class="metric">
+										<div id='calendar'></div>
+									</div>
+								</div>
+								<div class="panel-footer">
+									<div class="row">
+										<div class="col-md-6">
+											<span class="panel-note"><i class="fa fa-clock-o"></i>
+												Latest 3 posts</span>
+										</div>
+										<div class="col-md-6 text-right">
+											<a href="#" class="btn btn-primary">Go</a>
+										</div>
+									</div>
 								</div>
 							</div>
-							<!-- END MULTI CHARTS -->
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<!-- TASKS -->
+							<div class="panel">
+								<div class="panel-heading">
+									<h3 class="panel-title">My Projects</h3>
+									<div class="right">
+										<button type="button" class="btn-toggle-collapse">
+											<i class="lnr lnr-chevron-up"></i>
+										</button>
+									</div>
+								</div>
+								<div class="panel-body">
+									<ul class="list-unstyled task-list">
+										<c:forEach var="i" items="${map}">
+											<li>
+												<p>
+													${i.title}<span class="label-percent">${i.perfection}%</span>
+												</p>
+												<div class="progress progress-xs">
+													<div class="progress-bar progress-bar-danger"
+														role="progressbar" aria-valuenow="${i.perfection}"
+														aria-valuemin="0" aria-valuemax="100"
+														style="width: ${i.perfection}%">
+														<span class="sr-only">${i.perfection}% Complete</span>
+													</div>
+												</div>
+											</li>
+										</c:forEach>
+									</ul>
+								</div>
+								<div class="panel-footer">
+									<div class="row">
+										<div class="col-md-6">
+											<span class="panel-note"></span>
+										</div>
+										<div class="col-md-6 text-right">
+											<a href="#" class="btn btn-primary">Go</a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- END TASKS -->
+						</div>
+						<div class="col-md-8">
+							<!-- TASKS -->
+							<div class="panel">
+								<div class="panel-heading">
+									<h3 class="panel-title">e-Approval</h3>
+									<div class="right">
+										<button type="button" class="btn-toggle-collapse">
+											<i class="lnr lnr-chevron-up"></i>
+										</button>
+									</div>
+								</div>
+								<div class="panel-body">
+									<div id='jqxtabs'>
+										<ul style='margin-left: 20px;'>
+											<li>상신 문서</li>
+											<li>승인 요청중&nbsp<span class="badge">${knrToBeCount}</span></li>
+										</ul>
+										<div>
+											<div class="panel-body">
+												<table class="table table-hover">
+													<thead>
+														<tr>
+															<th scope="col">#</th>
+															<th scope="col">제  목</th>
+															<th scope="col">기안자(ID)</th>
+															<th scope="col">기안날짜</th>
+															<th scope="col">문서상태코드</th>
+														</tr>
+													</thead>
+													<tbody>
+														<c:forEach var="i" items="${knrWriteList}">
+															<tr>
+																<th scope="row">${i.app_docs_num}</th>
+																<td>${i.app_title}</td>
+																<td>${i.name}</td>
+																<td>${i.app_reg_date}</td>
+																<td>${i.app_status_code}</td>
+															</tr>
+														</c:forEach>
+													</tbody>
+												</table>
+											</div>
+										</div>
+										<div>
+										<div class="panel-body">
+												<table class="table table-hover">
+													<thead>
+														<tr>
+															<th scope="col">#</th>
+															<th scope="col">제  목</th>
+															<th scope="col">기안자(ID)</th>
+															<th scope="col">기안날짜</th>
+															<th scope="col">현재 상태</th>
+														</tr>
+													</thead>
+													<tbody>
+														<c:forEach var="i" items="${knrToBeList}">
+															<tr>
+																<th scope="row">${i.app_docs_num}</th>
+																<td>${i.app_title}</td>
+																<td>${i.name}</td>
+																<td>${i.app_reg_date}</td>
+																<td>${i.app_is_my_sign_turn}</td>
+															</tr>
+														</c:forEach>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="panel-footer">
+									<div class="row">
+										<div class="col-md-6">
+											<span class="panel-note"></span>
+										</div>
+										<div class="col-md-6 text-right">
+											<a href="#" class="btn btn-primary">Go</a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- END TASKS -->
 						</div>
 					</div>
 					<div class="row">
@@ -537,84 +473,7 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-4">
-							<!-- TASKS -->
-							<div class="panel">
-								<div class="panel-heading">
-									<h3 class="panel-title">My Tasks</h3>
-									<div class="right">
-										<button type="button" class="btn-toggle-collapse">
-											<i class="lnr lnr-chevron-up"></i>
-										</button>
-									</div>
-								</div>
-								<div class="panel-body">
-									<ul class="list-unstyled task-list">
-										<li>
-											<p>
-												Updating Users Settings <span class="label-percent">23%</span>
-											</p>
-											<div class="progress progress-xs">
-												<div class="progress-bar progress-bar-danger"
-													role="progressbar" aria-valuenow="23" aria-valuemin="0"
-													aria-valuemax="100" style="width: 23%">
-													<span class="sr-only">23% Complete</span>
-												</div>
-											</div>
-										</li>
-										<li>
-											<p>
-												Load &amp; Stress Test <span class="label-percent">80%</span>
-											</p>
-											<div class="progress progress-xs">
-												<div class="progress-bar progress-bar-success"
-													role="progressbar" aria-valuenow="80" aria-valuemin="0"
-													aria-valuemax="100" style="width: 80%">
-													<span class="sr-only">80% Complete</span>
-												</div>
-											</div>
-										</li>
-										<li>
-											<p>
-												Data Duplication Check <span class="label-percent">100%</span>
-											</p>
-											<div class="progress progress-xs">
-												<div class="progress-bar progress-bar-success"
-													role="progressbar" aria-valuenow="100" aria-valuemin="0"
-													aria-valuemax="100" style="width: 100%">
-													<span class="sr-only">Success</span>
-												</div>
-											</div>
-										</li>
-										<li>
-											<p>
-												Server Check <span class="label-percent">45%</span>
-											</p>
-											<div class="progress progress-xs">
-												<div class="progress-bar progress-bar-warning"
-													role="progressbar" aria-valuenow="45" aria-valuemin="0"
-													aria-valuemax="100" style="width: 45%">
-													<span class="sr-only">45% Complete</span>
-												</div>
-											</div>
-										</li>
-										<li>
-											<p>
-												Mobile App Development <span class="label-percent">10%</span>
-											</p>
-											<div class="progress progress-xs">
-												<div class="progress-bar progress-bar-danger"
-													role="progressbar" aria-valuenow="10" aria-valuemin="0"
-													aria-valuemax="100" style="width: 10%">
-													<span class="sr-only">10% Complete</span>
-												</div>
-											</div>
-										</li>
-									</ul>
-								</div>
-							</div>
-							<!-- END TASKS -->
-						</div>
+						<div class="col-md-4"></div>
 						<div class="col-md-4">
 							<!-- VISIT CHART -->
 							<div class="panel">
@@ -864,50 +723,35 @@
       }
    </script>
 	<script>
+	  document.addEventListener('DOMContentLoaded', function() {
+	        var calendarEl = document.getElementById('calendar');
+	        
+	        var calendar = new FullCalendar.Calendar(calendarEl, {        	
+	        	headerToolbar: {
+					left: '',
+					center: 'prev title next',
+					right: 'today'
+				},
+				locale: 'ko',
+				businessHours: true,
+				 eventSources: [
+					    {
+					      events: [
+					    	  <c:forEach var="i" items="${list }">
+					    	  {
+						          title  : '${i.sch_title }',
+						          start  : '${i.sch_start_date_sc }',
+						          end    : '${i.sch_end_date_sc }',
+						          url : "/schedule/scheduleView.schedule?sch_seq=${i.sch_seq}"
+					    	  },
+					          </c:forEach>
+					      ],
+					    }
+					]
 
-      document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-        
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-			header: {
-				left: '',
-				center: 'title',
-				right: 'today prev,next'
-			},
-			locale: 'ko',
-// 			themeSystem: 'sketchy',
-			businessHours: true,
-			eventClick: function(arg) {
-				arg.jsEvent.preventDefault();
-				
-				if (arg.event.url) {
-					if (confirm("정정 신청하시겠습니까?")) {
-						var options='top=10, left=10, width=800, height=600, status=no, menubar=no, toolbar=no, resizable=no';
-						window.open(arg.event.url,"popup",options);
-					}
-				}
-	        },
-			events: [
-				<c:forEach varStatus="i" var="list" items="${tnaCalendarList}">
-					{
-						title: '${list.TNA_START_STATUS_NAME}',
-						start: '${list.TNA_START_TIME}',
-						url: "/tna/tnaFixRequestPage.tna?tna_seq=${list.TNA_SEQ}&tna_status=start"
-						
-					},
-					{
-						title: '${list.TNA_END_STATUS_NAME}',
-						start: '${list.TNA_END_TIME}',
-						url: "/tna/tnaFixRequestPage.tna?tna_seq=${list.TNA_SEQ}&tna_status=end"
-					}
-					<c:if test="${!i.last}">
-					,
-					</c:if>
-				</c:forEach>
-          	]
-        });
-        calendar.render();
-      });
+	        });
+	        calendar.render();
+	      });
 
    </script>
 </body>

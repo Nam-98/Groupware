@@ -19,6 +19,8 @@ public class Write_commentsDTO {
 				+ write_cmt_id + ", write_cmt_contents=" + write_cmt_contents + ", write_cmt_date=" + write_cmt_date
 				+ ", write_cmt_del=" + write_cmt_del + ", write_cmt_parent_seq=" + write_cmt_parent_seq + "]";
 	}
+	
+	
 	public int getWrite_cmt_seq() {
 		return write_cmt_seq;
 	}
