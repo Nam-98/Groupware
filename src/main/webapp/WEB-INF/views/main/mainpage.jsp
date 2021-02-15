@@ -337,7 +337,7 @@
 											<c:forEach var="i" items="${kgsMsgList}">
 												<tr>
 													<td>${i.msg_send_date}</td>
-													<th scope="row"><a href="/message/msgReceiveView.message?msg_seq=${i.msg_seq}&msg_receive_date_str=${msg_receive_date_str }">${i.msg_title}</a></th>
+													<th scope="row"><a href="/message/msgReceiveView.message?msg_seq=${i.msg_seq}&msg_receive_date_str=${msg_receive_date_str}">${i.msg_title}</a></th>
 													<td>${i.msg_sender_name}</td>
 												</tr>
 											</c:forEach>
