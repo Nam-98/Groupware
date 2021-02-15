@@ -76,11 +76,11 @@ $(document).ready(function() {
         }
 	});
 });
-//a4용지 크기로 강제로 조정함 (click이벤트 이용)
+/* //a4용지 크기로 강제로 조정함 (click이벤트 이용)
 document.addEventListener("DOMContentLoaded", function(){
 	let arr = $(".note-paperSize").children("div").children("div").children("a");
 	arr[5].click();
-	});
+	}); */
 </script>
 	<script>
 		//summernote paper-size script

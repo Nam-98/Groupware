@@ -5,7 +5,7 @@
 <html>
 <style>
 .panel-body div{
-	border: 1px solid black;
+	border: 0px solid black;
 }
 .tableBox{
 	width: 100%;
@@ -15,6 +15,7 @@
 	width: 100%;
 	height: 9.09090909%;
 	text-align : center;
+
 }
 .tableLine>.sector{
 	float: left;
@@ -79,7 +80,6 @@
 
 
 						<div class="panel-body">
-							<form action="/tna/tnaFixRequestSubmit.tna" method="post" id="formBox">
 								<div class="componentBox">
 									<select class="" name="tnaSelectYearList" id="selectYear">
 									<c:forEach varStatus="a" var="list" items="${tnaSelectYearList}">
@@ -92,6 +92,7 @@
 									</c:forEach>
 									</select>
 								</div>
+								<hr>
 								<div class="tableBox">
 									<div class="tableLine">
 										<div class="sector">구 분</div>
@@ -109,9 +110,10 @@
 										<div class="sector">12 월</div>
 										<div class="sector">합 계</div>
 									</div>
+									<hr>
 									<c:forEach varStatus="i" var="list" items="${tnaStatusList}">
 									<div class="tableLine">
-										<div class="sector">${list.tna_status_name }</div>
+										<div class="sector"><b>${list.tna_status_name }</b></div>
 										<c:forEach var="j" begin="1" end="12" step="1">
 										<div class="sector">
 											<c:forEach varStatus="k" var="list2" items="${tnaStartCountList}">
@@ -133,31 +135,20 @@
 										<div class="sector">
 											<c:forEach varStatus="l" var="list3" items="${tnaStartCountSumList}">
 											<c:if test='${list.tna_status_code == list3.TNA_START_STATUS_CODE}'>
-											${list3.COUNTING }
+											<b>${list3.COUNTING }</b>
 											</c:if>
 											</c:forEach>
 											<c:forEach varStatus="n" var="list5" items="${tnaEndCountSumList}">
 											<c:if test='${list.tna_status_code == list5.TNA_END_STATUS_CODE}'>
-											${list5.COUNTING }
+											<b>${list5.COUNTING }</b>
 											</c:if>
 											</c:forEach>
 										</div>
 									</div>
 									</c:forEach>
-
 								</div>
-
-								<input id="" type="hidden" value="${tnaCalendarValue.TNA_SEQ }" name="tna_seq">
-								<input id="" type="hidden" value="${tna_status }" name="tna_obj_status">
-							</form>
 						</div>
-
-
-
-
 					</div>
-
-
 				</div>
 			</div>
 			<!-- END MAIN CONTENT -->

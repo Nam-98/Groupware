@@ -14,9 +14,11 @@ import com.nexacro.uiadapter17.spring.core.annotation.ParamDataSet;
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 
 import kh.gw.dto.MemberDTO;
+import kh.gw.dto.WriteDTO;
 import kh.gw.service.DepartmentService;
 import kh.gw.service.MemberService;
 import kh.gw.service.PositionService;
+import kh.gw.service.WriteService;
 
 @Controller
 @RequestMapping("/nex")
@@ -29,6 +31,9 @@ public class AdminController {
 	
 	@Autowired
 	private DepartmentService dser;
+	
+	@Autowired
+	private WriteService wser;
 	
 	//페이지 이동
 	@RequestMapping("/admin.nexacro")
@@ -83,10 +88,18 @@ public class AdminController {
 		return "redirect:/";
 	}
 	
+	//공지사항 글 작성
+	@RequestMapping("insertWrtie.nexacro")
+	public NexacroResult insertWrite(@ParamDataSet(name = "ds_in") WriteDTO dto) throws Exception{
+		wser.insertWrite(dto);
+		return new NexacroResult();
+	}
+	
 	// error
 	@ExceptionHandler
 	public String exceptionalHandler(Exception e) {
 		e.printStackTrace();
 		return "error";
 	}
+
 }
