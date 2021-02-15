@@ -143,4 +143,8 @@ public class WriteDAO {
 	public List<Write_commentsDTO> reCommentNow(Write_commentsDTO dto) {
 		return db.selectList("Write.reCommentNow", dto);
 	}
+
+	public int insertWrite(WriteDTO dto) {
+		return db.insert("Write.insertWrite", dto);
+	}
 }

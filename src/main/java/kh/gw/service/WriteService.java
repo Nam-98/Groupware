@@ -448,4 +448,10 @@ public class WriteService {
 		public List<Write_commentsDTO> reCommentNow(Write_commentsDTO dto) {
 			return wdao.reCommentNow(dto);
 		}
+
+		
+		public int insertWrite(WriteDTO dto) {
+			return wdao.insertWrite(dto);
+			
+		}
 }
