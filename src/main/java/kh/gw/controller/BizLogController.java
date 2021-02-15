@@ -69,6 +69,8 @@ public class BizLogController {
 		if(periodResult<=0) {System.out.println("기간에서 걸림");return "error";}
 		return "redirect:/approval/toAppDetailView.approval?app_seq="+appSeq;
 	}
+
+	
 	
 	// error
 	@ExceptionHandler
