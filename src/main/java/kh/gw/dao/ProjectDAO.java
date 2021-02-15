@@ -98,4 +98,8 @@ public class ProjectDAO {
 	public int destroyKanban(ProjectDTO dto) throws Exception{
 		return db.delete("Project.destroyKanban", dto);
 	}
+	
+	public List<Project_kanbanDTO> getProKanInfoById(String id) throws Exception{
+		return db.selectList("Project.getProKanInfoById", id);
+	}
 }

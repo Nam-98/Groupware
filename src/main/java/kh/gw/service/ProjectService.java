@@ -1,8 +1,11 @@
 package kh.gw.service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -227,5 +230,49 @@ public class ProjectService {
 	
 	public int destroyKanban(ProjectDTO dto) throws Exception{
 		return pdao.destroyKanban(dto);
+	}
+	
+	public List<Project_kanbanDTO> getProKanInfoById(String id) throws Exception{
+		return pdao.getProKanInfoById(id);
+	}
+	
+	public List<ProjectDTO> getProInfoByKid(List<Project_kanbanDTO> pkdtoList) throws Exception{
+		int pro_seq_af=0;
+		List<ProjectDTO> list = new ArrayList<>();
+		for(int i = 0; i < pkdtoList.size();i++) {
+			int pro_seq_bf = pkdtoList.get(i).getPro_seq();
+			if(pro_seq_bf!=pro_seq_af) {
+				//프로젝트 정보 받음
+				ProjectDTO dto = pdao.getProInfo(pro_seq_bf);
+				pro_seq_af=pro_seq_bf;
+				list.add(dto);
+			}else continue;
+		}
+		return list;
+	}
+	
+	public List<Map<String,Object>> proPercent(List<Project_kanbanDTO> list) throws Exception{
+		List<ProjectDTO> pdtoList =this.getProInfoByKid(list);
+		List<Map<String,Object>> hashList = new ArrayList<Map<String,Object>>();
+		
+		for(int i =0; i < pdtoList.size();i++) {
+			//제목 뽑기
+			String title = pdtoList.get(i).getPro_title();
+			//완성도 뽑기
+			List<Project_kanbanDTO> pkdtoList = this.getProKanInfo(pdtoList.get(i).getPro_seq());
+			int total = pkdtoList.size();
+			int finished = this.getpkdtoListCode(pkdtoList, 3);
+			int stopped = this.getpkdtoListCode(pkdtoList, 4);
+			double perfection = finished/(double)(total-stopped);
+			
+			double perfectiondb = (Math.floor(perfection*1000))/10;
+			
+			Map<String,Object> map = new HashMap<>();
+			map.put("title",title);
+			map.put("perfection",perfectiondb);
+			
+			hashList.add(i,map);
+		}
+		return hashList;
 	}
 }

@@ -87,4 +87,9 @@
   <delete id="destroyKanban">
   	delete from st.project_kanban where pro_seq=#{pro_seq}
   </delete>
+  
+  <select id="getProKanInfoById" resultType="kh.gw.dto.Project_kanbanDTO">
+  	select * from st.project_kanban where pro_kb_manager= #{id} order by 2
+  </select>
+  
   </mapper>
