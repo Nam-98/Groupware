@@ -1,6 +1,7 @@
 package kh.gw.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -22,6 +23,7 @@ import kh.gw.dto.WriteDTO;
 import kh.gw.service.DepartmentService;
 import kh.gw.service.MemberService;
 import kh.gw.service.PositionService;
+import kh.gw.service.TnAService;
 import kh.gw.service.WriteService;
 
 @Controller
@@ -41,6 +43,9 @@ public class AdminController {
 	
 	@Autowired
 	private WriteService wser;
+	
+	@Autowired
+	private TnAService tservice;
 	
 	//페이지 이동
 	@RequestMapping("/admin.nexacro")
@@ -121,6 +126,25 @@ public class AdminController {
 	public NexacroResult nxAppTypeUpdate(@ParamDataSet(name="ds_in")List<Approval_typeDTO> list) {
 		
 		NexacroResult nr = new NexacroResult();
+		return nr;
+	}
+	
+	//근태조정신청 list
+	@RequestMapping("/tnaHistory.nexacro")
+	public NexacroResult tnaHistory() throws Exception{
+		NexacroResult nr = new NexacroResult();
+		List<Map<String, Object>> tnaHistory = tservice.tnaHistory();
+		nr.addDataSet("ds_out",tnaHistory);
+		return nr;
+	}
+	
+	//근태조정신청 상태 검색버튼
+	@RequestMapping("/tnaHistorySearch.nexacro")
+	public NexacroResult tnaHistorySearch(@ParamVariable(name="sel")int sel) throws Exception{
+		NexacroResult nr = new NexacroResult();
+		System.out.println("select값:"+sel);
+		List<Map<String, Object>> tnaHistorySearch = tservice.tnaHistorySearch(sel);
+		nr.addDataSet("ds_out",tnaHistorySearch);
 		return nr;
 	}
 	

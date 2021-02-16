@@ -324,6 +324,16 @@ public class TnAService {
 		
 		return sb.toString();
 	}
+	
+	//근태조정신청 list(관리자)
+	public List<Map<String, Object>> tnaHistory() throws Exception{
+		return tdao.tnaHistory();
+	}
+	
+	//근태조정신청 상태 검색버튼
+	public List<Map<String, Object>> tnaHistorySearch(int sel) throws Exception{
+		return tdao.tnaHistorySearch(sel);
+	}
 
 	
 }

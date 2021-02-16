@@ -124,6 +124,12 @@ public class TnADAO {
 		return db.selectList("TnA.getTnaFixRequestListAll", param);
 	}
 	
+	public List<Map<String, Object>> tnaHistory() throws Exception{
+		return db.selectList("TnA.tnaHistory");
+	}
 	
+	public List<Map<String, Object>> tnaHistorySearch(int sel) throws Exception{
+		return db.selectList("TnA.tnaHistorySearch",sel);
+	}
 	
 }
