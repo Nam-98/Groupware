@@ -18,6 +18,7 @@ import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 import kh.gw.dto.Approval_typeDTO;
 import kh.gw.dto.MemberDTO;
 import kh.gw.service.ApprovalService;
+import kh.gw.service.BreakService;
 import kh.gw.dto.WriteDTO;
 import kh.gw.service.DepartmentService;
 import kh.gw.service.MemberService;
@@ -41,6 +42,9 @@ public class AdminController {
 	
 	@Autowired
 	private WriteService wser;
+	
+	@Autowired
+	private BreakService bser;
 	
 	//페이지 이동
 	@RequestMapping("/admin.nexacro")
@@ -121,6 +125,14 @@ public class AdminController {
 	public NexacroResult nxAppTypeUpdate(@ParamDataSet(name="ds_in")List<Approval_typeDTO> list) {
 		
 		NexacroResult nr = new NexacroResult();
+		return nr;
+	}
+	
+	//breaktype테이블 로드
+	@RequestMapping("loadBreakType.nexacro")
+	public NexacroResult loadBreakType() throws Exception {
+		NexacroResult nr = new NexacroResult();
+		nr.addDataSet("ds_out",bser.getAllType());
 		return nr;
 	}
 	
