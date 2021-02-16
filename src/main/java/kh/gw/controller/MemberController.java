@@ -43,7 +43,8 @@ public class MemberController {
 			System.out.println("로그인 성공");
 			System.out.println("id : " + dtos.getId());
 			System.out.println("accessLevel : " + dtos.getAccess_level_code());
-			return "/main/mainpage";
+			return "redirect:/";
+//			return "/main/mainpage";
 		}else {
 			System.out.println("로그인 실패");
 			//return "redirect:/";

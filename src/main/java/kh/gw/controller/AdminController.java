@@ -18,9 +18,11 @@ import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 import kh.gw.dto.Approval_typeDTO;
 import kh.gw.dto.MemberDTO;
 import kh.gw.service.ApprovalService;
+import kh.gw.dto.WriteDTO;
 import kh.gw.service.DepartmentService;
 import kh.gw.service.MemberService;
 import kh.gw.service.PositionService;
+import kh.gw.service.WriteService;
 
 @Controller
 @RequestMapping("/nex")
@@ -36,6 +38,9 @@ public class AdminController {
 	
 	@Autowired
 	private ApprovalService aservice;
+	
+	@Autowired
+	private WriteService wser;
 	
 	//페이지 이동
 	@RequestMapping("/admin.nexacro")
@@ -90,6 +95,13 @@ public class AdminController {
 		return "redirect:/";
 	}
 	
+	//공지사항 글 작성
+	@RequestMapping("insertWrtie.nexacro")
+	public NexacroResult insertWrite(@ParamDataSet(name = "ds_in") WriteDTO dto) throws Exception{
+		wser.insertWrite(dto);
+		return new NexacroResult();
+	}
+	
 	//전자결재 종류 관리 페이지로 이동
 	@RequestMapping("/nxAppTypeLoad.nexacro")
 	public NexacroResult nxAppTypeLoad() throws Exception {
@@ -118,4 +130,5 @@ public class AdminController {
 		e.printStackTrace();
 		return "error";
 	}
+
 }
