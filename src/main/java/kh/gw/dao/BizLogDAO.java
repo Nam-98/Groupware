@@ -1,5 +1,6 @@
 package kh.gw.dao;
 
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -7,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kh.gw.dto.ApprovalDTO;
 import kh.gw.dto.Approval_typeDTO;
 import kh.gw.dto.BizLog_periodDTO;
 import kh.gw.dto.MemberDTO;
@@ -29,5 +31,32 @@ public class BizLogDAO {
 	}
 	public int setPeriod(BizLog_periodDTO dto) {
 		return db.insert("BizLog.setPeriod", dto);
+	}
+	
+	public List<ApprovalDTO> getWeekList(String app_id, Date biz_periodstart,Date biz_periodend){
+		HashMap<String,Object> map = new HashMap();
+		map.put("app_id",app_id);
+		map.put("biz_periodstart",biz_periodstart);
+		map.put("biz_periodend", biz_periodend);
+		return db.selectList("BizLog.getWeekList", map);
+	}
+	public List<ApprovalDTO> getMonList(String app_id, Date biz_periodstart,Date biz_periodend){
+		HashMap<String,Object> map = new HashMap();
+		map.put("app_id",app_id);
+		map.put("biz_periodstart",biz_periodstart);
+		map.put("biz_periodend", biz_periodend);
+		return db.selectList("BizLog.getMonList", map);
+	}
+	public List<ApprovalDTO> getDailyList(String app_id, Date biz_periodstart,Date biz_periodend){
+		HashMap<String,Object> map = new HashMap();
+		map.put("app_id",app_id);
+		map.put("biz_periodstart",biz_periodstart);
+		map.put("biz_periodend", biz_periodend);
+		return db.selectList("BizLog.getDailyList", map);
+	}
+	public List<BizLog_periodDTO> getPeriod(List<Integer> seqList){
+		HashMap<String,Object> map = new HashMap();
+		map.put("seqList", seqList);
+		return db.selectList("BizLog.getPeriod", map);
 	}
 }

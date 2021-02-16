@@ -4,39 +4,14 @@
 <!DOCTYPE html>
 <html>
 <style>
-.panel-body div{
-	border: 1px solid black;
-}
-.tableBox{
-	width: 100%;
-	height: 280px;
-}
-.tableLine{
-	width: 100%;
-	height: 12%;
-}
-.tableLine>.tableTitle{
-	float: left;
-	width: 15%;
-	height: 100%;
-	text-align: center;
-}
-.tableLine>.tableValue{
-	float: left;
-	width: 85%;
-	height: 100%;
-}
-.tableReason{
-	height: 64%;
-}
-.tableValue>textarea{
+#textReason{
 	resize: none;
 	width: 100%;
 	height: 100%;
 }
 
 .componentBox{
-	text-align: right;
+	text-align: center;
 }
 </style>
 <head>
@@ -79,7 +54,7 @@
 <!-- 		</div> -->
 		<!-- END LEFT SIDEBAR -->
 		<!-- MAIN -->
-<!-- 		<div class="main"> -->
+ 		<div class="main">
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
@@ -90,17 +65,25 @@
 						</div>
 						<div class="panel-body">
 							<form action="/tna/tnaFixRequestSubmit.tna" method="post" id="formBox">
-								<div class="tableBox">
-									<div class="tableLine">
-										<div class="tableTitle">신청 날짜</div>
-										<div class="tableValue" id="requestDateDiv">xxxx년 x월 x일 (n요일) [오늘날짜]</div>
-									</div>
-									<div class="tableLine">
-										<div class="tableTitle">현재 상태</div>
-										<div class="tableValue" id="currentStatusDiv">STATUS (xxxx/x/x/n) [정정할날짜]</div>
-									</div>
-									<div class="tableLine">
-										<div class="tableTitle">변경요청 상태</div>
+								<table class="table table-hover">
+								<thead>
+									<tr>
+										<th scope="col">항목</th>
+										<th scope="col">내용</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row">신청 날짜</th>
+										<td><div class="tableValue" id="requestDateDiv">xxxx년 x월 x일 (n요일) [오늘날짜]</div></td>
+									</tr>
+									<tr>
+										<th scope="row">현재 상태</th>
+										<td><div class="tableValue" id="currentStatusDiv">STATUS (xxxx/x/x/n) [정정할날짜]</div></td>
+									</tr>
+									<tr>
+										<th scope="row">변경요청 상태</th>
+										<td>
 										<div class="tableValue">
 											<select class="" name="tna_obj_changed_code" id="selectStatus">
 												<option value="선택">선택</option>
@@ -108,16 +91,17 @@
 												<option value="${list.tna_status_code }">${list.tna_status_name }</option>
 											</c:forEach>
 											</select>
-											
 										</div>
-									</div>
-									<div class="tableLine tableReason">
-										<div class="tableTitle">사유</div>
-										<div class="tableValue">
+										</td>
+									</tr>
+									<tr>
+										<th scope="row">사유</th>
+										<td><div class="tableValue">
 											<textarea name="tna_obj_reason" id="textReason"></textarea>
-										</div>
-									</div>
-								</div>
+										</div></td>
+									</tr>
+								</tbody>
+							</table>
 								<div class="componentBox">
 									<input type="submit" class="btn btn-primary btn-xs" value="신청하기">
 									<input type="button" class="btn btn-gray btn-xs" value="취소" id="tnaFixCancel">
@@ -130,12 +114,10 @@
 							</form>
 						</div>
 					</div>
-
-
 				</div>
 			</div>
 			<!-- END MAIN CONTENT -->
-<!-- 		</div> -->
+ 		</div>
 		<!-- END MAIN -->
 		<div class="clearfix"></div>
 			<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />

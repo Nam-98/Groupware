@@ -68,10 +68,10 @@ public class MessageService {
 	}
 	
 	//list에서 쪽지 제목 클릭 시 읽은 날짜 표시
-	public int readDate(int msg_seq,String msg_receive_date) throws Exception{
-		if(msg_receive_date != null) {
-			return 1;}
-		return mdao.readDate(msg_seq);
+	public int readDate(int msg_seq,String msg_receive_date_str) throws Exception{
+		if(msg_receive_date_str.contentEquals("읽지않음")) {
+			return mdao.readDate(msg_seq);}
+		return 0;
 		
 		
 	}

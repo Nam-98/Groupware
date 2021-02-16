@@ -63,9 +63,19 @@
 	height: 20px;
 	/* 	background-color: yellow; */
 }
+.dataRow:hover{cursor:pointer;}
 .fc-toolbar-chunk {
-  display: flex; // 일렬로 나란히
-  align-items: center; // 수직 가운데 정렬
+	display: flex;
+	//
+	일렬로
+	나란히
+	align-items
+	:
+	center;
+	//
+	수직
+	가운데
+	정렬
 }
 </style>
 <body>
@@ -138,30 +148,37 @@
 					</div>
 					<!-- END MainMenu -->
 					<div class="row">
+
 						<div class="col-md-4">
 							<div class="panel">
 								<div class="panel-heading">
 									<h3 class="panel-title">Commuting check</h3>
-									<div class="right">
-										<button type="button" class="btn-toggle-collapse">
-											<i class="lnr lnr-chevron-up"></i>
-										</button>
-									</div>
+									<div class="right"></div>
 								</div>
 								<div class="panel-body">
 									<h4>
 										<span id="currentTimeSpan"></span>
 									</h4>
 
-									<div class="">${attendanceValue.status }
-										${attendanceValue.hour } ${attendanceValue.minute }</div>
-									<div class="">${leaveWorkValue.status }
-										${leaveWorkValue.hour } ${leaveWorkValue.minute }</div>
 
 									<div class="top-vacant d-none d-lg-block"></div>
 									<input type="button" value="출근하기" id="attendanceBtn"
 										class="btn btn-gray btn-xs"> <input type="button"
 										value="퇴근하기" id="leaveWorkBtn" class="btn btn-gray btn-xs">
+									<hr>
+									<div class="">
+										<span class="glyphicon glyphicon-flag" aria-hidden="true">&nbsp<b>${attendanceValue.status }</b>&nbsp
+										</span>
+										<c:if test='${attendanceValue.status != "-"}'>${attendanceValue.hour }시 ${attendanceValue.minute }분</c:if>
+
+									</div>
+									<hr>
+									<div class="">
+										<span class="glyphicon glyphicon-home" aria-hidden="true">&nbsp<b>${leaveWorkValue.status }</b>&nbsp
+										</span>
+										<c:if test='${leaveWorkValue.status != "-"}'> ${leaveWorkValue.hour }시 ${leaveWorkValue.minute }분</c:if>
+									</div>
+									<hr>
 								</div>
 								<div class="panel-footer">
 									<div class="row">
@@ -169,76 +186,99 @@
 											<span class="panel-note"></span>
 										</div>
 										<div class="col-md-6 text-right">
-											<a href="#" class="btn btn-primary">Go</a>
+											<a href="/tna/tnaCheckPage.tna" class="btn btn-primary">Go</a>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-						<div class="col-md-4">
+						<div class="col-md-8">
+							<!-- TASKS -->
 							<div class="panel">
 								<div class="panel-heading">
-									<h3 class="panel-title">Notice</h3>
-									<div class="right">
-										<button type="button" class="btn-toggle-collapse">
-											<i class="lnr lnr-chevron-up"></i>
-										</button>
-									</div>
-								</div>
-								<div class="panel-body no-padding"></div>
-								<div class="panel-footer">
-									<div class="row">
-										<div class="col-md-6">
-											<span class="panel-note"><i class="fa fa-clock-o"></i>
-												Latest 3 posts</span>
-										</div>
-										<div class="col-md-6 text-right">
-											<a href="#" class="btn btn-primary">Go</a>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="panel">
-								<div class="panel-heading">
-									<h3 class="panel-title">Schedule</h3>
-									<div class="right">
-										<button type="button" class="btn-toggle-collapse">
-											<i class="lnr lnr-chevron-up"></i>
-										</button>
-									</div>
+									<h3 class="panel-title">e-Approval</h3>
+									<div class="right"></div>
 								</div>
 								<div class="panel-body">
-									<div class="metric">
-										<div id='calendar'></div>
+									<div id='jqxtabs'>
+										<ul style='margin-left: 20px;'>
+											<li>상신 문서</li>
+											<li>승인 요청중&nbsp<span class="badge">${knrToBeCount}</span></li>
+										</ul>
+										<div>
+											<div class="panel-body">
+												<table class="table table-hover">
+													<thead>
+														<tr>
+															<th scope="col">#</th>
+															<th scope="col">제 목</th>
+															<th scope="col">기안자(ID)</th>
+															<th scope="col">기안날짜</th>
+															<th scope="col">문서상태</th>
+														</tr>
+													</thead>
+													<tbody>
+														<c:forEach var="i" items="${knrWriteList}">
+															<tr class='dataRow'>
+																<th scope="row">${i.app_docs_num}<input type=hidden value="${i.app_seq}"></th>
+																<td>${i.app_title}</td>
+																<td>${i.name}</td>
+																<td>${i.app_reg_date}</td>
+																<td>${i.app_status_name}</td>
+															</tr>
+														</c:forEach>
+													</tbody>
+												</table>
+											</div>
+										</div>
+										<div>
+											<div class="panel-body">
+												<table class="table table-hover">
+													<thead>
+														<tr>
+															<th scope="col">#</th>
+															<th scope="col">제 목</th>
+															<th scope="col">기안자(ID)</th>
+															<th scope="col">기안날짜</th>
+															<th scope="col">현재 상태</th>
+														</tr>
+													</thead>
+													<tbody>
+														<c:forEach var="i" items="${knrToBeList}">
+															<tr class='dataRow'>
+																<th scope="row">${i.app_docs_num}<input type=hidden value="${i.app_seq}"></th>
+																<td>${i.app_title}</td>
+																<td>${i.name}</td>
+																<td>${i.app_reg_date}</td>
+																<td>${i.app_is_my_sign_turn}</td>
+															</tr>
+														</c:forEach>
+													</tbody>
+												</table>
+											</div>
+										</div>
 									</div>
 								</div>
 								<div class="panel-footer">
 									<div class="row">
 										<div class="col-md-6">
-											<span class="panel-note"><i class="fa fa-clock-o"></i>
-												Latest 3 posts</span>
+											<span class="panel-note"></span>
 										</div>
 										<div class="col-md-6 text-right">
-											<a href="#" class="btn btn-primary">Go</a>
+											<a href="/approval/toAppMainView.approval" class="btn btn-primary">more</a>
 										</div>
 									</div>
 								</div>
 							</div>
+							<!-- END TASKS -->
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-4">
-							<!-- TASKS -->
 							<div class="panel">
 								<div class="panel-heading">
 									<h3 class="panel-title">My Projects</h3>
-									<div class="right">
-										<button type="button" class="btn-toggle-collapse">
-											<i class="lnr lnr-chevron-up"></i>
-										</button>
-									</div>
+									<div class="right"></div>
 								</div>
 								<div class="panel-body">
 									<ul class="list-unstyled task-list">
@@ -265,83 +305,44 @@
 											<span class="panel-note"></span>
 										</div>
 										<div class="col-md-6 text-right">
-											<a href="#" class="btn btn-primary">Go</a>
+											<a href="/project/enterProjectList.project?cpage=1" class="btn btn-primary">Go</a>
 										</div>
 									</div>
 								</div>
 							</div>
-							<!-- END TASKS -->
 						</div>
-						<div class="col-md-8">
+
+						<div class="col-md-4">
+
 							<!-- TASKS -->
+
 							<div class="panel">
+
 								<div class="panel-heading">
-									<h3 class="panel-title">e-Approval</h3>
-									<div class="right">
-										<button type="button" class="btn-toggle-collapse">
-											<i class="lnr lnr-chevron-up"></i>
-										</button>
-									</div>
+									<h3 class="panel-title">
+										Inbox&nbsp<span class="badge rounded-pill bg-danger">${kgsMsgCount}</span>
+									</h3>
+									<div class="right"></div>
 								</div>
-								<div class="panel-body">
-									<div id='jqxtabs'>
-										<ul style='margin-left: 20px;'>
-											<li>상신 문서</li>
-											<li>승인 요청중&nbsp<span class="badge">${knrToBeCount}</span></li>
-										</ul>
-										<div>
-											<div class="panel-body">
-												<table class="table table-hover">
-													<thead>
-														<tr>
-															<th scope="col">#</th>
-															<th scope="col">제  목</th>
-															<th scope="col">기안자(ID)</th>
-															<th scope="col">기안날짜</th>
-															<th scope="col">문서상태코드</th>
-														</tr>
-													</thead>
-													<tbody>
-														<c:forEach var="i" items="${knrWriteList}">
-															<tr>
-																<th scope="row">${i.app_docs_num}</th>
-																<td>${i.app_title}</td>
-																<td>${i.name}</td>
-																<td>${i.app_reg_date}</td>
-																<td>${i.app_status_code}</td>
-															</tr>
-														</c:forEach>
-													</tbody>
-												</table>
-											</div>
-										</div>
-										<div>
-										<div class="panel-body">
-												<table class="table table-hover">
-													<thead>
-														<tr>
-															<th scope="col">#</th>
-															<th scope="col">제  목</th>
-															<th scope="col">기안자(ID)</th>
-															<th scope="col">기안날짜</th>
-															<th scope="col">현재 상태</th>
-														</tr>
-													</thead>
-													<tbody>
-														<c:forEach var="i" items="${knrToBeList}">
-															<tr>
-																<th scope="row">${i.app_docs_num}</th>
-																<td>${i.app_title}</td>
-																<td>${i.name}</td>
-																<td>${i.app_reg_date}</td>
-																<td>${i.app_is_my_sign_turn}</td>
-															</tr>
-														</c:forEach>
-													</tbody>
-												</table>
-											</div>
-										</div>
-									</div>
+								<div class="panel-body no-padding">
+									<table class="table table-hover">
+										<thead>
+											<tr>
+												<th scope="col">발신날짜</th>
+												<th scope="col">제 목</th>
+												<th scope="col">발신인</th>
+											</tr>
+										</thead>
+										<tbody>
+											<c:forEach var="i" items="${kgsMsgList}">
+												<tr>
+													<td>${i.msg_send_date}</td>
+													<th scope="row"><a href="/message/msgReceiveView.message?msg_seq=${i.msg_seq}&msg_receive_date_str=${msg_receive_date_str }">${i.msg_title}</a></th>
+													<td>${i.msg_sender_name}</td>
+												</tr>
+											</c:forEach>
+										</tbody>
+									</table>
 								</div>
 								<div class="panel-footer">
 									<div class="row">
@@ -349,174 +350,36 @@
 											<span class="panel-note"></span>
 										</div>
 										<div class="col-md-6 text-right">
-											<a href="#" class="btn btn-primary">Go</a>
+											<a href="/message/msgInBoxList.message?cpage=1" class="btn btn-primary">more</a>
 										</div>
 									</div>
 								</div>
 							</div>
 							<!-- END TASKS -->
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-7">
-							<!-- TODO LIST -->
-							<div class="panel">
-								<div class="panel-heading">
-									<h3 class="panel-title">To-Do List</h3>
-									<div class="right">
-										<button type="button" class="btn-toggle-collapse">
-											<i class="lnr lnr-chevron-up"></i>
-										</button>
-									</div>
-								</div>
-								<div class="panel-body">
-									<ul class="list-unstyled todo-list">
-										<li><label class="control-inline fancy-checkbox">
-												<input type="checkbox"><span></span>
-										</label>
-											<p>
-												<span class="title">Restart Server</span> <span
-													class="short-description">Dynamically integrate
-													client-centric technologies without cooperative resources.</span>
-												<span class="date">Oct 9, 2016</span>
-											</p>
-											<div class="controls">
-												<a href="#"><i
-													class="icon-software icon-software-pencil"></i></a> <a href="#"><i
-													class="icon-arrows icon-arrows-circle-remove"></i></a>
-											</div></li>
-										<li><label class="control-inline fancy-checkbox">
-												<input type="checkbox"><span></span>
-										</label>
-											<p>
-												<span class="title">Retest Upload Scenario</span> <span
-													class="short-description">Compellingly implement
-													clicks-and-mortar relationships without highly efficient
-													metrics.</span> <span class="date">Oct 23, 2016</span>
-											</p>
-											<div class="controls">
-												<a href="#"><i
-													class="icon-software icon-software-pencil"></i></a> <a href="#"><i
-													class="icon-arrows icon-arrows-circle-remove"></i></a>
-											</div></li>
-										<li><label class="control-inline fancy-checkbox">
-												<input type="checkbox"><span></span>
-										</label>
-											<p>
-												<strong>Functional Spec Meeting</strong> <span
-													class="short-description">Monotonectally formulate
-													client-focused core competencies after parallel
-													web-readiness.</span> <span class="date">Oct 11, 2016</span>
-											</p>
-											<div class="controls">
-												<a href="#"><i
-													class="icon-software icon-software-pencil"></i></a> <a href="#"><i
-													class="icon-arrows icon-arrows-circle-remove"></i></a>
-											</div></li>
-									</ul>
-								</div>
-							</div>
-							<!-- END TODO LIST -->
-						</div>
-						<div class="col-md-5">
-							<!-- TIMELINE -->
-							<div class="panel panel-scrolling">
-								<div class="panel-heading">
-									<h3 class="panel-title">Recent User Activity</h3>
-									<div class="right">
-										<button type="button" class="btn-toggle-collapse">
-											<i class="lnr lnr-chevron-up"></i>
-										</button>
-									</div>
-								</div>
-								<div class="panel-body">
-									<ul class="list-unstyled activity-list">
-										<li><img src="assets/img/user1.png" alt="Avatar"
-											class="img-circle pull-left avatar">
-											<p>
-												<a href="#">Michael</a> has achieved 80% of his completed
-												tasks <span class="timestamp">20 minutes ago</span>
-											</p></li>
-										<li><img src="assets/img/user2.png" alt="Avatar"
-											class="img-circle pull-left avatar">
-											<p>
-												<a href="#">Daniel</a> has been added as a team member to
-												project <a href="#">System Update</a> <span
-													class="timestamp">Yesterday</span>
-											</p></li>
-										<li><img src="assets/img/user3.png" alt="Avatar"
-											class="img-circle pull-left avatar">
-											<p>
-												<a href="#">Martha</a> created a new heatmap view <a
-													href="#">Landing Page</a> <span class="timestamp">2
-													days ago</span>
-											</p></li>
-										<li><img src="assets/img/user4.png" alt="Avatar"
-											class="img-circle pull-left avatar">
-											<p>
-												<a href="#">Jane</a> has completed all of the tasks <span
-													class="timestamp">2 days ago</span>
-											</p></li>
-										<li><img src="assets/img/user5.png" alt="Avatar"
-											class="img-circle pull-left avatar">
-											<p>
-												<a href="#">Jason</a> started a discussion about <a href="#">Weekly
-													Meeting</a> <span class="timestamp">3 days ago</span>
-											</p></li>
-									</ul>
-									<button type="button"
-										class="btn btn-primary btn-bottom center-block">Load
-										More</button>
-								</div>
-							</div>
-							<!-- END TIMELINE -->
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-4"></div>
-						<div class="col-md-4">
-							<!-- VISIT CHART -->
-							<div class="panel">
-								<div class="panel-heading">
-									<h3 class="panel-title">Website Visits</h3>
-									<div class="right">
-										<button type="button" class="btn-toggle-collapse">
-											<i class="lnr lnr-chevron-up"></i>
-										</button>
-									</div>
-								</div>
-								<div class="panel-body">
-									<div id="visits-chart" class="ct-chart"></div>
-								</div>
-							</div>
-							<!-- END VISIT CHART -->
+
 						</div>
 						<div class="col-md-4">
-							<!-- REALTIME CHART -->
 							<div class="panel">
 								<div class="panel-heading">
-									<h3 class="panel-title">System Load</h3>
-									<div class="right">
-										<button type="button" class="btn-toggle-collapse">
-											<i class="lnr lnr-chevron-up"></i>
-										</button>
-									</div>
+									<h3 class="panel-title">Schedule</h3>
+									<div class="right"></div>
 								</div>
 								<div class="panel-body">
-									<div id="system-load" class="easy-pie-chart" data-percent="70">
-										<span class="percent">70</span>
+									<div class="metric">
+										<div id='calendar'></div>
 									</div>
-									<h4>CPU Load</h4>
-									<ul class="list-unstyled list-justify">
-										<li>High: <span>95%</span></li>
-										<li>Average: <span>87%</span></li>
-										<li>Low: <span>20%</span></li>
-										<li>Threads: <span>996</span></li>
-										<li>Processes: <span>259</span></li>
-									</ul>
+								</div>
+								<div class="panel-footer">
+									<div class="row">
+										<div class="col-md-6">
+											
+										</div>
+										<div class="col-md-6 text-right">
+											<a href="/schedule/monthSchedule.schedule" class="btn btn-primary">Go</a>
+										</div>
+									</div>
 								</div>
 							</div>
-							<!-- END REALTIME CHART -->
 						</div>
 					</div>
 				</div>
@@ -529,139 +392,28 @@
 	</div>
 	<!-- END WRAPPER -->
 	<script>
-	$(function() {
-		var data, options;
-
-		// headline charts
-		data = {
-			labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-			series: [
-				[23, 29, 24, 40, 25, 24, 35],
-				[14, 25, 18, 34, 29, 38, 44],
-			]
-		};
-
-		options = {
-			height: 300,
-			showArea: true,
-			showLine: false,
-			showPoint: false,
-			fullWidth: true,
-			axisX: {
-				showGrid: false
-			},
-			lineSmooth: false,
-		};
-
-		new Chartist.Line('#headline-chart', data, options);
-
-
-		// visits trend charts
-		data = {
-			labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-			series: [{
-				name: 'series-real',
-				data: [200, 380, 350, 320, 410, 450, 570, 400, 555, 620, 750, 900],
-			}, {
-				name: 'series-projection',
-				data: [240, 350, 360, 380, 400, 450, 480, 523, 555, 600, 700, 800],
-			}]
-		};
-
-		options = {
-			fullWidth: true,
-			lineSmooth: false,
-			height: "270px",
-			low: 0,
-			high: 'auto',
-			series: {
-				'series-projection': {
-					showArea: true,
-					showPoint: false,
-					showLine: false
-				},
-			},
-			axisX: {
-				showGrid: false,
-
-			},
-			axisY: {
-				showGrid: false,
-				onlyInteger: true,
-				offset: 0,
-			},
-			chartPadding: {
-				left: 20,
-				right: 20
-			}
-		};
-
-		new Chartist.Line('#visits-trends-chart', data, options);
-
-
-		// visits chart
-		data = {
-			labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-			series: [
-				[6384, 6342, 5437, 2764, 3958, 5068, 7654]
-			]
-		};
-
-		options = {
-			height: 300,
-			axisX: {
-				showGrid: false
-			},
-		};
-
-		new Chartist.Bar('#visits-chart', data, options);
-
-
-		// real-time pie chart
-		var sysLoad = $('#system-load').easyPieChart({
-			size: 130,
-			barColor: function(percent) {
-				return "rgb(" + Math.round(200 * percent / 100) + ", " + Math.round(200 * (1.1 - percent / 100)) + ", 0)";
-			},
-			trackColor: 'rgba(245, 245, 245, 0.8)',
-			scaleColor: false,
-			lineWidth: 5,
-			lineCap: "square",
-			animate: 800
-		});
-
-		var updateInterval = 3000; // in milliseconds
-
-		setInterval(function() {
-			var randomVal;
-			randomVal = getRandomInt(0, 100);
-
-			sysLoad.data('easyPieChart').update(randomVal);
-			sysLoad.find('.percent').text(randomVal);
-		}, updateInterval);
-
-		function getRandomInt(min, max) {
-			return Math.floor(Math.random() * (max - min + 1)) + min;
-		}
-
-	});
-	</script>
-
-	<script>
       
-      var tnaStatus;
-      if (("${attendanceValue.status }" == "-") && ("${leaveWorkValue.status }" == "-")) {
-         tnaStatus = 0;
-         document.getElementById("attendanceBtn").className = "btn btn-default btn-xs";
-      }else if (("${attendanceValue.status }" != "-") && ("${leaveWorkValue.status }" == "-")) {
-         tnaStatus = 1;
-         document.getElementById("attendanceBtn").className = "btn btn-gray btn-xs";
-         document.getElementById("leaveWorkBtn").className = "btn btn-default btn-xs";
-      }else {
-         tnaStatus = 2;
-         document.getElementById("attendanceBtn").className = "btn btn-gray btn-xs";
-         document.getElementById("leaveWorkBtn").className = "btn btn-warning btn-xs";
-      }
+    var tnaStatus;
+    if (("${attendanceValue.status }" == "-") && ("${leaveWorkValue.status }" == "-")) {
+       tnaStatus = 0;
+       document.getElementById("attendanceBtn").className = "btn btn-default btn-xs";
+    }else if (("${attendanceValue.status }" != "-") && ("${leaveWorkValue.status }" == "-")) {
+       tnaStatus = 1;
+       document.getElementById("attendanceBtn").className = "btn btn-gray btn-xs";
+       document.getElementById("leaveWorkBtn").className = "btn btn-default btn-xs";
+    }else {
+       tnaStatus = 2;
+       document.getElementById("attendanceBtn").className = "btn btn-gray btn-xs";
+       if ("${leaveWorkValue.status }" == "조퇴"){
+      	 document.getElementById("leaveWorkBtn").className = "btn btn-warning btn-xs";
+       }else if ("${leaveWorkValue.status }" == "퇴근"){
+      	 document.getElementById("leaveWorkBtn").className = "btn btn-success btn-xs";
+       }else{
+      	 document.getElementById("leaveWorkBtn").className = "btn btn-danger btn-xs";
+       }
+       
+       
+    }
       // 0 : 출근 X 퇴근 X
       // 1 : 촐근 O 퇴근 X
       // 2 : 출근 O 퇴근 O
@@ -754,5 +506,12 @@
 	      });
 
    </script>
+   		<script>
+		//row눌렀을 때 링크로 이동
+		$(".dataRow").on("click",function(){
+			console.log($(this).children().first().children("input").val());
+			location.href="/approval/toAppDetailView.approval?app_seq="+$(this).children().first().children("input").val()
+		});
+	</script>
 </body>
 </html>

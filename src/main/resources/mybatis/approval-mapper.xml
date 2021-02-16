@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="Approval">
-  	<select id="allDocsType" resultType="kh.gw.dto.Approval_typeDTO">
+  	<select id="appDocsType" resultType="kh.gw.dto.Approval_typeDTO">
   		select * from st.approval_type where app_type_name not like '%'||'업무일지'||'%' order by app_type_code
   	</select>
   	<select id="allSignType" resultType="kh.gw.dto.Approval_sign_typeDTO">
@@ -115,5 +115,20 @@
 		        where rn between 1 and 5) seq 
 		where app.app_seq=seq.app_seq	
 	</select>
-	
+	<!-- nexacro 전용 mybatis 구문 -->
+	<select id="nxAllDocsType" resultType="kh.gw.dto.Approval_typeDTO">
+  		select * from st.approval_type order by app_type_code
+  	</select>
+  	<insert id="nxInsertDocs">
+  		insert into st.approval_type values(#{app_type_code},#{app_type_name})
+  	</insert>
+  	<delete id="nxDeleteDocs">
+  		delete st.approval_type where app_type_code in 
+  		<foreach collection="list" item="seq" separator="," open="(" close=")">
+  			#{seq}
+  		</foreach>
+  	</delete>
+  	<update id="nxUpdateDocs">
+  		update st.approval_type set app_type_name = #{app_type_name} where app_type_code = #{app_type_code}
+  	</update>
   </mapper>

@@ -19,8 +19,11 @@ public class ApprovalDAO {
 	@Autowired
 	private SqlSession db;
 	
-	public List<Approval_typeDTO> allDocsType() {
-		return db.selectList("Approval.allDocsType");
+	public List<Approval_typeDTO> appDocsType() {
+		return db.selectList("Approval.appDocsType");
+	}
+	public List<Approval_typeDTO> nxAllDocsType() {
+		return db.selectList("Approval.nxAllDocsType");
 	}
 	public List<Approval_sign_typeDTO> allSignType(){
 		return db.selectList("Approval.allSignType");
@@ -133,5 +136,17 @@ public class ApprovalDAO {
 	}
 	public List<ApprovalDTO> getAppForMainCC(String id){
 		return db.selectList("Approval.getAppForMainCC", id);
+	}
+	
+	
+	///nexa cud관련 method
+	public int nxInsertDocs(Approval_typeDTO dto) {
+		return db.insert("Approval.nxInsertDocs", dto);
+	}
+	public int nxDeleteDocs(List<Integer> list) {
+		return db.delete("Approval.nxDeleteDocs", list);
+	}
+	public int nxUpdateDocs(Approval_typeDTO dto) {
+		return db.update("Approval.nxUpdateDocs", dto);
 	}
 }

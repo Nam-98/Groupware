@@ -43,6 +43,8 @@
 	.stmpRow{height:70px;}
 	.table>tbody>tr>td, .table>tbody>tr>th{vertical-align:middle;}
 	.align-right{text-align:right;}
+	.ccTd{text-align:left;}
+	.ccTd > span{margin-left:10px;}
 	</style>
 </head>
 <body>
@@ -110,17 +112,16 @@
 									</c:if>
 									<c:if test="${empty files }"><td>첨부파일이 없습니다.</td></c:if>
 							</tr>
+							
+							<tr id="ccRow">
+								<th class='active'>참조자</th>
+							</tr>
 						</table>
 						
 						<table class='table' id="signRow">
 							
 						</table>
-						<table class='table' id="dseRow">
-							
-						</table>
-						<table class='table' id="ccRow">
-							
-						</table>
+
 						<script>
 						let rowCnt = 8;
 						let signleng = 0;
@@ -128,20 +129,21 @@
 						let ccleng = 0;
 						
 						let signTh =  $('<tr>');
-							signTh.append($("<th class='active' rowspan='2'>결재자</th>"));
+							signTh.append($("<th class='active' rowspan='2'>결재선</th>"));
 						let signStmp =  $("<tr class='stmpRow'>");
 						
 						let dseTh =  $('<tr>');
 							dseTh.append($("<th class='active' rowspan='2'>합의자</th>"))
+						
 						let dseStmp =  $("<tr class='stmpRow'>");
-						let ccTh =  $('<tr>');
-							ccTh.append($("<th class='active'>참조자</th>"))
+						let ccTh =  $("<td class='signTd ccTd' colspan='5'></td>");
 							
 						//결재,합의,참조 라인 구성
 							<c:forEach items="${signs}" var="sign" varStatus="sta">
 								<c:choose>
-									<c:when test="${sign.app_sign_type_code==0}">
-										signTh.append($("<th class='active signTh'>${sign.name}</th>"));	
+									<c:when test="${sign.app_sign_type_code==0}">//결재자
+
+										signTh.append($("<th class='active signTh'>${sign.name} (결재)</th>"));	
 										let stmpTd${sta.count} = $("<td class='stamp signTd'>");
 										<c:choose>
 											<c:when test="${sign.app_sign_id == sessionScope.id && isMyCheckTurn == 1}">
@@ -170,8 +172,9 @@
 										signleng++;
 									</c:when>
 									
-									<c:when test="${sign.app_sign_type_code==2}">
-										dseTh.append($("<th class='active signTh'>${sign.name}</th>"));	
+									
+									<c:when test="${sign.app_sign_type_code==2}">//합의자
+										signTh.append($("<th class='active signTh'>${sign.name} (합의)</th>"));	
 										let stmpTd${sta.count} = $("<td class='stamp'>");
 										<c:choose>
 											<c:when test="${sign.app_sign_id==sessionScope.id && isMyCheckTurn==1}">
@@ -195,13 +198,13 @@
 											</c:otherwise>
 										</c:choose>
 										
-										dseStmp.append(stmpTd${sta.count});
-										dseleng++;
+										signStmp.append(stmpTd${sta.count});
+										signleng++;
 									</c:when>
 									
 									<c:when test="${sign.app_sign_type_code==1}">
 										//참조
-										ccTh.append($("<td class='signTd'><span class='label label-info'>${sign.name}</span></td>"));
+										ccTh.append($("<span class='label label-info'>${sign.name}</span>"));
 										ccleng++;
 									</c:when>
 								</c:choose>
@@ -214,12 +217,12 @@
 										signStmp.append($("<td class='stamp signTd'>"));
 									}
 								
-									let dserest = dseleng%rowCnt;
+/* 									let dserest = dseleng%rowCnt;
 									let dsecnt = rowCnt-dserest;
 									for(var i=0;i<dsecnt; i++){
 										dseTh.append($("<th class='active signTh'>"));
 										dseStmp.append($("<td class='stamp signTd'>"));
-									}
+									} */
 									let ccrest = ccleng%rowCnt;
 									let cccnt = rowCnt-ccrest;
 									for(var i=0;i<cccnt; i++){
@@ -229,8 +232,8 @@
 								
 							$("#signRow").append(signTh);
 							$("#signRow").append(signStmp);
-							$("#dseRow").append(dseTh);
-							$("#dseRow").append(dseStmp);
+/* 							$("#dseRow").append(dseTh);
+							$("#dseRow").append(dseStmp); */
 							$("#ccRow").append(ccTh);
 						</script>
 						</div>
@@ -373,6 +376,17 @@
 					
 				})
 			}
+		}
+	</script>
+	<script>
+		// 결재버튼 누른 후 뒤로가기 버튼 눌렀을 시, 버튼 눌리기 전 페이지로 가는 문제 해결
+		window.onpageshow = function(event) {
+		    if ( event.persisted || (window.performance && window.performance.navigation.type == 2)) {
+			// Back Forward Cache로 브라우저가 로딩될 경우 혹은 브라우저 뒤로가기 했을 경우
+			//해당 페이지가 불려온 페이지로 돌아간다.
+			history.back();
+		    }
+
 		}
 	</script>
 </body>
