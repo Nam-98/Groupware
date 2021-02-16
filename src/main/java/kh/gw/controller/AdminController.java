@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.nexacro.uiadapter17.spring.core.annotation.ParamDataSet;
-import com.nexacro.uiadapter17.spring.core.annotation.ParamVariable;
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 
 import kh.gw.dto.Approval_typeDTO;
@@ -122,9 +121,16 @@ public class AdminController {
 	
 	//전자결재 문서종류 업데이트
 	@RequestMapping("/nxAppTypeUpdate.nexacro")
-	public NexacroResult nxAppTypeUpdate(@ParamDataSet(name="ds_in")List<Approval_typeDTO> list) {
-		
+	public NexacroResult nxAppTypeUpdate(@ParamDataSet(name="ds_in")List<Approval_typeDTO> list, @ParamDataSet(name="ds_del")List<Approval_typeDTO> delList) throws Exception {
+		int delResult = aservice.nxDelDocsType(delList);
+			if(delResult==-1) {
+				NexacroResult nr = new NexacroResult();
+				nr.setErrorCode(delResult);
+				return nr;
+			}
+		int result = aservice.nxCuDocsType(list);
 		NexacroResult nr = new NexacroResult();
+		nr.setErrorCode(result);
 		return nr;
 	}
 	

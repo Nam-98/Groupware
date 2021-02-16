@@ -1046,6 +1046,7 @@
                 var $tr = $($trList[i]);
                 var $cellList = $tr.find('td, th');
                 if(!$cellList.length)   $tr.remove();
+                console.log('aaaaaaaaa');
             }
         }
 

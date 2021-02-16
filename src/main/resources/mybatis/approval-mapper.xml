@@ -118,5 +118,17 @@
 	<!-- nexacro 전용 mybatis 구문 -->
 	<select id="nxAllDocsType" resultType="kh.gw.dto.Approval_typeDTO">
   		select * from st.approval_type order by app_type_code
-  	</select>	
+  	</select>
+  	<insert id="nxInsertDocs">
+  		insert into st.approval_type values(#{app_type_code},#{app_type_name})
+  	</insert>
+  	<delete id="nxDeleteDocs">
+  		delete st.approval_type where app_type_code in 
+  		<foreach collection="list" item="seq" separator="," open="(" close=")">
+  			#{seq}
+  		</foreach>
+  	</delete>
+  	<update id="nxUpdateDocs">
+  		update st.approval_type set app_type_name = #{app_type_name} where app_type_code = #{app_type_code}
+  	</update>
   </mapper>

@@ -137,4 +137,16 @@ public class ApprovalDAO {
 	public List<ApprovalDTO> getAppForMainCC(String id){
 		return db.selectList("Approval.getAppForMainCC", id);
 	}
+	
+	
+	///nexa cud관련 method
+	public int nxInsertDocs(Approval_typeDTO dto) {
+		return db.insert("Approval.nxInsertDocs", dto);
+	}
+	public int nxDeleteDocs(List<Integer> list) {
+		return db.delete("Approval.nxDeleteDocs", list);
+	}
+	public int nxUpdateDocs(Approval_typeDTO dto) {
+		return db.update("Approval.nxUpdateDocs", dto);
+	}
 }
