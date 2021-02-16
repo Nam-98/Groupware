@@ -25,6 +25,7 @@ public class WebhardService {
 	@Autowired
 	private HttpSession session;
 	
+	// 최초 접속 시 DB 조회 후 개인 디렉토리 생성
 	public int personalMkdir(String sessionId) {
 		int count = personalDirIsExist(sessionId);
 		if (count < 1) {
@@ -50,26 +51,32 @@ public class WebhardService {
 		return 0;
 	}
 	
+	// 해당 아이디로 최상위 개인 디렉토리가 있는지 확인
 	public int personalDirIsExist(String sessionId) {
 		return whdao.personalDirIsExist(sessionId);
 	}
 	
+	// 새로운 디렉토리 생성,할당 하기 위한 seq값 선점
 	public int newDirSeqGet() {
 		return whdao.newDirSeqGet();
 	}
 	
+	// 새로운 디렉토리 생성
 	public int newDirMake(Webhard_dirDTO dirDTO) {
 		return whdao.newDirMake(dirDTO);
 	}
 	
+	// 디렉토리 아이디에 할당
 	public int dirAssign(Webhard_accessDTO accDTO) {
 		return whdao.dirAssign(accDTO);
 	}
 	
+	// 해당 아이디의 최상위 디렉토리 값 get
 	public Map<String,Object> getTopDirInfo(String sessionId) {
 		return whdao.getTopDirInfo(sessionId);
 	}
 	
+	// 파일 업로드
 	public int uploadFile(int dirSeq, List<MultipartFile> attfiles) {
 		
 		// 첨부한 파일 갯수만큼 for
