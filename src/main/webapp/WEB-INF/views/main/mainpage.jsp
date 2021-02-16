@@ -163,8 +163,7 @@
 
 									<div class="top-vacant d-none d-lg-block"></div>
 									<input type="button" value="출근하기" id="attendanceBtn"
-										class="btn btn-gray btn-xs"> <input type="button"
-										value="퇴근하기" id="leaveWorkBtn" class="btn btn-gray btn-xs">
+										class="btn btn-gray btn-xs"> <input type="button" value="퇴근하기" id="leaveWorkBtn" class="btn btn-gray btn-xs">
 									<hr>
 									<div class="">
 										<span class="glyphicon glyphicon-flag" aria-hidden="true">&nbsp<b>${attendanceValue.status }</b>&nbsp
