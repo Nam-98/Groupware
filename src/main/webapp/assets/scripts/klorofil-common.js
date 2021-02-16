@@ -12,8 +12,8 @@ $(document).ready(function() {
 			$('body').removeClass('layout-fullwidth');
 			$('body').removeClass('layout-default'); // also remove default behaviour if set
 		}
-
-		$(this).find('.lnr').toggleClass('lnr-arrow-left-circle lnr-arrow-right-circle');
+		console.log("네비바 클릭 이벤트에 접근함");
+		$(this).find('.lnr').toggleClass('lnr-indent-decrease lnr-indent-increase');
 
 		if($(window).innerWidth() < 1025) {
 			if(!$('body').hasClass('offcanvas-active')) {

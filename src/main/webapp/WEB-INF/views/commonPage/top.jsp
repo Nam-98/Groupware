@@ -7,7 +7,7 @@
 			</div>
 			<div class="container-fluid">
 				<div class="navbar-btn">
-					<button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
+					<button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-indent-decrease"></i></button>
 				</div>
 				<form class="navbar-form navbar-left">
 				</form>
