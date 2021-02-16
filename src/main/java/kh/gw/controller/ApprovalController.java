@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.nexacro.uiadapter17.spring.core.annotation.ParamVariable;
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 
 import kh.gw.dto.ApprovalDTO;
@@ -170,14 +171,17 @@ public class ApprovalController {
 	
 	
 	
-//	/////////////////////////////////////////넥사크로 part/////////////////////////////////////////
-//	@RequestMapping("/nxAppTypeLoad.approval")
-//	public NexacroResult nxAppTypeLoad() {
-//		NexacroResult nr = new NexacroResult();
-//		nr.addDataSet("ds_out", aservice.nxAllDocsType());
-//		return nr;
-//	}
-	
+	/////////////////////////////////////////넥사크로 part/////////////////////////////////////////
+	@RequestMapping("/nxAppTypeLoad.approval")
+	public NexacroResult nxAppTypeLoad() throws Exception {
+		NexacroResult nr = new NexacroResult();
+		nr.addDataSet("ds_out", aservice.nxAllDocsType());
+		return nr;
+	}
+	@RequestMapping("/nxToSummernote.approval")
+	public String nxToSummernote() {
+		return "approval/nxTemplateEdit";
+	}
 	// error
 	@ExceptionHandler
 	public String exceptionalHandler(Exception e) {
