@@ -322,7 +322,7 @@ public class WriteController {
 			System.out.println("삭제됨");
 			
 		}else {
-			System.out.println("맘붐?");
+			System.out.println("붐?");
 			
 		}
 		Gson gson = new Gson();
@@ -360,5 +360,16 @@ public class WriteController {
 		String reCmtList = gson.toJson(map);
 		return reCmtList;
 	}
+	
+	//메인페이지 공지사항 팝업 보여주기
+		@RequestMapping("noticePopupList.write")
+		public String noticePopupList(Model m, HttpServletRequest request) throws Exception{
+			String cpage = request.getParameter("cpage");
+			List<WriteDTO>wlist = wservice.noticePopupList(Integer.parseInt(cpage),"00");
+
+			m.addAttribute("wlist", wlist);
+			
+			return "/write/noticepopuplist";
+		}
 	
 }

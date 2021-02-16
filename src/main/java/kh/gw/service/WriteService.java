@@ -448,10 +448,29 @@ public class WriteService {
 		public List<Write_commentsDTO> reCommentNow(Write_commentsDTO dto) {
 			return wdao.reCommentNow(dto);
 		}
-
 		
 		public int insertWrite(WriteDTO dto) {
 			return wdao.insertWrite(dto);
 			
+		}
+
+		public List<WriteDTO> listWr() {
+			return wdao.listWr();
+		}
+
+		public void updateWrList(List<WriteDTO> list) throws Exception{
+			for(WriteDTO dto : list) {
+				wdao.updateWrList(dto);
+			}
+			
+		}
+
+		public int deleteWrList(WriteDTO dto) throws Exception{
+			return wdao.deleteWrList(dto);
+			
+		}
+
+		public List<WriteDTO> noticePopupList(int cpage, String write_code) throws Exception{
+			return wdao.noticePopupList(cpage, write_code);
 		}
 }

@@ -81,24 +81,24 @@ a { text-decoration:none }
 				<div class="container-fluid">
 					<h3 class="page-title">공지사항</h3>
 					<div class="maincontainer">
-			<form action="noticeSearch.write?cpage=1" method="post">
-				<table>
-					<tr>
-						<td>
-						<select id="condition" name="condition">
-<!-- 							<option value="">검색조건</option> -->
-<!-- 							<option value="">전체보기</option> -->
-							<option value="write_title">제목</option>
-							<option value="write_id">작성자</option>
-						</select>
-						<input type="text" name="keyword" id="keyword" placeholder="검색어를 입력하세요">
-						<button id="searchBtn" type="submit">검색</button>
-<!-- 						<input class="form-control me" type="search" aria-label="Search"  name="keyword" id="keyword" placeholder="검색어를 입력하세요"> -->
-<!-- 						<button id="searchBtn" class="btn btn-outline-success" type="submit">검색</button> -->
-						</td>
-					</tr>
-				</table>
-			 </form>
+<!-- 			<form action="noticeSearch.write?cpage=1" method="post"> -->
+<!-- 				<table> -->
+<!-- 					<tr> -->
+<!-- 						<td> -->
+<!-- 						<select id="condition" name="condition"> -->
+<!-- <!-- 							<option value="">검색조건</option> --> -->
+<!-- <!-- 							<option value="">전체보기</option> --> -->
+<!-- 							<option value="write_title">제목</option> -->
+<!-- 							<option value="write_id">작성자</option> -->
+<!-- 						</select> -->
+<!-- 						<input type="text" name="keyword" id="keyword" placeholder="검색어를 입력하세요"> -->
+<!-- 						<button id="searchBtn" type="submit">검색</button> -->
+<!-- <!-- 						<input class="form-control me" type="search" aria-label="Search"  name="keyword" id="keyword" placeholder="검색어를 입력하세요"> --> -->
+<!-- <!-- 						<button id="searchBtn" class="btn btn-outline-success" type="submit">검색</button> --> -->
+<!-- 						</td> -->
+<!-- 					</tr> -->
+<!-- 				</table> -->
+<!-- 			 </form> -->
 
 				<table class="table table-secondary table-striped">
 					<thead class="table-light">
@@ -111,7 +111,7 @@ a { text-decoration:none }
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="i" items="${list }">
+						<c:forEach var="i" items="${wlist }">
 							<tr>
 								<th scope="row">${i.rn }</th>
 								<td><a href="noticeView.write?write_seq=${i.write_seq}">${i.write_title }</a></td>
@@ -123,7 +123,6 @@ a { text-decoration:none }
 					</tbody>
 				</table>
 				<div class="navi">${navi }</div>
-				<button id="test">테스트</button>
 			</div>
 				</div>
 			</div>
@@ -134,11 +133,5 @@ a { text-decoration:none }
 <jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
 	</div>
 	<!-- END WRAPPER -->
-	
-	<script>
-		document.getElementById("test").onclick=function(){
-			location.href="/write/noticePopupList.write?cpage=1";
-		}
-	</script>
 </body>
 </html>

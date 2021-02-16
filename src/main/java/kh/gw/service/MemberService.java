@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import kh.gw.dao.MemberDAO;
 import kh.gw.dto.DepartmentDTO;
 import kh.gw.dto.MemberDTO;
+import kh.gw.dto.WriteDTO;
 
 @Service
 public class MemberService {

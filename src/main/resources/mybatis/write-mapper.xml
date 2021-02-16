@@ -110,4 +110,21 @@
   	insert into st.write values(st.write_seq.nextval,#{write_code},#{write_title},#{write_contents},#{write_id},sysdate,'','Y',0)
   </insert>
   
+  <select id="listWr" resultType="kh.gw.dto.WriteDTO">
+  	select * from st.write where write_code between '0' and '1' order by write_code
+  </select>
+  
+  <update id="updateWrList">
+  	update st.write set write_title=#{write_title}, write_contents=#{write_contents} where write_seq=#{write_seq}
+  </update>
+  
+  <delete id="deleteWrList">
+  	delete from st.write where write_seq=#{write_seq}
+  </delete>
+  
+    <select id="noticePopupList" resultType="kh.gw.dto.WriteDTO">
+  	select * from(select st.write.*,row_number() over(order by write_reg_date
+		desc)rn from st.write where (write_code=#{write_code}) and
+		(write_open='Y')) where rn between #{startRowNum} and #{endRowNum}
+  </select>
   </mapper>

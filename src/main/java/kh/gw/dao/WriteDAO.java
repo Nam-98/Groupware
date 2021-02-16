@@ -147,4 +147,28 @@ public class WriteDAO {
 	public int insertWrite(WriteDTO dto) {
 		return db.insert("Write.insertWrite", dto);
 	}
+
+	public List<WriteDTO> listWr() {
+		return db.selectList("Write.listWr");
+	}
+
+	public int updateWrList(WriteDTO dto) throws Exception{
+		return db.update("Write.updateWrList", dto);
+		
+	}
+
+	public int deleteWrList(WriteDTO dto) {
+		return db.delete("Write.deleteWrList",dto);
+	}
+
+	public List<WriteDTO> noticePopupList(int cpage, String write_code) throws Exception {
+		BoardConfigurator configurator = new BoardConfigurator();
+		int startRowNum = (cpage-1)*configurator.RECORD_COUNT_POP_UP+1;
+		int endRowNum = startRowNum + configurator.RECORD_COUNT_POP_UP -1;
+		Map<String,Object> param = new HashMap<String, Object>();
+		param.put("startRowNum",startRowNum);
+		param.put("endRowNum", endRowNum);
+		param.put("write_code", write_code);
+		return db.selectList("Write.noticePopupList",param);
+	}
 }
