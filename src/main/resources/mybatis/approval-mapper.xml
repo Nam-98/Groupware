@@ -117,7 +117,6 @@
 	</select>
 	<!-- nexacro 전용 mybatis 구문 -->
 	<select id="nxAllDocsType" resultType="kh.gw.dto.Approval_typeDTO">
-  		select * from st.approval_type where order by app_type_code
-  	</select>
-	
+  		select * from st.approval_type order by app_type_code
+  	</select>	
   </mapper>
