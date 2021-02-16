@@ -348,7 +348,7 @@ public class ApprovalService {
 		// Project clean시 생성한 file도 삭제됩니다. clean전에 반드시 backup 해주세요!!!!!
 		String sDir = servletContext.getRealPath("/resources/approval_contents");// src/main/webapp/resources/approval_contents폴더
 																				// 경로 출력
-		String sFileName = app_seq + ".html";// 저장할 file이름은 게시판코드_글id.html이 될것입니다.
+		String sFileName = app_seq + ".html";// 저장할 file이름은 seq.html이 될것입니다.
 		File filesPath = new File(sDir);
 		// 파일 디렉토리가 존재한지 검사 없다면 생성
 		if (!filesPath.exists()) {
@@ -556,6 +556,105 @@ public class ApprovalService {
 			dto.setApp_type_template(temp);
 		}
 		return list;
+	}
+	
+	public int nxDelDocsType(List<Approval_typeDTO> dtolist) throws Exception {
+		System.out.println("del 리스트사이즈 : "+dtolist.size());
+		List<Integer> list = new ArrayList<>();
+		//delete할 row의 개수 count
+		int delCunt = 0;
+		//template 삭제먼저 하고 db update
+		for(Approval_typeDTO code : dtolist) {
+			System.out.println("delCode : "+code.getApp_type_code());
+				this.nxDeleteTemplate(code.getApp_type_code());
+				list.add(code.getApp_type_code());
+				delCunt++;
+			}
+		int delResult = 0;
+		if(delCunt!=0) {
+			delResult = adao.nxDeleteDocs(list);
+		}
+		//만약 delete가 제대로 되지 않았다면 error코드 반환
+		return delResult;
+	}
+	
+	
+	public int nxCuDocsType(List<Approval_typeDTO> list) throws Exception {
+		System.out.println("cu 리스트사이즈 : "+list.size());
+		int insResult = 1;
+		int updResult = 1;
+		//CU진행
+		for(Approval_typeDTO dto : list) {
+			String status = dto.getNx_status();
+			int code = dto.getApp_type_code();
+			System.out.println("status : "+status+", code : "+code);
+				if(status!=null) {
+					//새로 추가된 행
+					if(status.contentEquals("insert")) {
+						insResult = adao.nxInsertDocs(dto);//db에 정보 저장
+						this.nxMakeTemplate(dto.getApp_type_code(), dto.getApp_type_template());//template저장
+					//update된 행
+					}else if(status.contentEquals("update")) {
+						updResult = adao.nxUpdateDocs(dto);
+						//기존에 있던 template파일을 삭제하고
+						this.nxDeleteTemplate(dto.getApp_type_code());
+						//새로 생성해준다.
+						this.nxMakeTemplate(dto.getApp_type_code(), dto.getApp_type_template());
+					
+				}
+				}
+			
+			//만약 update나 insert가 되지 않았다면 errorcode를 추가하고 return한다. 
+			if(insResult==0 || updResult==0) {
+				 System.out.println("insert code : "+insResult+", update code : "+updResult);
+				return -1;
+			}
+		}
+		return 1;
+	}
+	
+	private String nxMakeTemplate (int app_type_code, String template) throws Exception {
+		// WARING!!!!!! -> project workspace경로가 아닌 project server가 가동되는 경로에 생되므로
+		// Project clean시 생성한 file도 삭제됩니다. clean전에 반드시 backup 해주세요!!!!!
+		String sDir = servletContext.getRealPath("/resources/approval_template");// src/main/webapp/resources/approval_template폴더
+																				// 경로 출력
+		String sFileName = app_type_code + ".html";// 저장할 file이름은 code.html이 될것입니다.
+		File filesPath = new File(sDir);
+		// 파일 디렉토리가 존재한지 검사 없다면 생성
+		if (!filesPath.exists()) {
+			filesPath.mkdir();
+		}
+
+		// BufferedWriter 와 FileWriter를 조합하여 사용 (속도 향상, 기록하고자 하는 파일의 크기가 100K를 넘을때)
+		// sDir경로에 sFileName이름의 파일 생성함
+		File conFile = new File(sDir, sFileName);
+		BufferedWriter fw = new BufferedWriter(new FileWriter(conFile));
+		
+		//저장할 template이 있는 경우에만 넣어준다.
+		if(template!=null) {
+			// 파일안에 문자열 쓰기
+			fw.write(template);
+			fw.flush();
+
+			// 객체 닫기
+			fw.close();
+		}
+
+		return sFileName;
+	}
+	
+	private boolean nxDeleteTemplate (int app_type_code) {
+		String sDir = servletContext.getRealPath("/resources/approval_template");
+		String sFileName = app_type_code + ".html";// 삭제할 file이름
+		File template = new File(sDir, sFileName);
+		//파일이 존재할 때만 삭제
+		if (template.exists()) {
+			return template.delete();
+		}else {
+			//존재하지 않는다면 삭제하지 않고 return한다. 
+			return true;
+		}
+		
 	}
 	
 }
