@@ -169,7 +169,7 @@
 									<div class="">
 										<span class="glyphicon glyphicon-flag" aria-hidden="true">&nbsp<b>${attendanceValue.status }</b>&nbsp
 										</span>
-										<c:if test='${attendanceValue.status != "-"}'>${attendanceValue.hour }시${attendanceValue.minute }분</c:if>
+										<c:if test='${attendanceValue.status != "-"}'>${attendanceValue.hour }시 ${attendanceValue.minute }분</c:if>
 
 									</div>
 									<hr>
@@ -393,19 +393,27 @@
 	<!-- END WRAPPER -->
 	<script>
       
-      var tnaStatus;
-      if (("${attendanceValue.status }" == "-") && ("${leaveWorkValue.status }" == "-")) {
-         tnaStatus = 0;
-         document.getElementById("attendanceBtn").className = "btn btn-default btn-xs";
-      }else if (("${attendanceValue.status }" != "-") && ("${leaveWorkValue.status }" == "-")) {
-         tnaStatus = 1;
-         document.getElementById("attendanceBtn").className = "btn btn-gray btn-xs";
-         document.getElementById("leaveWorkBtn").className = "btn btn-default btn-xs";
-      }else {
-         tnaStatus = 2;
-         document.getElementById("attendanceBtn").className = "btn btn-gray btn-xs";
-         document.getElementById("leaveWorkBtn").className = "btn btn-warning btn-xs";
-      }
+    var tnaStatus;
+    if (("${attendanceValue.status }" == "-") && ("${leaveWorkValue.status }" == "-")) {
+       tnaStatus = 0;
+       document.getElementById("attendanceBtn").className = "btn btn-default btn-xs";
+    }else if (("${attendanceValue.status }" != "-") && ("${leaveWorkValue.status }" == "-")) {
+       tnaStatus = 1;
+       document.getElementById("attendanceBtn").className = "btn btn-gray btn-xs";
+       document.getElementById("leaveWorkBtn").className = "btn btn-default btn-xs";
+    }else {
+       tnaStatus = 2;
+       document.getElementById("attendanceBtn").className = "btn btn-gray btn-xs";
+       if ("${leaveWorkValue.status }" == "조퇴"){
+      	 document.getElementById("leaveWorkBtn").className = "btn btn-warning btn-xs";
+       }else if ("${leaveWorkValue.status }" == "퇴근"){
+      	 document.getElementById("leaveWorkBtn").className = "btn btn-success btn-xs";
+       }else{
+      	 document.getElementById("leaveWorkBtn").className = "btn btn-danger btn-xs";
+       }
+       
+       
+    }
       // 0 : 출근 X 퇴근 X
       // 1 : 촐근 O 퇴근 X
       // 2 : 출근 O 퇴근 O
