@@ -123,8 +123,8 @@ document.addEventListener("DOMContentLoaded", function(){
 		          lang      = options.langInfo;
 		      $('<link/>', {
 		        rel: 'stylesheet',
-		        type: 'text/css',
-		        href: '../summernote-paper-size/css/css.css'
+		        type: 'text/css'
+		        //,href: '../summernote-paper-size/css/css.css'
 		      }).appendTo('head');
 		      context.memo('button.paperSize', function () {
 		        var button = ui.buttonGroup([

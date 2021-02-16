@@ -204,7 +204,7 @@
 				arg.jsEvent.preventDefault();
 				
 				if (arg.event.url) {
-					if (confirm("정정 신청하시겠습니까?")) {
+					if (true) {
 						var popupWidth = 800;
 						var popupHeight = 600;
 						var popupX = (window.screen.width / 2) - (popupWidth / 2);

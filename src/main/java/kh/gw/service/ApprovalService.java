@@ -435,6 +435,9 @@ public class ApprovalService {
 	      StringBuilder sb = new StringBuilder();
 	         //sDir 폴더속 sFileName을 가져온다.
 	         File file = new File(sDir, sFileName);
+	         
+	         //만약 파일이 존재하지 않는다면 null을 return함
+	         if(!file.exists()) {return null;}
 	         FileReader file_reader = new FileReader(file);
 
 	         while((cur = file_reader.read()) != -1){
@@ -545,8 +548,14 @@ public class ApprovalService {
 	}
 	
 	
-//	///nexacro
-//	public List<Approval_typeDTO> nxAllDocsType(){
-//		return adao.nxAllDocsType();
-//	}
+	///nexacro
+	public List<Approval_typeDTO> nxAllDocsType() throws Exception{
+		List<Approval_typeDTO> list = adao.nxAllDocsType();
+		for(Approval_typeDTO dto : list) {
+			String temp = this.getTemplate(dto.getApp_type_code());
+			dto.setApp_type_template(temp);
+		}
+		return list;
+	}
+	
 }
