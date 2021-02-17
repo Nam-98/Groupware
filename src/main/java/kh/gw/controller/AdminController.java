@@ -1,29 +1,33 @@
 package kh.gw.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.nexacro.uiadapter17.spring.core.annotation.ParamDataSet;
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
+import com.nexacro17.xapi.data.DataSet;
+import com.nexacro17.xapi.data.PlatformData;
+import com.nexacro17.xapi.data.VariableList;
+import com.nexacro17.xapi.tx.HttpPlatformRequest;
 
 import kh.gw.dto.Approval_typeDTO;
+import kh.gw.dto.Break_typeDTO;
 import kh.gw.dto.MemberDTO;
+import kh.gw.dto.WriteDTO;
 import kh.gw.service.ApprovalService;
 import kh.gw.service.BreakService;
-import kh.gw.dto.WriteDTO;
 import kh.gw.service.DepartmentService;
 import kh.gw.service.MemberService;
 import kh.gw.service.PositionService;
 import kh.gw.service.WriteService;
-
 @Controller
 @RequestMapping("/nex")
 public class AdminController {
@@ -140,6 +144,13 @@ public class AdminController {
 		NexacroResult nr = new NexacroResult();
 		nr.addDataSet("ds_out",bser.getAllType());
 		return nr;
+	}
+	
+	//breaktype테이블 수정
+	@RequestMapping("updateBreakType.nexacro")
+	public NexacroResult updateBreakType(@ParamDataSet(name = "in_break") List<Break_typeDTO> list) throws Exception{
+		bser.updateBreakType(list);
+		return new NexacroResult();
 	}
 	
 	// error
