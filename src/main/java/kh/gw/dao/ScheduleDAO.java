@@ -9,6 +9,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kh.gw.dto.Company_holidayDTO;
 import kh.gw.dto.ScheduleDTO;
 import kh.gw.statics.BoardConfigurator;
 
@@ -55,4 +56,21 @@ public class ScheduleDAO {
 	public int scheduleModify(ScheduleDTO dto) {
 		return db.update("Schedule.scheduleModify", dto);
 	}
+	
+	public List<Company_holidayDTO> loadComHd(){
+		return db.selectList("Schedule.loadComHd");
+	}
+	
+	public int inserthol(Company_holidayDTO dto) throws Exception{
+		return db.insert("Schedule.inserthol",dto);
+	}
+	
+	public int deleteComhd(int comp_hd_seq) {
+		return db.delete("Schedule.deleteComhd",comp_hd_seq);
+	}
+	
+	public int updateComhd(Company_holidayDTO dto) {
+		return db.update("Schedule.updateComhd", dto);
+	}
+	
 }

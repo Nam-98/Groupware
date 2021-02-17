@@ -35,4 +35,19 @@
   		update st.schedule set sch_title=#{sch_title}, sch_contents=#{sch_contents}, sch_start_date=#{sch_start_date}, sch_end_date=#{sch_end_date} where sch_seq=#{value}
   	</update>
 
+	<select id="loadComHd" resultType="kh.gw.dto.Company_holidayDTO">
+		select * from st.company_holiday
+	</select>
+	
+	<insert id="inserthol">
+		insert into st.company_holiday values(st.com_hd_seq.nextval,#{comp_hd_name},#{comp_hd_date})
+	</insert>
+	
+	<delete id="deleteComhd">
+		delete from st.company_holiday where comp_hd_seq=#{value}
+	</delete>
+	
+	<update id="updateComhd">
+		update st.company_holiday set comp_hd_name=#{comp_hd_name}, comp_hd_date=#{comp_hd_date} where comp_hd_seq=#{comp_hd_seq}
+	</update>
   </mapper>

@@ -15,12 +15,10 @@ import com.nexacro.uiadapter17.spring.core.annotation.ParamDataSet;
 import com.nexacro.uiadapter17.spring.core.annotation.ParamVariable;
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 import com.nexacro17.xapi.data.DataSet;
-import com.nexacro17.xapi.data.PlatformData;
-import com.nexacro17.xapi.data.VariableList;
-import com.nexacro17.xapi.tx.HttpPlatformRequest;
 
 import kh.gw.dto.Approval_typeDTO;
 import kh.gw.dto.Break_typeDTO;
+import kh.gw.dto.Company_holidayDTO;
 import kh.gw.dto.MemberDTO;
 import kh.gw.dto.WriteDTO;
 import kh.gw.service.ApprovalService;
@@ -28,6 +26,7 @@ import kh.gw.service.BreakService;
 import kh.gw.service.DepartmentService;
 import kh.gw.service.MemberService;
 import kh.gw.service.PositionService;
+import kh.gw.service.ScheduleService;
 import kh.gw.service.WriteService;
 @Controller
 @RequestMapping("/nex")
@@ -49,6 +48,9 @@ public class AdminController {
 	
 	@Autowired
 	private BreakService bser;
+	
+	@Autowired
+	private ScheduleService sser;
 	
 	//페이지 이동
 	@RequestMapping("/admin.nexacro")
@@ -140,12 +142,77 @@ public class AdminController {
 		nr.addDataSet("ds_out",bser.getAllType());
 		return nr;
 	}
-	
-	//breaktype테이블 수정
+
+	//breaktype테이블 수정/삭제/추가
 	@RequestMapping("updateBreakType.nexacro")
-	public NexacroResult updateBreakType(@ParamDataSet(name = "in_break") List<Break_typeDTO> list) throws Exception{
-		bser.updateBreakType(list);
+	public NexacroResult updateBreakType(@ParamDataSet(name = "in_break")  DataSet ds) throws Exception{
+		
+		for (int i = 0; i < ds.getRemovedRowCount(); i++) {
+           int break_code = (int) ds.getRemovedData(i, "break_code");
+           bser.deleteBreakType(break_code);
+           System.out.println("지우는 code :" + break_code);
+         }
+		
+        for (int i = 0; i < ds.getRowCount(); i++) {
+            int rowType = ds.getRowType(i);
+            if (rowType == DataSet.ROW_TYPE_INSERTED) {
+            	Break_typeDTO dto = new Break_typeDTO();
+            	dto.setBreak_name((String)ds.getString(i, "break_name"));
+                dto.setBreak_discount(ds.getDouble(i, "break_discount"));
+            	System.out.println("넣은 휴무 이름 : " + dto.getBreak_name());
+            	System.out.println(dto.getBreak_discount());
+                System.out.println(dto.getBreak_name());
+            	bser.insertBreakType(dto);
+            }else if (rowType == DataSet.ROW_TYPE_UPDATED) {
+            	Break_typeDTO dto = new Break_typeDTO();
+            	 dto.setBreak_code(Integer.parseInt((String)ds.getSavedData(i,"break_code")));
+                 dto.setBreak_name((String)ds.getSavedData(i, "break_name"));
+                 dto.setBreak_discount(ds.getDouble(i, "break_discount"));
+                 System.out.println(dto.getBreak_code());
+                 System.out.println(dto.getBreak_discount());
+                 System.out.println(dto.getBreak_name());
+              bser.updateBreakType(dto);
+            }
+
+        }
 		return new NexacroResult();
+	}
+	
+	@RequestMapping("loadComHd.nexacro")
+	public NexacroResult loadComHd() throws Exception {
+		NexacroResult nr = new NexacroResult();
+		nr.addDataSet("ds_out",sser.loadComHd());
+		return nr;
+	}
+	
+	@RequestMapping("inserthol.nexacro")
+	public NexacroResult inserthol(@ParamDataSet(name = "ds_in") Company_holidayDTO dto) throws Exception{
+		sser.inserthol(dto);
+		return new NexacroResult();
+	}
+	
+	@RequestMapping("updateComhd.nexacro")
+	public NexacroResult updateComhd(@ParamDataSet(name = "in_holiday") DataSet ds) throws Exception{
+		for (int i = 0; i < ds.getRemovedRowCount(); i++) {
+	           int comp_hd_seq = (int) ds.getRemovedData(i, "comp_hd_seq");
+	           sser.deleteComhd(comp_hd_seq);
+	           System.out.println("지우는 code :" + comp_hd_seq);
+	         }
+			
+	        for (int i = 0; i < ds.getRowCount(); i++) {
+	            int rowType = ds.getRowType(i);
+	            if (rowType == DataSet.ROW_TYPE_UPDATED) {
+	            	Company_holidayDTO dto = new Company_holidayDTO();
+	            	 dto.setComp_hd_seq(Integer.parseInt((String)ds.getSavedData(i,"comp_hd_seq")));
+	                 dto.setComp_hd_name((String)ds.getSavedData(i, "comp_hd_name"));
+	                 dto.setComp_hd_date(ds.getDateTime(i, "comp_hd_date"));
+	                 System.out.println(dto.getComp_hd_name());
+	                 System.out.println(dto.getComp_hd_seq());
+	                 System.out.println(dto.getComp_hd_date());
+	              sser.updateComhd(dto);
+	            }
+	        }
+			return new NexacroResult();
 	}
 	
 	//전자결재 문서관리에 모든 문서 리스트 넣기
