@@ -12,6 +12,7 @@ import kh.gw.dto.Approval_attached_filesDTO;
 import kh.gw.dto.Approval_commentsDTO;
 import kh.gw.dto.Approval_signDTO;
 import kh.gw.dto.Approval_sign_typeDTO;
+import kh.gw.dto.Approval_statusDTO;
 import kh.gw.dto.Approval_typeDTO;
 
 @Repository
@@ -136,5 +137,27 @@ public class ApprovalDAO {
 	}
 	public List<ApprovalDTO> getAppForMainCC(String id){
 		return db.selectList("Approval.getAppForMainCC", id);
+	}
+	public int getAppCountToday() {
+		return db.selectOne("Approval.getAppCountToday");
+	}
+	public String getDocsTemplate(int app_type_code) {
+		return db.selectOne("Approval.getDocsTemplate", app_type_code);
+	}
+	///nexa cud관련 method
+	public int nxInsertDocs(Approval_typeDTO dto) {
+		return db.insert("Approval.nxInsertDocs", dto);
+	}
+	public int nxDeleteDocs(int app_type_code) {
+		return db.delete("Approval.nxDeleteDocs", app_type_code);
+	}
+	public int nxUpdateDocs(Approval_typeDTO dto) {
+		return db.update("Approval.nxUpdateDocs", dto);
+	}
+	public List<ApprovalDTO> nxAppAllList(){
+		return db.selectList("Approval.nxAppAllList");
+	}
+	public List<Approval_statusDTO> nxAppStatusList(){
+		return db.selectList("Approval.nxAppStatusList");
 	}
 }

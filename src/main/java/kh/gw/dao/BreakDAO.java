@@ -25,4 +25,8 @@ public class BreakDAO {
 	public double getDiscount(int break_code) {
 		return db.selectOne("Break.getDiscount", break_code);
 	}
+	
+	public int updateBreakType(Break_typeDTO dto) {
+		return db.update("Break.updateBreakType", dto);
+	}
 }

@@ -163,8 +163,7 @@
 
 									<div class="top-vacant d-none d-lg-block"></div>
 									<input type="button" value="출근하기" id="attendanceBtn"
-										class="btn btn-gray btn-xs"> <input type="button"
-										value="퇴근하기" id="leaveWorkBtn" class="btn btn-gray btn-xs">
+										class="btn btn-gray btn-xs"> <input type="button" value="퇴근하기" id="leaveWorkBtn" class="btn btn-gray btn-xs">
 									<hr>
 									<div class="">
 										<span class="glyphicon glyphicon-flag" aria-hidden="true">&nbsp<b>${attendanceValue.status }</b>&nbsp
@@ -337,7 +336,7 @@
 											<c:forEach var="i" items="${kgsMsgList}">
 												<tr>
 													<td>${i.msg_send_date}</td>
-													<th scope="row"><a href="/message/msgReceiveView.message?msg_seq=${i.msg_seq}&msg_receive_date_str=${msg_receive_date_str }">${i.msg_title}</a></th>
+													<th scope="row"><a href="/message/msgReceiveView.message?msg_seq=${i.msg_seq}&msg_receive_date_str=${msg_receive_date_str}">${i.msg_title}</a></th>
 													<td>${i.msg_sender_name}</td>
 												</tr>
 											</c:forEach>

@@ -25,6 +25,7 @@ import kh.gw.dto.Approval_attached_filesDTO;
 import kh.gw.dto.Approval_commentsDTO;
 import kh.gw.dto.Approval_signDTO;
 import kh.gw.dto.Approval_sign_typeDTO;
+import kh.gw.dto.Approval_statusDTO;
 import kh.gw.dto.Approval_typeDTO;
 import kh.gw.statics.ApprovalConfigurator;
 import kh.gw.statics.ApprovalComparator;
@@ -54,8 +55,7 @@ public class ApprovalService {
 		dto.setApp_id((String)session.getAttribute("id"));
 		SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
 		Date today = new Date();
-		String docsNum = sdf.format(today)+"-"+ApprovalConfigurator.docsCount;
-		ApprovalConfigurator.docsCount++;
+		String docsNum = sdf.format(today)+"-"+(adao.getAppCountToday()+1);
 		dto.setApp_docs_num(docsNum);
 		String contents = dto.getApp_contents();
 		int result = adao.writeApp(dto);
@@ -348,7 +348,7 @@ public class ApprovalService {
 		// Project clean시 생성한 file도 삭제됩니다. clean전에 반드시 backup 해주세요!!!!!
 		String sDir = servletContext.getRealPath("/resources/approval_contents");// src/main/webapp/resources/approval_contents폴더
 																				// 경로 출력
-		String sFileName = app_seq + ".html";// 저장할 file이름은 게시판코드_글id.html이 될것입니다.
+		String sFileName = app_seq + ".html";// 저장할 file이름은 seq.html이 될것입니다.
 		File filesPath = new File(sDir);
 		// 파일 디렉토리가 존재한지 검사 없다면 생성
 		if (!filesPath.exists()) {
@@ -424,29 +424,7 @@ public class ApprovalService {
 		return adao.delAppCmtBySeq(app_cmt_seq);
 	}
 	public String getTemplate(int app_docs_type) throws Exception {
-		//----------------------html파일 전달하기
-	      int cur = 0;
-	      
-	      //src/main/webapp/resources/write_contents폴더 경로 출력
-	      String sDir = servletContext.getRealPath("/resources/approval_template");
-	      //저장할 file이름은 게시판코드_글id.html이 될것입니다.
-	      String sFileName = app_docs_type+".html";
-	      
-	      StringBuilder sb = new StringBuilder();
-	         //sDir 폴더속 sFileName을 가져온다.
-	         File file = new File(sDir, sFileName);
-	         
-	         //만약 파일이 존재하지 않는다면 null을 return함
-	         if(!file.exists()) {return null;}
-	         FileReader file_reader = new FileReader(file);
-
-	         while((cur = file_reader.read()) != -1){
-	            sb.append((char)cur);
-	         }
-	         
-	         file_reader.close();
-	     	      
-	      return sb.toString() ;
+		return adao.getDocsTemplate(app_docs_type);
 	}
 	public List<ApprovalDTO> getMainTobeList(){
 		List<Approval_signDTO> signList = adao.getTobeSignApp((String)session.getAttribute("id"));
@@ -551,11 +529,46 @@ public class ApprovalService {
 	///nexacro
 	public List<Approval_typeDTO> nxAllDocsType() throws Exception{
 		List<Approval_typeDTO> list = adao.nxAllDocsType();
-		for(Approval_typeDTO dto : list) {
-			String temp = this.getTemplate(dto.getApp_type_code());
-			dto.setApp_type_template(temp);
-		}
 		return list;
+	}
+	
+	public int nxDelDocsType(int app_type_code) throws Exception {
+		List<Integer> list = new ArrayList<>();
+
+		//template 삭제먼저 하고 db update
+			System.out.println("delCode : "+app_type_code);
+		int delResult = adao.nxDeleteDocs(app_type_code);
+		
+		//만약 delete가 제대로 되지 않았다면 error코드 반환
+		return delResult;
+	}
+	
+	
+	public int nxCuDocsType(Approval_typeDTO dto) throws Exception {
+		int result = 0;
+		//CU진행
+			String status = dto.getNx_status();
+			int code = dto.getApp_type_code();
+			System.out.println("status : "+status+", code : "+code);
+				if(status!=null) {
+					//새로 추가된 행
+					if(status.contentEquals("insert")) {
+						result = adao.nxInsertDocs(dto);//db에 정보 저장
+					//update된 행
+					}else if(status.contentEquals("update")) {
+						result = adao.nxUpdateDocs(dto);	
+				}
+				}
+
+		
+		return result;
+	}
+
+	public List<ApprovalDTO> nxAppAllList(){
+		return adao.nxAppAllList();
+	}
+	public List<Approval_statusDTO> nxAppStatusList(){
+		return adao.nxAppStatusList();
 	}
 	
 }
