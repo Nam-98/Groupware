@@ -132,7 +132,7 @@
                      <input id="brWriteId" type="hidden" value="${dtos.write_seq }"><br>
                      ${dtos.write_id }<img style='width: 20px; height: 20px; line-height: 23px; margin-left: 5px;' src="/resources/profileImage/${dtos.write_id }.png">
                      <input id="loginId" type="hidden" value="${sessionScope.id}">&nbsp&nbsp|&nbsp&nbsp
-                     ${dtos.write_reg_date } &nbsp&nbsp|&nbsp&nbsp 조회수 :
+                     ${dtos.write_reg_date_wr } &nbsp&nbsp|&nbsp&nbsp 조회수 :
                      ${dtos.write_read_count }
                   </div>
                   <hr>

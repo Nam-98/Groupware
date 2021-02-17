@@ -127,4 +127,8 @@
 		desc)rn from st.write where (write_code=#{write_code}) and
 		(write_open='Y')) where rn between #{startRowNum} and #{endRowNum}
   </select>
+  
+  <select id="noticePopupView" resultType="kh.gw.dto.WriteDTO">
+  	select * from st.write where write_code = #{value} order by write_seq desc
+  </select>
   </mapper>

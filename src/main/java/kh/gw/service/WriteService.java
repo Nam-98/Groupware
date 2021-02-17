@@ -1,5 +1,6 @@
 package kh.gw.service;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kh.gw.dao.WriteDAO;
+import kh.gw.dto.ScheduleDTO;
 import kh.gw.dto.WriteDTO;
 import kh.gw.dto.Write_commentsDTO;
 import kh.gw.statics.BoardConfigurator;
@@ -473,4 +475,33 @@ public class WriteService {
 		public List<WriteDTO> noticePopupList(int cpage, String write_code) throws Exception{
 			return wdao.noticePopupList(cpage, write_code);
 		}
+
+		public List<WriteDTO> noticePopupView(String write_code) {
+			return wdao.noticePopupView(write_code);
+		}
+
+		public void addDateStr(List<WriteDTO> wlist) {
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			
+			for(WriteDTO dto : wlist) {
+				dto.setWrite_reg_date_wr(simpleDateFormat.format(dto.getWrite_reg_date()));
+			}
+		}
+		
+		public void addDateStrOne(WriteDTO dtos) {
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+			dtos.setWrite_reg_date_wr(simpleDateFormat.format(dtos.getWrite_reg_date()));
+
+		}
+
+		public void addDateStrTwo(List<WriteDTO> dtos) {
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			
+			for(WriteDTO dto : dtos) {
+				dto.setWrite_reg_date_wr(simpleDateFormat.format(dto.getWrite_reg_date()));
+			}
+			
+		}
+
 }

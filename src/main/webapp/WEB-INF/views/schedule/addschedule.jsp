@@ -57,7 +57,7 @@
 							<h3 class="panel-title">일 정 추 가 하 기</h3>
 						</div>
 						<div class="panel-body">
-							<form action="/schedule/addSchedule.schedule" method="post">
+							<form action="/schedule/addSchedule.schedule" id="add" method="post">
 								<div class="col-lg-12 col-12">
 									<table class="table table-sm">
 										<thead>
@@ -80,21 +80,7 @@
 												<td>
 												<input required type="date" id="date3" name="sch_start_date_sc" size="12"/>&nbsp&nbsp
 												<input required type="date" id="date2" name="sch_end_date_sc" size="12"/>
-<!-- 												<select id="condition" name="condition"> -->
-<!-- 													<option>오전 6시</option> -->
-<!-- 													<option>오전 7시</option> -->
-<!-- 													<option>오전 8시</option> -->
-<!-- 													<option>오전 9시</option> -->
-<!-- 													<option>오전 10시</option> -->
-<!-- 													<option>오전 11시</option> -->
-<!-- 													<option>오후 12시</option> -->
-<!-- 													<option>오후 1시</option> -->
-<!-- 													<option>오후 2시</option> -->
-<!-- 													<option>오후 3시</option> -->
-<!-- 													<option>오후 4시</option> -->
-<!-- 													<option>오후 5시</option> -->
-<!-- 													<option>오후 6시</option> -->
-<!-- 												</select> -->
+
 												</td>
 											</tr>
 										</tbody>
@@ -112,6 +98,12 @@
 			</div>
 			
 			<script>
+				document.getElementById("add").onsubmit=function(){
+					alert("등록되었습니다.");
+// 					window.opener.location.reload();
+// 					window.close();
+				}
+
 				document.getElementById("addCancel").onclick=function(){
 					window.close();
 				}

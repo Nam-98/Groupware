@@ -163,12 +163,19 @@ public class WriteDAO {
 
 	public List<WriteDTO> noticePopupList(int cpage, String write_code) throws Exception {
 		BoardConfigurator configurator = new BoardConfigurator();
-		int startRowNum = (cpage-1)*configurator.RECORD_COUNT_POP_UP+1;
-		int endRowNum = startRowNum + configurator.RECORD_COUNT_POP_UP -1;
+		int startRowNum = (cpage-1)*configurator.RECORD_COUNT_WRITE_POP_UP+1;
+		int endRowNum = startRowNum + configurator.RECORD_COUNT_WRITE_POP_UP -1;
 		Map<String,Object> param = new HashMap<String, Object>();
 		param.put("startRowNum",startRowNum);
 		param.put("endRowNum", endRowNum);
 		param.put("write_code", write_code);
 		return db.selectList("Write.noticePopupList",param);
 	}
+
+	public List<WriteDTO> noticePopupView(String write_code) {
+		return db.selectList("Write.noticePopupView", write_code);
+	}
+
+
+
 }

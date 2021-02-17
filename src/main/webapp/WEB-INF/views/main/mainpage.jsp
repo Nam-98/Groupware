@@ -49,7 +49,7 @@
 <script type="text/javascript">
         $(document).ready(function () {
             // create jqxtabs.
-            $('#jqxtabs').jqxTabs({ width: 700, height: 225 });
+            $('#jqxtabs').jqxTabs({ width: 600, height: 225 });
             $('#jqxtabs').bind('selected', function (event) {
                 var item = event.args.item;
                 var title = $('#jqxtabs').jqxTabs('getTitleAt', item);
@@ -149,7 +149,7 @@
 					<!-- END MainMenu -->
 					<div class="row">
 
-						<div class="col-md-4">
+						<div class="col-md-2">
 							<div class="panel">
 								<div class="panel-heading">
 									<h3 class="panel-title">Commuting check</h3>
@@ -192,7 +192,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-md-8">
+						<div class="col-md-5">
 							<!-- TASKS -->
 							<div class="panel">
 								<div class="panel-heading">
@@ -210,20 +210,20 @@
 												<table class="table table-hover">
 													<thead>
 														<tr>
-															<th scope="col">#</th>
+															<th scope="col" class="visible-lg hidden-sm">#</th>
 															<th scope="col">제 목</th>
-															<th scope="col">기안자(ID)</th>
-															<th scope="col">기안날짜</th>
+															<th scope="col" class="visible-lg hidden-sm">기안자(ID)</th>
+															<th scope="col" class="visible-lg hidden-sm">기안날짜</th>
 															<th scope="col">문서상태</th>
 														</tr>
 													</thead>
 													<tbody>
 														<c:forEach var="i" items="${knrWriteList}">
 															<tr class='dataRow'>
-																<th scope="row">${i.app_docs_num}<input type=hidden value="${i.app_seq}"></th>
+																<th scope="row"  class="visible-lg hidden-sm">${i.app_docs_num}<input type=hidden value="${i.app_seq}"></th>
 																<td>${i.app_title}</td>
-																<td>${i.name}</td>
-																<td>${i.app_reg_date}</td>
+																<td class="visible-lg hidden-sm">${i.name}</td>
+																<td class="visible-lg hidden-sm">${i.app_reg_date}</td>
 																<td>${i.app_status_name}</td>
 															</tr>
 														</c:forEach>
@@ -270,8 +270,50 @@
 									</div>
 								</div>
 							</div>
-							<!-- END TASKS -->
 						</div>
+										<div class="col-md-5">
+							<div class="panel">
+								<div class="panel-heading">
+									<h3 class="panel-title">Notice</h3>
+									<div class="right"></div>
+								</div>
+								<div class="panel-body">
+									<table class="table table-secondary table-striped">
+										<thead class="table-light">
+											<tr>
+												<th scope="col">No</th>
+												<th scope="col">제목</th>
+												<th scope="col">작성자</th>
+												<th scope="col">등록일</th>
+												<th scope="col">조회수</th>
+											</tr>
+										</thead>
+										<tbody>
+											<c:forEach var="i" items="${wlist }">
+												<tr>
+													<th scope="row">${i.rn }</th>
+													<td><a href="noticeView.write?write_seq=${i.write_seq}">${i.write_title }</a></td>
+													<td>${i.write_id }</td>
+													<td>${i.write_reg_date_wr }</td>
+													<td>${i.write_read_count }</td>
+												</tr>
+											</c:forEach>
+										</tbody>
+									</table>
+								</div>
+								<div class="panel-footer">
+									<div class="row">
+										<div class="col-md-6">
+											
+										</div>
+										<div class="col-md-6 text-right">
+											<a href="/write/noticeList.write?cpage=1" class="btn btn-primary">Go</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+							<!-- END TASKS -->
 					</div>
 					<div class="row">
 						<div class="col-md-4">
@@ -473,6 +515,7 @@
       window.onload = function() {
          printTime();
       }
+
    </script>
 	<script>
 	  document.addEventListener('DOMContentLoaded', function() {
@@ -512,6 +555,13 @@
 			console.log($(this).children().first().children("input").val());
 			location.href="/approval/toAppDetailView.approval?app_seq="+$(this).children().first().children("input").val()
 		});
+	</script>
+	
+	<script>
+		window.onload=function(){
+			 var options='top=10, left=10, width=500, height=500, status=no, menubar=no, toolbar=no, resizable=no';
+		     window.open("/write/noticePopupView.write?write_code=0" ,"popup", options);
+		}
 	</script>
 </body>
 </html>
