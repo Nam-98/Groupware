@@ -127,9 +127,28 @@ public class TnADAO {
 	public List<Map<String, Object>> tnaHistory() throws Exception{
 		return db.selectList("TnA.tnaHistory");
 	}
-	
-	public List<Map<String, Object>> tnaHistorySearch(int sel) throws Exception{
-		return db.selectList("TnA.tnaHistorySearch",sel);
+
+	public int tnaStartApp(int tnaSeq, int finalChange) throws Exception {
+		Map<String,Integer> param = new HashMap<>();
+		param.put("tnaSeq", tnaSeq);
+		param.put("finalChange", finalChange);
+		return db.update("TnA.tnaStartApp",param);
 	}
+
+	public int tnaEndApp(int tnaSeq, int finalChange) throws Exception{
+		Map<String,Integer> param = new HashMap<>();
+		param.put("tnaSeq", tnaSeq);
+		param.put("finalChange", finalChange);
+		return db.update("TnA.tnaEndApp",param);
+	}
+
+	public int objApproval(int objSeq, int statusCode) throws Exception{
+		Map<String,Integer> param = new HashMap<>();
+		param.put("objSeq", objSeq);
+		param.put("statusCode", statusCode);
+		return db.update("TnA.objApproval",param);
+	}
+	
+	
 	
 }

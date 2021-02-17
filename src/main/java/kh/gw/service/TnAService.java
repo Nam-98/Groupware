@@ -330,10 +330,22 @@ public class TnAService {
 		return tdao.tnaHistory();
 	}
 	
-	//근태조정신청 상태 검색버튼
-	public List<Map<String, Object>> tnaHistorySearch(int sel) throws Exception{
-		return tdao.tnaHistorySearch(sel);
+	//근태 승인(출근용)
+	public int tnaStartApp(int tnaSeq, int finalChange) throws Exception {
+		return tdao.tnaStartApp(tnaSeq,finalChange);
 	}
+	//근태 승인(퇴근용)
+	public int tnaEndApp(int tnaSeq, int finalChange) throws Exception {		
+		return tdao.tnaEndApp(tnaSeq,finalChange);
+	}
+	//근태 승인(정정처리결과)
+	public int objApproval(int objSeq, int statusCode) throws Exception {
+		return tdao.objApproval(objSeq,statusCode);
+	}
+	
+	
+	
+	
 
 	
 }

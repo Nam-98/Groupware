@@ -1,16 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <style>
-#textReason{
+#textReason {
 	resize: none;
 	width: 100%;
 	height: 100%;
 }
 
-.componentBox{
+.componentBox {
 	text-align: center;
 }
 </style>
@@ -18,43 +18,50 @@
 <meta charset="UTF-8">
 <title>My TnA</title>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <!-- 아이콘 fontawesome -->
-    <script src="https://kit.fontawesome.com/b1e233372d.js"></script>
-   <!-- VENDOR CSS -->
-   <link rel="stylesheet" href="/assets/vendor/bootstrap/css/bootstrap.min.css">
-   <link rel="stylesheet" href="/assets/vendor/font-awesome/css/font-awesome.min.css">
-   <link rel="stylesheet" href="/assets/vendor/linearicons/style.css">
-   <link rel="stylesheet" href="/assets/vendor/chartist/css/chartist-custom.css">
-   <!-- MAIN CSS -->
-   <link rel="stylesheet" href="/assets/css/main.css">
-   <!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
-   <link rel="stylesheet" href="/assets/css/demo.css">
-   <!-- GOOGLE FONTS -->
-   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
-   <!-- ICONS -->
-   <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicon.png">
-    <script src="/assets/vendor/jquery/jquery.min.js"></script>
-   <script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
-   <script src="/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-   <script src="/assets/vendor/chartist/js/chartist.min.js"></script>
-   <script src="/assets/scripts/klorofil-common.js"></script>
+<!-- 아이콘 fontawesome -->
+<script src="https://kit.fontawesome.com/b1e233372d.js"></script>
+<!-- VENDOR CSS -->
+<link rel="stylesheet"
+	href="/assets/vendor/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="/assets/vendor/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/assets/vendor/linearicons/style.css">
+<link rel="stylesheet"
+	href="/assets/vendor/chartist/css/chartist-custom.css">
+<!-- MAIN CSS -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
+<link rel="stylesheet" href="/assets/css/demo.css">
+<!-- GOOGLE FONTS -->
+<link
+	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700"
+	rel="stylesheet">
+<!-- ICONS -->
+<link rel="apple-touch-icon" sizes="76x76"
+	href="/assets/img/apple-icon.png">
+<link rel="icon" type="image/png" sizes="96x96"
+	href="/assets/img/favicon.png">
+<script src="/assets/vendor/jquery/jquery.min.js"></script>
+<script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<script src="/assets/vendor/chartist/js/chartist.min.js"></script>
+<script src="/assets/scripts/klorofil-common.js"></script>
 </head>
 <body>
 	<!-- WRAPPER -->
 	<div id="wrapper">
 		<!-- NAVBAR -->
-<!-- 		<nav class="navbar navbar-default navbar-fixed-top"> -->
-<%-- 			<jsp:include page="/WEB-INF/views/commonPage/top.jsp" /> --%>
-<!-- 		</nav> -->
+		<!-- 		<nav class="navbar navbar-default navbar-fixed-top"> -->
+		<%-- 			<jsp:include page="/WEB-INF/views/commonPage/top.jsp" /> --%>
+		<!-- 		</nav> -->
 		<!-- END NAVBAR -->
 		<!-- LEFT SIDEBAR -->
-<!-- 		<div class="sidebar" id="sidebar-nav"> -->
-<%-- 			<jsp:include page="/WEB-INF/views/commonPage/left.jsp" /> --%>
-<!-- 		</div> -->
+		<!-- 		<div class="sidebar" id="sidebar-nav"> -->
+		<%-- 			<jsp:include page="/WEB-INF/views/commonPage/left.jsp" /> --%>
+		<!-- 		</div> -->
 		<!-- END LEFT SIDEBAR -->
 		<!-- MAIN -->
- 		<div class="main">
+		<div class="main">
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
@@ -64,8 +71,9 @@
 							<h3 class="panel-title">조정신청내역</h3>
 						</div>
 						<div class="panel-body">
-								
-								<table class="table table-hover">
+						
+						<form action="/tna/tnaFixRequestSubmit.tna" method="post" id="formBox">
+							<table class="table table-hover">
 								<thead>
 									<tr>
 										<th scope="col">항목</th>
@@ -75,46 +83,60 @@
 								<tbody>
 									<tr>
 										<th scope="row">신청 날짜</th>
-										<td><div class="tableValue" id="requestDateDiv">xxxx년 x월 x일 (n요일) [오늘날짜]</div></td>
+										<td><div class="tableValue" id="requestDateDiv">xxxx년
+												x월 x일 (n요일) [오늘날짜]</div></td>
 									</tr>
 									<tr>
 										<th scope="row">현재 상태</th>
-										<td><div class="tableValue" id="currentStatusDiv">STATUS (xxxx/x/x/n) [정정할날짜]</div></td>
+										<td><div class="tableValue" id="currentStatusDiv">STATUS
+												(xxxx/x/x/n) [정정할날짜]</div></td>
 									</tr>
 									<tr>
 										<th scope="row">변경요청 상태</th>
 										<td>
-										<div class="tableValue">
-											<c:forEach varStatus="none" var="list" items="${tnaStatusList}">
-												<c:if test='${list.tna_status_code == dto.TNA_OBJ_CHANGED_CODE}'>
-													${list.tna_status_name }
-												</c:if>
-											</c:forEach>
-										</div>
+											<div class="tableValue">
+											
+												<select class="" name="tna_obj_changed_code"
+													id="selectStatus">
+													<option value="선택">선택</option>
+													<c:forEach varStatus="none" var="list"
+														items="${tnaStatusList}">
+														<c:if test='${list.tna_status_code == dto.TNA_OBJ_CHANGED_CODE}'>
+															<option value="${list.tna_status_code }" selected>${list.tna_status_name }</option>
+														</c:if>
+													</c:forEach>
+												</select>
+												
+											</div>
 										</td>
 									</tr>
 									<tr>
 										<th scope="row">사유</th>
 										<td><div class="tableValue">
-											<textarea name="tna_obj_reason" id="textReason" disabled>${dto.TNA_OBJ_REASON}</textarea>
-										</div></td>
+												<textarea name="tna_obj_reason" id="textReason">${dto.TNA_OBJ_REASON}</textarea>
+											</div></td>
 									</tr>
 								</tbody>
 							</table>
-								<div class="componentBox">
-									<input type="button" class="btn btn-gray btn-xs" value="닫기" id="tnaFixCancel">
-								</div>
+							<div class="componentBox">
+							
+								<input type="submit" class="btn btn-gray btn-xs" value="수정"
+									id="tnaReFix">
+								<input type="button" class="btn btn-gray btn-xs" value="닫기"
+									id="tnaFixCancel">
+							</div>
+							</form>
 						</div>
 					</div>
 				</div>
 			</div>
 			<!-- END MAIN CONTENT -->
- 		</div> 
+		</div>
 		<!-- END MAIN -->
 		<div class="clearfix"></div>
-			<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
-		</div>
-		<!-- END WRAPPER -->
+		<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
+	</div>
+	<!-- END WRAPPER -->
 
 	<script>
 		// 시간출력함수

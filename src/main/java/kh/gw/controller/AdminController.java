@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.nexacro.uiadapter17.spring.core.annotation.ParamDataSet;
+import com.nexacro.uiadapter17.spring.core.annotation.ParamVariable;
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 
 import kh.gw.dto.Approval_typeDTO;
@@ -24,6 +25,7 @@ import kh.gw.service.MemberService;
 import kh.gw.service.PositionService;
 import kh.gw.service.TnAService;
 import kh.gw.service.WriteService;
+import kh.gw.statics.TnAConfigurator;
 
 @Controller
 @RequestMapping("/nex")
@@ -144,13 +146,34 @@ public class AdminController {
 		return nr;
 	}
 	
-	//근태조정신청 상태 검색버튼
-	@RequestMapping("/tnaHistorySearch.nexacro")
-	public NexacroResult tnaHistorySearch(@ParamVariable(name="sel")int sel) throws Exception{
+	//근태조정신청 승인
+	@RequestMapping("/tnaHistoryApproval.nexacro")
+	public NexacroResult tnaHistoryApproval(@ParamVariable(name="statusCode")int statusCode,@ParamVariable(name="objSeq")int objSeq,@ParamVariable(name="finalChange")int finalChange,@ParamVariable(name="tnaSeq")int tnaSeq,@ParamVariable(name="objStatus")String objStatus) throws Exception {
 		NexacroResult nr = new NexacroResult();
-		System.out.println("select값:"+sel);
-		List<Map<String, Object>> tnaHistorySearch = tservice.tnaHistorySearch(sel);
-		nr.addDataSet("ds_out",tnaHistorySearch);
+		//tna테이블 출퇴근구분을 통해서 출근구분코드 혹은 퇴근구분코드 변경(tnaSeq,objStatus,finalChange)
+		//tna_objection테이블 처리상태 변경(objSeq,statusCode)
+		
+		if(objStatus.contentEquals("start")) {
+			int tnaApproval = tservice.tnaStartApp(tnaSeq,finalChange);
+			int objApproval = tservice.objApproval(objSeq,statusCode);
+			System.out.println("Stna결과 : " + tnaApproval);
+			System.out.println("Stna결과 : " + objApproval);
+		}else {
+			int tnaApproval = tservice.tnaEndApp(tnaSeq,finalChange);
+			int objApproval = tservice.objApproval(objSeq,statusCode);
+			System.out.println("Etna결과 : " + tnaApproval);
+			System.out.println("Etna결과 : " + objApproval);
+			
+		};
+		return nr;
+	}
+	
+	//근태조정신청 반려
+	@RequestMapping("/tnaHistoryReturn.nexacro")
+	public NexacroResult tnaHistoryReturn(@ParamVariable(name="statusCode")int statusCode,@ParamVariable(name="objSeq")int objSeq) throws Exception{
+		NexacroResult nr = new NexacroResult();
+		int objApproval = tservice.objApproval(objSeq,statusCode);
+		System.out.println("반려결과 : " + objApproval);
 		return nr;
 	}
 	
