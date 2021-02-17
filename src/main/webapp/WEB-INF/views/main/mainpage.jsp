@@ -152,7 +152,7 @@
 						<div class="col-md-4">
 							<div class="panel">
 								<div class="panel-heading">
-									<h3 class="panel-title">Commuting check</h3>
+									<h3 class="panel-title"><span class="glyphicon glyphicon-leaf" aria-hidden="true"></span>Commuting check</h3>
 									<div class="right"></div>
 								</div>
 								<div class="panel-body">
@@ -195,7 +195,7 @@
 							<!-- TASKS -->
 							<div class="panel">
 								<div class="panel-heading">
-									<h3 class="panel-title">e-Approval</h3>
+									<h3 class="panel-title"><b>e-Approval</b></h3>
 									<div class="right"></div>
 								</div>
 								<div class="panel-body">
