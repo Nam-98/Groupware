@@ -32,4 +32,10 @@ public class BreakService {
 		dto.setBreak_reason(adto.getApp_contents());
 		return bdao.insertBreak(dto);
 	}
+	
+	public void updateBreakType(List<Break_typeDTO> list) {
+		for(Break_typeDTO dto : list) {
+		bdao.updateBreakType(dto);
+		}
+	}
 }
