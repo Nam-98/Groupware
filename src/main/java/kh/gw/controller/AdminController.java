@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -47,7 +48,10 @@ public class AdminController {
 	private WriteService wser;
 	
 	@Autowired
+	private HttpSession session;
+
 	private BreakService bser;
+
 	
 	@Autowired
 	private ScheduleService sser;
@@ -106,12 +110,36 @@ public class AdminController {
 	}
 	
 	//공지사항 글 작성
-	@RequestMapping("insertWrtie.nexacro")
+	@RequestMapping("insertWrite.nexacro")
 	public NexacroResult insertWrite(@ParamDataSet(name = "ds_in") WriteDTO dto) throws Exception{
+		String id = (String)session.getAttribute("id");
+		dto.setWrite_id(id);
 		wser.insertWrite(dto);
 		return new NexacroResult();
 	}
 	
+	//write 테이블 로드
+		@RequestMapping("loadWrList.nexacro")
+		public NexacroResult loadWr() throws Exception {
+			NexacroResult nr = new NexacroResult();
+			nr.addDataSet("ds_out",wser.listWr());
+			return nr;
+		}
+		
+	//공지사항 수정
+	@RequestMapping("updateWrList.nexacro")
+	public NexacroResult updateWrList(@ParamDataSet(name = "in_WrList") List<WriteDTO> list) throws Exception{
+		wser.updateWrList(list);
+		return new NexacroResult();
+	}
+	
+	//공지사항 삭제
+	@RequestMapping("deleteWrList.nexacro")
+	public NexacroResult updateWrList(@ParamDataSet(name = "in_WrDelete") WriteDTO dto) throws Exception{
+		wser.deleteWrList(dto);
+		return new NexacroResult();
+	}
+		
 	//전자결재 종류 관리 페이지로 이동
 	@RequestMapping("/nxAppTypeLoad.nexacro")
 	public NexacroResult nxAppTypeLoad() throws Exception {
