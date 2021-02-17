@@ -5,7 +5,15 @@
   <mapper namespace="Webhard">
   	<select id="personalDirIsExist" resultType="Integer">
 	  	select count(*) from st.webhard_access 
-	  	where (wh_id = #{sessionId}) and (wh_dir_type_code = 0)
+	  	where (wh_id = #{wh_id}) and (wh_dir_type_code = #{wh_dir_type_code})
+  	</select>
+  	<select id="commonDirIsExist" resultType="Integer">
+	  	select count(*) from st.webhard_access 
+	  	where (wh_id = #{wh_id}) and (wh_dir_type_code = #{wh_dir_type_code})
+  	</select>
+  	<select id="departmentDirIsExist" resultType="Integer">
+	  	select count(*) from st.webhard_access 
+	  	where (wh_id = #{wh_id}) and (wh_dir_type_code = #{wh_dir_type_code}) and (wh_dir_seq = #{wh_dir_seq})
   	</select>
   	<insert id="newDirMake">
   		insert into st.webhard_dir values(#{wh_dir_seq}, #{wh_dir_name}, #{wh_dir_parent_seq})
@@ -17,10 +25,25 @@
   		insert into st.webhard_access values(#{wh_id}, #{wh_dir_seq}, #{wh_dir_type_code})
   	</insert>
   	<select id="getTopDirInfo" resultType="java.util.HashMap">
-  		select acc.wh_id, acc.wh_dir_seq, acc.wh_dir_type_code, dir.wh_dir_name, dir.wh_dir_parent_seq from st.webhard_access acc, st.webhard_dir dir where (acc.wh_id = #{sessionId}) and (acc.wh_dir_type_code = 0) and (acc.wh_dir_seq = dir.wh_dir_seq) and (dir.wh_dir_parent_seq = 0)
+  		select acc.wh_id, acc.wh_dir_seq, acc.wh_dir_type_code, dir.wh_dir_name, dir.wh_dir_parent_seq from st.webhard_access acc, st.webhard_dir dir where (acc.wh_id = #{wh_id}) and (acc.wh_dir_type_code = #{wh_dir_type_code}) and (acc.wh_dir_seq = dir.wh_dir_seq) and (dir.wh_dir_parent_seq = 0)
+  	</select>
+  	<select id="getTopCommonDirInfo" resultType="java.util.HashMap">
+  		select acc.wh_id, acc.wh_dir_seq, acc.wh_dir_type_code, dir.wh_dir_name, dir.wh_dir_parent_seq from st.webhard_access acc, st.webhard_dir dir where (acc.wh_id = #{wh_id}) and (acc.wh_dir_type_code = #{wh_dir_type_code}) and (acc.wh_dir_seq = dir.wh_dir_seq) and (dir.wh_dir_parent_seq is null)
+  	</select>
+  	<select id="getTopDepartmentDirInfo" resultType="java.util.HashMap">
+  		select acc.wh_id, acc.wh_dir_seq, acc.wh_dir_type_code, dir.wh_dir_name, dir.wh_dir_parent_seq from st.webhard_access acc, st.webhard_dir dir where (acc.wh_id = #{wh_id}) and (acc.wh_dir_type_code = #{wh_dir_type_code}) and (acc.wh_dir_seq = dir.wh_dir_seq) and (dir.wh_dir_parent_seq = 2)
   	</select>
 	<insert id="uploadFile">
 		insert into st.webhard_files values(st.wh_files_seq.nextval, #{wh_dir_seq}, #{wh_ori_name}, #{wh_saved_name}, (SELECT CURRENT_DATE FROM DUAL))
 	</insert>
+	<select id="getDirFileList" resultType="kh.gw.dto.Webhard_filesDTO">
+		select * from st.webhard_files where (wh_dir_seq = #{dirSeq})
+	</select>
+	<select id="idInfomationGet" resultType="kh.gw.dto.MemberDTO">
+		select * from st.member where (id = #{sessionId})
+	</select>
+	<select id="deptInfomationGet" resultType="kh.gw.dto.DepartmentDTO">
+		select * from st.department where (dept_code = #{deptCode})
+	</select>
   
   </mapper>
