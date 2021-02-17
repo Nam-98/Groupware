@@ -115,20 +115,29 @@
 		        where rn between 1 and 5) seq 
 		where app.app_seq=seq.app_seq	
 	</select>
+	<select id="getAppCountToday" resultType="int">
+		select count(*) from (select * from st.approval where app_reg_date=(select current_date from dual));
+	</select>
+	<select id="getDocsTemplate" resultType="string">
+		select app_type_template from st.approval_type where app_type_code=#{app_type_code}
+	</select>
 	<!-- nexacro 전용 mybatis 구문 -->
 	<select id="nxAllDocsType" resultType="kh.gw.dto.Approval_typeDTO">
   		select * from st.approval_type order by app_type_code
   	</select>
   	<insert id="nxInsertDocs">
-  		insert into st.approval_type values(#{app_type_code},#{app_type_name})
+  		insert into st.approval_type values(#{app_type_code},#{app_type_name},#{app_type_template})
   	</insert>
   	<delete id="nxDeleteDocs">
-  		delete st.approval_type where app_type_code in 
-  		<foreach collection="list" item="seq" separator="," open="(" close=")">
-  			#{seq}
-  		</foreach>
+  		delete st.approval_type where app_type_code = #{app_type_code}
   	</delete>
   	<update id="nxUpdateDocs">
-  		update st.approval_type set app_type_name = #{app_type_name} where app_type_code = #{app_type_code}
+  		update st.approval_type set app_type_name = #{app_type_name}, app_type_template = #{app_type_template} where app_type_code = #{app_type_code}
   	</update>
+  	<select id="nxAppAllList" resultType="kh.gw.dto.ApprovalDTO">
+  		select app_seq,app_type_code,app_id,name,app_archive,app_title,app_contents,app_reg_date,app_docs_num,app_status_code from st.approval join st.member on (app_id=id)
+  	</select>
+  	<select id="nxAppStatusList" resultType="kh.gw.dto.Approval_statusDTO">
+  		select * from st.approval_status
+  	</select>
   </mapper>

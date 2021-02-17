@@ -105,7 +105,7 @@
 						<div class="panel-body">
 							<div class="row">
 								<div class="col-md-3">
-									<div class="metric">
+									<div class="metric goWebhard" style="cursor: pointer;">
 										<span class="icon"><i class="fas fa-inbox fa-4x"></i></span>
 										<p>
 											<span class="number">WebHard</span><span class="title">웹하드</span>
@@ -163,8 +163,7 @@
 
 									<div class="top-vacant d-none d-lg-block"></div>
 									<input type="button" value="출근하기" id="attendanceBtn"
-										class="btn btn-gray btn-xs"> <input type="button"
-										value="퇴근하기" id="leaveWorkBtn" class="btn btn-gray btn-xs">
+										class="btn btn-gray btn-xs"> <input type="button" value="퇴근하기" id="leaveWorkBtn" class="btn btn-gray btn-xs">
 									<hr>
 									<div class="">
 										<span class="glyphicon glyphicon-flag" aria-hidden="true">&nbsp<b>${attendanceValue.status }</b>&nbsp
@@ -379,7 +378,7 @@
 											<c:forEach var="i" items="${kgsMsgList}">
 												<tr>
 													<td>${i.msg_send_date}</td>
-													<th scope="row"><a href="/message/msgReceiveView.message?msg_seq=${i.msg_seq}&msg_receive_date_str=${msg_receive_date_str }">${i.msg_title}</a></th>
+													<th scope="row"><a href="/message/msgReceiveView.message?msg_seq=${i.msg_seq}&msg_receive_date_str=${msg_receive_date_str}">${i.msg_title}</a></th>
 													<td>${i.msg_sender_name}</td>
 												</tr>
 											</c:forEach>
@@ -433,6 +432,20 @@
 		<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
 	</div>
 	<!-- END WRAPPER -->
+	<script>
+		$('.goWebhard').on('click', function(){
+			var url = "/webhard/webhardMain.webhard";
+			var popupWidth = 1440;
+			var popupHeight = 810;
+			var popupX = (window.screen.width / 2) - (popupWidth / 2);
+			// 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주었음
+			var popupY = (window.screen.height / 2) - (popupHeight / 2) - 50;
+			// 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주었음
+			
+			var options='top='+popupY+', left='+popupX+', width='+popupWidth+', height='+popupHeight+', status=no, menubar=no, toolbar=no, resizable=no, location=no';
+			window.open(url,"popup",options);
+		})
+	</script>
 	<script>
       
     var tnaStatus;
