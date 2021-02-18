@@ -134,12 +134,19 @@ public class WebhardController {
 		}
 	}
 	
-//	// 새폴더 생성 중복체크
-//	@RequestMapping("mkdirOverlapCheck.webhard")
-//	@ResponseBody
-//	public String mkdirOverlapCheck(HttpServletRequest request, Model model) {
-//		
-//	}
+	// 새폴더 생성 중복체크
+	@RequestMapping("mkdirOverlapCheck.webhard")
+	@ResponseBody
+	public String mkdirOverlapCheck(HttpServletRequest request, Model model) {
+		String stringdirSeqGet = request.getParameter("dirSeq");
+		int dirSeq = Integer.parseInt(stringdirSeqGet);
+		String newFolderName = request.getParameter("newFolderName");
+		System.out.println(dirSeq);
+		System.out.println(newFolderName);
+		
+		return "";
+	}
+	
 	
 	
 	
