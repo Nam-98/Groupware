@@ -192,7 +192,9 @@ public class TnAService {
 	}
 	
 	public List<Map<String, Object>> getTnaCalendarList(String sessionId) {
-		return tdao.getTnaCalendarList(sessionId);
+		List<Map<String, Object>> result =  tdao.getTnaCalendarList(sessionId);
+		System.out.println("=====service다!!==="+result.size());
+		 return result;
 	}
 	
 	public Map<String, Object> getTnaCalendarValue(String sessionId, int tna_seq) {
@@ -324,6 +326,34 @@ public class TnAService {
 		
 		return sb.toString();
 	}
+	
+	//근태조정신청 list(관리자)
+	public List<Map<String, Object>> tnaHistory() throws Exception{
+		return tdao.tnaHistory();
+	}
+	
+	//근태 승인(출근용)
+	public int tnaStartApp(int tnaSeq, int finalChange) throws Exception {
+		return tdao.tnaStartApp(tnaSeq,finalChange);
+	}
+	//근태 승인(퇴근용)
+	public int tnaEndApp(int tnaSeq, int finalChange) throws Exception {		
+		return tdao.tnaEndApp(tnaSeq,finalChange);
+	}
+	//근태 승인(정정처리결과)
+	public int objApproval(int objSeq, int statusCode) throws Exception {
+		return tdao.objApproval(objSeq,statusCode);
+	}
+	
+	//근태 수정 요청
+	public int tnaReFixSubmit(String sessionId, int tna_seq, String tna_obj_status, int tna_obj_changed_code,
+			String tna_obj_reason) throws Exception {
+		return tdao.tnaReFixSubmit(sessionId,tna_seq,tna_obj_status,tna_obj_changed_code,tna_obj_reason);
+	}
+	
+	
+	
+	
 
 	
 }
