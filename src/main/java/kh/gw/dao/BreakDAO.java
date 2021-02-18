@@ -29,4 +29,16 @@ public class BreakDAO {
 	public int updateBreakType(Break_typeDTO dto) {
 		return db.update("Break.updateBreakType", dto);
 	}
+	
+	public int deleteBreakType(int break_code) {
+		return db.delete("Break.deleteBreakType",break_code);
+	}
+	
+	public int insertBreakType(Break_typeDTO dto) {
+		return db.insert("Break.insertBreakType",dto);
+	}
+	
+	public List<BreakDTO> loadHolidayList(String id){
+		return db.selectList("Break.loadHolidayList",id);
+	}
 }

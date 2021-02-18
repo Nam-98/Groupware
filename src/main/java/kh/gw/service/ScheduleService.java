@@ -7,7 +7,11 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.nexacro.uiadapter17.spring.core.annotation.ParamDataSet;
+import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
+
 import kh.gw.dao.ScheduleDAO;
+import kh.gw.dto.Company_holidayDTO;
 import kh.gw.dto.ScheduleDTO;
 import kh.gw.statics.BoardConfigurator;
 
@@ -119,5 +123,20 @@ public class ScheduleService {
 		return dateString.substring(0,10);
 	}
 	
- 
+	
+	public List<Company_holidayDTO> loadComHd(){
+		return sdao.loadComHd();
+	}
+	
+	public int inserthol(Company_holidayDTO dto) throws Exception{
+		return sdao.inserthol(dto);
+	}
+	
+	public int deleteComhd(int comp_hd_seq) {
+		return sdao.deleteComhd(comp_hd_seq);
+	}
+	
+	public int updateComhd(Company_holidayDTO dto) throws Exception{
+		return sdao.updateComhd(dto);
+	}
 }
