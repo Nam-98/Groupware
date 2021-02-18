@@ -12,4 +12,16 @@
   	<select id="getDiscount" resultType="_double">
   		select break_discount from st.break_type where break_code = #{value}
   	</select>
+  	
+  	<update id="updateBreakType">
+  		update st.break_type set break_name=#{break_name}, break_discount=#{break_discount} where break_code =#{break_code}
+  	</update>
+  	
+  	<delete id="deleteBreakType">
+  		delete from st.break_type where break_code= #{value}
+  	</delete>
+  	
+  	<insert id="insertBreakType">
+  		insert into st.break_type values(st.break_type_seq.nextval, #{break_name},#{break_discount})
+  	</insert>
   </mapper>

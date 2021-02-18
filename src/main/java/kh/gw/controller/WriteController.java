@@ -1,5 +1,7 @@
 package kh.gw.controller;
 
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,7 +46,8 @@ public class WriteController {
 		String cpage = request.getParameter("cpage");
 		List<WriteDTO>list = wservice.noticeByCpage(Integer.parseInt(cpage),"00");
 		String navi = wservice.noticeGetNavi(Integer.parseInt(cpage),"00");
-
+		wservice.addDateStr(list);
+		
 		m.addAttribute("list", list);
 		m.addAttribute("navi", navi);
 
@@ -56,8 +59,10 @@ public class WriteController {
 	public String noticeView(Model m, HttpServletRequest request, WriteDTO dto, Write_commentsDTO cdto) throws Exception{
 		dto.setWrite_seq(Integer.parseInt(request.getParameter("write_seq")));
 		WriteDTO dtos = wservice.noticeView(dto.getWrite_seq());
-
+		
+		wservice.addDateStrOne(dtos);
 		int result = wservice.addViewCount(dto.getWrite_seq()); // 조회수+1
+		
 		cdto.setWrite_seq(Integer.parseInt(request.getParameter("write_seq")));
 		List<Write_commentsDTO> list = new ArrayList<Write_commentsDTO>();
 		list = wservice.commentView(cdto.getWrite_seq());
@@ -65,6 +70,7 @@ public class WriteController {
 		m.addAttribute("dtos", dtos);
 		m.addAttribute("list", list);
 
+		System.out.println(dtos.getWrite_reg_date_wr());
 		return "/write/noticeview";
 	}
 
@@ -89,7 +95,8 @@ public class WriteController {
 		String cpage = request.getParameter("cpage");
 		List<WriteDTO>list = wservice.noticeByCpage(Integer.parseInt(cpage),"01");
 		String navi = wservice.systemNoticeGetNavi(Integer.parseInt(cpage),"01");
-
+		wservice.addDateStr(list);
+		
 		m.addAttribute("list", list);
 		m.addAttribute("navi", navi);
 
@@ -101,6 +108,7 @@ public class WriteController {
 	public String systemNoticeView(Model m, HttpServletRequest request, WriteDTO dto, Write_commentsDTO cdto) throws Exception{
 		dto.setWrite_seq(Integer.parseInt(request.getParameter("write_seq")));
 		WriteDTO dtos = wservice.noticeView(dto.getWrite_seq());
+		wservice.addDateStrOne(dtos);
 
 		int result = wservice.addViewCount(dto.getWrite_seq()); // 조회수+1
 
@@ -133,7 +141,8 @@ public class WriteController {
 		String cpage = request.getParameter("cpage");
 		List<WriteDTO>list = wservice.noticeByCpage(Integer.parseInt(cpage),"02");
 		String navi = wservice.noticeGetNavi(Integer.parseInt(cpage),"02");
-
+		wservice.addDateStr(list);
+		
 		m.addAttribute("list", list);
 		m.addAttribute("navi", navi);
 		session.setAttribute("cpage", cpage);
@@ -146,6 +155,7 @@ public class WriteController {
 	public String boardView(Model m, HttpServletRequest request, WriteDTO dto, Write_commentsDTO cdto) throws Exception{
 		dto.setWrite_seq(Integer.parseInt(request.getParameter("write_seq")));
 		WriteDTO dtos = wservice.noticeView(dto.getWrite_seq());
+		wservice.addDateStrOne(dtos);
 		int result = wservice.addViewCount(dto.getWrite_seq()); // 조회수+1
 		cdto.setWrite_seq(Integer.parseInt(request.getParameter("write_seq")));
 		List<Write_commentsDTO> list = new ArrayList<Write_commentsDTO>();
@@ -218,7 +228,8 @@ public class WriteController {
 		String cpage = request.getParameter("cpage");
 		List<WriteDTO>list = wservice.noticeByCpage(Integer.parseInt(cpage),"03");
 		String navi = wservice.noticeGetNavi(Integer.parseInt(cpage),"03");
-
+		wservice.addDateStr(list);
+		
 		m.addAttribute("list", list);
 		m.addAttribute("navi", navi);
 
@@ -233,6 +244,7 @@ public class WriteController {
 		dto.setWrite_seq(Integer.parseInt(request.getParameter("write_seq")));
 		WriteDTO dtos = wservice.noticeView(dto.getWrite_seq());
 
+		wservice.addDateStrOne(dtos);
 		int result = wservice.addViewCount(dto.getWrite_seq()); // 조회수+1
 		
 		cdto.setWrite_seq(Integer.parseInt(request.getParameter("write_seq")));
@@ -322,7 +334,7 @@ public class WriteController {
 			System.out.println("삭제됨");
 			
 		}else {
-			System.out.println("맘붐?");
+			System.out.println("붐?");
 			
 		}
 		Gson gson = new Gson();
@@ -360,5 +372,17 @@ public class WriteController {
 		String reCmtList = gson.toJson(map);
 		return reCmtList;
 	}
+		
+	//메인페이지 팝업 최신 1개만 내용 보이기
+		@RequestMapping("noticePopupView.write")
+		public String noticePopupView(Model m, HttpServletRequest request, WriteDTO dto) throws Exception{
+			String write_code = request.getParameter("write_code");
+			System.out.println("=============="+write_code);
+			List<WriteDTO> dtos = wservice.noticePopupView(write_code);
+			wservice.addDateStrTwo(dtos);
+			System.out.println("===========title======"+dtos.get(0).getWrite_title());
+			m.addAttribute("dtos", dtos);
+			return "/write/noticepopuplist";
+		}
 	
 }

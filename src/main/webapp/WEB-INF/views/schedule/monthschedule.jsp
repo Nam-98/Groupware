@@ -14,6 +14,7 @@
   align-items: center; // 수직 가운데 정렬
 }
 
+
 </style>
 <head>
 <meta charset="UTF-8">
@@ -66,24 +67,24 @@
          <div class="main-content">
             <div class="container-fluid">
                <h3 class="page-title">일정 관리 > 월간 일정</h3>
-               <div class="panel panel-headline demo-icons">
-                  <!-- pannel 내부의 제목 작성 div-->
-                  <div class="panel-heading">
-                  <h3 class="panel-title">뭐로 할까 여기는</h3>
+<!--                <div class="panel panel-headline demo-icons"> -->
+<!--                   pannel 내부의 제목 작성 div -->
+<!--                   <div class="panel-heading"> -->
+<!--                   <h3 class="panel-title">뭐로 할까 여기는</h3> -->
 
-                  </div>
-                  <div class="panel-body">
+<!--                   </div> -->
+<!--                   <div class="panel-body"> -->
 <!--                   <span id="currentTimeSpan"></span> -->
-                  <div class="">
+<!--                   <div class=""> -->
                      
-                  </div>
-                  <div class="">
+<!--                   </div> -->
+<!--                   <div class=""> -->
                      
-                  </div>
-                  <input type="button" class="btn btn-gray btn-xs"> 
-                  <input type="button" class="btn btn-gray btn-xs">
-			</div>               
-		</div>
+<!--                   </div> -->
+<!--                   <input type="button" class="btn btn-gray btn-xs">  -->
+<!--                   <input type="button" class="btn btn-gray btn-xs"> -->
+<!-- 			</div>                -->
+<!-- 		</div> -->
                <div class="panel panel-headline demo-icons">
                   <div class="panel-heading">
                   <h3 class="panel-title">월 간 일 정</h3>
@@ -134,15 +135,6 @@
 				    	  },
 				          </c:forEach>
 				      ],
-// 				     eventClick: function(info) {
-// 				    	info.jsEvent.preventDefault();
-// 				    		if (info.event.url) {
-// 				    			if(confirm("일정 리스트를 확인하겠습니까?")){
-// 				    		    	  var options='top=10, left=10, width=800, height=600, status=no, menubar=no, toolbar=no, resizable=no';
-// 					    		      window.open(info.event.url,"popup",options);
-// 				    			}
-// 				    		}
-// 				    	}
 				    }
 				]
 

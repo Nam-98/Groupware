@@ -7,51 +7,13 @@
 .panel-body div {
 	border: 1px solid black;
 }
-
-.tableBox {
-	width: 100%;
-	height: 280px;
-}
-
-.tableLine {
-	width: 100%;
-	height: 12%;
-}
-
-.tableLine>.tableTitle {
-	float: left;
-	width: 15%;
-	height: 100%;
-	text-align: center;
-}
-
-.tableLine>.tableValue {
-	float: left;
-	width: 85%;
-	height: 100%;
-}
-
-.tableReason {
-	height: 64%;
-}
-
-.tableValue>textarea {
-	resize: none;
-	width: 100%;
-	height: 100%;
-}
-
-.componentBox {
-	text-align: right;
-}
-
-#wrapper #sidebar-nav, #wrapper .main {
-	padding-top: 0px;
+.popupSpan {
+	cursor: pointer;
 }
 </style>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>웹하드</title>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <!-- 아이콘 fontawesome -->
 <script src="https://kit.fontawesome.com/b1e233372d.js"></script>
@@ -103,11 +65,38 @@
 					<div class="panel panel-headline demo-icons">
 						<!-- pannel 내부의 제목 작성 div-->
 						<div class="panel-body">
-						<form method="post" enctype="multipart/form-data" action="/webhard/uploadFile.webhard?dirSeq=${dirSeq }">
-							<input type="submit" value="upload">
-							<input type="button" value="download">
-							<input type="file" name="attfiles" multiple>
-						</form>
+							<div class="control">
+								<form method="post" enctype="multipart/form-data" action="/webhard/uploadFile.webhard?dirSeq=${dirSeq }">
+									<input type="submit" value="upload">
+									<input type="button" value="download" id="download-btn">
+									<input type="file" name="attfiles" multiple>
+									<input type= "button" value="새폴더 만들기" id="newFolder-btn">
+								</form>
+							</div>
+							<table class="table table-hover">
+								<thead>
+									<tr>
+										<th scope="col"><input class="form-check-input checkAll" type="checkbox" value="" id="flexCheckDefault"></th>
+										<th scope="col">파일번호</th>
+										<th scope="col">파일명</th>
+										<th scope="col">업로드일</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="i" items="${dirFileList}">
+										<tr>
+											<th scope="row"><input class="form-check-input checkObj" type="checkbox" value="${i.wh_files_seq}" name="chkList"></th>
+											<td>${i.wh_files_seq}</th>
+											<td>
+											<a href = "/webhard/attFilesDown.webhard?wh_files_seq=${i.wh_files_seq }&wh_ori_name=${i.wh_ori_name}&wh_saved_name=${i.wh_saved_name}"><i class="lnr lnr-file-empty"></i> ${i.wh_ori_name}</a>
+											
+											</td>
+											<td>${i.wh_upload_date}</td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+							
 						</div>
 					</div>
 
@@ -127,6 +116,41 @@
 		$(".main").css({
 			"padding-top": "0px"
 		});
+		$(".checkAll").on("click",function(){
+            if ($(".checkAll").is(':checked')) {
+                $("input[type=checkbox]").prop("checked", true);
+            } else {
+                $("input[type=checkbox]").prop("checked", false);
+            }
+		})
+		$(".checkObj").on("click",function(){
+			$(".checkAll").prop("checked", false);
+		})
+		$("#download-btn").on("click",function(){
+			  var chked_val = "";
+			  $(":checkbox[name='chkList']:checked").each(function(pi,po){
+			    chked_val += ","+po.value;
+			  });
+			  if(chked_val != "") {
+				  chked_val = chked_val.substring(1);
+			  }
+			  alert(chked_val)
+// 			  return chked_val;
+		})
+		$("#newFolder-btn").on("click",function(){
+			var newFolderName = prompt('새 폴더 이름을 입력해주세요.'); 
+			alert(inputString);
+			// 해당 디렉토리에 중복되는 폴더 이름이 있는지 확인
+			$.ajax({
+				url:'/webhard/mkdirOverlapCheck.webhard',
+				type:'post',
+				data:{dirSeq:"${dirSeq }", newFolderName:newFolderName},
+				success:function(resp){
+					alert("갔따옴")
+				}
+				
+			})
+		})
 	</script>
 </body>
 </html>

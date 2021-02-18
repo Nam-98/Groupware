@@ -49,7 +49,7 @@
 <script type="text/javascript">
         $(document).ready(function () {
             // create jqxtabs.
-            $('#jqxtabs').jqxTabs({ width: 700, height: 225 });
+            $('#jqxtabs').jqxTabs({ width: 600, height: 225 });
             $('#jqxtabs').bind('selected', function (event) {
                 var item = event.args.item;
                 var title = $('#jqxtabs').jqxTabs('getTitleAt', item);
@@ -105,7 +105,7 @@
 						<div class="panel-body">
 							<div class="row">
 								<div class="col-md-3">
-									<div class="metric">
+									<div class="metric goWebhard" style="cursor: pointer;">
 										<span class="icon"><i class="fas fa-inbox fa-4x"></i></span>
 										<p>
 											<span class="number">WebHard</span><span class="title">웹하드</span>
@@ -149,10 +149,10 @@
 					<!-- END MainMenu -->
 					<div class="row">
 
-						<div class="col-md-4">
+						<div class="col-md-2">
 							<div class="panel">
 								<div class="panel-heading">
-									<h3 class="panel-title">Commuting check</h3>
+									<h3 class="panel-title"><span class="glyphicon glyphicon-leaf" aria-hidden="true"></span>Commuting check</h3>
 									<div class="right"></div>
 								</div>
 								<div class="panel-body">
@@ -163,8 +163,7 @@
 
 									<div class="top-vacant d-none d-lg-block"></div>
 									<input type="button" value="출근하기" id="attendanceBtn"
-										class="btn btn-gray btn-xs"> <input type="button"
-										value="퇴근하기" id="leaveWorkBtn" class="btn btn-gray btn-xs">
+										class="btn btn-gray btn-xs"> <input type="button" value="퇴근하기" id="leaveWorkBtn" class="btn btn-gray btn-xs">
 									<hr>
 									<div class="">
 										<span class="glyphicon glyphicon-flag" aria-hidden="true">&nbsp<b>${attendanceValue.status }</b>&nbsp
@@ -192,11 +191,11 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-md-8">
+						<div class="col-md-5">
 							<!-- TASKS -->
 							<div class="panel">
 								<div class="panel-heading">
-									<h3 class="panel-title">e-Approval</h3>
+									<h3 class="panel-title"><b>e-Approval</b></h3>
 									<div class="right"></div>
 								</div>
 								<div class="panel-body">
@@ -210,20 +209,20 @@
 												<table class="table table-hover">
 													<thead>
 														<tr>
-															<th scope="col">#</th>
+															<th scope="col" class="visible-lg hidden-sm">#</th>
 															<th scope="col">제 목</th>
-															<th scope="col">기안자(ID)</th>
-															<th scope="col">기안날짜</th>
+															<th scope="col" class="visible-lg hidden-sm">기안자(ID)</th>
+															<th scope="col" class="visible-lg hidden-sm">기안날짜</th>
 															<th scope="col">문서상태</th>
 														</tr>
 													</thead>
 													<tbody>
 														<c:forEach var="i" items="${knrWriteList}">
 															<tr class='dataRow'>
-																<th scope="row">${i.app_docs_num}<input type=hidden value="${i.app_seq}"></th>
+																<th scope="row"  class="visible-lg hidden-sm">${i.app_docs_num}<input type=hidden value="${i.app_seq}"></th>
 																<td>${i.app_title}</td>
-																<td>${i.name}</td>
-																<td>${i.app_reg_date}</td>
+																<td class="visible-lg hidden-sm">${i.name}</td>
+																<td class="visible-lg hidden-sm">${i.app_reg_date}</td>
 																<td>${i.app_status_name}</td>
 															</tr>
 														</c:forEach>
@@ -270,8 +269,50 @@
 									</div>
 								</div>
 							</div>
-							<!-- END TASKS -->
 						</div>
+										<div class="col-md-5">
+							<div class="panel">
+								<div class="panel-heading">
+									<h3 class="panel-title">Notice</h3>
+									<div class="right"></div>
+								</div>
+								<div class="panel-body">
+									<table class="table table-secondary table-striped">
+										<thead class="table-light">
+											<tr>
+												<th scope="col">No</th>
+												<th scope="col">제목</th>
+												<th scope="col">작성자</th>
+												<th scope="col">등록일</th>
+												<th scope="col">조회수</th>
+											</tr>
+										</thead>
+										<tbody>
+											<c:forEach var="i" items="${wlist }">
+												<tr>
+													<th scope="row">${i.rn }</th>
+													<td><a href="noticeView.write?write_seq=${i.write_seq}">${i.write_title }</a></td>
+													<td>${i.write_id }</td>
+													<td>${i.write_reg_date_wr }</td>
+													<td>${i.write_read_count }</td>
+												</tr>
+											</c:forEach>
+										</tbody>
+									</table>
+								</div>
+								<div class="panel-footer">
+									<div class="row">
+										<div class="col-md-6">
+											
+										</div>
+										<div class="col-md-6 text-right">
+											<a href="/write/noticeList.write?cpage=1" class="btn btn-primary">Go</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+							<!-- END TASKS -->
 					</div>
 					<div class="row">
 						<div class="col-md-4">
@@ -337,7 +378,7 @@
 											<c:forEach var="i" items="${kgsMsgList}">
 												<tr>
 													<td>${i.msg_send_date}</td>
-													<th scope="row"><a href="/message/msgReceiveView.message?msg_seq=${i.msg_seq}&msg_receive_date_str=${msg_receive_date_str }">${i.msg_title}</a></th>
+													<th scope="row"><a href="/message/msgReceiveView.message?msg_seq=${i.msg_seq}&msg_receive_date_str=${msg_receive_date_str}">${i.msg_title}</a></th>
 													<td>${i.msg_sender_name}</td>
 												</tr>
 											</c:forEach>
@@ -391,6 +432,20 @@
 		<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
 	</div>
 	<!-- END WRAPPER -->
+	<script>
+		$('.goWebhard').on('click', function(){
+			var url = "/webhard/webhardMain.webhard";
+			var popupWidth = 1440;
+			var popupHeight = 810;
+			var popupX = (window.screen.width / 2) - (popupWidth / 2);
+			// 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주었음
+			var popupY = (window.screen.height / 2) - (popupHeight / 2) - 50;
+			// 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주었음
+			
+			var options='top='+popupY+', left='+popupX+', width='+popupWidth+', height='+popupHeight+', status=no, menubar=no, toolbar=no, resizable=no, location=no';
+			window.open(url,"popup",options);
+		})
+	</script>
 	<script>
       
     var tnaStatus;
@@ -473,6 +528,7 @@
       window.onload = function() {
          printTime();
       }
+
    </script>
 	<script>
 	  document.addEventListener('DOMContentLoaded', function() {
@@ -512,6 +568,13 @@
 			console.log($(this).children().first().children("input").val());
 			location.href="/approval/toAppDetailView.approval?app_seq="+$(this).children().first().children("input").val()
 		});
+	</script>
+	
+	<script>
+		window.onload=function(){
+			 var options='top=10, left=10, width=500, height=500, status=no, menubar=no, toolbar=no, resizable=no';
+		     window.open("/write/noticePopupView.write?write_code=0" ,"popup", options);
+		}
 	</script>
 </body>
 </html>
