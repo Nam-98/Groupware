@@ -2,8 +2,10 @@ package kh.gw.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,8 +28,11 @@ import kh.gw.service.BreakService;
 import kh.gw.service.DepartmentService;
 import kh.gw.service.MemberService;
 import kh.gw.service.PositionService;
+import kh.gw.service.TnAService;
 import kh.gw.service.ScheduleService;
 import kh.gw.service.WriteService;
+import kh.gw.statics.TnAConfigurator;
+
 @Controller
 @RequestMapping("/nex")
 public class AdminController {
@@ -47,7 +52,13 @@ public class AdminController {
 	private WriteService wser;
 	
 	@Autowired
+	private TnAService tservice;
+	
+	@Autowired
 	private BreakService bser;
+
+	@Autowired
+	private HttpSession session;
 	
 	@Autowired
 	private ScheduleService sser;
@@ -106,12 +117,36 @@ public class AdminController {
 	}
 	
 	//공지사항 글 작성
-	@RequestMapping("insertWrtie.nexacro")
+	@RequestMapping("insertWrite.nexacro")
 	public NexacroResult insertWrite(@ParamDataSet(name = "ds_in") WriteDTO dto) throws Exception{
+		String id = (String)session.getAttribute("id");
+		dto.setWrite_id(id);
 		wser.insertWrite(dto);
 		return new NexacroResult();
 	}
 	
+	//write 테이블 로드
+		@RequestMapping("loadWrList.nexacro")
+		public NexacroResult loadWr() throws Exception {
+			NexacroResult nr = new NexacroResult();
+			nr.addDataSet("ds_out",wser.listWr());
+			return nr;
+		}
+		
+	//공지사항 수정
+	@RequestMapping("updateWrList.nexacro")
+	public NexacroResult updateWrList(@ParamDataSet(name = "in_WrList") List<WriteDTO> list) throws Exception{
+		wser.updateWrList(list);
+		return new NexacroResult();
+	}
+	
+	//공지사항 삭제
+	@RequestMapping("deleteWrList.nexacro")
+	public NexacroResult updateWrList(@ParamDataSet(name = "in_WrDelete") WriteDTO dto) throws Exception{
+		wser.deleteWrList(dto);
+		return new NexacroResult();
+	}
+		
 	//전자결재 종류 관리 페이지로 이동
 	@RequestMapping("/nxAppTypeLoad.nexacro")
 	public NexacroResult nxAppTypeLoad() throws Exception {
@@ -135,6 +170,46 @@ public class AdminController {
 		return nr;
 	}
 	
+	//근태조정신청 list
+	@RequestMapping("/tnaHistory.nexacro")
+	public NexacroResult tnaHistory() throws Exception{
+		NexacroResult nr = new NexacroResult();
+		List<Map<String, Object>> tnaHistory = tservice.tnaHistory();
+		nr.addDataSet("ds_out",tnaHistory);
+		return nr;
+	}
+	
+	//근태조정신청 승인
+	@RequestMapping("/tnaHistoryApproval.nexacro")
+	public NexacroResult tnaHistoryApproval(@ParamVariable(name="statusCode")int statusCode,@ParamVariable(name="objSeq")int objSeq,@ParamVariable(name="finalChange")int finalChange,@ParamVariable(name="tnaSeq")int tnaSeq,@ParamVariable(name="objStatus")String objStatus) throws Exception {
+		NexacroResult nr = new NexacroResult();
+		//tna테이블 출퇴근구분을 통해서 출근구분코드 혹은 퇴근구분코드 변경(tnaSeq,objStatus,finalChange)
+		//tna_objection테이블 처리상태 변경(objSeq,statusCode)
+		
+		if(objStatus.contentEquals("start")) {
+			int tnaApproval = tservice.tnaStartApp(tnaSeq,finalChange);
+			int objApproval = tservice.objApproval(objSeq,statusCode);
+			System.out.println("Stna결과 : " + tnaApproval);
+			System.out.println("Stna결과 : " + objApproval);
+		}else {
+			int tnaApproval = tservice.tnaEndApp(tnaSeq,finalChange);
+			int objApproval = tservice.objApproval(objSeq,statusCode);
+			System.out.println("Etna결과 : " + tnaApproval);
+			System.out.println("Etna결과 : " + objApproval);
+			
+		};
+		return nr;
+	}
+	
+	//근태조정신청 반려
+	@RequestMapping("/tnaHistoryReturn.nexacro")
+	public NexacroResult tnaHistoryReturn(@ParamVariable(name="statusCode")int statusCode,@ParamVariable(name="objSeq")int objSeq) throws Exception{
+		NexacroResult nr = new NexacroResult();
+		int objApproval = tservice.objApproval(objSeq,statusCode);
+		System.out.println("반려결과 : " + objApproval);
+		return nr;
+	}
+
 	//breaktype테이블 로드
 	@RequestMapping("loadBreakType.nexacro")
 	public NexacroResult loadBreakType() throws Exception {
@@ -243,7 +318,7 @@ public class AdminController {
 	public String returnHome() throws Exception {
 		return "redirect:/";
 	}
-	
+
 	// error
 	@ExceptionHandler
 	public String exceptionalHandler(Exception e) {

@@ -117,7 +117,7 @@ a { text-decoration:none }
 								<th scope="row">${i.rn }</th>
 								<td><a href="systemNoticeView.write?write_seq=${i.write_seq}">${i.write_title }</a></td>
 								<td>${i.write_id }</td>
-								<td>${i.write_reg_date }</td>
+								<td>${i.write_reg_date_wr }</td>
 								<td>${i.write_read_count }</td>
 							</tr>
 						</c:forEach>
