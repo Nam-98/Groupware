@@ -140,6 +140,11 @@ public class AdminController {
 		nr.setErrorCode(aservice.nxDelDocsType(app_type_code));
 		return nr;
 	}
+	@RequestMapping("/nxDeptAdd.nexacro")
+	public NexacroResult nxDeptAdd(@ParamVariable(name="sRtn")String sRtn) {
+		NexacroResult nr = new NexacroResult();
+		
+	}
 	// error
 	@ExceptionHandler
 	public String exceptionalHandler(Exception e) {

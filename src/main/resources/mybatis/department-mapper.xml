@@ -6,4 +6,7 @@
   	<select id="listDept" resultType = "kh.gw.dto.DepartmentDTO">
 		select * from st.department
 	</select>
+	<insert id="nxDeptAdd">
+		insert into st.department values(st.dept_seq.nextval, #{dept_name},null,#{dept_level},#{dept_code_parent})
+	</insert>
   </mapper>
