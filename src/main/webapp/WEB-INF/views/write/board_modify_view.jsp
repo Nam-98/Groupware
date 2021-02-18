@@ -139,8 +139,9 @@
 								제목 : <input type="text" name="write_title" style="width: 40%;" value="${dto.write_title }" placeholder="제목을 입력하세요."/><br><br>
 								작성자 : <input type="text" name="write_id" style="width: 20%;" value="${id}" readonly/> <br><br>
 								<textarea id="summernote" name="write_contents">${dto.write_contents }</textarea>
-								<input id="subBtn" type="button" value="수정 완료" style="float: right;" onclick="goWrite(this.form)" /> 
-								<input id="delBtn" type="button" value="수정 취소" style="float: right;">
+								<input id="delBtn" type="button" class="btn btn-primary" value="수정 취소" style="float: right;">
+								<input id="subBtn" type="button" class="btn btn-primary" value="수정 완료" style="float: right;" onclick="goWrite(this.form)" /> 
+								
 							</form>
 						</div>
 					</div>
