@@ -37,4 +37,8 @@ public class BreakDAO {
 	public int insertBreakType(Break_typeDTO dto) {
 		return db.insert("Break.insertBreakType",dto);
 	}
+	
+	public List<BreakDTO> loadHolidayList(String id){
+		return db.selectList("Break.loadHolidayList",id);
+	}
 }

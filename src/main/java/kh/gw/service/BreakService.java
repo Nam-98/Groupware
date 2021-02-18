@@ -44,4 +44,8 @@ public class BreakService {
 	public void insertBreakType(Break_typeDTO dto) {
 		bdao.insertBreakType(dto);
 	}
+	
+	public List<BreakDTO> loadHolidayList(String id){
+		return bdao.loadHolidayList(id);
+	}
 }

@@ -24,4 +24,8 @@
   	<insert id="insertBreakType">
   		insert into st.break_type values(st.break_type_seq.nextval, #{break_name},#{break_discount})
   	</insert>
+  	
+  	<select id="loadHolidayList" resultType="kh.gw.dto.BreakDTO">
+  		select * from st.break where break_id =#{value}
+  	</select>
   </mapper>

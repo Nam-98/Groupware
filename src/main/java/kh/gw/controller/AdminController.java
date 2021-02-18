@@ -305,6 +305,19 @@ public class AdminController {
 		nr.setErrorCode(aservice.nxDelDocsType(app_type_code));
 		return nr;
 	}
+	
+	//holidaylist테이블 로드
+	@RequestMapping("/loadHolidayList.nexacro")
+	public NexacroResult loadHolidayList(@ParamVariable(name="argu0")String id) throws Exception {
+		NexacroResult nr = new NexacroResult();
+		nr.addDataSet("ds_out",bser.loadHolidayList(id));
+		return nr;
+	}
+	
+	@RequestMapping("returnHome.nexacro")
+	public String returnHome() throws Exception {
+		return "redirect:/";
+	}
 
 	// error
 	@ExceptionHandler
