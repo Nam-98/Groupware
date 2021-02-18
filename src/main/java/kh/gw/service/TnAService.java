@@ -192,7 +192,9 @@ public class TnAService {
 	}
 	
 	public List<Map<String, Object>> getTnaCalendarList(String sessionId) {
-		return tdao.getTnaCalendarList(sessionId);
+		List<Map<String, Object>> result =  tdao.getTnaCalendarList(sessionId);
+		System.out.println("=====service다!!==="+result.size());
+		 return result;
 	}
 	
 	public Map<String, Object> getTnaCalendarValue(String sessionId, int tna_seq) {
@@ -341,6 +343,12 @@ public class TnAService {
 	//근태 승인(정정처리결과)
 	public int objApproval(int objSeq, int statusCode) throws Exception {
 		return tdao.objApproval(objSeq,statusCode);
+	}
+	
+	//근태 수정 요청
+	public int tnaReFixSubmit(String sessionId, int tna_seq, String tna_obj_status, int tna_obj_changed_code,
+			String tna_obj_reason) throws Exception {
+		return tdao.tnaReFixSubmit(sessionId,tna_seq,tna_obj_status,tna_obj_changed_code,tna_obj_reason);
 	}
 	
 	

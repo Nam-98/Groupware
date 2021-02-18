@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import kh.gw.dto.TnADTO;
 import kh.gw.dto.TnA_objectionDTO;
 import kh.gw.dto.TnA_statusDTO;
 import kh.gw.service.TnAService;
@@ -38,6 +39,8 @@ public class TnAController {
 		Map<String, Object> attendanceValue = tservice.getAttendanceTime(sessionId);
 		// 퇴근시간 조회
 		Map<String, Object> leaveWorkValue = tservice.getLeaveWorkTime(sessionId);
+		
+		
 		// 출퇴근시간 리스트 조회
 		List<Map<String, Object>> tnaCalendarList = tservice.getTnaCalendarList(sessionId);
 		//		System.out.println(tnaCalendarList.get(0).get("TNA_SEQ"));
@@ -46,6 +49,8 @@ public class TnAController {
 		//		System.out.println(tnaCalendarList.get(0).get("TNA_END_TIME"));
 		//		System.out.println(tnaCalendarList.get(0).get("TNA_STATUS_CODE"));
 		//		System.out.println(tnaCalendarList.get(0).get("TNA_STATUS_NAME"));
+		
+		
 
 		model.addAttribute("attendanceValue", attendanceValue);
 		model.addAttribute("leaveWorkValue", leaveWorkValue);
@@ -132,20 +137,21 @@ public class TnAController {
 		// 근태상태 리스트 값 조회
 		List<TnA_statusDTO> tnaStatusList = tservice.getTnaStatusList();
 
-
 		model.addAttribute("tnaStatusList", tnaStatusList);
 		model.addAttribute("tnaCalendarValue", tnaCalendarValue);
 		model.addAttribute("tna_status", tna_status);
 
 		if (dto != null) {
 			model.addAttribute("dto", dto);
-			if(tna_obj_proc_status_name.contentEquals("승인")) {
-
-				return "/tna/user/tnaFixOverlap";
-			}else {
-
-				return "/tna/user/tnaReFix";
+			if(tna_obj_proc_status_name != null) {
+				if(tna_obj_proc_status_name.contentEquals("승인")) {
+	
+					return "/tna/user/tnaFixOverlap";
+				}
 			}
+
+			return "/tna/user/tnaReFix";
+			
 		}
 
 		return "/tna/user/tnaFixRequest";
@@ -210,6 +216,20 @@ public class TnAController {
 		return "/tna/user/tnaFixHistory";
 	}
 
+	// 근태조정신청서 수정 할 경우(반려 혹은 조정중일때)
+	@RequestMapping("tnaReFixSubmit.tna")
+	public String tnaReFixSubmit(HttpServletRequest request, Model model) throws Exception{
+		String sessionId = (String)session.getAttribute("id");//아이디값
+		int tna_seq = Integer.parseInt(request.getParameter("tna_seq")); //시퀀스값
+		String tna_obj_status = (String)request.getParameter("tna_obj_status"); //출/퇴상태값
+		int tna_obj_changed_code = Integer.parseInt(request.getParameter("tna_obj_changed_code"));//변경요청상태
+		String tna_obj_reason = request.getParameter("tna_obj_reason");
+		
+		int result = tservice.tnaReFixSubmit(sessionId,tna_seq,tna_obj_status,tna_obj_changed_code,tna_obj_reason);
+		System.out.println("====="+result);
+		return "/tna/user/tnaReFixResult";
+		
+	}
 
 
 

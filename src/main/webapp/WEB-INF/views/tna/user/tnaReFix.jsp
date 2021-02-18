@@ -72,7 +72,7 @@
 						</div>
 						<div class="panel-body">
 						
-						<form action="/tna/tnaFixRequestSubmit.tna" method="post" id="formBox">
+						<form action="/tna/tnaReFixSubmit.tna" method="post" id="formBox">
 							<table class="table table-hover">
 								<thead>
 									<tr>
@@ -104,6 +104,10 @@
 														<c:if test='${list.tna_status_code == dto.TNA_OBJ_CHANGED_CODE}'>
 															<option value="${list.tna_status_code }" selected>${list.tna_status_name }</option>
 														</c:if>
+														<c:if test='${list.tna_status_code != dto.TNA_OBJ_CHANGED_CODE}'>
+															<option value="${list.tna_status_code }">${list.tna_status_name }</option>
+														</c:if>
+														
 													</c:forEach>
 												</select>
 												
@@ -120,11 +124,15 @@
 							</table>
 							<div class="componentBox">
 							
-								<input type="submit" class="btn btn-gray btn-xs" value="수정"
+								<input type="submit" class="btn btn-primary btn-xs" value="수정"
 									id="tnaReFix">
 								<input type="button" class="btn btn-gray btn-xs" value="닫기"
 									id="tnaFixCancel">
 							</div>
+							
+							<input id="" type="hidden" value="${dto.TNA_SEQ }" name="tna_seq">
+							<input id="" type="hidden" value="${dto.TNA_OBJ_STATUS}" name="tna_obj_status">
+							
 							</form>
 						</div>
 					</div>

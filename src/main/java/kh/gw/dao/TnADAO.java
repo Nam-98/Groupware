@@ -45,7 +45,9 @@ public class TnADAO {
 	}
 	
 	public List<Map<String, Object>> getTnaCalendarList(String sessionId) {
-		return db.selectList("TnA.getTnaCalendarList", sessionId);
+		List<Map<String, Object>> result = db.selectList("TnA.getTnaCalendarList", sessionId);
+		System.out.println("=====dao다!!==="+result.size());
+		 return result;
 	}
 	
 	public Map<String, Object> getTnaCalendarValue(Map<String, Object> param) {
@@ -147,6 +149,17 @@ public class TnADAO {
 		param.put("objSeq", objSeq);
 		param.put("statusCode", statusCode);
 		return db.update("TnA.objApproval",param);
+	}
+
+	public int tnaReFixSubmit(String sessionId, int tna_seq, String tna_obj_status, int tna_obj_changed_code,
+			String tna_obj_reason) throws Exception{
+		Map<String, Object> param = new HashMap<>();
+		param.put("sessionId", sessionId);
+		param.put("tna_seq", tna_seq);
+		param.put("tna_obj_status", tna_obj_status);
+		param.put("tna_obj_changed_code", tna_obj_changed_code);
+		param.put("tna_obj_reason", tna_obj_reason);
+		return db.update("TnA.tnaReFixSubmit",param);
 	}
 	
 	
