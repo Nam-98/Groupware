@@ -152,7 +152,7 @@
 						<div class="col-md-4">
 							<div class="panel">
 								<div class="panel-heading">
-									<h3 class="panel-title"><span class="glyphicon glyphicon-leaf" aria-hidden="true"></span>Commuting check</h3>
+									<h3 class="panel-title"><b>Commuting check</b></h3>
 									<div class="right"></div>
 								</div>
 								<div class="panel-body">
@@ -276,7 +276,7 @@
 						<div class="col-md-4">
 							<div class="panel">
 								<div class="panel-heading">
-									<h3 class="panel-title">My Projects</h3>
+									<h3 class="panel-title"><b>My Projects</b></h3>
 									<div class="right"></div>
 								</div>
 								<div class="panel-body">
@@ -319,7 +319,7 @@
 
 								<div class="panel-heading">
 									<h3 class="panel-title">
-										Inbox&nbsp<span class="badge rounded-pill bg-danger">${kgsMsgCount}</span>
+										<b>Inbox&nbsp</b><span class="badge rounded-pill bg-danger">${kgsMsgCount}</span>
 									</h3>
 									<div class="right"></div>
 								</div>
@@ -360,7 +360,7 @@
 						<div class="col-md-4">
 							<div class="panel">
 								<div class="panel-heading">
-									<h3 class="panel-title">Schedule</h3>
+									<h3 class="panel-title"><b>Schedule</b></h3>
 									<div class="right"></div>
 								</div>
 								<div class="panel-body">
@@ -525,6 +525,13 @@
 			console.log($(this).children().first().children("input").val());
 			location.href="/approval/toAppDetailView.approval?app_seq="+$(this).children().first().children("input").val()
 		});
+		
+	      setTimeout(function() {
+	                 $("#jqxtabs").css({
+	                    "width": "100%"
+	                 })
+	              }, 300
+	        );
 	</script>
 </body>
 </html>
