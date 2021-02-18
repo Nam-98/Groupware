@@ -77,6 +77,10 @@
 	가운데
 	정렬
 }
+
+.metric:hover{
+	opacity:0.5;
+}
 </style>
 <body>
 	<!-- WRAPPER -->
