@@ -30,7 +30,6 @@ html, body {
 }
 
 .card {
-	margin-top : 150px;
 	height: 370px;
 	width: 400px;
 	background-color: rgba(0, 0, 0, 0.5) !important;
