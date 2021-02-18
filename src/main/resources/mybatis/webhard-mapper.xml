@@ -39,6 +39,9 @@
 	<select id="getDirFileList" resultType="kh.gw.dto.Webhard_filesDTO">
 		select * from st.webhard_files where (wh_dir_seq = #{dirSeq})
 	</select>
+	<select id="getDirFolderList" resultType="kh.gw.dto.Webhard_dirDTO">
+		select * from st.webhard_dir where (wh_dir_parent_seq = #{dirSeq})
+	</select>
 	<select id="idInfomationGet" resultType="kh.gw.dto.MemberDTO">
 		select * from st.member where (id = #{sessionId})
 	</select>

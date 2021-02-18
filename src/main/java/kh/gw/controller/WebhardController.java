@@ -34,13 +34,18 @@ public class WebhardController {
 	private HttpSession session;
 	
 	// 웹하드 접속 (개인 디렉토리)
-	@RequestMapping(value = {"webhardMain.webhard", "personalWebhardDir.webhard"})
+	@RequestMapping("webhardMain.webhard")
 	public String webhardMain(HttpServletRequest request, Model model) {
 		// 세션 id값 가져오기
 		String sessionId = (String)session.getAttribute("id");
 		// 접속할 디렉토리 번호
 		String stringdirSeqGet = request.getParameter("dirSeq");
-		int dirSeq;
+		// 개인/부서/공용 어느곳으로 접속할지 변수
+		String status = request.getParameter("status");
+		if (status == null) {
+			status = "personal";
+		}
+		int dirSeq = 1;
 		
 		
 		// 최초 웹하드 접속시 개인 폴더 생성
@@ -50,84 +55,39 @@ public class WebhardController {
 		if (stringdirSeqGet != null) {
 			dirSeq = Integer.parseInt(stringdirSeqGet);
 		}else {
-			// 개인 최상위 디렉토리 정보값 가져옴
-			Map<String,Object> info = whservice.getTopDirInfo(sessionId);
-			// 개인 최상위 디렉토리 번호값 가져옴
-			dirSeq = Integer.parseInt(String.valueOf(info.get("WH_DIR_SEQ")));
+			// 개인 디렉토리 접속
+			if (status.contentEquals("personal")) {
+				// 개인 최상위 디렉토리 정보값 가져옴
+				Map<String,Object> info = whservice.getTopDirInfo(sessionId);
+				// 개인 최상위 디렉토리 번호값 가져옴
+				dirSeq = Integer.parseInt(String.valueOf(info.get("WH_DIR_SEQ")));
+			// 부서 디렉토리 접속
+			}else if (status.contentEquals("department")) {
+				// 부서 최상위 디렉토리 정보값 가져옴
+				Map<String,Object> info = whservice.getTopDepartmentDirInfo(sessionId);
+				// 공용 최상위 디렉토리 번호값 가져옴
+				dirSeq = Integer.parseInt(String.valueOf(info.get("WH_DIR_SEQ")));
+			// 공용 디렉토리 접속
+			}else if (status.contentEquals("common")) {
+				// 공용 최상위 디렉토리 정보값 가져옴
+				Map<String,Object> info = whservice.getTopCommonDirInfo(sessionId);
+				// 공용 최상위 디렉토리 번호값 가져옴
+				dirSeq = Integer.parseInt(String.valueOf(info.get("WH_DIR_SEQ")));
+			}
+
 		}
-		// 폴더 리스트 가져오기
-		List<Webhard_dirDTO> dirFolderList = whservice.getDirFileList(dirSeq);
+//		// 폴더 리스트 가져오기
+		List<Webhard_dirDTO> dirFolderList = whservice.getDirFolderList(dirSeq);
 		// 파일 리스트 가져오기
 		List<Webhard_filesDTO> dirFileList = whservice.getDirFileList(dirSeq);
 		
+		model.addAttribute("dirFolderList", dirFolderList);
 		model.addAttribute("dirFileList", dirFileList);
 		model.addAttribute("dirSeq", dirSeq);
 		
 		return "/webhard/webhardMain";
 	}
 	
-	// 웹하드 접속 (공용 디렉토리)
-	@RequestMapping(value = {"commonWebhardDir.webhard"})
-	public String commonWebhardDir(HttpServletRequest request, Model model) {
-		// 세션 id값 가져오기
-		String sessionId = (String)session.getAttribute("id");
-		// 접속할 디렉토리 번호
-		String stringdirSeqGet = request.getParameter("dirSeq");
-		int dirSeq;
-		
-		
-		// 최초 공용 디렉토리 접속 시 할당
-		whservice.commonDirAssign(sessionId);
-		
-		
-		if (stringdirSeqGet != null) {
-			dirSeq = Integer.parseInt(stringdirSeqGet);
-		}else {
-			// 공용 최상위 디렉토리 정보값 가져옴
-			Map<String,Object> info = whservice.getTopCommonDirInfo(sessionId);
-			// 공용 최상위 디렉토리 번호값 가져옴
-			dirSeq = Integer.parseInt(String.valueOf(info.get("WH_DIR_SEQ")));
-		}
-		
-		List<Webhard_filesDTO> dirFileList = whservice.getDirFileList(dirSeq);
-		
-		model.addAttribute("dirFileList", dirFileList);
-		model.addAttribute("dirSeq", dirSeq);
-		
-		return "/webhard/webhardMain";
-	}
-	
-	
-	// 웹하드 접속 (부서 디렉토리)
-	@RequestMapping(value = {"departmentWebhardDir.webhard"})
-	public String departmentWebhardDir(HttpServletRequest request, Model model) {
-		// 세션 id값 가져오기
-		String sessionId = (String)session.getAttribute("id");
-		// 접속할 디렉토리 번호
-		String stringdirSeqGet = request.getParameter("dirSeq");
-		int dirSeq;
-		
-		
-		// 최초 부서 디렉토리 접속 시 할당
-		whservice.departmentDirAssign(sessionId);
-		
-		
-		if (stringdirSeqGet != null) {
-			dirSeq = Integer.parseInt(stringdirSeqGet);
-		}else {
-			// 부서 최상위 디렉토리 정보값 가져옴
-			Map<String,Object> info = whservice.getTopDepartmentDirInfo(sessionId);
-			// 공용 최상위 디렉토리 번호값 가져옴
-			dirSeq = Integer.parseInt(String.valueOf(info.get("WH_DIR_SEQ")));
-		}
-		
-		List<Webhard_filesDTO> dirFileList = whservice.getDirFileList(dirSeq);
-		
-		model.addAttribute("dirFileList", dirFileList);
-		model.addAttribute("dirSeq", dirSeq);
-		
-		return "/webhard/webhardMain";
-	}
 	
 	// 파일 업로드
 	@RequestMapping("uploadFile.webhard")
