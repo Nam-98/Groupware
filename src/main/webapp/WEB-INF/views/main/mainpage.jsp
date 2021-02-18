@@ -303,7 +303,6 @@
 								<div class="panel-footer">
 									<div class="row">
 										<div class="col-md-6">
-											
 										</div>
 										<div class="col-md-6 text-right">
 											<a href="/write/noticeList.write?cpage=1" class="btn btn-primary">Go</a>

@@ -85,7 +85,7 @@ a { text-decoration:none }
 							<th scope="col" class="col-7">제목 : ${dtos.get(0).write_title }<input id="brWriteId" type="hidden" value="${dtos.get(0).write_seq }"></th>
 							<th scope="col" class="col-2">작성자 : ${dtos.get(0).write_id } <input id="loginId" type="hidden" value="${sessionScope.id}"></th>
 							<th scope="col" class="col-2">작성일 : ${dtos.get(0).write_reg_date_wr }</th>
-							<th scope="col" class="col-1">조회수 : ${dtos.get(0).write_read_count }</th>
+<%-- 							<th scope="col" class="col-1">조회수 : ${dtos.get(0).write_read_count }</th> --%>
 						</tr>
 					</thead>
 					<tbody>

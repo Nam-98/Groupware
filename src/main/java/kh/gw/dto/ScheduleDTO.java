@@ -13,20 +13,8 @@ public class ScheduleDTO {
 	private String sch_start_date_sc;
 	private String sch_end_date_sc;
 	
-	public ScheduleDTO() {}
-	public ScheduleDTO(int sch_seq, String sch_title, String sch_contents, Date sch_start_date, Date sch_end_date,
-			String sch_type, String sch_id, String sch_start_date_sc, String sch_end_date_sc) {
-		super();
-		this.sch_seq = sch_seq;
-		this.sch_title = sch_title;
-		this.sch_contents = sch_contents;
-		this.sch_start_date = sch_start_date;
-		this.sch_end_date = sch_end_date;
-		this.sch_type = sch_type;
-		this.sch_id = sch_id;
-		this.sch_start_date_sc = sch_start_date_sc;
-		this.sch_end_date_sc = sch_end_date_sc;
-	}
+	private String sch_start_date_converter;
+	private String sch_end_date_converter;
 	public int getSch_seq() {
 		return sch_seq;
 	}
@@ -81,4 +69,35 @@ public class ScheduleDTO {
 	public void setSch_end_date_sc(String sch_end_date_sc) {
 		this.sch_end_date_sc = sch_end_date_sc;
 	}
+	public String getSch_start_date_converter() {
+		return sch_start_date_converter;
+	}
+	public void setSch_start_date_converter(String sch_start_date_converter) {
+		this.sch_start_date_converter = sch_start_date_converter;
+	}
+	public String getSch_end_date_converter() {
+		return sch_end_date_converter;
+	}
+	public void setSch_end_date_converter(String sch_end_date_converter) {
+		this.sch_end_date_converter = sch_end_date_converter;
+	}
+	public ScheduleDTO(int sch_seq, String sch_title, String sch_contents, Date sch_start_date, Date sch_end_date,
+			String sch_type, String sch_id, String sch_start_date_sc, String sch_end_date_sc,
+			String sch_start_date_converter, String sch_end_date_converter) {
+		super();
+		this.sch_seq = sch_seq;
+		this.sch_title = sch_title;
+		this.sch_contents = sch_contents;
+		this.sch_start_date = sch_start_date;
+		this.sch_end_date = sch_end_date;
+		this.sch_type = sch_type;
+		this.sch_id = sch_id;
+		this.sch_start_date_sc = sch_start_date_sc;
+		this.sch_end_date_sc = sch_end_date_sc;
+		this.sch_start_date_converter = sch_start_date_converter;
+		this.sch_end_date_converter = sch_end_date_converter;
+	}
+	
+	public ScheduleDTO() {}
+
 }
