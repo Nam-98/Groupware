@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import kh.gw.dto.Message_attached_filesDTO;
+import kh.gw.dto.Webhard_dirDTO;
 import kh.gw.dto.Webhard_filesDTO;
 import kh.gw.service.WebhardService;
 
@@ -54,7 +55,9 @@ public class WebhardController {
 			// 개인 최상위 디렉토리 번호값 가져옴
 			dirSeq = Integer.parseInt(String.valueOf(info.get("WH_DIR_SEQ")));
 		}
-		
+		// 폴더 리스트 가져오기
+		List<Webhard_dirDTO> dirFolderList = whservice.getDirFileList(dirSeq);
+		// 파일 리스트 가져오기
 		List<Webhard_filesDTO> dirFileList = whservice.getDirFileList(dirSeq);
 		
 		model.addAttribute("dirFileList", dirFileList);
