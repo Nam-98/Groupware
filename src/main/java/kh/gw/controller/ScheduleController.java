@@ -98,7 +98,7 @@ public class ScheduleController {
 	@RequestMapping("addSchedule.schedule")
 	public String addSchedule(HttpServletRequest request, ScheduleDTO dto, int condition, int condition2) throws Exception{
 		
-		System.out.println(condition + " : " + condition2);
+//		System.out.println(condition + " : " + condition2);
 		
 		dto.setSch_start_date(new SimpleDateFormat("yyyy-MM-dd").parse(dto.getSch_start_date_sc()));
 		dto.setSch_end_date(new SimpleDateFormat("yyyy-MM-dd").parse(dto.getSch_end_date_sc()));
@@ -121,12 +121,12 @@ public class ScheduleController {
 		dto.setSch_end_date(plusEndDate);
 		
 
-		System.out.println(dto.getSch_start_date());
-		System.out.println(dto.getSch_start_date_sc());
-		System.out.println(System.currentTimeMillis());
-		System.out.println(sch_start_date);
-		System.out.println(plusStartDate);
-		System.out.println(plusEndDate);
+//		System.out.println(dto.getSch_start_date());
+//		System.out.println(dto.getSch_start_date_sc());
+//		System.out.println(System.currentTimeMillis());
+//		System.out.println(sch_start_date);
+//		System.out.println(plusStartDate);
+//		System.out.println(plusEndDate);
 
 		int result = sservice.insertSchedule(dto);
 		
