@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회사 게시판</title>
+<title>공지사항</title>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <!-- 아이콘 fontawesome -->
     <script src="https://kit.fontawesome.com/b1e233372d.js"></script>
@@ -55,100 +55,54 @@ a { text-decoration:none }
 	float: left;
 }
 
-table {
-	text-align: center;
-}
-
-.navi {
-	text-align: center;
-}
-#write{
-	position:relative;
-	left:947px;
-}
 </style>
 
 </head>
 <body>
 	<!-- WRAPPER -->
-	<div id="wrapper">
+<!-- 	<div id="wrapper"> -->
 		<!-- NAVBAR -->
-		<nav class="navbar navbar-default navbar-fixed-top">
-			<jsp:include page="/WEB-INF/views/commonPage/top.jsp"/>
-		</nav>
+<!-- 		<nav class="navbar navbar-default navbar-fixed-top"> -->
+<%-- 			<jsp:include page="/WEB-INF/views/commonPage/top.jsp"/> --%>
+<!-- 		</nav> -->
 		<!-- END NAVBAR -->
 		<!-- LEFT SIDEBAR -->
-		<div class="sidebar" id="sidebar-nav">
-			<jsp:include page="/WEB-INF/views/commonPage/left.jsp"/>
-		</div>
+<!-- 		<div class="sidebar" id="sidebar-nav"> -->
+<%-- 			<jsp:include page="/WEB-INF/views/commonPage/left.jsp"/> --%>
+<!-- 		</div> -->
 		<!-- END LEFT SIDEBAR -->
 		<!-- MAIN -->
 		<div class="main">
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 class="page-title">회사 게시판</h3>
+					<h3 class="page-title">공지사항</h3>
 					<div class="maincontainer">
-			<form action="boardSearch.write?cpage=1" method="post">
-				<table>
-					<tr>
-						<td>
-						<select id="condition" name="condition">
-<!-- 							<option value="">검색조건</option> -->
-<!-- 							<option value="">전체보기</option> -->
-							<option value="write_title">제목</option>
-							<option value="write_id">작성자</option>
-						</select>
-						<input type="text" name="keyword" id="keyword" placeholder="검색어를 입력하세요">
-						<button id="searchBtn" type="submit">검색</button>
-<!-- 						<input class="form-control me" type="search" aria-label="Search"  name="keyword" id="keyword" placeholder="검색어를 입력하세요"> -->
-<!-- 						<button id="searchBtn" class="btn btn-outline-success" type="submit">검색</button> -->
-						</td>
-					</tr>
-				</table>
-			 </form>
 
-				<table class="table table-secondary table-striped">
-					<thead class="table-light">
+				<table class="table">
+					<thead>
 						<tr>
-							<th scope="col">No</th>
-							<th scope="col">제목</th>
-							<th scope="col">작성자</th>
-							<th scope="col">등록일</th>
-							<th scope="col">조회수</th>
+							<th scope="col" class="col-7">제목 : ${dtos.get(0).write_title }<input id="brWriteId" type="hidden" value="${dtos.get(0).write_seq }"></th>
+							<th scope="col" class="col-2">작성자 : ${dtos.get(0).write_id } <input id="loginId" type="hidden" value="${sessionScope.id}"></th>
+							<th scope="col" class="col-2">작성일 : ${dtos.get(0).write_reg_date_wr }</th>
+							<th scope="col" class="col-1">조회수 : ${dtos.get(0).write_read_count }</th>
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="i" items="${list }">
-							<tr>
-								<th scope="row">${i.rn }</th>
-								<td><a href="boardView.write?write_seq=${i.write_seq}">${i.write_title }</a></td>
-								<td>${i.write_id }</td>
-								<td>${i.write_reg_date_wr }</td>
-								<td>${i.write_read_count }</td>
-							</tr>
-						</c:forEach>
+						<tr>
+							<td class="contents" colspan="4">${dtos.get(0).write_contents }</td>
+						</tr>
 					</tbody>
 				</table>
-				<button id="write" class="btn btn-primary">글쓰기</button>
-				<div class="navi">${navi }</div>
 			</div>
-		</div>
-	</div>
-	
-	<script>
-		document.getElementById("write").onclick=function(){
-			location.href="/write/boardWrite.write";
-		}
-	</script>
 				</div>
 			</div>
 			<!-- END MAIN CONTENT -->
 		</div>
 		<!-- END MAIN -->
-		<div class="clearfix"></div>
-<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
-	</div>
+<!-- 		<div class="clearfix"></div> -->
+<%-- <jsp:include page="/WEB-INF/views/commonPage/footer.jsp" /> --%>
+<!-- 	</div> -->
 	<!-- END WRAPPER -->
 </body>
 </html>

@@ -1,5 +1,7 @@
 package kh.gw.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,11 +16,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import kh.gw.dto.MessageDTO;
 import kh.gw.dto.Project_kanbanDTO;
 import kh.gw.dto.ScheduleDTO;
+import kh.gw.dto.WriteDTO;
+import kh.gw.dto.Write_commentsDTO;
 import kh.gw.service.ApprovalService;
 import kh.gw.service.MessageService;
 import kh.gw.service.ProjectService;
 import kh.gw.service.ScheduleService;
 import kh.gw.service.TnAService;
+import kh.gw.service.WriteService;
 
 
 @Controller
@@ -26,6 +31,9 @@ public class HomeController {
 	
 	@Autowired
 	private HttpSession session;
+	
+	@Autowired
+	private WriteService wservice;
 	
 	@Autowired
 	private ApprovalService aservice;
@@ -80,14 +88,20 @@ public class HomeController {
 
 			//(최재준)
 			//월간일정완성되면 달력에 띄울수 있도록리스트 받아주기
-			//공지사항 리스트 최근 3개
 			List<ScheduleDTO> list = sservice.listAllSchedule(id);
 			sservice.addDateStr(list);
 			model.addAttribute("list", list);
 			
+			//공지사항 리스트 최근 3개
+			int cpage = 1;
+			
+			List<WriteDTO>wlist = wservice.noticePopupList(cpage,"00");
+			wservice.addDateStr(wlist);
+			model.addAttribute("wlist", wlist);
+			
+			
 			//(김근수)
 			//수신쪽지 리스트 최신 5?
-			int cpage = 1;
 			List<MessageDTO> kgsMsgList = mservice.kgsMsgList(id,cpage);
 			model.addAttribute("kgsMsgList",kgsMsgList);
 			//안읽은 총 갯수

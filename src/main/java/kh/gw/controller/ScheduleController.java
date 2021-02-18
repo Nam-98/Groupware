@@ -92,8 +92,8 @@ public class ScheduleController {
 		dto.setSch_start_date(new SimpleDateFormat("yyyy-MM-dd").parse(dto.getSch_start_date_sc()));
 		dto.setSch_end_date(new SimpleDateFormat("yyyy-MM-dd").parse(dto.getSch_end_date_sc()));
 		System.out.println(dto.getSch_start_date());
-		int result = sservice.insertSchedule(dto);
-		return "/schedule/schedulelist?cpage=1"; // 수정해야함
+		int result = sservice.insertSchedule(dto);// 수정해야함
+		return "/schedule/addscheduleview";
 	}
 	
 	//------------- 일정 리스트 페이지 들어가기

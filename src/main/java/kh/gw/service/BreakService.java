@@ -33,9 +33,15 @@ public class BreakService {
 		return bdao.insertBreak(dto);
 	}
 	
-	public void updateBreakType(List<Break_typeDTO> list) {
-		for(Break_typeDTO dto : list) {
+	public void updateBreakType(Break_typeDTO dto) {
 		bdao.updateBreakType(dto);
-		}
+	}
+	
+	public void deleteBreakType(int break_code) {
+		bdao.deleteBreakType(break_code);
+	}
+	
+	public void insertBreakType(Break_typeDTO dto) {
+		bdao.insertBreakType(dto);
 	}
 }
