@@ -98,7 +98,7 @@
 													${i.TNA_OBJ_TIME }</span> 
 													<script>
 										$('#link${i.TNA_SEQ}${i.TNA_OBJ_STATUS}').on('click', function(){
-											var url = "/tna/tnaFixRequestPage.tna?tna_seq=${i.TNA_SEQ}&tna_status=${i.TNA_OBJ_STATUS}";
+											var url = "/tna/tnaFixRequestPage.tna?tna_seq=${i.TNA_SEQ}&tna_status=${i.TNA_OBJ_STATUS}&tna_obj_proc_status_name=${i.TNA_OBJ_PROC_STATUS_NAME}";
 											var popupWidth = 800;
 											var popupHeight = 600;
 											var popupX = (window.screen.width / 2) - (popupWidth / 2);
