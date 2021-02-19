@@ -35,24 +35,8 @@
 }
 a { text-decoration:none } 
 
-.right-side {
-	width: 1020px;
-	height: 720px;
-	position: fixed;
-	top: 0px;
-	left: 260px;
-}
-
-.top-vacant {
-	width: 1020px;
-	height: 20px;
-	background-color: yellow;
-}
-
-.page-name {
-	width: 510px;
-	height: 50px;
-	float: left;
+.page-title{
+	margin-top: 30px;
 }
 
 </style>
@@ -60,49 +44,39 @@ a { text-decoration:none }
 </head>
 <body>
 	<!-- WRAPPER -->
-<!-- 	<div id="wrapper"> -->
-		<!-- NAVBAR -->
-<!-- 		<nav class="navbar navbar-default navbar-fixed-top"> -->
-<%-- 			<jsp:include page="/WEB-INF/views/commonPage/top.jsp"/> --%>
-<!-- 		</nav> -->
-		<!-- END NAVBAR -->
-		<!-- LEFT SIDEBAR -->
-<!-- 		<div class="sidebar" id="sidebar-nav"> -->
-<%-- 			<jsp:include page="/WEB-INF/views/commonPage/left.jsp"/> --%>
-<!-- 		</div> -->
-		<!-- END LEFT SIDEBAR -->
+	<div id="wrapper">
 		<!-- MAIN -->
+		<div class="panel">
+		<h3 class="page-title">공지사항</h3>
 		<div class="main">
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 class="page-title">공지사항</h3>
 					<div class="maincontainer">
-
-				<table class="table">
-					<thead>
-						<tr>
-							<th scope="col" class="col-7">제목 : ${dtos.get(0).write_title }<input id="brWriteId" type="hidden" value="${dtos.get(0).write_seq }"></th>
-							<th scope="col" class="col-2">작성자 : ${dtos.get(0).write_id } <input id="loginId" type="hidden" value="${sessionScope.id}"></th>
-							<th scope="col" class="col-2">작성일 : ${dtos.get(0).write_reg_date_wr }</th>
-<%-- 							<th scope="col" class="col-1">조회수 : ${dtos.get(0).write_read_count }</th> --%>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td class="contents" colspan="4">${dtos.get(0).write_contents }</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
+						<table class="table">
+							<thead>
+								<tr>
+									<th scope="col" class="col-7">제목 : ${dtos.get(0).write_title }<input id="brWriteId" type="hidden" value="${dtos.get(0).write_seq }"></th>
+									<th scope="col" class="col-2">작성자 : ${dtos.get(0).write_id } <input id="loginId" type="hidden" value="${sessionScope.id}"></th>
+									<th scope="col" class="col-2">작성일 : ${dtos.get(0).write_reg_date_wr }</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="contents" colspan="4">${dtos.get(0).write_contents }</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 			<!-- END MAIN CONTENT -->
 		</div>
 		<!-- END MAIN -->
-<!-- 		<div class="clearfix"></div> -->
-<%-- <jsp:include page="/WEB-INF/views/commonPage/footer.jsp" /> --%>
-<!-- 	</div> -->
+		<div class="clearfix"></div>
+			<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
+	</div>
+	</div>
 	<!-- END WRAPPER -->
 </body>
 </html>
