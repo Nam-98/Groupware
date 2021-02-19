@@ -135,7 +135,7 @@ public class ScheduleController {
 
 		int result = sservice.insertSchedule(dto);
 		
-		return "/schedule/addscheduleview";
+		return "redirect:/schedule/daySchedule.schedule?cpage="+session.getAttribute("cpage");
 	}
 	
 	//------------- 일정 리스트 페이지 들어가기
