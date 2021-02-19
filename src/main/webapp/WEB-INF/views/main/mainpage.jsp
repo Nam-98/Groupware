@@ -530,6 +530,9 @@
       // 페이지 로드와 동시에 실행
       window.onload = function() {
          printTime();
+         
+         var options='top=10, left=10, width=500, height=500, status=no, menubar=no, toolbar=no, resizable=no';
+	     window.open("/write/noticePopupView.write?write_code=0" ,"notice", options);
       }
 
    </script>
@@ -578,13 +581,6 @@
 	                 })
 	              }, 300
 	        );
-	</script>
-	
-	<script>
-		window.onload=function(){
-			 var options='top=10, left=10, width=500, height=500, status=no, menubar=no, toolbar=no, resizable=no';
-		     window.open("/write/noticePopupView.write?write_code=0" ,"notice", options);
-		}
 	</script>
 </body>
 </html>

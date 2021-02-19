@@ -9,6 +9,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kh.gw.dto.TnA_StandardTimeDTO;
 import kh.gw.dto.TnADTO;
 import kh.gw.dto.TnA_objectionDTO;
 import kh.gw.dto.TnA_statusDTO;
@@ -160,6 +161,18 @@ public class TnADAO {
 		param.put("tna_obj_changed_code", tna_obj_changed_code);
 		param.put("tna_obj_reason", tna_obj_reason);
 		return db.update("TnA.tnaReFixSubmit",param);
+	}
+	
+	public TnA_StandardTimeDTO tnaStandardTime(){
+		return db.selectOne("TnA.tnaStandardTime");
+	}
+
+	public int tnaUpdateTime(String att_time, String lea_time, String nig_time) throws Exception {
+		Map<String, String> param = new HashMap<>();
+		param.put("att_time", att_time);
+		param.put("lea_time", lea_time);
+		param.put("nig_time", nig_time);
+		return db.update("TnA.tnaUpdateTime",param);
 	}
 	
 	
