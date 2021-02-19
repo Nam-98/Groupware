@@ -101,13 +101,13 @@ public class ScheduleController {
 	
 	//------------ 일정추가하기 made by 이 상 형
 	@RequestMapping("addSchedule.schedule")
-	public String addSchedule(HttpServletRequest request, ScheduleDTO dto, int condition, int condition2) throws Exception{
+	public String addSchedule(HttpServletRequest request, ScheduleDTO dto, int condition, int condition2, int condition3, int condition4) throws Exception{
 		
 //		System.out.println(condition + " : " + condition2);
 		
 		dto.setSch_start_date(new SimpleDateFormat("yyyy-MM-dd").parse(dto.getSch_start_date_sc()));
 		dto.setSch_end_date(new SimpleDateFormat("yyyy-MM-dd").parse(dto.getSch_end_date_sc()));
-		System.out.println(dto.getSch_start_date());
+//		System.out.println(dto.getSch_start_date());
 		
 		//long 형 변수에 dto에서 불러온 시작날짜(date형) 값 대입
 		long sch_start_date = dto.getSch_start_date().getTime();
@@ -115,7 +115,7 @@ public class ScheduleController {
 		
 		//long 형 변수에 가져올 시간 값을 초단위로 바꾼 값을 더한다.
 		sch_start_date = sch_start_date + ((3600 * condition) + (60 * condition2)) * 1000;
-		sch_end_date = sch_end_date + ((3600 * condition) + (60 * condition2)) * 1000;
+		sch_end_date = sch_end_date + ((3600 * condition3) + (60 * condition4)) * 1000;
 		
 		//long 형 변수를 date 형으로 변환
 		Date plusStartDate = new Date(sch_start_date);
@@ -126,16 +126,16 @@ public class ScheduleController {
 		dto.setSch_end_date(plusEndDate);
 		
 
-		System.out.println(dto.getSch_start_date());
-		System.out.println(dto.getSch_start_date_sc());
-		System.out.println(System.currentTimeMillis());
-		System.out.println(sch_start_date);
-		System.out.println(plusStartDate);
-		System.out.println(plusEndDate);
+//		System.out.println(dto.getSch_start_date());
+//		System.out.println(dto.getSch_start_date_sc());
+//		System.out.println(System.currentTimeMillis());
+//		System.out.println(sch_start_date);
+//		System.out.println(plusStartDate);
+//		System.out.println(plusEndDate);
 
 		int result = sservice.insertSchedule(dto);
 		
-		return "/schedule/monthschedule";
+		return "/schedule/addscheduleview";
 	}
 	
 	//------------- 일정 리스트 페이지 들어가기
