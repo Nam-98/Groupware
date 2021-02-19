@@ -116,7 +116,7 @@
 		where app.app_seq=seq.app_seq	
 	</select>
 	<select id="getAppCountToday" resultType="int">
-		select count(*) from (select * from st.approval where app_reg_date=(select current_date from dual));
+		select count(*) from (select * from st.approval where app_reg_date=(select current_date from dual))
 	</select>
 	<select id="getDocsTemplate" resultType="string">
 		select app_type_template from st.approval_type where app_type_code=#{app_type_code}

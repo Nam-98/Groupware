@@ -4,6 +4,39 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="Department">
   	<select id="listDept" resultType = "kh.gw.dto.DepartmentDTO">
-		select * from st.department
+		select * from st.department order by dept_tree_code
+	</select>
+	<select id="getNewCode" resultType="int">
+		 select st.dept_seq.nextval from dual
+	</select>
+	<insert id="nxDeptAdd">
+		insert into st.department values(#{dept_code},#{dept_name},#{dept_dir_id},#{dept_level},
+		<choose>
+			<when test="dept_level eq 1">
+				null,
+			</when>
+			<otherwise>
+				#{dept_code_parent},
+			</otherwise>
+		</choose>
+		#{dept_tree_code})
+	</insert>
+	<delete id="nxDeptDel">
+		delete from st.department where dept_code=#{dept_code}
+	</delete>
+	<update id="nxDeptUdt">
+		update st.department set dept_name=#{dept_name}, dept_level=#{dept_level}, dept_code_parent=
+		<choose>
+			<when test="dept_level eq 1">
+				null,
+			</when>
+			<otherwise>
+				#{dept_code_parent},
+			</otherwise>
+		</choose>
+		dept_tree_code=#{dept_tree_code} where dept_code=#{dept_code}
+	</update>
+	<select id="nxGetDeptDir" resultType="int">
+		select dept_dir_id from st.department where dept_code=#{dept_code}
 	</select>
   </mapper>

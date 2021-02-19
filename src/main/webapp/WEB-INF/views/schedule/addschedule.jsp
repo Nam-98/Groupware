@@ -115,7 +115,7 @@
 												</select>분 <br><br>
 												
 												종료 일자 : &nbsp<input type="date" id="date2" name="sch_end_date_sc" size="12"/>&nbsp&nbsp&nbsp
-												<select id="hour2" name="condition">
+												<select id="hour2" name="condition3">
 													<option value="6">6</option>
 													<option value="7">7</option>
 													<option value="8">8</option>
@@ -134,7 +134,7 @@
 													<option value="21">21</option>
 													<option value="22">22</option>
 												</select>시
-												<select id="min2" name="condition">
+												<select id="min2" name="condition4">
 													<option value="00">00</option>
 													<option value="10">10</option>
 													<option value="20">20</option>

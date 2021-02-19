@@ -21,6 +21,7 @@ import com.nexacro17.xapi.data.DataSet;
 import kh.gw.dto.Approval_typeDTO;
 import kh.gw.dto.Break_typeDTO;
 import kh.gw.dto.Company_holidayDTO;
+import kh.gw.dto.DepartmentDTO;
 import kh.gw.dto.MemberDTO;
 import kh.gw.dto.TnA_StandardTimeDTO;
 import kh.gw.dto.WriteDTO;
@@ -304,6 +305,24 @@ public class AdminController {
 	public NexacroResult nxAppTypeDelete(@ParamVariable(name="app_seq")int app_type_code) throws Exception {
 		NexacroResult nr = new NexacroResult();
 		nr.setErrorCode(aservice.nxDelDocsType(app_type_code));
+		return nr;
+	}
+	@RequestMapping("/nxDeptAdd.nexacro")
+	public NexacroResult nxDeptAdd(@ParamDataSet(name="ds_in")DepartmentDTO dto) {
+		NexacroResult nr = new NexacroResult();
+		nr.setErrorCode(dser.nxDeptAdd(dto));
+		return nr;
+	}
+	@RequestMapping("/nxDeptUdt.nexacro")
+	public NexacroResult nxDeptUdt(@ParamDataSet(name="ds_in")DepartmentDTO dto) {
+		NexacroResult nr = new NexacroResult();
+		nr.setErrorCode(dser.nxDeptUdt(dto));
+		return nr;
+	}
+	@RequestMapping("/nxDeptDel.nexacro")
+	public NexacroResult nxDeptDel(@ParamVariable(name="dept_code")int dept_code) {
+		NexacroResult nr = new NexacroResult();
+		nr.setErrorCode(dser.nxDeptDel(dept_code));
 		return nr;
 	}
 	
