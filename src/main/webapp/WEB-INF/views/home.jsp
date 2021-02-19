@@ -30,7 +30,6 @@ html, body {
 }
 
 .card {
-	margin-top : 150px;
 	height: 370px;
 	width: 400px;
 	background-color: rgba(0, 0, 0, 0.5) !important;
@@ -61,6 +60,15 @@ html, body {
 .login_btn:hover {
 	color: black;
 	background-color: white;
+}
+.form-check-label
+{
+	margin-right: 200px;
+	
+}
+.container{
+	position : relative;
+	top: 200px;
 }
 </style>
 
@@ -95,7 +103,9 @@ html, body {
 							in</button>
 					</div>
 				</div>
+			
 			</div>
+			
 		</div>
 	</form>
 	<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>

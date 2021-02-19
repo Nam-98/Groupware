@@ -1,108 +1,122 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>근태관리</title>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <!-- 아이콘 fontawesome -->
-    <script src="https://kit.fontawesome.com/b1e233372d.js"></script>
-   <!-- VENDOR CSS -->
-   <link rel="stylesheet" href="/assets/vendor/bootstrap/css/bootstrap.min.css">
-   <link rel="stylesheet" href="/assets/vendor/font-awesome/css/font-awesome.min.css">
-   <link rel="stylesheet" href="/assets/vendor/linearicons/style.css">
-   <link rel="stylesheet" href="/assets/vendor/chartist/css/chartist-custom.css">
-   <!-- MAIN CSS -->
-   <link rel="stylesheet" href="/assets/css/main.css">
-   <!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
-   <link rel="stylesheet" href="/assets/css/demo.css">
-   <!-- GOOGLE FONTS -->
-   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
-   <!-- ICONS -->
-   <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicon.png">
-    <script src="/assets/vendor/jquery/jquery.min.js"></script>
-   <script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
-   <script src="/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-   <script src="/assets/vendor/chartist/js/chartist.min.js"></script>
-   <script src="/assets/scripts/klorofil-common.js"></script>
-   <!-- Calendar -->
-   <link href='/resources/lib/fullcalendar/main.css' rel='stylesheet' />
-    <script src='/resources/lib/fullcalendar/main.js'></script>
+<!-- 아이콘 fontawesome -->
+<script src="https://kit.fontawesome.com/b1e233372d.js"></script>
+<!-- VENDOR CSS -->
+<link rel="stylesheet"
+	href="/assets/vendor/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="/assets/vendor/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/assets/vendor/linearicons/style.css">
+<link rel="stylesheet"
+	href="/assets/vendor/chartist/css/chartist-custom.css">
+<!-- MAIN CSS -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
+<link rel="stylesheet" href="/assets/css/demo.css">
+<!-- GOOGLE FONTS -->
+<link
+	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700"
+	rel="stylesheet">
+<!-- ICONS -->
+<link rel="apple-touch-icon" sizes="76x76"
+	href="/assets/img/apple-icon.png">
+<link rel="icon" type="image/png" sizes="96x96"
+	href="/assets/img/favicon.png">
+<script src="/assets/vendor/jquery/jquery.min.js"></script>
+<script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<script src="/assets/vendor/chartist/js/chartist.min.js"></script>
+<script src="/assets/scripts/klorofil-common.js"></script>
+<!-- Calendar -->
+<link href='/resources/lib/fullcalendar/main.css' rel='stylesheet' />
+<script src='/resources/lib/fullcalendar/main.js'></script>
 </head>
 <style>
-
 </style>
 <body>
-   <!-- WRAPPER -->
-   <div id="wrapper">
-      <!-- NAVBAR -->
-      <nav class="navbar navbar-default navbar-fixed-top">
-         <jsp:include page="/WEB-INF/views/commonPage/top.jsp"/>
-      </nav>
-      <!-- END NAVBAR -->
-      <!-- LEFT SIDEBAR -->
-      <div class="sidebar" id="sidebar-nav">
-         <jsp:include page="/WEB-INF/views/commonPage/left.jsp"/>
-      </div>
-      <!-- END LEFT SIDEBAR -->
-      <!-- MAIN -->
-      <div class="main">
-         <!-- MAIN CONTENT -->
-         <div class="main-content">
-            <div class="container-fluid">
-               <h3 class="page-title">My TnA</h3>
-               <div class="panel panel-headline demo-icons">
-                  <!-- pannel 내부의 제목 작성 div-->
-                  <div class="panel-heading">
-                  <h1 class="panel-title"><span id="currentTimeSpan"></span></h1>
-                  </div>
-                  <div class="panel-body">
-                  <input type="button" value="출근하기" id="attendanceBtn" class="btn btn-gray btn-xs"><input type="button" value="퇴근하기" id="leaveWorkBtn" class="btn btn-gray btn-xs">
-                  <hr> 
-                  <div class="">
-                     <span class="glyphicon glyphicon-flag" aria-hidden="true">&nbsp<b>${attendanceValue.status }</b>&nbsp</span>
-                     <c:if test='${attendanceValue.status != "-"}'>
+	<!-- WRAPPER -->
+	<div id="wrapper">
+		<!-- NAVBAR -->
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<jsp:include page="/WEB-INF/views/commonPage/top.jsp" />
+		</nav>
+		<!-- END NAVBAR -->
+		<!-- LEFT SIDEBAR -->
+		<div class="sidebar" id="sidebar-nav">
+			<jsp:include page="/WEB-INF/views/commonPage/left.jsp" />
+		</div>
+		<!-- END LEFT SIDEBAR -->
+		<!-- MAIN -->
+		<div class="main">
+			<!-- MAIN CONTENT -->
+			<div class="main-content">
+				<div class="container-fluid">
+					<h3 class="page-title">My TnA</h3>
+					<div class="panel panel-headline demo-icons">
+						<!-- pannel 내부의 제목 작성 div-->
+						<div class="panel-heading">
+							<h1 class="panel-title">
+								<span id="currentTimeSpan"></span>
+							</h1>
+						</div>
+						<div class="panel-body">
+							<input type="button" value="출근하기" id="attendanceBtn"
+								class="btn btn-gray btn-xs"><input type="button"
+								value="퇴근하기" id="leaveWorkBtn" class="btn btn-gray btn-xs">
+							<hr>
+							<div class="">
+								<span class="glyphicon glyphicon-flag" aria-hidden="true">&nbsp<b>${attendanceValue.status }</b>&nbsp
+								</span>
+								<c:if test='${attendanceValue.status != "-"}'>
                         ${attendanceValue.hour }시
                         ${attendanceValue.minute }분
                      </c:if>
 
-                  </div>
-<hr>
-                  <div class="">
-                    <span class="glyphicon glyphicon-home" aria-hidden="true">&nbsp<b>${leaveWorkValue.status }</b>&nbsp</span>
-                     <c:if test='${leaveWorkValue.status != "-"}'>
+							</div>
+							<hr>
+							<div class="">
+								<span class="glyphicon glyphicon-home" aria-hidden="true">&nbsp<b>${leaveWorkValue.status }</b>&nbsp
+								</span>
+								<c:if test='${leaveWorkValue.status != "-"}'>
                      ${leaveWorkValue.hour }시
                      ${leaveWorkValue.minute }분
                      </c:if>
-                  </div>
-                  <hr>
-</div>               
-</div>
-               <div class="panel panel-headline demo-icons">
-                  <div class="panel-heading">
-                  <h3 class="panel-title">월 별 근 태 현 황</h3>
-                  </div>
-                  <div class="panel-body">
-                     <div id='calendar'></div>
-                  </div>
-               </div>
-               
-            </div>
-         </div>
-         <!-- END MAIN CONTENT -->
-      </div>
-      <!-- END MAIN -->
-      <div class="clearfix"></div>
-<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
-   </div>
-   <!-- END WRAPPER -->
-   
-   
-   
-   <script>
+							</div>
+							<hr>
+						</div>
+					</div>
+					<div class="panel panel-headline demo-icons">
+						<div class="panel-heading">
+							<h3 class="panel-title">월 별 근 태 현 황</h3>
+						</div>
+						<div class="panel-body">
+							<div id='calendar'></div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<!-- END MAIN CONTENT -->
+		</div>
+		<!-- END MAIN -->
+		<div class="clearfix"></div>
+		<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
+	</div>
+	<!-- END WRAPPER -->
+
+
+
+	<script>
       
       var tnaStatus;
       if (("${attendanceValue.status }" == "-") && ("${leaveWorkValue.status }" == "-")) {
@@ -185,7 +199,7 @@
          printTime();
       }
    </script>
-   <script>
+	<script>
 
       document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
@@ -219,26 +233,27 @@
 	        },
 			events: [
 				<c:forEach varStatus="i" var="list" items="${tnaCalendarList}">
-					{
-						title: '${list.TNA_START_STATUS_NAME}',
-						start: '${list.TNA_START_TIME}',
-						url: "/tna/tnaFixRequestPage.tna?tna_seq=${list.TNA_SEQ}&tna_status=start"
-						<c:if test='${list.TNA_START_STATUS_NAME == "지각"}'>
-							,color: '#e4cb10'
-						</c:if>
-						
-					},
-					{
-						title: '${list.TNA_END_STATUS_NAME}',
-						start: '${list.TNA_END_TIME}',
-						url: "/tna/tnaFixRequestPage.tna?tna_seq=${list.TNA_SEQ}&tna_status=end"
-						<c:if test='${list.TNA_END_STATUS_NAME == "조퇴"}'>
-							,color: '#e4cb10'
-						</c:if>
-						<c:if test='${list.TNA_END_STATUS_NAME == "야근"}'>
-							,color: '#18640f'
-						</c:if>
-					}
+						{
+							title: '${list.TNA_START_STATUS_NAME}',
+							start: '${list.TNA_START_TIME}',
+							url: "/tna/tnaFixRequestPage.tna?tna_seq=${list.TNA_SEQ}&tna_status=start&tna_obj_proc_status_name=${list.TNA_OBJ_PROC_STATUS_NAME}"
+							<c:if test='${list.TNA_START_STATUS_NAME == "지각"}'>
+								,color: '#e4cb10'
+							</c:if>
+							
+						},
+						{
+							title: '${list.TNA_END_STATUS_NAME}',
+							start: '${list.TNA_END_TIME}',
+							url: "/tna/tnaFixRequestPage.tna?tna_seq=${list.TNA_SEQ}&tna_status=end&tna_obj_proc_status_name=${list.TNA_OBJ_PROC_STATUS_NAME}"
+							<c:if test='${list.TNA_END_STATUS_NAME == "조퇴"}'>
+								,color: '#e4cb10'
+							</c:if>
+							<c:if test='${list.TNA_END_STATUS_NAME == "야근"}'>
+								,color: '#18640f'
+							</c:if>
+						}
+
 					<c:if test="${!i.last}">
 					,
 					</c:if>
@@ -259,7 +274,7 @@
       });
 
    </script>
-   <script>
+	<script>
    // 메뉴바 축소시 캘린더 크기 조정
    $(".navbar-btn").on("click",function(){
 	   $(".fc-col-header ").css({
@@ -272,6 +287,11 @@
 		   "width": "100%"
        });
    });
+   </script>
+	<script>
+   <c:set var = "string1" value = "${tnaCalendarList}"/>
+   console.log("${fn:length(string1)}");
+   	
    </script>
 </body>
 </html>

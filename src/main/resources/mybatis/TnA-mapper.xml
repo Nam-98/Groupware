@@ -74,6 +74,34 @@
 		a)
 	</select>
   	
+  	<select id="tnaHistory" resultType="java.util.HashMap">
+  		select * from 
+		(select a.*, row_number() over(order by a.tna_obj_seq desc)rn from (select objt.TNA_OBJ_SEQ, objt.TNA_OBJ_REASON, objt.TNA_OBJ_ID, objt.tna_obj_reg_date, objt.TNA_OBJ_CHANGED_CODE, stlist.TNA_STATUS_NAME, objt.tna_seq, objt.tna_obj_status, objt.TnA_obj_ori_status_code, stlist2.TNA_STATUS_NAME"TNA_ORI_STATUS_NAME", objt.TnA_obj_time, objt.tna_obj_proc_status_code, stat.TNA_OBJ_PROC_STATUS_NAME,m.dept_code,m.position_code,d.dept_name,p.position_name,m.name from st.tna_objection objt, st.tna_obj_proc_status stat, st.tna_status stlist, st.tna_status stlist2, st.member m, st.position p, st.department d where (objt.tna_obj_id=m.id) and (m.dept_code=d.dept_code) and (m.position_code = p.position_code) and (objt.tna_obj_proc_status_code = stat.TNA_OBJ_PROC_STATUS_CODE) and (objt.tna_obj_changed_code = stlist.TNA_STATUS_CODE) and (objt.TnA_obj_ori_status_code = stlist2.TNA_STATUS_CODE))
+		a)
+  	</select>
   	
+  	<update id="tnaStartApp">
+  		update st.tna set tna_start_status_code = #{finalChange} where tna_seq=#{tnaSeq}
+  	</update>
+  	
+  	<update id="tnaEndApp">
+  		update st.tna set tna_end_status_code = #{finalChange} where tna_seq=#{tnaSeq}
+  	</update>
+  	
+  	<update id="objApproval">
+  		update st.tna_objection set tna_obj_proc_status_code = #{statusCode} where tna_obj_seq = #{objSeq}
+  	</update>
+  	
+  	<update id="tnaReFixSubmit">
+  		update st.tna_objection set tna_obj_changed_code = #{tna_obj_changed_code},tna_obj_reason = #{tna_obj_reason},tna_obj_reg_date = (SELECT CURRENT_DATE FROM DUAL),tna_obj_proc_status_code = 1 where tna_obj_id = #{sessionId} and tna_seq = #{tna_seq} and tna_obj_status = #{tna_obj_status}
+  	</update>
+  	
+  	<select id="tnaStandardTime" resultType="kh.gw.dto.TnA_StandardTimeDTO">
+  		select * from st.standard_time
+  	</select>
+  	
+  	<update id="tnaUpdateTime">
+  		update st.standard_time set standard_time_attendance=#{att_time},standard_time_leave=#{lea_time},standard_time_night=#{nig_time}
+  	</update>
   	
   </mapper>

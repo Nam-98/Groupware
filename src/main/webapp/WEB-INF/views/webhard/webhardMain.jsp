@@ -77,18 +77,31 @@
 								<thead>
 									<tr>
 										<th scope="col"><input class="form-check-input checkAll" type="checkbox" value="" id="flexCheckDefault"></th>
-										<th scope="col">파일번호</th>
+										<th scope="col">형식</th>
 										<th scope="col">파일명</th>
 										<th scope="col">업로드일</th>
 									</tr>
 								</thead>
 								<tbody>
+									<!-- 폴더 표현 부분 -->
+									<c:forEach varStatus="j" var="folderList" items="${dirFolderList}">
+										<tr>
+											<th scope="row"><!-- 폴더체크박스 없음 --></th>
+											<td><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></td>
+											<td>
+											<a href = "/webhard/webhardMain.webhard?dirSeq=${folderList.wh_dir_seq}"> ${folderList.wh_dir_name}</a>
+											
+											</td>
+											<td><!-- 폴더생성일 없음 --></td>
+										</tr>
+									</c:forEach>
+									<!-- 파일 표현 부분 -->
 									<c:forEach var="i" items="${dirFileList}">
 										<tr>
 											<th scope="row"><input class="form-check-input checkObj" type="checkbox" value="${i.wh_files_seq}" name="chkList"></th>
-											<td>${i.wh_files_seq}</th>
+											<td><span class="glyphicon glyphicon-file" aria-hidden="true"></span></td>
 											<td>
-											<a href = "/webhard/attFilesDown.webhard?wh_files_seq=${i.wh_files_seq }&wh_ori_name=${i.wh_ori_name}&wh_saved_name=${i.wh_saved_name}"><i class="lnr lnr-file-empty"></i> ${i.wh_ori_name}</a>
+											<a href = "/webhard/attFilesDown.webhard?wh_files_seq=${i.wh_files_seq }&wh_ori_name=${i.wh_ori_name}&wh_saved_name=${i.wh_saved_name}"> ${i.wh_ori_name}</a>
 											
 											</td>
 											<td>${i.wh_upload_date}</td>
@@ -138,8 +151,8 @@
 // 			  return chked_val;
 		})
 		$("#newFolder-btn").on("click",function(){
-			var newFolderName = prompt('새 폴더 이름을 입력해주세요.'); 
-			alert(inputString);
+			var newFolderName = prompt('새 폴더 이름을 입력해 주세요.'); 
+			alert(newFolderName);
 			// 해당 디렉토리에 중복되는 폴더 이름이 있는지 확인
 			$.ajax({
 				url:'/webhard/mkdirOverlapCheck.webhard',

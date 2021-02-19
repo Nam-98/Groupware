@@ -33,7 +33,12 @@ public class ScheduleController {
 	
 	//------------ 연간일정 들어오기
 	@RequestMapping("yearSchedule.schedule")
-	public String yearSchedule() throws Exception{
+	public String yearSchedule(HttpServletRequest request, Model m, ScheduleDTO dto) throws Exception{
+		String id = (String)session.getAttribute("id");
+//		List<ScheduleDTO> ylist = sservice.listYearSchedule(id);
+		
+//		m.addAttribute("ylist", ylist);
+		
 		return "/schedule/yearschedule";
 	}
 	
@@ -47,7 +52,8 @@ public class ScheduleController {
 		 
 		 m.addAttribute("list", list);
 		 
-		return "/schedule/monthschedule";
+
+		 return "/schedule/monthschedule";
 	}
 	
 	//------------- 주간일정 들어오기
@@ -76,7 +82,14 @@ public class ScheduleController {
 //		 System.out.println(list.get(0).getSch_end_date_sc());
 //		 System.out.println(list.get(0).getSch_title());
 		 
+		 //scheduledto에 날짜만 저장된 컬럼 2개를 만듬.
+		 for(ScheduleDTO i : list) {
+		 i.setSch_end_date_converter(sservice.dateconverter(i.getSch_end_date_sc()));
+		 i.setSch_start_date_converter(sservice.dateconverter(i.getSch_start_date_sc()));
+		 }		 
+		 
 		 m.addAttribute("list", list);
+		 
 		return "/schedule/dayschedule";
 	}
 	
@@ -86,14 +99,43 @@ public class ScheduleController {
 		return "/schedule/addschedule";
 	}
 	
-	//------------ 일정추가하기
+	//------------ 일정추가하기 made by 이 상 형
 	@RequestMapping("addSchedule.schedule")
-	public String addSchedule(ScheduleDTO dto) throws Exception{
+	public String addSchedule(HttpServletRequest request, ScheduleDTO dto, int condition, int condition2, int condition3, int condition4) throws Exception{
+		
+//		System.out.println(condition + " : " + condition2);
+		
 		dto.setSch_start_date(new SimpleDateFormat("yyyy-MM-dd").parse(dto.getSch_start_date_sc()));
 		dto.setSch_end_date(new SimpleDateFormat("yyyy-MM-dd").parse(dto.getSch_end_date_sc()));
-		System.out.println(dto.getSch_start_date());
-		int result = sservice.insertSchedule(dto);// 수정해야함
-		return "/schedule/addscheduleview";
+//		System.out.println(dto.getSch_start_date());
+		
+		//long 형 변수에 dto에서 불러온 시작날짜(date형) 값 대입
+		long sch_start_date = dto.getSch_start_date().getTime();
+		long sch_end_date = dto.getSch_end_date().getTime();
+		
+		//long 형 변수에 가져올 시간 값을 초단위로 바꾼 값을 더한다.
+		sch_start_date = sch_start_date + ((3600 * condition) + (60 * condition2)) * 1000;
+		sch_end_date = sch_end_date + ((3600 * condition3) + (60 * condition4)) * 1000;
+		
+		//long 형 변수를 date 형으로 변환
+		Date plusStartDate = new Date(sch_start_date);
+		Date plusEndDate = new Date(sch_end_date);
+		
+		//date 형 변수를 string 형으로 변환해 값 출력하기
+		dto.setSch_start_date(plusStartDate);
+		dto.setSch_end_date(plusEndDate);
+		
+
+//		System.out.println(dto.getSch_start_date());
+//		System.out.println(dto.getSch_start_date_sc());
+//		System.out.println(System.currentTimeMillis());
+//		System.out.println(sch_start_date);
+//		System.out.println(plusStartDate);
+//		System.out.println(plusEndDate);
+
+		int result = sservice.insertSchedule(dto);
+		
+		return "redirect:/schedule/daySchedule.schedule?cpage="+session.getAttribute("cpage");
 	}
 	
 	//------------- 일정 리스트 페이지 들어가기
@@ -126,9 +168,8 @@ public class ScheduleController {
 		dto.setSch_seq(Integer.parseInt(request.getParameter("sch_seq")));
 		System.out.println(dto.getSch_seq());
 		ScheduleDTO dtos = sservice.scheduleView(dto.getSch_seq());
-		
 		m.addAttribute("dtos", dtos);
-		System.out.println(dtos.getSch_id());
+
 		
 		return "/schedule/scheduleView";
 	}
@@ -160,5 +201,12 @@ public class ScheduleController {
 		int result = sservice.scheduleModify(dto);
 		System.out.println("글수정 성공유무 ::"+result);
 		return "redirect:/schedule/monthSchedule.schedule";
+	}
+	
+	//메인 일정 추가하기
+	@RequestMapping("mainAddSchedule.schedule")
+	public String mainAddSchedule(ScheduleDTO dto) throws Exception{
+
+		return "/schedule/mainaddschedule";
 	}
 }

@@ -13,11 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kh.gw.dao.TnADAO;
+import kh.gw.dto.TnA_StandardTimeDTO;
 import kh.gw.dto.TnADTO;
 import kh.gw.dto.TnA_objectionDTO;
 import kh.gw.dto.TnA_statusDTO;
 import kh.gw.statics.BoardConfigurator;
-import kh.gw.statics.TnAConfigurator;
+
 
 
 @Service
@@ -25,33 +26,45 @@ public class TnAService {
 	@Autowired
 	private TnADAO tdao;
 	
-	public Date getAttendanceDate() {
+	public Date getAttendanceDate(){
 		// 변수에 지정한 기준시간을 parse
 		Calendar cal = Calendar.getInstance();
+		
+		// 기준 시간 가져오기
+		TnA_StandardTimeDTO sdto = tdao.tnaStandardTime(); 
+		
 		// 사용자가 지정한 HHmm을 substring으로 시간과 분을 구별한다. (당일조퇴기준지정)
-		cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(TnAConfigurator.ATTENDANCE_STANDARD.substring(0,2)));
-		cal.set(Calendar.MINUTE, Integer.parseInt(TnAConfigurator.ATTENDANCE_STANDARD.substring(2,4)));
-		cal.set(Calendar.SECOND, Integer.parseInt(TnAConfigurator.ATTENDANCE_STANDARD.substring(4,6)));	
+		cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(sdto.getStandard_time_attendance().substring(0,2)));
+		cal.set(Calendar.MINUTE, Integer.parseInt(sdto.getStandard_time_attendance().substring(2,4)));
+		cal.set(Calendar.SECOND, Integer.parseInt(sdto.getStandard_time_attendance().substring(4,6)));	
 		Date attendanceDate = new Date(cal.getTimeInMillis());
 		return attendanceDate;
 	}
-	public Date getEarlyLeaveWorkDate() {
+	public Date getEarlyLeaveWorkDate(){
 		// 변수에 지정한 기준시간을 parse
 		Calendar cal = Calendar.getInstance();
+		
+		// 기준 시간 가져오기
+				TnA_StandardTimeDTO sdto = tdao.tnaStandardTime(); 
+		
 		// 사용자가 지정한 HHmm을 substring으로 시간과 분을 구별한다. (당일조퇴기준지정)
-		cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(TnAConfigurator.EARLYLEAVEWORK_STANDARD.substring(0,2)));
-		cal.set(Calendar.MINUTE, Integer.parseInt(TnAConfigurator.EARLYLEAVEWORK_STANDARD.substring(2,4)));
-		cal.set(Calendar.SECOND, Integer.parseInt(TnAConfigurator.EARLYLEAVEWORK_STANDARD.substring(4,6)));	
+		cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(sdto.getStandard_time_leave().substring(0,2)));
+		cal.set(Calendar.MINUTE, Integer.parseInt(sdto.getStandard_time_leave().substring(2,4)));
+		cal.set(Calendar.SECOND, Integer.parseInt(sdto.getStandard_time_leave().substring(4,6)));	
 		Date earlyLeaveWorkDate = new Date(cal.getTimeInMillis());
 		return earlyLeaveWorkDate;
 	}
-	public Date getLeaveWorkDate() {
+	public Date getLeaveWorkDate(){
 		// 변수에 지정한 기준시간을 parse
 		Calendar cal = Calendar.getInstance();
+		
+		// 기준 시간 가져오기
+		TnA_StandardTimeDTO sdto = tdao.tnaStandardTime(); 
+		
 		// 사용자가 지정한 HHmm을 substring으로 시간과 분을 구별한다. (당일퇴근기준지정)
-		cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(TnAConfigurator.LEAVEWORK_STANDARD.substring(0,2)));
-		cal.set(Calendar.MINUTE, Integer.parseInt(TnAConfigurator.LEAVEWORK_STANDARD.substring(2,4)));
-		cal.set(Calendar.SECOND, Integer.parseInt(TnAConfigurator.LEAVEWORK_STANDARD.substring(4,6)));
+		cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(sdto.getStandard_time_night().substring(0,2)));
+		cal.set(Calendar.MINUTE, Integer.parseInt(sdto.getStandard_time_night().substring(2,4)));
+		cal.set(Calendar.SECOND, Integer.parseInt(sdto.getStandard_time_night().substring(4,6)));
 		Date leaveWorkDate = new Date(cal.getTimeInMillis());
 		return leaveWorkDate;
 	}
@@ -192,7 +205,9 @@ public class TnAService {
 	}
 	
 	public List<Map<String, Object>> getTnaCalendarList(String sessionId) {
-		return tdao.getTnaCalendarList(sessionId);
+		List<Map<String, Object>> result =  tdao.getTnaCalendarList(sessionId);
+		System.out.println("=====service다!!==="+result.size());
+		 return result;
 	}
 	
 	public Map<String, Object> getTnaCalendarValue(String sessionId, int tna_seq) {
@@ -324,6 +339,45 @@ public class TnAService {
 		
 		return sb.toString();
 	}
+	
+	//근태조정신청 list(관리자)
+	public List<Map<String, Object>> tnaHistory() throws Exception{
+		return tdao.tnaHistory();
+	}
+	
+	//근태 승인(출근용)
+	public int tnaStartApp(int tnaSeq, int finalChange) throws Exception {
+		return tdao.tnaStartApp(tnaSeq,finalChange);
+	}
+	//근태 승인(퇴근용)
+	public int tnaEndApp(int tnaSeq, int finalChange) throws Exception {		
+		return tdao.tnaEndApp(tnaSeq,finalChange);
+	}
+	//근태 승인(정정처리결과)
+	public int objApproval(int objSeq, int statusCode) throws Exception {
+		return tdao.objApproval(objSeq,statusCode);
+	}
+	
+	//근태 수정 요청
+	public int tnaReFixSubmit(String sessionId, int tna_seq, String tna_obj_status, int tna_obj_changed_code,
+			String tna_obj_reason) throws Exception {
+		return tdao.tnaReFixSubmit(sessionId,tna_seq,tna_obj_status,tna_obj_changed_code,tna_obj_reason);
+	}
+	
+	//출퇴근 기준 시간 가져오기.
+	public TnA_StandardTimeDTO tnaStandardTime() throws Exception{
+		return tdao.tnaStandardTime();
+	}
+	
+	//출퇴근 기준 시간 변경
+	public int tnaUpdateTime(String att_time, String lea_time, String nig_time) throws Exception {
+		return tdao.tnaUpdateTime(att_time,lea_time,nig_time);
+	}
+	
+	
+	
+	
+	
 
 	
 }

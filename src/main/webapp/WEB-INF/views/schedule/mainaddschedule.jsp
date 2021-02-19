@@ -163,7 +163,7 @@
 
 				}
 				document.getElementById("addCancel").onclick=function(){
-					window.close();
+					location.href="/schedule/mainAddSchedule.schedule";
 				}
 			</script>
 			
