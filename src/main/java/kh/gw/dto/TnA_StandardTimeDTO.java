@@ -1,11 +1,11 @@
 package kh.gw.dto;
 
-public class StandardTimeDTO {
+public class TnA_StandardTimeDTO {
 	private String standard_time_attendance;
 	private String standard_time_leave;
 	private String standard_time_night;
 	
-	public StandardTimeDTO(String standard_time_attendance, String standard_time_leave, String standard_time_night) {
+	public TnA_StandardTimeDTO(String standard_time_attendance, String standard_time_leave, String standard_time_night) {
 		super();
 		this.standard_time_attendance = standard_time_attendance;
 		this.standard_time_leave = standard_time_leave;

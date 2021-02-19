@@ -22,6 +22,7 @@ import kh.gw.dto.Approval_typeDTO;
 import kh.gw.dto.Break_typeDTO;
 import kh.gw.dto.Company_holidayDTO;
 import kh.gw.dto.MemberDTO;
+import kh.gw.dto.TnA_StandardTimeDTO;
 import kh.gw.dto.WriteDTO;
 import kh.gw.service.ApprovalService;
 import kh.gw.service.BreakService;
@@ -31,7 +32,7 @@ import kh.gw.service.PositionService;
 import kh.gw.service.TnAService;
 import kh.gw.service.ScheduleService;
 import kh.gw.service.WriteService;
-import kh.gw.statics.TnAConfigurator;
+
 
 @Controller
 @RequestMapping("/nex")
@@ -319,15 +320,25 @@ public class AdminController {
 		return "redirect:/";
 	}
 	
-//	//출퇴근 기준 시간 가져오기
-//	@RequestMapping("/tnaStandardTime.nexacro")
-//	public NexacroResult tnaStandardTime() throws Exception throws Exception{
-//		NexacroResult nr = new NexacroResult();
-//		
-//		
-//		
-//		return nr;
-//	}
+	//출퇴근 기준 시간 가져오기
+	@RequestMapping("/tnaStandardTime.nexacro")
+	public NexacroResult tnaStandardTime() throws Exception{
+		NexacroResult nr = new NexacroResult();
+		TnA_StandardTimeDTO sdto = tservice.tnaStandardTime();
+		nr.addDataSet("ds_out",sdto);
+		
+		return nr;
+	}
+	
+	//출퇴근 기준 시간 변경
+	@RequestMapping("/tnaUpdateTime.nexacro")
+	public NexacroResult tnaUpdateTime(@ParamVariable(name="att_time")String att_time,@ParamVariable(name="lea_time")String lea_time,@ParamVariable(name="nig_time")String nig_time) throws Exception{
+		NexacroResult nr = new NexacroResult();
+		int result = tservice.tnaUpdateTime(att_time,lea_time,nig_time);
+		System.out.println(result);
+		
+		return nr;
+	}
 
 	// error
 	@ExceptionHandler
