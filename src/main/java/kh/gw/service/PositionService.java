@@ -17,4 +17,13 @@ public class PositionService {
 	public List<PositionDTO> listPo() throws Exception{
 		return pdao.listPo();
 	}
+	public int nxPosiAdd(PositionDTO dto) {
+		return pdao.nxPosiAdd(dto);
+	}
+	public int nxPosiDel(int position_seq) {
+		return pdao.nxPosiDel(position_seq);
+	}
+	public int nxPosiUdt(PositionDTO dto) {
+		return pdao.nxPosiUdt(dto);
+	}
 }
