@@ -96,4 +96,12 @@
   		update st.tna_objection set tna_obj_changed_code = #{tna_obj_changed_code},tna_obj_reason = #{tna_obj_reason},tna_obj_reg_date = (SELECT CURRENT_DATE FROM DUAL),tna_obj_proc_status_code = 1 where tna_obj_id = #{sessionId} and tna_seq = #{tna_seq} and tna_obj_status = #{tna_obj_status}
   	</update>
   	
+  	<select id="tnaStandardTime" resultType="kh.gw.dto.TnA_StandardTimeDTO">
+  		select * from st.standard_time
+  	</select>
+  	
+  	<update id="tnaUpdateTime">
+  		update st.standard_time set standard_time_attendance=#{att_time},standard_time_leave=#{lea_time},standard_time_night=#{nig_time}
+  	</update>
+  	
   </mapper>
