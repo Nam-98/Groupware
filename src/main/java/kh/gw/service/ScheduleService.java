@@ -91,7 +91,7 @@ public class ScheduleService {
 //	}
 
 	public void addDateStr(List<ScheduleDTO> list) {
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		
 		for(ScheduleDTO dto : list) {
 			dto.setSch_start_date_sc(simpleDateFormat.format(dto.getSch_start_date()));
@@ -118,6 +118,11 @@ public class ScheduleService {
 	public int scheduleModify(ScheduleDTO dto) {
 		return sdao.scheduleModify(dto);
 	}
+
+	public String dateconverter(String dateString) {
+		return dateString.substring(0,10);
+	}
+	
 	
 	public List<Company_holidayDTO> loadComHd(){
 		return sdao.loadComHd();

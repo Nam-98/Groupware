@@ -68,9 +68,14 @@ public class WebhardDAO {
 		return db.insert("Webhard.uploadFile", fileDTO);
 	}
 	
-	// 해당 디렉토리의 리스트 가져오기
+	// 해당 디렉토리의 파일 리스트 가져오기
 	public List<Webhard_filesDTO> getDirFileList(int dirSeq) {
 		return db.selectList("Webhard.getDirFileList", dirSeq);
+	}
+	
+	// 해당 디렉토리의 폴더 리스트 가져오기
+	public List<Webhard_dirDTO> getDirFolderList(int dirSeq) {
+		return db.selectList("Webhard.getDirFolderList", dirSeq);
 	}
 	
 	// 해당 아이디의 정보 가져오기

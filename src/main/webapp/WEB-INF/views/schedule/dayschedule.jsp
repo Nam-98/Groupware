@@ -86,7 +86,7 @@
 		</div>
 	<!-- END WRAPPER -->
 	</div>
-	
+	<!-- mad by 혜림누나 -->
 	<script>
 	 	document.addEventListener('DOMContentLoaded', function() {
 		    var calendarE3 = document.getElementById('calendar');
@@ -100,15 +100,38 @@
 				},
 				locale: 'ko',
 				businessHours: true,
+				businessHours: {
+					  // days of week. an array of zero-based day of week integers (0=Sunday)
+					  daysOfWeek: [ 1, 2, 3, 4, 5 ], // Monday - Thursday
+
+					  startTime: '9:00', // a start time (10am in this example)
+					  endTime: '18:00', // an end time (6pm in this example)
+					},
 				dayMaxEvents: true,
+				
 				events: [
-			    	  <c:forEach var="i" items="${list }">
+					<c:forEach var="i" items="${list }">
+					<c:choose>
+					<c:when test="${i.sch_start_date_converter!=i.sch_end_date_converter}">
+			    	  
 			    	  {
 				          title  : '${i.sch_title }',
-				          start  : '${i.sch_start_date }',
+				          start  : '${i.sch_start_date_sc}',
+				          end : '${i.sch_end_date_sc }',
+				          url : "/schedule/scheduleView.schedule?sch_seq=${i.sch_seq}",
+				          allDay: true
+			    	  },
+
+			    	 </c:when>
+			    	  <c:otherwise>
+			    	  {
+				          title  : '${i.sch_title }',
+				          start  : '${i.sch_start_date_sc}',
 				          url : "/schedule/scheduleView.schedule?sch_seq=${i.sch_seq}"
 			    	  },
-			          </c:forEach>
+			    	  </c:otherwise>
+			    	  </c:choose>
+			          </c:forEach>			    	  
 			      ],
 			});
 			 calendar.render();

@@ -307,7 +307,6 @@
 								<div class="panel-footer">
 									<div class="row">
 										<div class="col-md-6">
-											
 										</div>
 										<div class="col-md-6 text-right">
 											<a href="/write/noticeList.write?cpage=1" class="btn btn-primary">Go</a>
@@ -447,7 +446,7 @@
 			// 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주었음
 			
 			var options='top='+popupY+', left='+popupX+', width='+popupWidth+', height='+popupHeight+', status=no, menubar=no, toolbar=no, resizable=no, location=no';
-			window.open(url,"popup",options);
+			window.open(url,"webhard",options);
 		})
 	</script>
 	<script>
@@ -584,7 +583,7 @@
 	<script>
 		window.onload=function(){
 			 var options='top=10, left=10, width=500, height=500, status=no, menubar=no, toolbar=no, resizable=no';
-		     window.open("/write/noticePopupView.write?write_code=0" ,"popup", options);
+		     window.open("/write/noticePopupView.write?write_code=0" ,"notice", options);
 		}
 	</script>
 </body>

@@ -123,8 +123,8 @@
             <div class="container-fluid">
                <h3 class="page-title">회사 게시판 뷰</h3>
                <button id="list" class="btn pull-left btn-primary">목록으로</button>
-               <button id="modify" class="btn pull-left btn-primary">수정</button>
-               <button id="delete" class="btn pull-left btn-primary">삭제</button>
+               <button id="modify" class="btn pull-left btn-primary">수정하기</button>
+               <button id="delete" class="btn pull-left btn-primary">삭제하기</button>
                <div class="top-vacant d-none d-lg-block"></div>
                <div class="panel panel-headline demo-icons">
                   <div class="panel-heading">

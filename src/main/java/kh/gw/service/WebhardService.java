@@ -195,9 +195,14 @@ public class WebhardService {
 		return 1;
 	}
 	
-	// 해당 디렉토리의 리스트 가져오기
+	// 해당 디렉토리의 파일 리스트 가져오기
 	public List<Webhard_filesDTO> getDirFileList(int dirSeq) {
 		return whdao.getDirFileList(dirSeq);
+	}
+	
+	// 해당 디렉토리의 폴더 리스트 가져오기
+	public List<Webhard_dirDTO> getDirFolderList(int dirSeq) {
+		return whdao.getDirFolderList(dirSeq);
 	}
 	
 	// 최초 공용 디렉토리 접속 시 할당
