@@ -100,6 +100,10 @@
 													<option value="16">16</option>
 													<option value="17">17</option>
 													<option value="18">18</option>
+													<option value="19">19</option>
+													<option value="20">20</option>
+													<option value="21">21</option>
+													<option value="22">22</option>
 												</select>시
 												<select id="min" name="condition2">
 													<option value="00">00</option>
@@ -110,7 +114,35 @@
 													<option value="50">50</option>
 												</select>분 <br><br>
 												
-												종료 일자 : &nbsp<input type="date" id="date2" name="sch_end_date_sc" size="12"/>&nbsp&nbsp</td>
+												종료 일자 : &nbsp<input type="date" id="date2" name="sch_end_date_sc" size="12"/>&nbsp&nbsp&nbsp
+												<select id="hour2" name="condition">
+													<option value="6">6</option>
+													<option value="7">7</option>
+													<option value="8">8</option>
+													<option value="9">9</option>
+													<option value="10">10</option>
+													<option value="11">11</option>
+													<option value="12">12</option>
+													<option value="13">13</option>
+													<option value="14">14</option>
+													<option value="15">15</option>
+													<option value="16">16</option>
+													<option value="17">17</option>
+													<option value="18">18</option>
+													<option value="19">19</option>
+													<option value="20">20</option>
+													<option value="21">21</option>
+													<option value="22">22</option>
+												</select>시
+												<select id="min2" name="condition">
+													<option value="00">00</option>
+													<option value="10">10</option>
+													<option value="20">20</option>
+													<option value="30">30</option>
+													<option value="40">40</option>
+													<option value="50">50</option>
+												</select>분 
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -126,11 +158,10 @@
 			</div>
 			
 			<script>
-				document.getElementById("add").onsubmit=function(){
+				document.getElementById("addsubmit").onsubmit=function(){
 					alert("등록되었습니다.");
 
 				}
-				
 				document.getElementById("addCancel").onclick=function(){
 					location.href="/schedule/mainAddSchedule.schedule";
 				}

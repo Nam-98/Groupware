@@ -33,7 +33,12 @@ public class ScheduleController {
 	
 	//------------ 연간일정 들어오기
 	@RequestMapping("yearSchedule.schedule")
-	public String yearSchedule() throws Exception{
+	public String yearSchedule(HttpServletRequest request, Model m, ScheduleDTO dto) throws Exception{
+		String id = (String)session.getAttribute("id");
+//		List<ScheduleDTO> ylist = sservice.listYearSchedule(id);
+		
+//		m.addAttribute("ylist", ylist);
+		
 		return "/schedule/yearschedule";
 	}
 	
@@ -121,12 +126,12 @@ public class ScheduleController {
 		dto.setSch_end_date(plusEndDate);
 		
 
-//		System.out.println(dto.getSch_start_date());
-//		System.out.println(dto.getSch_start_date_sc());
-//		System.out.println(System.currentTimeMillis());
-//		System.out.println(sch_start_date);
-//		System.out.println(plusStartDate);
-//		System.out.println(plusEndDate);
+		System.out.println(dto.getSch_start_date());
+		System.out.println(dto.getSch_start_date_sc());
+		System.out.println(System.currentTimeMillis());
+		System.out.println(sch_start_date);
+		System.out.println(plusStartDate);
+		System.out.println(plusEndDate);
 
 		int result = sservice.insertSchedule(dto);
 		
