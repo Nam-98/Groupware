@@ -318,6 +318,16 @@ public class AdminController {
 	public String returnHome() throws Exception {
 		return "redirect:/";
 	}
+	
+//	//출퇴근 기준 시간 가져오기
+//	@RequestMapping("/tnaStandardTime.nexacro")
+//	public NexacroResult tnaStandardTime() throws Exception throws Exception{
+//		NexacroResult nr = new NexacroResult();
+//		
+//		
+//		
+//		return nr;
+//	}
 
 	// error
 	@ExceptionHandler
