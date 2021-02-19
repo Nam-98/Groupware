@@ -127,6 +127,7 @@
 			    	  {
 				          title  : '${i.sch_title }',
 				          start  : '${i.sch_start_date_sc}',
+				          end : '${i.sch_end_date_sc }',
 				          url : "/schedule/scheduleView.schedule?sch_seq=${i.sch_seq}"
 			    	  },
 			    	  </c:otherwise>
