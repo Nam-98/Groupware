@@ -590,7 +590,7 @@
    		<script>
 		//row눌렀을 때 링크로 이동
 		$(".dataRow").on("click",function(){
-			console.log($(this).children().first().children("input").val());
+			if($(this).children().first().children("input").val()==null){return;}
 			location.href="/approval/toAppDetailView.approval?app_seq="+$(this).children().first().children("input").val()
 		});
 		
