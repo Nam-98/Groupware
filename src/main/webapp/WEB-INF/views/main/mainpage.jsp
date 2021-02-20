@@ -221,15 +221,24 @@
 														</tr>
 													</thead>
 													<tbody>
-														<c:forEach var="i" items="${knrWriteList}">
-															<tr class='dataRow'>
-																<th scope="row"  class="visible-lg hidden-sm">${i.app_docs_num}<input type=hidden value="${i.app_seq}"></th>
-																<td>${i.app_title}</td>
-																<td class="visible-lg hidden-sm">${i.name}</td>
-																<td class="visible-lg hidden-sm">${i.app_reg_date}</td>
-																<td>${i.app_status_name}</td>
-															</tr>
-														</c:forEach>
+														<c:choose>
+															<c:when test='${empty knrWriteList}'>
+																<tr class='dataRow'>
+																	<td colspan='5' style='text-align:center;'>작성한 문서가 없습니다.</td>
+																</tr>
+															</c:when>
+															<c:otherwise>
+																<c:forEach var="i" items="${knrWriteList}">
+																	<tr class='dataRow'>
+																		<th scope="row"  class="visible-lg hidden-sm">${i.app_docs_num}<input type=hidden value="${i.app_seq}"></th>
+																		<td>${i.app_title}</td>
+																		<td class="visible-lg hidden-sm">${i.name}</td>
+																		<td class="visible-lg hidden-sm">${i.app_reg_date}</td>
+																		<td>${i.app_status_name}</td>
+																	</tr>
+																</c:forEach>															
+															</c:otherwise>
+														</c:choose>
 													</tbody>
 												</table>
 											</div>
@@ -247,15 +256,25 @@
 														</tr>
 													</thead>
 													<tbody>
-														<c:forEach var="i" items="${knrToBeList}">
-															<tr class='dataRow'>
-																<th scope="row">${i.app_docs_num}<input type=hidden value="${i.app_seq}"></th>
-																<td>${i.app_title}</td>
-																<td>${i.name}</td>
-																<td>${i.app_reg_date}</td>
-																<td>${i.app_is_my_sign_turn}</td>
-															</tr>
-														</c:forEach>
+														<c:choose>
+															<c:when test='${empty knrToBeList}'>
+																<tr class='dataRow'>
+																	<td colspan='5' style='text-align:center;'>결재할 문서가 없습니다.</td>
+																</tr>
+															</c:when>
+															<c:otherwise>
+																<c:forEach var="i" items="${knrToBeList}">
+																	<tr class='dataRow'>
+																		<th scope="row">${i.app_docs_num}<input type=hidden value="${i.app_seq}"></th>
+																		<td>${i.app_title}</td>
+																		<td>${i.name}</td>
+																		<td>${i.app_reg_date}</td>
+																		<td>${i.app_is_my_sign_turn}</td>
+																	</tr>
+																</c:forEach>
+															</c:otherwise>
+														</c:choose>
+														
 													</tbody>
 												</table>
 											</div>
