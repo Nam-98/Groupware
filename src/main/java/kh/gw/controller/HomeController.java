@@ -79,7 +79,11 @@ public class HomeController {
 			
 			//(김나린)
 			HashMap<String, Object> knrAppResult = aservice.knrMainTobeSignList();
-			if(((int)knrAppResult.get("error"))==-1) {System.out.println("MainPage의 app서비스 가져오는 중 에러 발생");return "error";}
+			if(((int)knrAppResult.get("error"))==-1) {
+				System.out.println("MainPage의 app서비스 가져오는 중 에러 발생");return "error";
+			}else if(((int)knrAppResult.get("error"))==-2) {
+				System.out.println("가져온 리스트가 없음");
+			}
 			//승인요청중인리스트 & 갯수
 			model.addAttribute("knrToBeList", knrAppResult.get("resultList"));
 			model.addAttribute("knrToBeCount",  knrAppResult.get("toBeSignCount"));
