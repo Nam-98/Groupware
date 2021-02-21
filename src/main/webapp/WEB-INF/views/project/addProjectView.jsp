@@ -77,60 +77,45 @@
 							aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-						<strong>Notice!</strong>
-						<br><br>
+						<strong>Notice!</strong><br>
 						<span class="glyphicon glyphicon-ok"
 							aria-hidden="true"></span> <span class="sr-only">Check:</span>&nbsp
-						프로젝트 생성 시, 5개의 기본 칸반이 생성됩니다.<br><br>
+						프로젝트 생성 시, 5개의 칸반이 생성됩니다.<br>
 						<span class="glyphicon glyphicon-ok"
 							aria-hidden="true"></span> <span class="sr-only">Check:</span>&nbsp
 						프로젝트 수정이 불가하니, 신중한 생성 부탁드립니다.
 					</div>
-					<div class="top-vacant d-none d-lg-block"></div>
-
 					<div class="panel panel-headline demo-icons">
 						<div class="panel-heading">
 							<h3 class="panel-title">프 로 젝 트 추 가</h3>
 						</div>
 						<div class="panel-body">
-							<form action="/project/addProjectProc.project" method="post"
-								id="formBox">
+							<form action="/project/addProjectProc.project" method="post" >
 								<div class="col-lg-12 col-12">
 									<table class="table table-sm">
-										<thead>
-											<tr class="table-secondary">
-												<th scope="col">항 목</th>
-												<th scope="col">내 용</th>
-											</tr>
-										</thead>
 										<tbody>
 											<tr>
 												<th scope="row">프로젝트명</th>
-												<td><input type="text" class="textSpace" required
-													id="pro_title" name=pro_title
+												<td><input type="text" class="textSpace" required id="pro_title" name=pro_title
 													placeholder="Enter project-title"></td>
 											</tr>
 											<tr>
 												<th scope="row">담 당 자(PM)</th>
-												<td><input type="text" class="textSpace" required
-													id="projectManagerName" placeholder="name" readonly>
-													<input type="text" class="textSpace" required id="pro_id"
-													name=pro_id placeholder="Enter project-manager ID" readonly>
+												<td><input type="text" class="textSpace" required id="projectManagerName" placeholder="name" readonly>
+													<input type="text" class="textSpace" required  id="pro_id" name=pro_id placeholder="Enter project-manager ID" readonly>
 													<button type="button" id="find">찾기</button></td>
 											</tr>
 											<tr>
 												<th scope="row">일 자</th>
-												<td><input required type="date"
-													name="pro_start_date_str" id="date3" size="12" />&nbsp~&nbsp<input
-													required type="date" name="pro_end_date_str" id="date2"
-													size="12" /></td>
+												<td><input type="date" name="pro_start_date_str" required  id="date3" size="12" />&nbsp~&nbsp
+												<input type="date" name="pro_end_date_str" required  id="date2" size="12" /></td>
 											</tr>
 										</tbody>
 									</table>
 								</div>
 							
 							<div class="button-box">
-								<input type="button" id="addsubmit" class="btn btn-primary" value="등록">&nbsp
+								<input type="submit" id="addsubmit" class="btn btn-primary" value="등록">&nbsp
 								<button type="button" id="addCancel" class="btn btn-secondary">취소</button>
 							</div>
 							</form>
@@ -149,10 +134,6 @@
 <script>
 	$("#addCancel").on("click", function() {
 		location.href = "/project/enterProjectList.project?cpage=1";
-	});
-
-	$("#addsubmit").on("click", function() {
-		$("#formBox").submit();
 	});
 </script>
 <script>

@@ -428,9 +428,8 @@
 									<div class="right"></div>
 								</div>
 								<div class="panel-body">
-									<div class="metric">
 										<div id='calendar'></div>
-									</div>
+
 								</div>
 								<div class="panel-footer">
 									<div class="row">

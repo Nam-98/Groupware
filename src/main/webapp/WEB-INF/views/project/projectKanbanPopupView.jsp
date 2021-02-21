@@ -63,20 +63,21 @@ textarea {
 		<!-- MAIN CONTENT -->
 		<div class="main-content">
 			<div class="container-fluid">
-				<button id="deleteKanban" class="btn btn-danger">삭제</button>
-				<button id="cancelKanban" class="btn btn-info">취소</button>
-				<div class="top-vacant d-none d-lg-block"></div>
 				<div class="panel panel-headline demo-icons">
-					<form action="/project/fixKanbanInfo.project" method="post"
-						id="formBox">
 						<div class="panel-heading">
 							<h3 class="panel-title">
-								<input type="text" name="pro_kb_title"
-									value="${dto.pro_kb_title}"
-									style="width: 100%; height: 50px; font-size: 30px; font-weight: bold;"><br>
+								칸 반 보 기
 							</h3>
+							<div class="right">
+								<input type="button" id="deleteKanban" class="btn btn-sm btn-danger" value="삭제">
+								<input type="button" id="cancelKanban" class="btn btn-sm btn-info" value="취소">
+							</div>
 						</div>
 						<div class="panel-body">
+						<form action="/project/fixKanbanInfo.project" method="post">
+									<input type="text" name="pro_kb_title"
+									value="${dto.pro_kb_title}"
+									style="width: 100%; height: 50px; font-size: 30px; font-weight: bold;"><hr>
 							<table class="table table-hover">
 								<thead>
 									<tr>
@@ -116,16 +117,14 @@ textarea {
 									</tr>
 								</tbody>
 							</table>
-							<input id="fixkanbanBtn" type="button" class="btn btn-primary"
+							<input id="fixkanbanBtn" type="submit" class="btn btn-primary"
 								value="수정">
+						</form>
 						</div>
-					</form>
 				</div>
 			</div>
 		</div>
 		<!-- END MAIN CONTENT -->
-		<div class="clearfix"></div>
-<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
 	</div>
 </body>
 <script>
@@ -145,9 +144,6 @@ textarea {
 	}
 </script>
 <script>
-	$("#fixkanbanBtn").on("click", function() {
-		$("#formBox").submit();
-	});
 	$("#deleteKanban")
 			.on(
 					"click",
