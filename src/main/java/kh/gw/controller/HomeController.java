@@ -1,7 +1,5 @@
 package kh.gw.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,12 +11,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import kh.gw.dto.MemberDTO;
 import kh.gw.dto.MessageDTO;
 import kh.gw.dto.Project_kanbanDTO;
 import kh.gw.dto.ScheduleDTO;
 import kh.gw.dto.WriteDTO;
 import kh.gw.dto.Write_commentsDTO;
 import kh.gw.service.ApprovalService;
+import kh.gw.service.MemberService;
 import kh.gw.service.MessageService;
 import kh.gw.service.ProjectService;
 import kh.gw.service.ScheduleService;
@@ -51,14 +51,18 @@ public class HomeController {
 	@Autowired
 	private ProjectService pservice;
 	
+	@Autowired
+	private MemberService memservice;
 
 	@RequestMapping("/")
 	public String home(Model model) throws Exception{
 		if (session.getAttribute("id") != null) {
 			String id = (String) session.getAttribute("id");
-			String result = mservice.msgCount(id);
+			MemberDTO dtos = memservice.getMemInfo(id);
+			model.addAttribute("memInfo", dtos);
+			
 			//model.addAttribute("isWork", tservice.isGoLeave(id));
-
+			
 			
 			// 출근시간 조회
 			Map<String, Object> attendanceValue = tservice.getAttendanceTime(id);
@@ -73,7 +77,6 @@ public class HomeController {
 			List<Project_kanbanDTO> pkdtoList = pservice.getProKanInfoById(id);
 			//완성도 계산
 			List<Map<String,Object>> HLMap = pservice.proPercent(pkdtoList);
-
 			model.addAttribute("map",HLMap);
 			//프로젝트의 진행률(각?)
 			

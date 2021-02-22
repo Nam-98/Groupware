@@ -10,6 +10,7 @@
 <body>
 	<script>
 	alert("근태 조정 신청 완료되었습니다.");
+	window.opener.location.href="/tna/tnaFixHistoryPage.tna?cpage=1";
 	window.close();
 	</script>
 </body>

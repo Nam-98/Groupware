@@ -1,5 +1,6 @@
 package kh.gw.controller;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -126,34 +127,34 @@ public class TnAController {
 		String sessionId = (String)session.getAttribute("id");
 		int tna_seq = Integer.parseInt(request.getParameter("tna_seq"));
 		String tna_status = request.getParameter("tna_status");
-		String tna_obj_proc_status_name = request.getParameter("tna_obj_proc_status_name");
 
 		// 이미 해당 값에 대해 근태조정신청 중복여부체크
 		Map<String, Object> dto = tservice.tnaCheckOverlap(tna_seq,tna_status);
 
 
-		// 변경할 출퇴근시간 값 조회 (지각,조퇴...)
+		// 변경할 출퇴근시간 값 조회 (이미 신청된 값이 있는지)
 		Map<String, Object> tnaCalendarValue = tservice.getTnaCalendarValue(sessionId,tna_seq);
-		// 근태상태 리스트 값 조회
+		// 근태상태 리스트 값 조회  (지각,조퇴...)
 		List<TnA_statusDTO> tnaStatusList = tservice.getTnaStatusList();
 
 		model.addAttribute("tnaStatusList", tnaStatusList);
 		model.addAttribute("tnaCalendarValue", tnaCalendarValue);
 		model.addAttribute("tna_status", tna_status);
-
+		
+		// 신청된 값이 이미 있다면 dto가 비어있지 않음
 		if (dto != null) {
 			model.addAttribute("dto", dto);
-			if(tna_obj_proc_status_name != null) {
-				if(tna_obj_proc_status_name.contentEquals("승인")) {
-	
+			int TNA_OBJ_PROC_STATUS_CODE = ((BigDecimal)dto.get("TNA_OBJ_PROC_STATUS_CODE")).intValue();
+				// 승인된 상태라면 변경 불가
+				if(TNA_OBJ_PROC_STATUS_CODE == 3) {
 					return "/tna/user/tnaFixOverlap";
+				// 조정중, 반려라면 수정 가능
+				}else {
+					return "/tna/user/tnaReFix";
 				}
-			}
-
-			return "/tna/user/tnaReFix";
-			
+				
 		}
-
+		// 신청이 처음인경우
 		return "/tna/user/tnaFixRequest";
 	}
 

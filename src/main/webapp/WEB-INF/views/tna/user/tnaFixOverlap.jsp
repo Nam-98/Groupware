@@ -17,6 +17,7 @@
 <head>
 <meta charset="UTF-8">
 <title>My TnA</title>
+<!-- tnaFixOverlap -->
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <!-- 아이콘 fontawesome -->
     <script src="https://kit.fontawesome.com/b1e233372d.js"></script>
