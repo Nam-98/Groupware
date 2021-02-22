@@ -65,4 +65,8 @@ public class MemberService {
 		File targetLoc = new File(filesPath.getAbsoluteFile()+"/"+id + ".png");
 		FileCopyUtils.copy(profilePic.getBytes(), targetLoc);
 	}
+	
+	public int updatePw(String id, String newpw) throws IOException {
+		return mdao.updatePw(id,newpw);
+	}
 }
