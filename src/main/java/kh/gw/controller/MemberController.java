@@ -48,7 +48,7 @@ public class MemberController {
 		}else {
 			System.out.println("로그인 실패");
 			//return "redirect:/";
-			return "/main/loginFailView";
+			return "main/loginFailView";
 		}
 	}
 	
@@ -64,7 +64,7 @@ public class MemberController {
 		public String enterMyPage(Model model) throws Exception {
 			MemberDTO dtos = mservice.getMemInfo((String) session.getAttribute("id"));
 			model.addAttribute("dto",dtos);
-			return "/mypage/myInfo";
+			return "mypage/myInfo";
 		}
 		
 	//조직도 불러오기
@@ -74,7 +74,7 @@ public class MemberController {
 			List<DepartmentDTO> dlist = mservice.listDept(); //부서명 가져옴
 			m.addAttribute("mlist", mlist);
 			m.addAttribute("dlist", dlist);
-			return "/orgnization/orgnizationChart";
+			return "orgnization/orgnizationChart";
 		}
 	
 	//조직도 직원 클릭시 정보 불러오기
@@ -87,7 +87,7 @@ public class MemberController {
 			m.addAttribute("dto", dto);
 			m.addAttribute("mlist", mlist);
 			m.addAttribute("dlist", dlist);
-			return "/orgnization/orgnizationChart";
+			return "orgnization/orgnizationChart";
 		}
 		
 		//프로젝트에서 조직도 직원 클릭시 정보 불러오기
@@ -100,8 +100,27 @@ public class MemberController {
 			m.addAttribute("dto", dto);
 			m.addAttribute("mlist", mlist);
 			m.addAttribute("dlist", dlist);
-			return "/project/projectPopupView";
-		}		
+			return "project/projectPopupView";
+		}
+		
+	//비밀번호 변경 페이지 가기
+	@RequestMapping("pwFix.member")
+	public String pwFix(HttpServletRequest request, Model m) throws Exception{
+		String id = (String)session.getAttribute("id");
+		MemberDTO dtos = mservice.getMemInfo(id);
+		m.addAttribute("dtos", dtos);
+		return "mypage/pwFixView";
+	}
+	
+	@RequestMapping("fixMyPw.member")
+	public String fixMyPw(HttpServletRequest request, Model m) throws Exception{
+		String id = (String)session.getAttribute("id");
+		String newpw = request.getParameter("newpw");
+		MemberDTO dto = mservice.getMemInfo(id);
+		mservice.updatePw(id,newpw);
+		m.addAttribute("dto",dto);
+		return "mypage/pwFixSuccessView";
+	}
 	
 	// error
 	@ExceptionHandler

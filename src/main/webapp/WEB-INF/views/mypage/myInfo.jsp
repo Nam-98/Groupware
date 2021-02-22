@@ -89,6 +89,7 @@
 					<div class="panel panel-headline demo-icons">
 						<div class="panel-heading">
 							<h3 class="panel-title">개 인 정 보</h3>
+							<div class = "right"><input id="pwFix" type = "button" class="btn btn-sm btn-primary" value="비밀번호변경"></div>
 						</div>
 						<div class="panel-body">
 							<div class="col-lg-2 col-12">
@@ -97,7 +98,7 @@
 										src="/resources/profileImage/${id}.png">
 									<div class="top-vacant d-none d-lg-block"></div>	
 									<div class="m-2">
-										<div class="m-2"><b>${sessionScope.id}&nbsp&nbsp
+										<div class="m-2"><b>${dto.name}&nbsp&nbsp
 											${dto.position_name}님</b></div>
 									</div>
 								</div>
@@ -106,18 +107,10 @@
 								<div class="bodyContents">
 									<div class="card-body">
 										<table class="table table-sm">
-											<thead>
-												<tr class="table-secondary">
-													<th scope="col">항 목</th>
-													<th scope="col">내 용</th>
-													<th scope="col">항 목</th>
-													<th scope="col">내 용</th>
-												</tr>
-											</thead>
 											<tbody>
 												<tr>
-													<th scope="row">이 름</th>
-													<td>${dto.name}</td>
+													<th scope="row">아 이 디</th>
+													<td>${id}</td>
 													<th scope="row">생 년 월 일</th>
 													<td>${dto.birth}</td>
 												</tr>
@@ -153,14 +146,6 @@
 								<div class="bodyContents">
 									<div class="card-body">
 										<table class="table table-sm">
-											<thead>
-												<tr class="table-secondary">
-													<th scope="col">항 목</th>
-													<th scope="col">내 용</th>
-													<th scope="col">항 목</th>
-													<th scope="col">내 용</th>
-												</tr>
-											</thead>
 											<tbody>
 												<tr>
 													<th scope="row">부 서</th>
@@ -196,8 +181,8 @@
 	</div>
 	<!-- END WRAPPER -->
 	<script>
-		$("#askFix").on("click", function() {
-			alert("미구현");
+		$("#pwFix").on("click", function() {
+			location.href ="/member/pwFix.member";
 		});
 	</script>
 

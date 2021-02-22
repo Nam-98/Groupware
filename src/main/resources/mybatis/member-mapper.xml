@@ -31,4 +31,8 @@
 	<update id="updateMemInfo">
 		update st.member set name=#{name},birth=#{birth},gender=#{gender},contact=#{contact},address1=#{address1},address2=#{address2},zip_code=#{zip_code},is_married=#{is_married},dept_code=#{dept_code},position_code=#{position_code},break_total_count=#{break_total_count},break_use_count=#{break_use_count} where id= #{id}
 	</update>
+	
+	<update id="updatePw">
+		update st.member set password=#{newpw} where id=#{id}
+	</update>
   </mapper>
