@@ -72,5 +72,9 @@ public class ScheduleDAO {
 	public int updateComhd(Company_holidayDTO dto) {
 		return db.update("Schedule.updateComhd", dto);
 	}
+
+	public List<Company_holidayDTO> holidaySchedule() throws Exception{
+		return db.selectList("Schedule.holidaySchedule");
+	}
 	
 }

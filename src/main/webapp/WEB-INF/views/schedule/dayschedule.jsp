@@ -74,6 +74,7 @@
 			<div class="panel panel-headline demo-icons">
 					<div class="panel-heading">
 						<h3 class="panel-title">일 간 일 정</h3>
+						<input type="button" id="addSchedule" class="btn btn-gray btn-xs" value="일정 추가하기">
 					</div>
 					<div class="panel-body">
 						<div id="calendar" class="col-6"></div>
@@ -137,6 +138,18 @@
 			});
 			 calendar.render();
 	 	});
+	</script>
+	
+	<script>
+   		document.getElementById("addSchedule").onclick=function(){
+	   		var con = confirm("일정을 추가하시겠습니까?")
+	   		var popup='top=10, left=10, width=800, height=600, status=no, menubar=no, toolbar=no, resizable=no';
+	   		if(con == true){
+	   			window.open("/schedule/addSchedulePage.schedule", "popup", popup)
+	   		}else{
+	   			location.href="/schedule/monthSchedule.schedule"
+	   		}
+   		}
 	</script>
 </body>
 </html>

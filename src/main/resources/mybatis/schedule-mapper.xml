@@ -50,4 +50,8 @@
 	<update id="updateComhd">
 		update st.company_holiday set comp_hd_name=#{comp_hd_name}, comp_hd_date=#{comp_hd_date} where comp_hd_seq=#{comp_hd_seq}
 	</update>
+	
+	<select id="holidaySchedule" resultType="kh.gw.dto.Company_holidayDTO">
+		select * from st.company_holiday
+	</select>
   </mapper>

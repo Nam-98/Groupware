@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import kh.gw.dto.Company_holidayDTO;
 import kh.gw.dto.ScheduleDTO;
 import kh.gw.service.ScheduleService;
 
@@ -52,6 +53,13 @@ public class ScheduleController {
 		 
 		 m.addAttribute("list", list);
 		 
+		 List<Company_holidayDTO> hlist = sservice.holidaySchedule();
+		 
+		 sservice.addhDateStr(hlist);
+		 
+		 m.addAttribute("hlist", hlist);
+		 System.out.println(hlist.get(0).getComp_hd_date_cd());
+		 
 
 		 return "/schedule/monthschedule";
 	}
@@ -63,9 +71,6 @@ public class ScheduleController {
 		List<ScheduleDTO> list = sservice.listAllSchedule(id);
 		 
 		 sservice.addDateStr(list);
-//		 System.out.println(list.get(0).getSch_start_date_sc());
-//		 System.out.println(list.get(0).getSch_end_date_sc());
-//		 System.out.println(list.get(0).getSch_title());
 		 
 		 m.addAttribute("list", list);
 		return "/schedule/weekschedule";
@@ -78,9 +83,6 @@ public class ScheduleController {
 		List<ScheduleDTO> list = sservice.listAllSchedule(id);
 		 
 		 sservice.addDateStr(list);
-//		 System.out.println(list.get(0).getSch_start_date_sc());
-//		 System.out.println(list.get(0).getSch_end_date_sc());
-//		 System.out.println(list.get(0).getSch_title());
 		 
 		 //scheduledto에 날짜만 저장된 컬럼 2개를 만듬.
 		 for(ScheduleDTO i : list) {
@@ -103,12 +105,9 @@ public class ScheduleController {
 	@RequestMapping("addSchedule.schedule")
 	public String addSchedule(HttpServletRequest request, ScheduleDTO dto, int condition, int condition2, int condition3, int condition4) throws Exception{
 		
-//		System.out.println(condition + " : " + condition2);
-		
 		dto.setSch_start_date(new SimpleDateFormat("yyyy-MM-dd").parse(dto.getSch_start_date_sc()));
 		dto.setSch_end_date(new SimpleDateFormat("yyyy-MM-dd").parse(dto.getSch_end_date_sc()));
-//		System.out.println(dto.getSch_start_date());
-		
+
 		//long 형 변수에 dto에서 불러온 시작날짜(date형) 값 대입
 		long sch_start_date = dto.getSch_start_date().getTime();
 		long sch_end_date = dto.getSch_end_date().getTime();
@@ -124,14 +123,6 @@ public class ScheduleController {
 		//date 형 변수를 string 형으로 변환해 값 출력하기
 		dto.setSch_start_date(plusStartDate);
 		dto.setSch_end_date(plusEndDate);
-		
-
-//		System.out.println(dto.getSch_start_date());
-//		System.out.println(dto.getSch_start_date_sc());
-//		System.out.println(System.currentTimeMillis());
-//		System.out.println(sch_start_date);
-//		System.out.println(plusStartDate);
-//		System.out.println(plusEndDate);
 
 		int result = sservice.insertSchedule(dto);
 		
@@ -143,24 +134,6 @@ public class ScheduleController {
 	public String scheduleList() throws Exception{
 		return "/schedule/schedulelist";
 	}
-	
-	//------------- 일정 리스트 게시판 형식
-//	@RequestMapping("scheduleListProc.schedule")
-//	public String scheduleListProc(Model m, HttpServletRequest request) throws Exception{
-//		 String cpage = request.getParameter("cpage");
-//		 
-//		 List<ScheduleDTO> list = sservice.listByCpage(Integer.parseInt(cpage));
-//		 String navi = sservice.getListNavi(Integer.parseInt(cpage));
-//		 
-//		 sservice.addDateStr(list);
-//		 System.out.println(list.get(0).getSch_start_date_sc());
-//		 System.out.println(list.get(0).getSch_end_date_sc());
-//		 System.out.println(list.get(0).getSch_title());
-//		 m.addAttribute("list", list);
-//		 m.addAttribute("navi", navi);
-//		 
-//		return "/schedule/schedulelist";
-//	}
 	
 	//------------- 일정 상세
 	@RequestMapping("scheduleView.schedule")

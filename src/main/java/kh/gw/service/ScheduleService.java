@@ -139,4 +139,16 @@ public class ScheduleService {
 	public int updateComhd(Company_holidayDTO dto) throws Exception{
 		return sdao.updateComhd(dto);
 	}
+
+	public List<Company_holidayDTO> holidaySchedule() throws Exception{
+		return sdao.holidaySchedule();
+	}
+
+	public void addhDateStr(List<Company_holidayDTO> hlist) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd");
+		
+		for(Company_holidayDTO dto : hlist) {
+			dto.setComp_hd_date_cd(simpleDateFormat.format(dto.getComp_hd_date()));
+		}
+	}
 }
