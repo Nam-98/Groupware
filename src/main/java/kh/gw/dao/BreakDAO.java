@@ -41,4 +41,11 @@ public class BreakDAO {
 	public List<BreakDTO> loadHolidayList(String id){
 		return db.selectList("Break.loadHolidayList",id);
 	}
+	
+	public BreakDTO getBreakBySeq(int break_seq) {
+		return db.selectOne("Break.getBreakBySeq",break_seq);
+	}
+	public int updateAccept(BreakDTO dto) {
+		return db.update("Break.updateAccept", dto);
+	}
 }

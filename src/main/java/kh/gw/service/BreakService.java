@@ -48,4 +48,11 @@ public class BreakService {
 	public List<BreakDTO> loadHolidayList(String id){
 		return bdao.loadHolidayList(id);
 	}
+	
+	public int discountBreak(int app_seq, String accept) {
+		BreakDTO dto = new BreakDTO();
+		dto.setApp_seq(app_seq);
+		dto.setBreak_accept(accept);
+		return bdao.updateAccept(dto);
+	}
 }

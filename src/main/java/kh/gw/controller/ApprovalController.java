@@ -112,8 +112,14 @@ public class ApprovalController {
 		return "approval/appDetailView";
 	}
 	@RequestMapping("/signApproval.approval")
-	public String signApproval (String isAccept, int app_seq, HttpServletRequest request,Model model) throws Exception {
+	public String signApproval (String isAccept, int app_seq, Model model,int app_type_code) throws Exception {
 		aservice.updateSign(app_seq, isAccept);
+		
+		//휴가신청을 update
+		if(app_type_code==3) {
+			
+		}
+		
 		return this.toAppDetailView(model, app_seq);
 	}
 	@RequestMapping(value="/dlAttachedFiles.approval", produces="application/text;charset=utf-8")

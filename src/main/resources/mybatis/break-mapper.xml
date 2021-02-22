@@ -28,4 +28,11 @@
   	<select id="loadHolidayList" resultType="kh.gw.dto.BreakDTO">
   		select * from st.break where break_id =#{value}
   	</select>
+  	
+  	<select id="getBreakBySeq" resultType="kh.gw.dto.BreakDTO">
+  		select * from st.break where break_seq=#{break_seq}
+  	</select>
+  	<update id="updateAccept">
+  		update st.break set break_accept=#{break_accept} where app_seq=#{app_seq}
+  	</update>
   </mapper>
