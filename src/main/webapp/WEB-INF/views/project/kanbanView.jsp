@@ -166,7 +166,7 @@
                     $(item).find(".jqx-kanban-item-color-status").html("<span style='line-height: 23px; margin-left: 5px;'>" + resource.name + "</span><img style=' width : 20px; height : 20px; line-height: 23px; margin-left: 5px;' src=" + resource.image + ">");
                     $(item).find(".jqx-kanban-item-text").css('background', item.color);
                     item.on('dblclick', function (event) {
-                    	var options='top=10, left=10, width=800, height=600, status=no, menubar=no, toolbar=no, resizable=no';
+                    	var options='top=10, left=10, width=800, height=630, status=no, menubar=no, toolbar=no, resizable=no';
                         window.open("/project/fixkanbanPop.project?itemId="+data.id,"popup",options);
                     	
                     });
@@ -236,20 +236,15 @@
 							aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-						<strong>Notice!</strong>
-						<br><br>
-						<span class="glyphicon glyphicon-ok"
-							aria-hidden="true"></span> <span class="sr-only">Check:</span>&nbsp
-						상세 설명 및 내용 변경은 칸반 <strong>더블클릭</strong><br><br>
+						<strong>Notice!</strong>&nbsp 내용변경은 칸반 <strong>더블클릭</strong>
 					</div>
-					<div class="top-vacant d-none d-lg-block"></div>
-							
-							<button type="button" id="destroyKanban" class="btn btn-primary">초기화</button>
-							<button id="back" class="btn btn-info">목록으로</button>
-					<div class="top-vacant d-none d-lg-block"></div>
 					<div class="panel panel-headline demo-icons">
 						<div class="panel-heading">
 							<h3 class="panel-title">칸 반 보 드 보 기</h3>
+							<div class = "right">
+								<input type="button" id="destroyKanban" class="btn btn-sm btn-primary" value="초기화">
+								<input type="button" id="back" class="btn btn-sm btn-info" value="목록으로">
+							</div>
 						</div>
 						<div class="panel-body">
 							<div id="kanban"></div>
