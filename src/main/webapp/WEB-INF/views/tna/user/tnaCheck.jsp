@@ -236,7 +236,7 @@
 						{
 							title: '${list.TNA_START_STATUS_NAME}',
 							start: '${list.TNA_START_TIME}',
-							url: "/tna/tnaFixRequestPage.tna?tna_seq=${list.TNA_SEQ}&tna_status=start&tna_obj_proc_status_name=${list.TNA_OBJ_PROC_STATUS_NAME}"
+							url: "/tna/tnaFixRequestPage.tna?tna_seq=${list.TNA_SEQ}&tna_status=start"
 							<c:if test='${list.TNA_START_STATUS_NAME == "지각"}'>
 								,color: '#e4cb10'
 							</c:if>
@@ -245,7 +245,7 @@
 						{
 							title: '${list.TNA_END_STATUS_NAME}',
 							start: '${list.TNA_END_TIME}',
-							url: "/tna/tnaFixRequestPage.tna?tna_seq=${list.TNA_SEQ}&tna_status=end&tna_obj_proc_status_name=${list.TNA_OBJ_PROC_STATUS_NAME}"
+							url: "/tna/tnaFixRequestPage.tna?tna_seq=${list.TNA_SEQ}&tna_status=end"
 							<c:if test='${list.TNA_END_STATUS_NAME == "조퇴"}'>
 								,color: '#e4cb10'
 							</c:if>

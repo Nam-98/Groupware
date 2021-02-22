@@ -152,17 +152,23 @@
 		})
 		$("#newFolder-btn").on("click",function(){
 			var newFolderName = prompt('새 폴더 이름을 입력해 주세요.'); 
-			alert(newFolderName);
+			if ((newFolderName != null) && (newFolderName != "")) {
 			// 해당 디렉토리에 중복되는 폴더 이름이 있는지 확인
-			$.ajax({
-				url:'/webhard/mkdirOverlapCheck.webhard',
-				type:'post',
-				data:{dirSeq:"${dirSeq }", newFolderName:newFolderName},
-				success:function(resp){
-					alert("갔따옴")
-				}
-				
-			})
+				$.ajax({
+					url:'/webhard/mkdirOverlapCheck.webhard',
+					type:'post',
+					data:{dirSeq:"${dirSeq }", newFolderName:newFolderName},
+					success:function(resp){
+						if (resp > 0) {
+							alert(newFolderName + "과(와) 동일한 이름을 가진 \n파일 또는 폴더가 이미 존재합니다.");
+							return 1;
+						}else{
+							location.href = "/webhard/mkdirProcess.webhard?dirSeq=" +${dirSeq }+ "&newFolderName=" +newFolderName;
+						}
+					}
+					
+				})
+			}
 		})
 	</script>
 </body>

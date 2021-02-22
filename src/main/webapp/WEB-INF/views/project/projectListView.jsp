@@ -80,12 +80,10 @@
 			<div class="main-content">
 				<div class="container-fluid">
 					<h3 class="page-title">My Project</h3>
-					<button type="button" id="addProject" class="btn btn-primary">추가</button>
-					<div class="top-vacant d-none d-lg-block"></div>
-
 					<div class="panel panel-headline demo-icons">
 						<div class="panel-heading">
 							<h3 class="panel-title">프 로 젝 트 보 기</h3>
+							<div class="right"><input type="button" id="addProject" class="btn btn-sm btn-primary" value="추가"></div>
 						</div>
 						<div class="panel-body">
 							<table class="table table-hover">

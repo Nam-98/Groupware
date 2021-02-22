@@ -1,6 +1,5 @@
 package kh.gw.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +20,7 @@ import com.nexacro17.xapi.data.DataSet;
 import kh.gw.dto.Approval_typeDTO;
 import kh.gw.dto.Break_typeDTO;
 import kh.gw.dto.Company_holidayDTO;
+import kh.gw.dto.DepartmentDTO;
 import kh.gw.dto.MemberDTO;
 import kh.gw.dto.TnA_StandardTimeDTO;
 import kh.gw.dto.WriteDTO;
@@ -261,12 +261,6 @@ public class AdminController {
 		return nr;
 	}
 	
-	@RequestMapping("inserthol.nexacro")
-	public NexacroResult inserthol(@ParamDataSet(name = "ds_in") Company_holidayDTO dto) throws Exception{
-		sser.inserthol(dto);
-		return new NexacroResult();
-	}
-	
 	@RequestMapping("updateComhd.nexacro")
 	public NexacroResult updateComhd(@ParamDataSet(name = "in_holiday") DataSet ds) throws Exception{
 		for (int i = 0; i < ds.getRemovedRowCount(); i++) {
@@ -286,6 +280,11 @@ public class AdminController {
 	                 System.out.println(dto.getComp_hd_seq());
 	                 System.out.println(dto.getComp_hd_date());
 	              sser.updateComhd(dto);
+	            }else if (rowType == DataSet.ROW_TYPE_INSERTED) {
+	            	Company_holidayDTO dto = new Company_holidayDTO();
+	            	dto.setComp_hd_name((String)ds.getSavedData(i, "comp_hd_name"));
+	                dto.setComp_hd_date(ds.getDateTime(i, "comp_hd_date"));
+	                sser.inserthol(dto);
 	            }
 	        }
 			return new NexacroResult();
@@ -304,6 +303,24 @@ public class AdminController {
 	public NexacroResult nxAppTypeDelete(@ParamVariable(name="app_seq")int app_type_code) throws Exception {
 		NexacroResult nr = new NexacroResult();
 		nr.setErrorCode(aservice.nxDelDocsType(app_type_code));
+		return nr;
+	}
+	@RequestMapping("/nxDeptAdd.nexacro")
+	public NexacroResult nxDeptAdd(@ParamDataSet(name="ds_in")DepartmentDTO dto) {
+		NexacroResult nr = new NexacroResult();
+		nr.setErrorCode(dser.nxDeptAdd(dto));
+		return nr;
+	}
+	@RequestMapping("/nxDeptUdt.nexacro")
+	public NexacroResult nxDeptUdt(@ParamDataSet(name="ds_in")DepartmentDTO dto) {
+		NexacroResult nr = new NexacroResult();
+		nr.setErrorCode(dser.nxDeptUdt(dto));
+		return nr;
+	}
+	@RequestMapping("/nxDeptDel.nexacro")
+	public NexacroResult nxDeptDel(@ParamVariable(name="dept_code")int dept_code) {
+		NexacroResult nr = new NexacroResult();
+		nr.setErrorCode(dser.nxDeptDel(dept_code));
 		return nr;
 	}
 	

@@ -74,27 +74,17 @@
 			<div class="main-content">
 				<div class="container-fluid">
 					<h3 class="page-title">My Project : ${pdto.pro_title}</h3>
-					<button type="button" id="gokanban" class="btn btn-primary">
-						<span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>
-						<span class="sr-only">Check:</span>칸반보드
-					</button>
-
-					<button type="button" id="deletepro" class="btn btn-secondary">삭제</button>
-					<button id="back" class="btn btn-info">목록으로</button>
-					<div class="top-vacant d-none d-lg-block"></div>
-
 					<div class="panel panel-headline demo-icons">
 						<div class="panel-heading">
 							<h3 class="panel-title">프 로 젝 트 정 보</h3>
+							<div class = "right">
+					<input type="button" id="gokanban" class="btn btn-sm btn-primary" value="칸반보드">
+					<input type="button" id="deletepro" class="btn btn-sm btn-danger" value ="삭제">
+					<input type="button"  id="back" class="btn btn-sm btn-info" value="목록으로">
+					</div>
 						</div>
 						<div class="panel-body">
 							<table class="table table-sm">
-								<thead>
-									<tr class="table-secondary">
-										<th scope="col">항 목</th>
-										<th scope="col">내 용</th>
-									</tr>
-								</thead>
 								<tbody>
 									<tr>
 										<th scope="row">프로젝트명</th>

@@ -32,7 +32,7 @@ public class WebhardController {
 	private WebhardService whservice;
 	@Autowired
 	private HttpSession session;
-	
+	// test
 	// 웹하드 접속 (개인 디렉토리)
 	@RequestMapping("webhardMain.webhard")
 	public String webhardMain(HttpServletRequest request, Model model) {
@@ -76,7 +76,7 @@ public class WebhardController {
 			}
 
 		}
-//		// 폴더 리스트 가져오기
+		// 폴더 리스트 가져오기
 		List<Webhard_dirDTO> dirFolderList = whservice.getDirFolderList(dirSeq);
 		// 파일 리스트 가져오기
 		List<Webhard_filesDTO> dirFileList = whservice.getDirFileList(dirSeq);
@@ -141,10 +141,26 @@ public class WebhardController {
 		String stringdirSeqGet = request.getParameter("dirSeq");
 		int dirSeq = Integer.parseInt(stringdirSeqGet);
 		String newFolderName = request.getParameter("newFolderName");
-		System.out.println(dirSeq);
-		System.out.println(newFolderName);
+
+		// 중복되는 폴더, 파일이 있는지 체크
+		int overlapCount = whservice.mkdirOverlapCheck(dirSeq, newFolderName);
 		
-		return "";
+		return overlapCount + "";
+	}
+	
+	// 새폴더 생성 프로세스
+	@RequestMapping("mkdirProcess.webhard")
+	public String mkdirProcess(HttpServletRequest request, Model model) {
+		String stringdirSeqGet = request.getParameter("dirSeq");
+		int dirSeq = Integer.parseInt(stringdirSeqGet);
+		String newFolderName = request.getParameter("newFolderName");
+		
+		whservice.mkdirProcess(dirSeq, newFolderName);
+		
+		// 이전 페이지 주소값
+		String referer = request.getHeader("REFERER");
+		
+		return "redirect:" + referer;
 	}
 	
 	

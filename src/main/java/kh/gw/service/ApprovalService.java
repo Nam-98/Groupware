@@ -479,8 +479,9 @@ public class ApprovalService {
 		List<ApprovalDTO> resultList = new ArrayList<ApprovalDTO>();
 		HashMap<String, Object> map = new HashMap();
 		
+		System.out.println("signList.size() : "+signList.size());
 		if(signList.size()==0) {
-			map.put("error", -1);
+			map.put("error", -2);
 			return map;}
 		for (Approval_signDTO dto : signList) {
 			//현재 내 결제차례인 리스트만 가져옴
@@ -496,7 +497,11 @@ public class ApprovalService {
 		//cPage기준으로 뽑아올 양 선택
 		int startnum = 1;
 		int endnum = 3;
-		
+
+		if(seqList.size()==0) {
+			map.put("error", -2);
+			System.out.println("뽑을 것이 없음");
+			return map;}
 		resultList = adao.getAppByCpage(seqList,startnum,endnum);
 		for(ApprovalDTO dto : resultList) {
 			for(Approval_signDTO asdto : signList) {

@@ -192,7 +192,7 @@ public class WebhardService {
 			}
 		}
 		
-		return 1;
+		return 0;
 	}
 	
 	// 해당 디렉토리의 파일 리스트 가져오기
@@ -245,6 +245,44 @@ public class WebhardService {
 		}
 		
 		return 0;
+	}
+	
+	// 중복되는 폴더, 파일이 있는지 체크
+	public int mkdirOverlapCheck(int dirSeq, String newFolderName) {
+		
+		// 해당 이름과 겹치는 개수 초기값
+		int overlapCount = 0;
+		
+		// 폴더 리스트 가져오기
+		List<Webhard_dirDTO> dirFolderList = getDirFolderList(dirSeq);
+		for (int i = 0; i < dirFolderList.size(); i++) {
+			if (dirFolderList.get(i).getWh_dir_name().contentEquals(newFolderName)) {
+				overlapCount += 1;
+			}
+		}
+		// 파일 리스트 가져오기
+		List<Webhard_filesDTO> dirFileList = getDirFileList(dirSeq);
+		for (int i = 0; i < dirFileList.size(); i++) {
+			if (dirFileList.get(i).getWh_ori_name().contentEquals(newFolderName)) {
+				overlapCount += 1;
+			}
+		}
+		
+		return overlapCount;
+	}
+	
+	// 해당 디렉토리 내에 새 폴더 생성
+	public int mkdirProcess(int dirSeq, String newFolderName) {
+		int newDirSeq = newDirSeqGet();
+		
+		Webhard_dirDTO dirDTO = new Webhard_dirDTO();
+		dirDTO.setWh_dir_seq(newDirSeq);
+		dirDTO.setWh_dir_name(newFolderName);
+		dirDTO.setWh_dir_parent_seq(dirSeq);
+		
+		int result = newDirMake(dirDTO);
+		
+		return result;
 	}
 	
 	

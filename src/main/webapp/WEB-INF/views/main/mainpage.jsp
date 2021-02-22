@@ -118,14 +118,12 @@
 									</div>
 								</div>
 								<div class="col-md-3">
-									<div class="metric" style="cursor: pointer;"
-										onclick="location.href='/nex/admin.nexacro';">
-										<span class="icon"><i
-											class="fas fa-user-cog fa-4x adminitem"></i></span>
+								<div class="metric" style="cursor: pointer;"
+										onclick="location.href='/message/msgInBoxList.message?cpage=1';">
+										<span class="icon"><i class="fas fa-envelope fa-4x"></i></span>
 										<p>
-											<span class="number">Administrator</span><span class="title">관리자</span>
+											<span class="number">Message</span> <span class="title">쪽지함</span>
 										</p>
-										<input type=hidden value="/nex/admin.nexacro">
 									</div>
 								</div>
 								<div class="col-md-3">
@@ -139,12 +137,15 @@
 									</div>
 								</div>
 								<div class="col-md-3">
-									<div class="metric" style="cursor: pointer;"
-										onclick="location.href='/message/msgInBoxList.message?cpage=1';">
-										<span class="icon"><i class="fas fa-envelope fa-4x"></i></span>
+									
+																		<div class="metric" style="cursor: pointer;"
+										onclick="location.href='/nex/admin.nexacro';" id="adminBtn">
+										<span class="icon"><i
+											class="fas fa-user-cog fa-4x adminitem"></i></span>
 										<p>
-											<span class="number">Message</span> <span class="title">쪽지함</span>
+											<span class="number">Administrator</span><span class="title">관리자</span>
 										</p>
+										<input type=hidden value="/nex/admin.nexacro">
 									</div>
 								</div>
 							</div>
@@ -163,25 +164,22 @@
 									<h4>
 										<span id="currentTimeSpan"></span>
 									</h4>
-
-
 									<div class="top-vacant d-none d-lg-block"></div>
-									<input type="button" value="출근하기" id="attendanceBtn"
-										class="btn btn-gray btn-xs"> <input type="button" value="퇴근하기" id="leaveWorkBtn" class="btn btn-gray btn-xs">
+									<input type="button" value="출근" id="attendanceBtn"
+										class="btn btn-gray btn-xs"> <input type="button" value="퇴근" id="leaveWorkBtn" class="btn btn-gray btn-xs">
 									<hr>
 									<div class="">
-										<span class="glyphicon glyphicon-flag" aria-hidden="true">&nbsp<b>${attendanceValue.status }</b>&nbsp
+										<span class="glyphicon glyphicon-flag" aria-hidden="true"><b>${attendanceValue.status }</b>&nbsp
 										</span>
 										<c:if test='${attendanceValue.status != "-"}'>${attendanceValue.hour }시 ${attendanceValue.minute }분</c:if>
 
 									</div>
 									<hr>
 									<div class="">
-										<span class="glyphicon glyphicon-home" aria-hidden="true">&nbsp<b>${leaveWorkValue.status }</b>&nbsp
+										<span class="glyphicon glyphicon-home" aria-hidden="true"><b>${leaveWorkValue.status }</b>&nbsp
 										</span>
 										<c:if test='${leaveWorkValue.status != "-"}'> ${leaveWorkValue.hour }시 ${leaveWorkValue.minute }분</c:if>
 									</div>
-									<hr>
 								</div>
 								<div class="panel-footer">
 									<div class="row">
@@ -221,15 +219,24 @@
 														</tr>
 													</thead>
 													<tbody>
-														<c:forEach var="i" items="${knrWriteList}">
-															<tr class='dataRow'>
-																<th scope="row"  class="visible-lg hidden-sm">${i.app_docs_num}<input type=hidden value="${i.app_seq}"></th>
-																<td>${i.app_title}</td>
-																<td class="visible-lg hidden-sm">${i.name}</td>
-																<td class="visible-lg hidden-sm">${i.app_reg_date}</td>
-																<td>${i.app_status_name}</td>
-															</tr>
-														</c:forEach>
+														<c:choose>
+															<c:when test='${empty knrWriteList}'>
+																<tr class='dataRow'>
+																	<td colspan='5' style='text-align:center;'>작성한 문서가 없습니다.</td>
+																</tr>
+															</c:when>
+															<c:otherwise>
+																<c:forEach var="i" items="${knrWriteList}">
+																	<tr class='dataRow'>
+																		<th scope="row"  class="visible-lg hidden-sm">${i.app_docs_num}<input type=hidden value="${i.app_seq}"></th>
+																		<td>${i.app_title}</td>
+																		<td class="visible-lg hidden-sm">${i.name}</td>
+																		<td class="visible-lg hidden-sm">${i.app_reg_date}</td>
+																		<td>${i.app_status_name}</td>
+																	</tr>
+																</c:forEach>															
+															</c:otherwise>
+														</c:choose>
 													</tbody>
 												</table>
 											</div>
@@ -247,15 +254,25 @@
 														</tr>
 													</thead>
 													<tbody>
-														<c:forEach var="i" items="${knrToBeList}">
-															<tr class='dataRow'>
-																<th scope="row">${i.app_docs_num}<input type=hidden value="${i.app_seq}"></th>
-																<td>${i.app_title}</td>
-																<td>${i.name}</td>
-																<td>${i.app_reg_date}</td>
-																<td>${i.app_is_my_sign_turn}</td>
-															</tr>
-														</c:forEach>
+														<c:choose>
+															<c:when test='${empty knrToBeList}'>
+																<tr class='dataRow'>
+																	<td colspan='5' style='text-align:center;'>결재할 문서가 없습니다.</td>
+																</tr>
+															</c:when>
+															<c:otherwise>
+																<c:forEach var="i" items="${knrToBeList}">
+																	<tr class='dataRow'>
+																		<th scope="row">${i.app_docs_num}<input type=hidden value="${i.app_seq}"></th>
+																		<td>${i.app_title}</td>
+																		<td>${i.name}</td>
+																		<td>${i.app_reg_date}</td>
+																		<td>${i.app_is_my_sign_turn}</td>
+																	</tr>
+																</c:forEach>
+															</c:otherwise>
+														</c:choose>
+														
 													</tbody>
 												</table>
 											</div>
@@ -277,7 +294,7 @@
 										<div class="col-md-5">
 							<div class="panel">
 								<div class="panel-heading">
-									<h3 class="panel-title">Notice</h3>
+									<h3 class="panel-title"><b>Notice</b></h3>
 									<div class="right"></div>
 								</div>
 								<div class="panel-body">
@@ -409,9 +426,8 @@
 									<div class="right"></div>
 								</div>
 								<div class="panel-body">
-									<div class="metric">
 										<div id='calendar'></div>
-									</div>
+
 								</div>
 								<div class="panel-footer">
 									<div class="row">
@@ -571,7 +587,7 @@
    		<script>
 		//row눌렀을 때 링크로 이동
 		$(".dataRow").on("click",function(){
-			console.log($(this).children().first().children("input").val());
+			if($(this).children().first().children("input").val()==null){return;}
 			location.href="/approval/toAppDetailView.approval?app_seq="+$(this).children().first().children("input").val()
 		});
 		
@@ -581,6 +597,11 @@
 	                 })
 	              }, 300
 	        );
+	</script>
+	<script>
+		if("${memInfo.access_level_code}"=="0"){
+			$("#adminBtn").hide();
+		}
 	</script>
 </body>
 </html>
