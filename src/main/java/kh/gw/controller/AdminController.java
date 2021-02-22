@@ -1,6 +1,5 @@
 package kh.gw.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -262,12 +261,6 @@ public class AdminController {
 		return nr;
 	}
 	
-	@RequestMapping("inserthol.nexacro")
-	public NexacroResult inserthol(@ParamDataSet(name = "ds_in") Company_holidayDTO dto) throws Exception{
-		sser.inserthol(dto);
-		return new NexacroResult();
-	}
-	
 	@RequestMapping("updateComhd.nexacro")
 	public NexacroResult updateComhd(@ParamDataSet(name = "in_holiday") DataSet ds) throws Exception{
 		for (int i = 0; i < ds.getRemovedRowCount(); i++) {
@@ -287,6 +280,11 @@ public class AdminController {
 	                 System.out.println(dto.getComp_hd_seq());
 	                 System.out.println(dto.getComp_hd_date());
 	              sser.updateComhd(dto);
+	            }else if (rowType == DataSet.ROW_TYPE_INSERTED) {
+	            	Company_holidayDTO dto = new Company_holidayDTO();
+	            	dto.setComp_hd_name((String)ds.getSavedData(i, "comp_hd_name"));
+	                dto.setComp_hd_date(ds.getDateTime(i, "comp_hd_date"));
+	                sser.inserthol(dto);
 	            }
 	        }
 			return new NexacroResult();
