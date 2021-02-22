@@ -217,7 +217,7 @@ td.resize-col {
 											<th scope="row" class="align-middle">문서종류</th>
 											<td>
 												<select class="form-control form-select-sm" id="docsType" name="app_type_code" style='width:auto;display:inline;'>
-													<c:forEach items="${docsType}" var="dto">
+													<c:forEach items="${docsType}" var="dto" varStatus="status">
 														<option value="${dto.app_type_code}">${dto.app_type_name}</option>
 													</c:forEach>
 												</select>
@@ -338,7 +338,17 @@ td.resize-col {
 		}
 		$("#contents").val(contents);
 		$("#writeForm").submit();
-		
+	})
+	
+	//화면이 로딩될 때 summernote에 
+	 $(document).ready(function(){
+ 		$.ajax({
+			url : "/approval/getTemplate.approval?app_docs_type="+$("#docsType option:eq(0)").val(),
+			method : 'POST',
+			success : function(template){
+				$('.summernote').summernote('code', template);
+			}
+		})
 	})
 	</script>
 	<!-- /.modal -->
