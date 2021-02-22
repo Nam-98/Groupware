@@ -118,14 +118,12 @@
 									</div>
 								</div>
 								<div class="col-md-3">
-									<div class="metric" style="cursor: pointer;"
-										onclick="location.href='/nex/admin.nexacro';">
-										<span class="icon"><i
-											class="fas fa-user-cog fa-4x adminitem"></i></span>
+								<div class="metric" style="cursor: pointer;"
+										onclick="location.href='/message/msgInBoxList.message?cpage=1';">
+										<span class="icon"><i class="fas fa-envelope fa-4x"></i></span>
 										<p>
-											<span class="number">Administrator</span><span class="title">관리자</span>
+											<span class="number">Message</span> <span class="title">쪽지함</span>
 										</p>
-										<input type=hidden value="/nex/admin.nexacro">
 									</div>
 								</div>
 								<div class="col-md-3">
@@ -139,12 +137,15 @@
 									</div>
 								</div>
 								<div class="col-md-3">
-									<div class="metric" style="cursor: pointer;"
-										onclick="location.href='/message/msgInBoxList.message?cpage=1';">
-										<span class="icon"><i class="fas fa-envelope fa-4x"></i></span>
+									
+																		<div class="metric" style="cursor: pointer;"
+										onclick="location.href='/nex/admin.nexacro';" id="adminBtn">
+										<span class="icon"><i
+											class="fas fa-user-cog fa-4x adminitem"></i></span>
 										<p>
-											<span class="number">Message</span> <span class="title">쪽지함</span>
+											<span class="number">Administrator</span><span class="title">관리자</span>
 										</p>
+										<input type=hidden value="/nex/admin.nexacro">
 									</div>
 								</div>
 							</div>
@@ -599,6 +600,11 @@
 	                 })
 	              }, 300
 	        );
+	</script>
+	<script>
+		if("${memInfo.access_level_code}"=="0"){
+			$("#adminBtn").hide();
+		}
 	</script>
 </body>
 </html>
