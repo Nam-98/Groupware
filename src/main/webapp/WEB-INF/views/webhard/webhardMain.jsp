@@ -71,6 +71,7 @@
 									<input type="button" value="download" id="download-btn">
 									<input type="file" name="attfiles" multiple>
 									<input type= "button" value="새폴더 만들기" id="newFolder-btn">
+									<input type= "button" value="삭제" id="checkDel-btn">
 								</form>
 							</div>
 							<table class="table table-hover">
@@ -86,7 +87,7 @@
 									<!-- 폴더 표현 부분 -->
 									<c:forEach varStatus="j" var="folderList" items="${dirFolderList}">
 										<tr>
-											<th scope="row"><!-- 폴더체크박스 없음 --></th>
+											<th scope="row"><input class="form-check-input checkObj checkFolder" type="checkbox" value="${i.wh_files_seq}" name="chkList"></th>
 											<td><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></td>
 											<td>
 											<a href = "/webhard/webhardMain.webhard?dirSeq=${folderList.wh_dir_seq}"> ${folderList.wh_dir_name}</a>
@@ -98,7 +99,7 @@
 									<!-- 파일 표현 부분 -->
 									<c:forEach var="i" items="${dirFileList}">
 										<tr>
-											<th scope="row"><input class="form-check-input checkObj" type="checkbox" value="${i.wh_files_seq}" name="chkList"></th>
+											<th scope="row"><input class="form-check-input checkObj checkFile" type="checkbox" value="${i.wh_files_seq}" name="chkList"></th>
 											<td><span class="glyphicon glyphicon-file" aria-hidden="true"></span></td>
 											<td>
 											<a href = "/webhard/attFilesDown.webhard?wh_files_seq=${i.wh_files_seq }&wh_ori_name=${i.wh_ori_name}&wh_saved_name=${i.wh_saved_name}"> ${i.wh_ori_name}</a>
@@ -126,19 +127,26 @@
 
 
 	<script>
+		// 강제로 panel 최상단으로 끌어올리기
 		$(".main").css({
 			"padding-top": "0px"
 		});
+		
+		// 전체체크 버튼 동작
 		$(".checkAll").on("click",function(){
             if ($(".checkAll").is(':checked')) {
                 $("input[type=checkbox]").prop("checked", true);
             } else {
                 $("input[type=checkbox]").prop("checked", false);
             }
-		})
+		});
+		
+		// 단일체크 동작 시 전체체크 해제
 		$(".checkObj").on("click",function(){
 			$(".checkAll").prop("checked", false);
-		})
+		});
+		
+		// 체크 후 다운로드 버튼 클릭 시 동작
 		$("#download-btn").on("click",function(){
 			  var chked_val = "";
 			  $(":checkbox[name='chkList']:checked").each(function(pi,po){
@@ -149,7 +157,9 @@
 			  }
 			  alert(chked_val)
 // 			  return chked_val;
-		})
+		});
+		
+		// 새폴더 만들기
 		$("#newFolder-btn").on("click",function(){
 			var newFolderName = prompt('새 폴더 이름을 입력해 주세요.'); 
 			if ((newFolderName != null) && (newFolderName != "")) {
@@ -167,9 +177,37 @@
 						}
 					}
 					
-				})
+				});
 			}
-		})
+		});
+		
+		// 체크된 폴더 및 파일 삭제
+		$("#checkDel-btn").click(function(){
+			var confirm_val = confirm("정말 삭제하시겠습니까?");
+				
+				// 확인 버튼 클릭 시
+				if(confirm_val){
+					// 폴더의 체크값 어레이 선언
+					var chkArrFolder = new Array();
+					// 파일의 체크값 어레이 선언
+					var chkArrFile = new Array();
+					
+					// 체크된 폴더 리스트 값 담기
+					$("input[class='checkFolder']:checked").each(function(){
+						chkArrFolder.push($(this).attr("value"));
+					});
+					
+					// 체크된 파일 리스트 값 담기
+					$("input[class='checkFile']:checked").each(function(){
+						chkArrFile.push($(this).attr("value"));
+					});
+				}
+			
+		});
+		
+		
+		
+		
 	</script>
 </body>
 </html>
