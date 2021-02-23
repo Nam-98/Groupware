@@ -35,4 +35,7 @@
 	<update id="updatePw">
 		update st.member set password=#{newpw} where id=#{id}
 	</update>
+	<update id="updateBreakUseCount">
+		update st.member set break_use_count=(break_use_count+#{break_use_count}) where id=#{id}
+	</update>
   </mapper>
