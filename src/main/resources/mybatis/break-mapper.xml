@@ -26,6 +26,6 @@
   	</insert>
   	
   	<select id="loadHolidayList" resultType="kh.gw.dto.BreakDTO">
-  		select * from st.break where break_id =#{value}
+  		select * from st.break where break_id =#{value} and break_accept='Y'
   	</select>
   </mapper>

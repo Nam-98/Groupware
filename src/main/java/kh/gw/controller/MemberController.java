@@ -2,6 +2,8 @@ package kh.gw.controller;
 
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,8 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 
 import kh.gw.dto.DepartmentDTO;
 import kh.gw.dto.MemberDTO;
@@ -68,14 +68,43 @@ public class MemberController {
 		}
 		
 	//조직도 불러오기
-		@RequestMapping("orgnizationChart.member")
-		public String orgnizationChart(Model m) throws Exception{
-			List<MemberDTO> mlist = mservice.listMem();//멤버를 불러옴
-			List<DepartmentDTO> dlist = mservice.listDept(); //부서명 가져옴
-			m.addAttribute("mlist", mlist);
-			m.addAttribute("dlist", dlist);
-			return "orgnization/orgnizationChart";
-		}
+		//조직도 불러오기
+	      @RequestMapping("orgnizationChart.member")
+	      public String orgnizationChart(Model m) throws Exception{
+	         List<MemberDTO> mlist = mservice.listMem();//멤버를 불러옴
+	         List<DepartmentDTO> dlist = mservice.listDept(); //부서명 가져옴
+	         List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+	         int a =0;
+	         for(DepartmentDTO dto : dlist) {
+	        	 System.out.println(dto.getDept_code_parent());
+	        	 System.out.println("찍ㄴㄴ다====ㄴ");
+	        	 if(dto.getDept_code_parent() == -1) {
+	        		 dto.setDept_code_parent(100000000);
+	        	 }
+	        	 System.out.println(dto.getDept_code_parent());
+	            Map<String,Object> map = new HashMap<>();
+	            map.put("departmentName",dto.getDept_name());
+	            map.put("name","");
+	            map.put("position","");
+	            map.put("reportsTo", dto.getDept_code_parent());
+	            map.put("departmentID", dto.getDept_code());
+	            list.add(map);
+	         }
+	         
+	         for(MemberDTO dto : mlist) {
+	            Map<String,Object> map = new HashMap<>();
+	            map.put("departmentName","");
+	            map.put("name",dto.getName());
+	            map.put("position",dto.getPosition_name());
+	            map.put("reportsTo",dto.getDept_code());
+	            map.put("departmentID", 100+a);
+	            list.add(map);
+	            a++;
+	         }
+	         m.addAttribute("list", list);
+	         
+	         return "orgnization/orgnizationChart";
+	      }
 	
 	//조직도 직원 클릭시 정보 불러오기
 		@RequestMapping("orgMemInfo.member")
