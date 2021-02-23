@@ -97,7 +97,16 @@
 								<th class="active">문서 번호</th>
 								<td>${app.app_docs_num}</td>
 								<th class="active">보존연한</th> 
-								<td>${app.app_archive}년</td>
+								<td>
+									<c:choose>
+										<c:when test="${app.app_archive eq 0}">
+											없음
+										</c:when>
+										<c:otherwise>
+											${app.app_archive}년
+										</c:otherwise>
+									</c:choose>
+								</td>
 							</tr>
 							<tr>
 								<th class="active">제목</th>

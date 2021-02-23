@@ -20,6 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import kh.gw.dao.ApprovalDAO;
+import kh.gw.dao.BreakDAO;
+import kh.gw.dao.MemberDAO;
 import kh.gw.dto.ApprovalDTO;
 import kh.gw.dto.Approval_attached_filesDTO;
 import kh.gw.dto.Approval_commentsDTO;
@@ -27,6 +29,7 @@ import kh.gw.dto.Approval_signDTO;
 import kh.gw.dto.Approval_sign_typeDTO;
 import kh.gw.dto.Approval_statusDTO;
 import kh.gw.dto.Approval_typeDTO;
+import kh.gw.dto.BreakDTO;
 import kh.gw.statics.ApprovalConfigurator;
 import kh.gw.statics.ApprovalComparator;
 
@@ -34,6 +37,10 @@ import kh.gw.statics.ApprovalComparator;
 public class ApprovalService {
 	@Autowired
 	private ApprovalDAO adao;
+	@Autowired
+	private BreakDAO bdao;
+	@Autowired
+	private MemberDAO mdao;
 	@Autowired 
 	private ServletContext servletContext;
 	@Autowired
@@ -396,21 +403,44 @@ public class ApprovalService {
 	      return sb.toString() ;
 	      
 	}
-	public int updateSign(int app_seq, String isAccept) {
+	public int updateSign(int app_seq, String isAccept,int app_type_code) {
 		Approval_signDTO dto = new Approval_signDTO();
 		dto.setApp_seq(app_seq);
 		dto.setApp_sign_id((String)session.getAttribute("id"));
 		dto.setApp_sign_accept(isAccept);
 		int result = adao.updateSign(dto);
 		
-		//만약 내가 마지막 결재순서이고, accept했다면 approval에 결재완료를 넣는다. 
+		//반려라면 해당 결재선이 끝나므로 바로 n을 넣는다.  
 		if(isAccept.contentEquals("N")) {
 			adao.updateAppStatus(2, app_seq);
+			
+		//만약 내가 마지막 결재순서이고, accept했다면 approval에 N,Y라고 넣는다.
 		}else if(isAccept.contentEquals("Y")) {
 			int accepted = adao.countAgree(app_seq);
-			int total = adao.totalSign(app_seq);
+			int total = adao.totalSign(app_seq);	
 			if(accepted==total) {
 				adao.updateAppStatus(0, app_seq);
+				
+				//마지막 결재순서이고 accept한것이 휴가문서라면 휴가관련 data값도 update한다. 
+				if(app_type_code==3) {
+					//break table update
+					BreakDTO bdto = new BreakDTO();
+					bdto.setApp_seq(app_seq);
+					bdto.setBreak_accept(isAccept);
+					bdao.updateAccept(bdto);
+					
+					//member table update
+					bdto = bdao.getBreakByAppSeq(app_seq);
+					long lStrt = bdto.getBreak_start_date().getTime();
+					long lEnd = bdto.getBreak_end_date().getTime();
+						//두날짜 사이의 시간 차이(ms)를 하루 동안의 ms(24시*60분*60초*1000밀리초) 로 나눈다.
+		            long diffDay = ((lEnd - lStrt) / (24*60*60*1000))+1;
+		            	//차감할 일수를 diffDay*break_discount로 구한다.
+		            double break_discount = bdao.getDiscountByAppSeq(app_seq);
+		            double useBreak = diffDay*break_discount;//사용한 휴가수
+		            //member table에 넣기
+		            result = mdao.updateBreakUseCount((String)session.getAttribute("id"), useBreak);
+				}
 			}
 		}
 		

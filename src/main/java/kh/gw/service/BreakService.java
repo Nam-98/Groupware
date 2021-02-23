@@ -25,11 +25,12 @@ public class BreakService {
 		return bdao.getAllType();
 	}
 	
-	public int insertBreak(BreakDTO dto, ApprovalDTO adto) {
+	public int insertBreak(BreakDTO dto, ApprovalDTO adto,int app_seq) {
 		double break_discount = bdao.getDiscount(dto.getBreak_code());
 		dto.setBreak_id((String) session.getAttribute("id"));
 		dto.setBreak_discount(break_discount);
 		dto.setBreak_reason(adto.getApp_contents());
+		dto.setApp_seq(app_seq);
 		return bdao.insertBreak(dto);
 	}
 	
@@ -49,10 +50,4 @@ public class BreakService {
 		return bdao.loadHolidayList(id);
 	}
 	
-	public int discountBreak(int app_seq, String accept) {
-		BreakDTO dto = new BreakDTO();
-		dto.setApp_seq(app_seq);
-		dto.setBreak_accept(accept);
-		return bdao.updateAccept(dto);
-	}
 }

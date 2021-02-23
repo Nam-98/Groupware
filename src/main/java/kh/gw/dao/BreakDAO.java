@@ -42,10 +42,13 @@ public class BreakDAO {
 		return db.selectList("Break.loadHolidayList",id);
 	}
 	
-	public BreakDTO getBreakBySeq(int break_seq) {
-		return db.selectOne("Break.getBreakBySeq",break_seq);
+	public BreakDTO getBreakByAppSeq(int app_seq) {
+		return db.selectOne("Break.getBreakByAppSeq",app_seq);
 	}
 	public int updateAccept(BreakDTO dto) {
 		return db.update("Break.updateAccept", dto);
+	}
+	public double getDiscountByAppSeq(int app_seq) {
+		return db.selectOne("Break.getDiscountByAppSeq", app_seq);
 	}
 }

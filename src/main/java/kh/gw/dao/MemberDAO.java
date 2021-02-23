@@ -47,4 +47,10 @@ public class MemberDAO {
 		param.put("newpw", newpw);
 		return db.update("Member.updatePw",param);
 	}
+	public int updateBreakUseCount(String id, double break_use_count) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("id", id);
+		param.put("break_use_count", break_use_count);
+		return db.update("Member.updateBreakUseCount", param);
+	}
 }

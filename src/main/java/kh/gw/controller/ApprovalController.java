@@ -75,7 +75,7 @@ public class ApprovalController {
 	public String writeApproval (ApprovalDTO dto, Approval_signDTO approval_signDTOList, Model model, BreakDTO bdto) throws Exception {	
 		int appSeq = aservice.writeApp(dto);
 		if(dto.getApp_type_code()==3) {
-			bservice.insertBreak(bdto,dto);
+			bservice.insertBreak(bdto,dto,appSeq);
 		}
 		aservice.setInitAppSign(approval_signDTOList, appSeq);
 		return this.toAppDetailView(model,appSeq);
@@ -113,13 +113,7 @@ public class ApprovalController {
 	}
 	@RequestMapping("/signApproval.approval")
 	public String signApproval (String isAccept, int app_seq, Model model,int app_type_code) throws Exception {
-		aservice.updateSign(app_seq, isAccept);
-		
-		//휴가신청을 update
-		if(app_type_code==3) {
-			
-		}
-		
+		aservice.updateSign(app_seq, isAccept,app_type_code);
 		return this.toAppDetailView(model, app_seq);
 	}
 	@RequestMapping(value="/dlAttachedFiles.approval", produces="application/text;charset=utf-8")
