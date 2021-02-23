@@ -48,5 +48,11 @@
 	<select id="deptInfomationGet" resultType="kh.gw.dto.DepartmentDTO">
 		select * from st.department where (dept_code = #{deptCode})
 	</select>
+	<delete id="delFolderProc">
+		delete from st.webhard_dir where (wh_dir_seq = #{wh_dir_seq})
+	</delete>
+	<delete id="delFileProc">
+		delete from st.webhard_files where (wh_files_seq = #{wh_files_seq})
+	</delete>
   
   </mapper>

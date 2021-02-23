@@ -87,7 +87,7 @@
 									<!-- 폴더 표현 부분 -->
 									<c:forEach varStatus="j" var="folderList" items="${dirFolderList}">
 										<tr>
-											<th scope="row"><input class="form-check-input checkObj checkFolder" type="checkbox" value="${i.wh_files_seq}" name="chkList"></th>
+											<th scope="row"><input class="form-check-input checkObj checkFolder" type="checkbox" value="${folderList.wh_dir_seq}" name="chkList"></th>
 											<td><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></td>
 											<td>
 											<a href = "/webhard/webhardMain.webhard?dirSeq=${folderList.wh_dir_seq}"> ${folderList.wh_dir_name}</a>
@@ -193,16 +193,25 @@
 					var chkArrFile = new Array();
 					
 					// 체크된 폴더 리스트 값 담기
-					$("input[class='checkFolder']:checked").each(function(){
+					$("input[class='form-check-input checkObj checkFolder']:checked").each(function(){
 						chkArrFolder.push($(this).attr("value"));
-					});
+					});					
+					chkArrFolder.push(-1);
 					
 					// 체크된 파일 리스트 값 담기
-					$("input[class='checkFile']:checked").each(function(){
+					$("input[class='form-check-input checkObj checkFile']:checked").each(function(){
 						chkArrFile.push($(this).attr("value"));
 					});
+					chkArrFile.push(-1);
+					
+					$.ajax({
+						url : "/webhard/delCheckObject.webhard",
+						type : "post",
+						data : {"chkArrFolder" : chkArrFolder, "chkArrFile" : chkArrFile},
+					}).done(function(result){
+						location.reload();
+					})
 				}
-			
 		});
 		
 		
