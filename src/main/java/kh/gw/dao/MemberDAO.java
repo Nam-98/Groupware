@@ -1,5 +1,7 @@
 package kh.gw.dao;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,5 +40,11 @@ public class MemberDAO {
 	}
 	public int updateMemInfo(MemberDTO dto) throws Exception{
 		return db.update("Member.updateMemInfo", dto);
+	}
+	public int updatePw(String id, String newpw) throws IOException {
+		Map<String, Object> param = new HashMap<>();
+		param.put("id", id);
+		param.put("newpw", newpw);
+		return db.update("Member.updatePw",param);
 	}
 }

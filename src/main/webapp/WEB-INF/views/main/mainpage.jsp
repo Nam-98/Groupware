@@ -118,14 +118,12 @@
 									</div>
 								</div>
 								<div class="col-md-3">
-									<div class="metric" style="cursor: pointer;"
-										onclick="location.href='/nex/admin.nexacro';">
-										<span class="icon"><i
-											class="fas fa-user-cog fa-4x adminitem"></i></span>
+								<div class="metric" style="cursor: pointer;"
+										onclick="location.href='/message/msgInBoxList.message?cpage=1';">
+										<span class="icon"><i class="fas fa-envelope fa-4x"></i></span>
 										<p>
-											<span class="number">Administrator</span><span class="title">관리자</span>
+											<span class="number">Message</span> <span class="title">쪽지함</span>
 										</p>
-										<input type=hidden value="/nex/admin.nexacro">
 									</div>
 								</div>
 								<div class="col-md-3">
@@ -139,12 +137,15 @@
 									</div>
 								</div>
 								<div class="col-md-3">
-									<div class="metric" style="cursor: pointer;"
-										onclick="location.href='/message/msgInBoxList.message?cpage=1';">
-										<span class="icon"><i class="fas fa-envelope fa-4x"></i></span>
+									
+																		<div class="metric" style="cursor: pointer;"
+										onclick="location.href='/nex/admin.nexacro';" id="adminBtn">
+										<span class="icon"><i
+											class="fas fa-user-cog fa-4x adminitem"></i></span>
 										<p>
-											<span class="number">Message</span> <span class="title">쪽지함</span>
+											<span class="number">Administrator</span><span class="title">관리자</span>
 										</p>
+										<input type=hidden value="/nex/admin.nexacro">
 									</div>
 								</div>
 							</div>
@@ -163,25 +164,22 @@
 									<h4>
 										<span id="currentTimeSpan"></span>
 									</h4>
-
-
 									<div class="top-vacant d-none d-lg-block"></div>
-									<input type="button" value="출근하기" id="attendanceBtn"
-										class="btn btn-gray btn-xs"> <input type="button" value="퇴근하기" id="leaveWorkBtn" class="btn btn-gray btn-xs">
+									<input type="button" value="출근" id="attendanceBtn"
+										class="btn btn-gray btn-xs"> <input type="button" value="퇴근" id="leaveWorkBtn" class="btn btn-gray btn-xs">
 									<hr>
 									<div class="">
-										<span class="glyphicon glyphicon-flag" aria-hidden="true">&nbsp<b>${attendanceValue.status }</b>&nbsp
+										<span class="glyphicon glyphicon-flag" aria-hidden="true"><b>${attendanceValue.status }</b>&nbsp
 										</span>
 										<c:if test='${attendanceValue.status != "-"}'>${attendanceValue.hour }시 ${attendanceValue.minute }분</c:if>
 
 									</div>
 									<hr>
 									<div class="">
-										<span class="glyphicon glyphicon-home" aria-hidden="true">&nbsp<b>${leaveWorkValue.status }</b>&nbsp
+										<span class="glyphicon glyphicon-home" aria-hidden="true"><b>${leaveWorkValue.status }</b>&nbsp
 										</span>
 										<c:if test='${leaveWorkValue.status != "-"}'> ${leaveWorkValue.hour }시 ${leaveWorkValue.minute }분</c:if>
 									</div>
-									<hr>
 								</div>
 								<div class="panel-footer">
 									<div class="row">
@@ -296,7 +294,7 @@
 										<div class="col-md-5">
 							<div class="panel">
 								<div class="panel-heading">
-									<h3 class="panel-title">Notice</h3>
+									<h3 class="panel-title"><b>Notice</b></h3>
 									<div class="right"></div>
 								</div>
 								<div class="panel-body">
@@ -599,6 +597,11 @@
 	                 })
 	              }, 300
 	        );
+	</script>
+	<script>
+		if("${memInfo.access_level_code}"=="0"){
+			$("#adminBtn").hide();
+		}
 	</script>
 </body>
 </html>
