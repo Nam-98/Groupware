@@ -33,18 +33,7 @@
    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 
-<link rel="stylesheet"
-	href="/resources/lib/jqwidgets/styles/jqx.base.css" type="text/css" />  
-<script type="text/javascript" src="/resources/lib/jqwidgets/jqxcore.js"></script>
-<script type="text/javascript"
-	src="/resources/lib/jqwidgets/jqxbuttons.js"></script>
-<script type="text/javascript"
-	src="/resources/lib/jqwidgets/jqxscrollbar.js"></script>
-<script type="text/javascript"
-	src="/resources/lib/jqwidgets/jqxpanel.js"></script>
-<script type="text/javascript" src="/resources/lib/jqwidgets/jqxtree.js"></script>
- 
-  <script type="text/javascript">
+<script type="text/javascript">
 	
 
 $(document).ready(function() {
@@ -71,17 +60,7 @@ $(document).ready(function() {
           fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
     });
 });
-$(document).ready(function() {
-	// Create jqxTree
-	$('#jqxTree').jqxTree({
-		height : '500px',
-		width : '120px'
-	});
-	$('#jqxTree').bind('select', function(event) {
-		var htmlElement = event.args.element;
-		var item = $('#jqxTree').jqxTree('getItem', htmlElement);
-	});
-});
+
 </script>	
 </head>
 <style>
@@ -99,21 +78,6 @@ $(document).ready(function() {
 		height: 50px;
 		float : left;
 	}
-    .maincontainer{
-        width: 100%;
-        height: 700px;
-    }
-    .orgTree{
-        width: 20%;
-        height: 650px;
-        float: left;
-    }
-    .orgInfo{
-        width: 80%;
-        height: 650px;
-        float: left;
-       	margin-left: 10px;
-    }
     
     li>a{
     	color: black;
@@ -142,40 +106,26 @@ $(document).ready(function() {
 			<div class="main-content">
 				<div class="container-fluid">
 					<h3 class="page-title">쪽지 보내기</h3>
-					<div class ="maincontainer">
-			    <div class="orgTree" id='jqxTree'>
-							<ul>
-								<c:forEach items="${dlist}" var="i">
-									<li item-expanded='true'>${i.dept_name}
-										<ul>
-											<c:forEach items="${mlist}" var="j">
-												<c:if test="${j.dept_code == i.dept_code}">
-													<li class="memberList" id="${j.name}"><a
-														href="/message/msgMemInfo.message?id=${j.id}">${j.name}</a></li>
-												</c:if>
-											</c:forEach>
-										</ul>
-									</li>
-								</c:forEach>
-							</ul>
-						</div>
+					
+			
 			    
-			    
-			    <div class="orgInfo">
+			    <div class="col-md-9">
+			    <div class="well">
 			    <div class="panel panel-headline demo-icons">
 			   <div class="panel-heading">
 							<h3 class="panel-title">쪽 지 작 성</h3>
 						</div>
 			<div class="panel-body">	
-<div style="width: 80%;">
+<div style="width: 100%;">
 	<form method="post" enctype="multipart/form-data" action="/message/msgProc.message?msg_receiver=${dto.id }">
 		<div>
-		<b>받는 사람 :</b> <input class="msgInput" type="text" name="msg_receiver_name" style="width: 85%;" value="${dto.dept_name}  ${dto.name} " readonly/></div><br>
+		<b>받는 사람 :</b> <input class="msgInput" type="text" name="msg_receiver_name" style="width: 75%;" value="" readonly/>
+			<input type="button" class="btn btn-sm btn-primary" value="찾기" id="search"></div><br>
 		<div>
-		<b>보낸 사람 :</b> <input class="msgInput" type="text" name="msg_sender_name" style="width: 85%;" value="${myInfo.DEPT_NAME}  ${myInfo.NAME} " readonly/></div>
+		<b>보낸 사람 :</b> <input class="msgInput" type="text" name="msg_sender_name" style="width: 75%;" value="" readonly/></div>
 		<br>
 		<div>
-		<b>제목 :</b> <input class="msgInput" type="text" placeholder="제목을 입력하시오." name="msg_title" style="width: 90%;"/></div>
+		<b>제목 :</b> <input class="msgInput" type="text" placeholder="제목을 입력하시오." name="msg_title" style="width: 80%;"/></div>
 		<br>
 		<textarea id="summernote" name="msg_contents" placeholder="내용을 입력하시오."></textarea>
 		
@@ -189,10 +139,13 @@ $(document).ready(function() {
 </div>
 </div>
 </div>
-			    </div>
+			    </div>	
 			    
-			    
+			    </div>	    
 			</div>
+			</div>
+			</div>
+			
 				</div>
 			</div>
 			<!-- END MAIN CONTENT -->
@@ -226,7 +179,19 @@ function goWrite(frm) {
 }
 </script>
 
-	
+<script>
+	$("#search").on("click",function(){
+		var options= 'top=10, left=10, width=1000, height=700, status=no, menubar=no, toolbar=no, resizable=no';
+		window.open("/message/msgPopup.message","popup",options);
+	});
+	/* function getReturnValue(returnValue) {
+		obj = JSON.parse(returnValue);
+		  document.getElementById("").value=obj.key1;	
+	 	  document.getElementById("").value=obj.key2;
+		} */
+
+</script>
+
 </body>
 
 

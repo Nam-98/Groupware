@@ -41,6 +41,9 @@
 <link rel="stylesheet"
 	href="/resources/lib/jqwidgets/styles/jqx.energyblue.css"
 	type="text/css" />
+<link rel="stylesheet"
+	href="/resources/lib/jqwidgets/styles/jqx.jqx-grid-cell-hover.css"
+	type="text/css" />
 <script type="text/javascript"
 	src="/resources/lib/scripts/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="/resources/lib/jqwidgets/jqxcore.js"></script>
@@ -95,6 +98,8 @@
             {
                 width: 240,
                 source: dataAdapter,
+                theme : 'jqx-grid-cell-hover',
+                
                 ready: function () {
                 	$('#treeGrid').jqxTreeGrid({height:"600px"});
  //               	$("#treeGrid").jqxTreeGrid('expandRow',5);
@@ -160,6 +165,7 @@
 			<div class="main-content">
 				<div class="container-fluid">
 					<h3 class="page-title">조직도</h3>
+					
 					<div class="panel panel-headline demo-icons">
 						<div class="panel-heading"></div>
 						<div class="panel-body">
@@ -167,6 +173,7 @@
 								<div class="col-md-3">
 									<div id="treeGrid"></div>
 								</div>
+								
 								<div class="col-md-9">
 									<div class="well">
 										<div class="panel panel-headline demo-icons">
@@ -265,7 +272,7 @@ $("#treeGrid").on('rowSelect', function (event) {
     
     if(rowData.name!=""){
     	location.href="/member/orgMemInfo.member?id="+rowData.memId+"&rowKey="+rowKey;
-    }
+    } 
     
    
     
