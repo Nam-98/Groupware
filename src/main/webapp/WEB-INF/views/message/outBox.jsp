@@ -51,10 +51,8 @@
 				
 					<div class="panel-heading">
 					<h3 class="page-title">발 신 함</h3>
-					</div>
-					<div class="panel-body">
-					<div class="btn-group-ml" role="group" style="text-align: right;">
-  					<button type="button" class="btn btn-primary" id="cabBtn">보관함 이동</button>
+					<div class="right">
+  					<input type="button" class="btn btn-primary btn-sm" id="cabBtn" value="보관함 이동">
   					
   					<script>
   						$("#cabBtn").click(function(){
@@ -90,7 +88,7 @@
   						})
   					</script>
   					
-  					<button type="button" class="btn btn-primary" id="delBtn">삭제</button>
+  					<input type="button" class="btn btn-primary btn-sm" id="delBtn" value="삭제">
   					<script>
   						$("#delBtn").click(function(){
   							var confirm_val = confirm("정말 삭제하시겠습니까?");
@@ -125,7 +123,9 @@
   						})
   					</script>
 					</div>
-					<br>
+					</div>
+					<div class="panel-body">
+				
 					<table class="table table-secondary table-striped">
 					<thead class="table-light">
 						<tr>

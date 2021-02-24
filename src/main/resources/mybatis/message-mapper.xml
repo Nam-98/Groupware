@@ -5,10 +5,10 @@
   <mapper namespace="Message">
 
 <insert id="msgProc">
-insert into st.message values(st.message_seq.nextval,#{msg_sender},#{msg_receiver},(SELECT CURRENT_DATE FROM DUAL),null,#{msg_title},#{msg_contents},#{msg_sender_name},#{msg_receiver_name},'Y','Y') </insert>
+insert into st.message values(st.message_seq.nextval,#{msg_sender},#{msg_receiver},(SELECT CURRENT_DATE FROM DUAL),null,#{msg_title},#{msg_contents},#{msg_sender_name},#{msg_receiver_name},'Y','Y','N') </insert>
 
 <select id="msgInBoxList" resultType="kh.gw.dto.MessageDTO">
-select st.message.*, nvl(to_char(msg_receive_date), '읽지않음') as msg_receive_date_str from st.message where msg_receiver = #{value} and msg_receiver_view='Y' and msg_sender != #{value} order by msg_seq desc </select>
+select st.message.*, nvl(to_char(msg_receive_date), '읽지않음') as msg_receive_date_str from st.message where msg_receiver = #{value} and msg_receiver_view='Y' and msg_sender != #{value} and msg_cabinet_check = 'N' order by msg_seq desc </select>
 
 <update id="readDate">
 update (select st.message.*,nvl(to_char(to_char(msg_receive_date,'mm/dd HH12:mi')), '읽지않음') as msg_receive_date_str,to_char(msg_send_date,'mm/dd HH12:mi') as msg_sender_date_str from st.message) set msg_receive_date=(SELECT CURRENT_DATE FROM DUAL) where msg_seq=#{value} </update>
@@ -32,13 +32,13 @@ insert into st.message_attached_files values(#{msg_seq},#{msg_ori_name},#{msg_sa
 select * from st.message_attached_files where msg_seq = #{value} </select>
 
 <select id="msgOutBoxList" resultType="kh.gw.dto.MessageDTO">
-select st.message.*, nvl(to_char(msg_receive_date), '읽지않음') as msg_receive_date_str from st.message where msg_sender = #{value} and msg_sender_view='Y' and msg_receiver != #{value} order by msg_seq desc </select>
+select st.message.*, nvl(to_char(msg_receive_date), '읽지않음') as msg_receive_date_str from st.message where msg_sender = #{value} and msg_sender_view='Y' and msg_receiver != #{value} and msg_cabinet_check = 'N' order by msg_seq desc </select>
 
 <select id="msgInBoxCpage" resultType="kh.gw.dto.MessageDTO">
-select * from(select st.message.*,nvl(to_char(to_char(msg_receive_date,'mm/dd HH12:mi')), '읽지않음') as msg_receive_date_str,to_char(msg_send_date,'mm/dd HH12:mi') as msg_sender_date_str,row_number() over(order by msg_seq desc)rn from st.message where (msg_receiver = #{id}) and (msg_sender != #{id}) and (msg_receiver_view='Y')) where rn between #{startRowNum} and #{endRowNum} </select>
+select * from(select st.message.*,nvl(to_char(to_char(msg_receive_date,'mm/dd HH12:mi')), '읽지않음') as msg_receive_date_str,to_char(msg_send_date,'mm/dd HH12:mi') as msg_sender_date_str,row_number() over(order by msg_seq desc)rn from st.message where (msg_receiver = #{id}) and (msg_sender != #{id}) and (msg_receiver_view='Y') and (msg_cabinet_check = 'N')) where rn between #{startRowNum} and #{endRowNum} </select>
 
 <select id="msgOutBoxCpage" resultType="kh.gw.dto.MessageDTO">
-select * from(select st.message.*,nvl(to_char(to_char(msg_receive_date,'mm/dd HH12:mi')), '읽지않음') as msg_receive_date_str,to_char(msg_send_date,'mm/dd HH12:mi') as msg_sender_date_str,row_number() over(order by msg_seq desc)rn from st.message where (msg_sender = #{id}) and (msg_receiver != #{id}) and (msg_sender_view='Y')) where rn between #{startRowNum} and #{endRowNum} </select>
+select * from(select st.message.*,nvl(to_char(to_char(msg_receive_date,'mm/dd HH12:mi')), '읽지않음') as msg_receive_date_str,to_char(msg_send_date,'mm/dd HH12:mi') as msg_sender_date_str,row_number() over(order by msg_seq desc)rn from st.message where (msg_sender = #{id}) and (msg_receiver != #{id}) and (msg_sender_view='Y') and (msg_cabinet_check = 'N')) where rn between #{startRowNum} and #{endRowNum} </select>
 
 <insert id="msgInCabinsert">
 insert into st.message_cabinet values(#{msg_seq},#{id},'IN')
@@ -63,6 +63,10 @@ select st.m.* from st.message m, st.message_cabinet c where m.msg_receiver=c.msg
 <select id="msgCabOutList" resultType="java.util.HashMap">
 select st.m.* from st.message m, st.message_cabinet c where m.msg_sender=c.msg_id and m.msg_seq=c.msg_seq and msg_sender=#{id} and c.msg_division='OUT'
 </select>
+
+<update id="msgCabCheck">
+update st.message set msg_cabinet_check = 'Y' where msg_seq=#{msg_seq}
+</update>
 
 <delete id="delMsgCabList">
 delete from st.message_cabinet where msg_seq=#{msg_seq} and msg_id=#{id}

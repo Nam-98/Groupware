@@ -223,6 +223,11 @@ public class MessageService {
 			return mdao.msgInCabinsert(id,msg_seq);
 		}
 		
+		//쪽지 캐비넷 유무
+		public int msgCabCheck(int msg_seq) throws Exception{
+			return mdao.msgCabCheck(msg_seq);
+		}
+		
 		//쪽지 chk박스로 보관함(발신)
 		public int msgOutCabinsert(String id, int msg_seq) throws Exception{
 			return mdao.msgOutCabinsert(id,msg_seq);
