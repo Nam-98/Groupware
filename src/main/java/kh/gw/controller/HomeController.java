@@ -59,6 +59,7 @@ public class HomeController {
 		if (session.getAttribute("id") != null) {
 			String id = (String) session.getAttribute("id");
 			MemberDTO dtos = memservice.getMemInfo(id);
+			if(dtos.getRetire_date()==null) {
 			model.addAttribute("memInfo", dtos);
 			
 			//model.addAttribute("isWork", tservice.isGoLeave(id));
@@ -116,6 +117,9 @@ public class HomeController {
 			model.addAttribute("kgsMsgCount", kgsMsgCount);
 			
 			return "/main/mainpage";
+			}else {
+				return "/main/loginFailView";
+			}
 		} 
 			return "home";
 		}
