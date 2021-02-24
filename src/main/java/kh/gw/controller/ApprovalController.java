@@ -78,7 +78,7 @@ public class ApprovalController {
 			bservice.insertBreak(bdto,dto,appSeq);
 		}
 		aservice.setInitAppSign(approval_signDTOList, appSeq);
-		return this.toAppDetailView(model,appSeq);
+		return "redirect:toAppDetailView.approval?app_seq="+appSeq;
 	}
 	
 	@RequestMapping("/toMySignListView.approval")
