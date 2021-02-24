@@ -235,18 +235,12 @@ public class AdminController {
             	Break_typeDTO dto = new Break_typeDTO();
             	dto.setBreak_name((String)ds.getString(i, "break_name"));
                 dto.setBreak_discount(ds.getDouble(i, "break_discount"));
-            	System.out.println("넣은 휴무 이름 : " + dto.getBreak_name());
-            	System.out.println(dto.getBreak_discount());
-                System.out.println(dto.getBreak_name());
             	bser.insertBreakType(dto);
             }else if (rowType == DataSet.ROW_TYPE_UPDATED) {
             	Break_typeDTO dto = new Break_typeDTO();
             	 dto.setBreak_code(Integer.parseInt((String)ds.getSavedData(i,"break_code")));
                  dto.setBreak_name((String)ds.getSavedData(i, "break_name"));
                  dto.setBreak_discount(ds.getDouble(i, "break_discount"));
-                 System.out.println(dto.getBreak_code());
-                 System.out.println(dto.getBreak_discount());
-                 System.out.println(dto.getBreak_name());
               bser.updateBreakType(dto);
             }
 
@@ -276,9 +270,6 @@ public class AdminController {
 	            	 dto.setComp_hd_seq(Integer.parseInt((String)ds.getSavedData(i,"comp_hd_seq")));
 	                 dto.setComp_hd_name((String)ds.getSavedData(i, "comp_hd_name"));
 	                 dto.setComp_hd_date(ds.getDateTime(i, "comp_hd_date"));
-	                 System.out.println(dto.getComp_hd_name());
-	                 System.out.println(dto.getComp_hd_seq());
-	                 System.out.println(dto.getComp_hd_date());
 	              sser.updateComhd(dto);
 	            }else if (rowType == DataSet.ROW_TYPE_INSERTED) {
 	            	Company_holidayDTO dto = new Company_holidayDTO();
