@@ -81,10 +81,13 @@ public class WebhardController {
 		List<Webhard_dirDTO> dirFolderList = whservice.getDirFolderList(dirSeq);
 		// 파일 리스트 가져오기
 		List<Webhard_filesDTO> dirFileList = whservice.getDirFileList(dirSeq);
+		// 접근 가능한 최상위 폴더 리스트 가져오기
+		List<Integer> topAccessDirList = whservice.getTopAccessDirList(sessionId);
 		
 		model.addAttribute("dirFolderList", dirFolderList);
 		model.addAttribute("dirFileList", dirFileList);
 		model.addAttribute("dirSeq", dirSeq);
+		model.addAttribute("topAccessDirList", topAccessDirList);
 		
 		return "/webhard/webhardMain";
 	}
@@ -173,6 +176,18 @@ public class WebhardController {
 		// 정상처리 값 0 / 에러 시 1 이상
 		int result = whservice.delListProc(chkArrFolder, chkArrFile);
 		return result +"";
+	}
+	
+	// 부모디렉토리로 이동 (부모디렉토리 찾아서 webhardMain으로 리다이렉트)
+	@RequestMapping("goToParentDir.webhard")
+	public String goToParentDir(HttpServletRequest request, Model model) {
+		// 접속할 디렉토리 번호
+		String stringdirSeqChildGet = request.getParameter("dirSeqChild");
+		int dirSeqChild = Integer.parseInt(stringdirSeqChildGet);
+		System.out.println(dirSeqChild);
+		
+		
+		return "/";
 	}
 	
 	

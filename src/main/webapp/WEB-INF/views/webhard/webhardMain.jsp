@@ -4,12 +4,10 @@
 <!DOCTYPE html>
 <html>
 <style>
-.panel-body div {
-	border: 1px solid black;
-}
-.popupSpan {
-	cursor: pointer;
-}
+
+
+
+
 </style>
 <head>
 <meta charset="UTF-8">
@@ -62,18 +60,23 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
+					<h3 class="page-title">Webhard</h3>
 					<div class="panel panel-headline demo-icons">
+						<div class="panel-heading">
+							<form method="post" enctype="multipart/form-data" action="/webhard/uploadFile.webhard?dirSeq=${dirSeq }" id="uploadForm">
+								<input type="button" value="Upload" id="upload-btn" class="btn btn-primary btn-xs">
+								<input type="button" value="To parent folder" id="parentFolder-btn" class="btn btn-default btn-xs">		
+								<input type="button" value="New Folder" id="newFolder-btn" class="btn btn-default btn-xs">		
+								<input type="button" value="Download" id="download-btn" class="btn btn-default btn-xs">
+								<input type="button" value="Delete" id="checkDel-btn" class="btn btn-default btn-xs">
+								
+								
+								<input type="file" name="attfiles" id="attfiles" multiple style="display:none">
+							</form>
+						</div>
+						<hr>
 						<!-- pannel 내부의 제목 작성 div-->
 						<div class="panel-body">
-							<div class="control">
-								<form method="post" enctype="multipart/form-data" action="/webhard/uploadFile.webhard?dirSeq=${dirSeq }">
-									<input type="submit" value="upload">
-									<input type="button" value="download" id="download-btn">
-									<input type="file" name="attfiles" multiple>
-									<input type= "button" value="새폴더 만들기" id="newFolder-btn">
-									<input type= "button" value="삭제" id="checkDel-btn">
-								</form>
-							</div>
 							<table class="table table-hover">
 								<thead>
 									<tr>
@@ -110,11 +113,10 @@
 									</c:forEach>
 								</tbody>
 							</table>
-							
 						</div>
+						
+						
 					</div>
-
-
 				</div>
 			</div>
 			<!-- END MAIN CONTENT -->
@@ -214,6 +216,37 @@
 				}
 		});
 		
+		// 파일 컴포넌트가 변경되었을경우 (파일을 첨부하였다면) form submit 하기
+		document.getElementById("attfiles").onchange = function() {
+		    document.getElementById("uploadForm").submit();
+		};
+		
+		// 업로드 버튼 누를시 file 컴포넌트 누르는 것처럼 연결
+		$('#upload-btn').on('click',function(){
+			$('#attfiles').click();
+		})
+		
+		// 체크 후 부모폴더로 이동
+		$('#parentFolder-btn').on('click',function(){
+			// 접근 가능 최상위 디렉토리 리스트 만들기
+			var topAccessDirList = [
+				<c:forEach varStatus="i" items="${topAccessDirList}" var="list">
+				${list}
+				<c:if test="${!i.last}">,</c:if>
+				</c:forEach>
+			];
+			// 현재 디렉토리가 최상위 디렉토리인지 확인
+			for (var i = 0; i < topAccessDirList.length; i++) {
+				if (${dirSeq } == topAccessDirList[i]) {
+					alert("접근 가능한 최상위 폴더입니다.");
+					return 0;
+				}
+			}
+			// 현재 디렉토리 부모 디렉토리로 진짜 이동
+			location.href = "/webhard/goToParentDir.webhard?dirSeqChild="+${dirSeq };
+		
+		
+		})
 		
 		
 		
