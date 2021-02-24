@@ -123,7 +123,7 @@ td.resize-col {
 											<c:forEach items="${mlist}" var="j">
 												<c:if
 													test="${j.dept_code == i.dept_code && j.id != sessionScope.id}">
-													<li class="modalLi">${j.name}${j.position_name} <input
+													<li class="modalLi">${j.name}&emsp;${j.position_name} <input
 														type=hidden class="modalPosi" value="${j.position_name}">
 														<input type=hidden class="modalName" value="${j.name}">
 														<input type=hidden class="modalId" value="${j.id}">
