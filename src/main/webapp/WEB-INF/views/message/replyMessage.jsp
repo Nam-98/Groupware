@@ -45,7 +45,6 @@
 <script type="text/javascript" src="/resources/lib/jqwidgets/jqxtree.js"></script>
  
   <script type="text/javascript">
-	
 
 $(document).ready(function() {
     //여기 아래 부분
@@ -175,9 +174,10 @@ $(document).ready(function() {
 		<b>보낸 사람 :</b> <input class="msgInput" type="text" name="msg_sender_name" style="width: 85%;" value="${msg_sender_name }" readonly/></div>
 		<br>
 		<div>
-		<b>제목 :</b> <input class="msgInput" type="text" placeholder="제목을 입력하시오." name="msg_title" style="width: 90%;"/></div>
+		<b>제목 :</b> <input class="msgInput" type="text" placeholder="제목을 입력하시오." name="msg_title" style="width: 90%;" value="Re: ${mdto.msg_title }"/></div>
 		<br>
 		<textarea id="summernote" name="msg_contents" placeholder="내용을 입력하시오."></textarea>
+	
 		
 		<div class="input-group" style="width: 100%;">
   		<input type="file" class="form-control" name="attfiles" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" style="width: 100%;"> 
@@ -201,30 +201,17 @@ $(document).ready(function() {
 <jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
 	</div>
 	<!-- END WRAPPER -->
+	<!-- summernote 내용 불러오기. -->
+	<script>
+	$(document).ready(function(){
+		var contents = "<br>----------------------------------<br>"+`${mdto.msg_contents}`;
+	$('#summernote').summernote('code',contents )});
+	</script>
+	
+	
 	
 </body>
 
-<script>
-function goWrite(frm) {
-	var title = frm.title.value;
-	var writer = frm.writer.value;
-	var content = frm.content.value;
-	
-	if (title.trim() == ''){
-		alert("제목을 입력해주세요");
-		return false;
-	}
-	if (writer.trim() == ''){
-		alert("작성자를 입력해주세요");
-		return false;
-	}
-	if (content.trim() == ''){
-		alert("내용을 입력해주세요");
-		return false;
-	}
-	frm.submit();
-}
-</script>
 
-</body>
+
 </html>

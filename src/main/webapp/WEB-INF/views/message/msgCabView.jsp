@@ -68,15 +68,14 @@
 				<div class="container-fluid">
 				<div class="panel-heading">
 							<h3 class="panel-title">쪽 지 보 기</h3>
+							<div class="right"> 		
+  					<input type="button" class="btn btn-primary btn-sm" id="delete" value="삭제">
+  					<input type="button" class="btn btn-primary btn-sm" id="list" value="목록으로">
+					</div>
 						</div>
 				<div class="panel-body">
 					<div class="maincontainer">
 					
-					<div class="btn-group-ml" role="group" style="text-align: right;"> 		
-  					<button type="button" class="btn btn-primary" id="delete">삭제</button>
-  					<button type="button" class="btn btn-primary" id="list">목록으로</button>
-					</div>
-					<br>
 				<table class="table">
 					<thead>
 						<tr>
@@ -121,7 +120,7 @@
 	}
 		
 	document.getElementById("delete").onclick = function() {
-		location.href = "/message/delMsgCabList.message?msg_seq=${mdto.msg_seq}";
+		location.href = "/message/delMsgCab.message?msg_seq=${mdto.msg_seq}";
 	}
 	
 </script>
