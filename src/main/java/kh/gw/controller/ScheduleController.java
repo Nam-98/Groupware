@@ -36,6 +36,11 @@ public class ScheduleController {
 	@RequestMapping("yearSchedule.schedule")
 	public String yearSchedule(HttpServletRequest request, Model m, ScheduleDTO dto) throws Exception{
 		String id = (String)session.getAttribute("id");
+		
+		List<ScheduleDTO> list = sservice.listAllSchedule(id);
+		sservice.addDateStr(list);
+		 
+		 m.addAttribute("list", list);
 //		List<ScheduleDTO> ylist = sservice.listYearSchedule(id);
 		
 //		m.addAttribute("ylist", ylist);

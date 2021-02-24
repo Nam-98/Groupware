@@ -126,13 +126,21 @@ public class AdminController {
 		return new NexacroResult();
 	}
 	
-	//write 테이블 로드
+	//write 공지사항, 시스템 공지사항 테이블 로드
 		@RequestMapping("loadWrList.nexacro")
 		public NexacroResult loadWr() throws Exception {
 			NexacroResult nr = new NexacroResult();
 			nr.addDataSet("ds_out",wser.listWr());
 			return nr;
 		}
+	
+	//board 회사 게시판, 갤러리 게시판 테이블 로드
+	@RequestMapping("loadBrList.nexacro")
+	public NexacroResult loadBr() throws Exception {
+		NexacroResult nr = new NexacroResult();
+		nr.addDataSet("ds_out",wser.listBr());
+		return nr;
+	} 
 		
 	//공지사항 수정
 	@RequestMapping("updateWrList.nexacro")
