@@ -3,7 +3,9 @@ package kh.gw.controller;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -131,10 +133,36 @@ public class ProjectController {
 	public String enterPopup(Model model) throws Exception{
 		List<MemberDTO> mlist = mservice.listMem();//멤버를 불러옴
 		List<DepartmentDTO> dlist = mservice.listDept(); //부서명 가져옴
-		
-		model.addAttribute("mlist",mlist);
-		model.addAttribute("dlist",dlist);
-		return "project/projectPopupView";
+		 List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+         int a =0;
+         for(DepartmentDTO dtod : dlist) {
+        	 if(dtod.getDept_code_parent() == -1) {
+        		 dtod.setDept_code_parent(100000000);
+        	 }
+            Map<String,Object> map = new HashMap<>();
+            map.put("departmentName",dtod.getDept_name());
+            map.put("name","");
+            map.put("position","");
+            map.put("memId","");
+            map.put("reportsTo", dtod.getDept_code_parent());
+            map.put("departmentID", dtod.getDept_code());
+            list.add(map);
+         }
+         
+         for(MemberDTO dtom : mlist) {
+            Map<String,Object> map = new HashMap<>();
+            map.put("departmentName","");
+            map.put("name",dtom.getName());
+            map.put("position",dtom.getPosition_name());
+            map.put("reportsTo",dtom.getDept_code());
+            map.put("departmentID", 100+a);
+            map.put("memId",dtom.getId());
+            list.add(map);
+            a++;
+         }
+         model.addAttribute("list", list);
+         
+         return "project/projectPopupView";
 	}
 	
 	//프로젝트 검색
