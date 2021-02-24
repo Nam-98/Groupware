@@ -50,10 +50,8 @@ public class MemberService {
 	public int insertMem(MemberDTO dto) throws Exception{
 		return mdao.insertMem(dto);
 	}
-	public void updateMemList(List<MemberDTO> list) throws Exception {
-		for(MemberDTO dto : list) {
+	public void updateMemList(MemberDTO dto) throws Exception {
 			mdao.updateMemInfo(dto);
-		}
 	}
 	public void insertProfile(MultipartFile profilePic, String id) throws IOException {
 		String realPath = servletContext.getRealPath("/resources/profileImage");

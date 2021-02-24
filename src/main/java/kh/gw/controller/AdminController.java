@@ -1,5 +1,7 @@
 package kh.gw.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -29,8 +31,8 @@ import kh.gw.service.BreakService;
 import kh.gw.service.DepartmentService;
 import kh.gw.service.MemberService;
 import kh.gw.service.PositionService;
-import kh.gw.service.TnAService;
 import kh.gw.service.ScheduleService;
+import kh.gw.service.TnAService;
 import kh.gw.service.WriteService;
 
 
@@ -74,7 +76,8 @@ public class AdminController {
 	@RequestMapping("/loadMemList.nexacro")
 	public NexacroResult loadMem() throws Exception {
 		NexacroResult nr = new NexacroResult();
-		nr.addDataSet("ds_out",mser.listMem());
+		List<MemberDTO> list = mser.listMem();
+		nr.addDataSet("ds_out",list);
 		return nr;
 	}
 	
@@ -103,8 +106,34 @@ public class AdminController {
 	
 	//회원수정
 	@RequestMapping("updateMemList.nexacro")
-	public NexacroResult updateMemList(@ParamDataSet(name = "in_memList") List<MemberDTO> list) throws Exception{
-		mser.updateMemList(list);
+	public NexacroResult updateMemList(@ParamDataSet(name = "in_memList") DataSet ds) throws Exception{
+		for (int i = 0; i < ds.getRemovedRowCount(); i++) {
+	           String id = (String) ds.getRemovedData(i, "id");
+	           //sser.deleteComhd(comp_hd_seq);
+	           System.out.println("지우는 code :" + id);
+	         }
+			
+	        for (int i = 0; i < ds.getRowCount(); i++) {
+	            int rowType = ds.getRowType(i);
+	            if (rowType == DataSet.ROW_TYPE_UPDATED) {
+	            	MemberDTO dto = new MemberDTO();
+	            	dto.setId(ds.getSavedStringData(i, "id"));
+	            	dto.setName(ds.getString(i,"name"));
+	            	dto.setGender(ds.getString(i, "gender"));
+	            	dto.setContact(ds.getString(i,"contact"));
+	            	dto.setAddress1(ds.getString(i,"address1"));
+	            	dto.setAddress2(ds.getString(i, "address2"));
+	            	dto.setZip_code(ds.getString(i, "zip_code"));
+	            	dto.setIs_married(ds.getString(i, "is_married"));
+	            	dto.setDept_code(ds.getInt(i,"dept_code"));
+	            	dto.setPosition_code(ds.getInt(i,"position_code"));
+	            	dto.setBreak_use_count(ds.getDouble(i, "break_use_count"));
+	            	dto.setAccess_level_code(ds.getInt(i, "access_level_code"));
+	            	mser.updateMemList(dto);
+	            }else if (rowType == DataSet.ROW_TYPE_INSERTED) {
+	                //sser.inserthol(dto);
+	            }
+	        }
 		return new NexacroResult();
 	}
 	
@@ -251,7 +280,12 @@ public class AdminController {
 	@RequestMapping("loadComHd.nexacro")
 	public NexacroResult loadComHd() throws Exception {
 		NexacroResult nr = new NexacroResult();
-		nr.addDataSet("ds_out",sser.loadComHd());
+		List<Company_holidayDTO> list =sser.loadComHd();
+		for ( Company_holidayDTO dto : list) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+			dto.setComp_hd_date_str(sdf.format(dto.getComp_hd_date()));
+		}
+		nr.addDataSet("ds_out",list);
 		return nr;
 	}
 	
@@ -268,13 +302,16 @@ public class AdminController {
 	            if (rowType == DataSet.ROW_TYPE_UPDATED) {
 	            	Company_holidayDTO dto = new Company_holidayDTO();
 	            	 dto.setComp_hd_seq(Integer.parseInt((String)ds.getSavedData(i,"comp_hd_seq")));
-	                 dto.setComp_hd_name((String)ds.getSavedData(i, "comp_hd_name"));
-	                 dto.setComp_hd_date(ds.getDateTime(i, "comp_hd_date"));
+	                 dto.setComp_hd_name((String)ds.getString(i, "comp_hd_name"));
+	                 dto.setComp_hd_date(ds.getDateTime(i, "comp_hd_date_str"));
 	              sser.updateComhd(dto);
 	            }else if (rowType == DataSet.ROW_TYPE_INSERTED) {
+	            
 	            	Company_holidayDTO dto = new Company_holidayDTO();
-	            	dto.setComp_hd_name((String)ds.getSavedData(i, "comp_hd_name"));
-	                dto.setComp_hd_date(ds.getDateTime(i, "comp_hd_date"));
+	            	dto.setComp_hd_name((String)ds.getString(i, "comp_hd_name"));
+	                dto.setComp_hd_date(ds.getDateTime(i, "comp_hd_date_str"));
+	                System.out.println(dto.getComp_hd_name());
+	                System.out.println(dto.getComp_hd_date());
 	                sser.inserthol(dto);
 	            }
 	        }
