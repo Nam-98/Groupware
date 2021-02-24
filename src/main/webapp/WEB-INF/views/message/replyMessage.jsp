@@ -204,7 +204,7 @@ $(document).ready(function() {
 	<!-- summernote 내용 불러오기. -->
 	<script>
 	$(document).ready(function(){
-		var contents = "<br>----------------------------------<br>"+`${mdto.msg_contents}`;
+		var contents = "<br><br>---------Original Message---------<br>"+`${mdto.msg_contents}`;
 	$('#summernote').summernote('code',contents )});
 	</script>
 	
