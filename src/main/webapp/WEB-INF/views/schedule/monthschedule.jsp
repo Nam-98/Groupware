@@ -142,7 +142,7 @@
 		                    	 <c:forEach var="j" begin="2020" end="2050" step="1">
 		                    	 {
 			                        title : '${a.comp_hd_name}',
-			                        <c:set var="date" value="${fn:split(a.comp_hd_date_cd,'-')}"></c:set>
+			                        <c:set var="date" value="${fn:split(a.comp_hd_date_str,'-')}"></c:set>
 			                        start : '${j}-<c:out value='${date[0]}'></c:out>-<c:out value='${date[1]}'></c:out>',
 			                        color: '#e4cb10'
 		                    	 },

@@ -285,6 +285,69 @@ public class WebhardService {
 		return result;
 	}
 	
+	// 폴더와 파일 리스트 받아서 각각 처리
+	public int delListProc(List<String> chkArrFolder, List<String> chkArrFile) {
+		int result = 0;
+		
+		result += delFolderListProc(chkArrFolder);
+		result += delFileListProc(chkArrFile);
+		
+		return result;
+	}
+	
+	// 리스트 받아서 해당 seq값 디렉토리 지우기 프로세스
+	public int delFolderListProc(List<String> chkArrFolder) {
+		int result = 0;
+		
+		for (int i = 0; i < chkArrFolder.size(); i++) {
+			// 리스트가 비어있는 경우를 방지하는 더미데이터 판별
+			if (Integer.parseInt(chkArrFolder.get(i)) == -1){
+				continue;
+			}
+			int dirSeq = Integer.parseInt(chkArrFolder.get(i));
+			
+			Webhard_dirDTO dirDTO = new Webhard_dirDTO();
+			dirDTO.setWh_dir_seq(dirSeq);
+			
+			// 에러체크 (삭제된 행 개수가 1이 아닐경우)
+			if (delFolderProc(dirDTO) != 1) {
+				result += 1;
+			}
+		}
+		return result;
+	}
+	
+	// 해당 seq값 디렉토리 지우기
+	public int delFolderProc(Webhard_dirDTO dirDTO) {
+		return whdao.delFolderProc(dirDTO);
+	}
+	
+	// 리스트 받아서 해당 seq값 파일 지우기 프로세스
+	public int delFileListProc(List<String> chkArrFile) {
+		int result = 0;
+		
+		for (int i = 0; i < chkArrFile.size(); i++) {
+			// 리스트가 비어있는 경우를 방지하는 더미데이터 판별
+			if (Integer.parseInt(chkArrFile.get(i)) == -1){
+				continue;
+			}
+			int fileSeq = Integer.parseInt(chkArrFile.get(i));
+			
+			Webhard_filesDTO fileDTO = new Webhard_filesDTO();
+			fileDTO.setWh_files_seq(fileSeq);
+			
+			// 에러체크 (삭제된 행 개수가 1이 아닐경우)
+			if (delFileProc(fileDTO) != 1) {
+				result += 1;
+			}
+		}
+		return result;
+	}
+	
+	// 해당 seq값 파일 지우기
+	public int delFileProc(Webhard_filesDTO fileDTO) {
+		return whdao.delFileProc(fileDTO);
+	}
 	
 	
 	

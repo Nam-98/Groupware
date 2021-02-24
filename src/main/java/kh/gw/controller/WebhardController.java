@@ -16,10 +16,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import kh.gw.dto.Message_attached_filesDTO;
 import kh.gw.dto.Webhard_dirDTO;
 import kh.gw.dto.Webhard_filesDTO;
 import kh.gw.service.WebhardService;
@@ -161,6 +162,17 @@ public class WebhardController {
 		String referer = request.getHeader("REFERER");
 		
 		return "redirect:" + referer;
+	}
+	
+	// 체크된 폴더 및 파일 삭제 프로세스
+	@RequestMapping(value="delCheckObject.webhard", method=RequestMethod.POST)
+	@ResponseBody
+	public String delCheckObject(@RequestParam(value="chkArrFolder[]") List<String> chkArrFolder,
+			@RequestParam(value="chkArrFile[]") List<String> chkArrFile) {
+		
+		// 정상처리 값 0 / 에러 시 1 이상
+		int result = whservice.delListProc(chkArrFolder, chkArrFile);
+		return result +"";
 	}
 	
 	

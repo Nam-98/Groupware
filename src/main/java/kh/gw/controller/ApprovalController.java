@@ -75,10 +75,10 @@ public class ApprovalController {
 	public String writeApproval (ApprovalDTO dto, Approval_signDTO approval_signDTOList, Model model, BreakDTO bdto) throws Exception {	
 		int appSeq = aservice.writeApp(dto);
 		if(dto.getApp_type_code()==3) {
-			bservice.insertBreak(bdto,dto);
+			bservice.insertBreak(bdto,dto,appSeq);
 		}
 		aservice.setInitAppSign(approval_signDTOList, appSeq);
-		return this.toAppDetailView(model,appSeq);
+		return "redirect:toAppDetailView.approval?app_seq="+appSeq;
 	}
 	
 	@RequestMapping("/toMySignListView.approval")
@@ -112,8 +112,8 @@ public class ApprovalController {
 		return "approval/appDetailView";
 	}
 	@RequestMapping("/signApproval.approval")
-	public String signApproval (String isAccept, int app_seq, HttpServletRequest request,Model model) throws Exception {
-		aservice.updateSign(app_seq, isAccept);
+	public String signApproval (String isAccept, int app_seq, Model model,int app_type_code) throws Exception {
+		aservice.updateSign(app_seq, isAccept,app_type_code);
 		return this.toAppDetailView(model, app_seq);
 	}
 	@RequestMapping(value="/dlAttachedFiles.approval", produces="application/text;charset=utf-8")

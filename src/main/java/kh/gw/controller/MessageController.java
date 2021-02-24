@@ -76,7 +76,7 @@ public class MessageController {
 		System.out.println("======결과값===="+result);
 		
 		m.addAttribute("result", result);
-		return "/message/alertMessage";
+		return "redirect:/message/msgOutBoxList.message?cpage=1";
 		
 	}
 	
@@ -157,13 +157,16 @@ public class MessageController {
 		String msg_sender_name = request.getParameter("msg_sender_name");
 		String msg_receiver_name = request.getParameter("msg_receiver_name");
 		String msg_receiver = request.getParameter("msg_receiver");
+		int msg_seq = Integer.parseInt(request.getParameter("msg_seq"));
+		MessageDTO mdto = mservice.msgView(msg_seq);
 		List<MemberDTO> mlist = memservice.listMem(); //조직도 전체 리스트 가져옴
 		List<DepartmentDTO> dlist = memservice.listDept(); //부서명 가져옴
 		m.addAttribute("msg_sender_name", msg_sender_name);
 		m.addAttribute("msg_receiver_name", msg_receiver_name);
 		m.addAttribute("msg_receiver", msg_receiver);
-		m.addAttribute("mlist", mlist);
 		m.addAttribute("dlist", dlist);
+		m.addAttribute("mlist", mlist);
+		m.addAttribute("mdto", mdto);
 		return "/message/replyMessage";
 	}
 	
@@ -257,6 +260,7 @@ public class MessageController {
 			for(String i : chkArr) {
 				msg_seq = Integer.parseInt(i);
 				mservice.msgInCabinsert(id,msg_seq);
+				mservice.msgCabCheck(msg_seq);
 			}
 			result = "{\"result\":1}";
 		}
@@ -274,6 +278,7 @@ public class MessageController {
 				for(String i : chkArr) {
 					msg_seq = Integer.parseInt(i);
 					mservice.msgOutCabinsert(id,msg_seq);
+					mservice.msgCabCheck(msg_seq);
 				}
 				result = "{\"result\":1}";
 			}

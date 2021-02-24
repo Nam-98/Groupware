@@ -148,7 +148,7 @@ public class ScheduleService {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd");
 		
 		for(Company_holidayDTO dto : hlist) {
-			dto.setComp_hd_date_cd(simpleDateFormat.format(dto.getComp_hd_date()));
+			dto.setComp_hd_date_str(simpleDateFormat.format(dto.getComp_hd_date()));
 		}
 	}
 }

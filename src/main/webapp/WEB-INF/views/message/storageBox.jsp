@@ -81,7 +81,7 @@
     
    						 <div class="btn-group-ml" role="group"
                            style="text-align: right;">
-                           <button type="button" class="btn btn-primary" id="delBtn">삭제</button>
+                           <input type="button" class="btn btn-primary btn-sm" id="delBtn" value="삭제">
                            <script>
   						$("#delBtn").click(function(){
   							var confirm_val = confirm("정말 삭제하시겠습니까?");
@@ -158,12 +158,23 @@
                         <div class="navi" style="text-align: center;">${inNavi }</div>
     
   </div>
-  
+  <script>
+		$(document).ready(function(){
+			$(".checkAll").click(function(){
+				$(".chk").prop("checked",this.checked);
+			})
+		})
+	</script>
+	<script>
+		$(".chk").click(function(){
+			$(".checkAll").prop("checked",false);
+		});
+	</script>
   
   <div class="tab-pane fade" id="outbox">
     <p><div class="btn-group-ml" role="group"
                            style="text-align: right;">
-                           <button type="button" class="btn btn-primary" id="delBtn1">삭제</button>
+                           <input type="button" class="btn btn-primary btn-sm" id="delBtn1" value="삭제">
                            <script>
   						$("#delBtn1").click(function(){
   							var confirm_val = confirm("정말 삭제하시겠습니까?");
@@ -171,7 +182,7 @@
   							if(confirm_val){
   								var chkArr = new Array();
   								
-  								$("input[class='chk']:checked").each(function(){
+  								$("input[class='chk1']:checked").each(function(){
   									chkArr.push($(this).attr("value"));
   								});
   								
@@ -205,7 +216,7 @@
                                  <th scope="col">
                                     <div class="input-group" style="width: 5%;">
                                        <span class="input-group-addon-default"> <input
-                                          type="checkbox" aria-label="..." class="checkAll">
+                                          type="checkbox" aria-label="..." class="checkAll1">
                                        </span>
                                     </div>
                                  </th>
@@ -221,7 +232,7 @@
                                     <th scope="col">
                                        <div class="input-group" style="width: 5%;">
                                           <span class="input-group-addon-default"> <input
-                                             type="checkbox" class="chk" name="msg_seq"
+                                             type="checkbox" class="chk1" name="msg_seq"
                                              value="${i.msg_seq}">
                                           </span>
                                        </div>
@@ -254,9 +265,19 @@
 
 	</div>
 	<!-- END WRAPPER -->
-	<!-- <script>
-		document.getElementById("first")[0].click();
+	
+	
+	<script>
+		$(document).ready(function(){
+			$(".checkAll1").click(function(){
+				$(".chk1").prop("checked",this.checked);
+			})
+		})
 	</script>
-	 -->
+	<script>
+		$(".chk1").click(function(){
+			$(".checkAll1").prop("checked",false);
+		});
+	</script>
 </body>
 </html>

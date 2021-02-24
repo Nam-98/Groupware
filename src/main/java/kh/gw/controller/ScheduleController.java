@@ -63,7 +63,7 @@ public class ScheduleController {
 		 sservice.addhDateStr(hlist);
 		 
 		 m.addAttribute("hlist", hlist);
-		 System.out.println(hlist.get(0).getComp_hd_date_cd());
+		 System.out.println(hlist.get(0).getComp_hd_date_str());
 		 
 
 		 return "/schedule/monthschedule";

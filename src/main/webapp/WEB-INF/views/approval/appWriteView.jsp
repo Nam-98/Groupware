@@ -32,16 +32,11 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
-    
-     <!-- jqwidget -->
-     <link rel="stylesheet" href="/resources/lib/jqwidgets/styles/jqx.base.css" type="text/css" />
-   <!--  <script type="text/javascript" src="/resources/lib/scripts/jquery-1.11.1.min.js"></script> -->
-    <script type="text/javascript" src="/resources/lib/jqwidgets/jqxcore.js"></script>
-    <script type="text/javascript" src="/resources/lib/jqwidgets/jqxdatetimeinput.js"></script>
-    <script type="text/javascript" src="/resources/lib/jqwidgets/jqxcalendar.js"></script>
-    <script type="text/javascript" src="/resources/lib/jqwidgets/jqxbuttons.js"></script>
-    <script type="text/javascript" src="/resources/lib/jqwidgets/jqxtooltip.js"></script>
-   	<script type="text/javascript" src="/resources/lib/jqwidgets/globalization/globalize.js"></script>
+  
+  	<!-- daterangepicker -->
+  	<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
    	
 <style type="text/css">
 /* Remove default bullets */
@@ -128,7 +123,7 @@ td.resize-col {
 											<c:forEach items="${mlist}" var="j">
 												<c:if
 													test="${j.dept_code == i.dept_code && j.id != sessionScope.id}">
-													<li class="modalLi">${j.name}${j.position_name} <input
+													<li class="modalLi">${j.name}&emsp;${j.position_name} <input
 														type=hidden class="modalPosi" value="${j.position_name}">
 														<input type=hidden class="modalName" value="${j.name}">
 														<input type=hidden class="modalId" value="${j.id}">
@@ -217,7 +212,7 @@ td.resize-col {
 											<th scope="row" class="align-middle">문서종류</th>
 											<td>
 												<select class="form-control form-select-sm" id="docsType" name="app_type_code" style='width:auto;display:inline;'>
-													<c:forEach items="${docsType}" var="dto">
+													<c:forEach items="${docsType}" var="dto" varStatus="status">
 														<option value="${dto.app_type_code}">${dto.app_type_name}</option>
 													</c:forEach>
 												</select>
@@ -272,21 +267,18 @@ td.resize-col {
 									
 									<div class=breakInfo style="display:none" >
 									<div class="row">
-										<div class="col-md-2 col-sm-6"><h5>휴가 시작일</h5></div>
-										<div class="col-md-3 col-sm-6">
-											<div id='jqxdateStart' class='jqxdate'></div>
-											<input type=hidden id=breakSrt name='strStartDate'> 
+										<div class="col-md-2 col-sm-6"><h5>휴가 일정 선택</h5></div>
+										<div class="col-md-10 col-sm-6">
+											<input type=text id=breakPer > 
+											<input type=date id=breakSrt name='strStartDate' style="display:none"> 
+											<input type=date id=breakEnd name='strEndDate' style="display:none">
+											
 										</div>
-										<div class="col-md-2 col-sm-6"><h5>휴가 종료일</h5></div>
-										<div class="col-md-3 col-sm-6"><div id='jqxdateEnd'class='jqxdate'></div>
-										<input type=hidden id=breakEnd name='strEndDate'>
-										</div>
-										<div class="col-md-2 col-sm-6"><button type=button id='setDate'>종료일 자동설정</button></div>
 									</div>
 									
 								</div>
 									<div class="row">
-										<textarea class="summernote"  ></textarea>
+										<textarea class="summernote"></textarea>
 										<input type=hidden name="app_contents" id="contents">
 									</div>						
 								<!-- pannel footer작성(선택) -->
@@ -328,17 +320,27 @@ td.resize-col {
 		
 		//휴가계일 때 날짜정보 전송 및 내용에도 날짜정보 포함시키기.
 		if($("#docsType").val()==3){
-			 let dStrt = getFormatDate($('#jqxdateStart').jqxDateTimeInput('getDate'));
-			 let dEnd = getFormatDate($('#jqxdateEnd').jqxDateTimeInput('getDate'));
-			$("#breakSrt").val(dStrt);
-			$("#breakEnd").val(dEnd);
-			let str = "<p>휴가 구분 : "+$("#breakType option:checked").text()+"</p><p>신청 기간 : "+dStrt+" ~ "+dEnd+"</p>";
-			console.log(str);
+			let str = "<p>휴가 구분 : "+$("#breakType option:checked").text()+"</p><p>신청 기간 : "+$("#breakSrt").val()+" ~ "+$("#breakEnd").val()+"</p>";
 			contents = str + contents;
 		}
 		$("#contents").val(contents);
 		$("#writeForm").submit();
+	})
+	
+	 
+	 $(document).ready(function(){
+		//화면이 로딩될 때 summernote에 '0'번째 docs template 설정
+		 $.ajax({
+			url : "/approval/getTemplate.approval?app_docs_type="+$("#docsType option:eq(0)").val(),
+			method : 'POST',
+			success : function(template){
+				$('.summernote').summernote('code', template);
+			}
+		})
 		
+		//휴가 날짜 설정에 default로 오늘날짜 설정
+		 $('#breakSrt').val(new Date().toISOString().substring(0, 10));
+		 $('#breakEnd').val(new Date().toISOString().substring(0, 10));
 	})
 	</script>
 	<!-- /.modal -->
@@ -352,8 +354,16 @@ td.resize-col {
 			</c:if>
 		</c:forEach>
 			//휴가관련 내용
-			$("#jqxdateStart").jqxDateTimeInput({ width: '200px', height: '20px' });
-			$("#jqxdateEnd").jqxDateTimeInput({ width: '200px', height: '20px' });
+				$(function() {
+				  $('#breakPer').daterangepicker({
+				    opens: 'left'
+				  }, function(start, end, label) {6
+					  $("#breakSrt").val(start.format('YYYY-MM-DD'));
+					  $("#breakEnd").val(end.format('YYYY-MM-DD'));
+					 console.log($("#breakSrt").val());
+				    console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+				  });
+				});
 			// 종료일 자동설정
 	          $("#setDate").click(function () {
 	        	  var date = $('#jqxdateStart').jqxDateTimeInput('getDate');
@@ -559,7 +569,7 @@ td.resize-col {
 						ordercount++;					
 				}
 			}
-			//날짜변환 yyyy-MM-dd
+			//날짜변환 yyyy-MM-dd(date to string)
             function getFormatDate(date){
                 var year = date.getFullYear();
                 var month = (1 + date.getMonth());

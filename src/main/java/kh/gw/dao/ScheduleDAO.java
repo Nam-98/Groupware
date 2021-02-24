@@ -70,6 +70,8 @@ public class ScheduleDAO {
 	}
 	
 	public int updateComhd(Company_holidayDTO dto) {
+		System.out.println(dto.getComp_hd_name());
+		System.out.println(dto.getComp_hd_date());
 		return db.update("Schedule.updateComhd", dto);
 	}
 
