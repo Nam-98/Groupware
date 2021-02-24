@@ -93,7 +93,7 @@
             // create Tree Grid
             $("#treeGrid").jqxTreeGrid(
             {
-                width: 240,
+                width: 260,
                 source: dataAdapter,
                 ready: function () {
                 	$('#treeGrid').jqxTreeGrid({height:"600px"});
@@ -132,11 +132,6 @@
 .jqx-grid-table .jqx-grid-cell {
 	border-width: 0px 0px 1px 0px;
 }
-
-.jqx-widget-content-energyblue {
-	border: 0px solid black;
-}
-
 .jqx-scrollbar {
 	display: none;
 }
@@ -272,3 +267,4 @@ $("#treeGrid").on('rowSelect', function (event) {
     console.log(rowKey);
 });
 </script>
+</html>
