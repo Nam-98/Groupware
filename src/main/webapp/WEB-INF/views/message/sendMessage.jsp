@@ -183,7 +183,7 @@ $(document).ready(function() {
   		<input type="file" class="form-control" name="attfiles" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" style="width: 100%;"> 
 		</div>
 		
-		<input id="subBtn" class="btn btn-primary" type="button" style="float: right;" value="보내기" onclick="goWrite(this.form)"/>
+		<input id="subBtn" class="btn btn-primary btn-sm" type="button" style="float: right;" value="보내기" onclick="goWrite(this.form)"/>
 			
 	</form>
 </div>
@@ -212,12 +212,13 @@ function goWrite(frm) {
 		alert("제목을 입력해주세요");
 		return;
 	}
-	if (writer.trim() == ''){
-		alert("작성자를 입력해주세요");
-		return;
-	}
+	
 	if (content.trim() == ''){
 		alert("내용을 입력해주세요");
+		return;
+	}
+	if (writer.trim() == ''){
+		alert("작성자를 입력해주세요");
 		return;
 	}
 	console.log("리턴 타고왔니?");

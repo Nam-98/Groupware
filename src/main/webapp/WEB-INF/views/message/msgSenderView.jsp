@@ -67,20 +67,15 @@
 			<div class="panel panel-headline demo-icons">
 				<div class="container-fluid">
 				<div class="panel-heading">
-							<h3 class="panel-title">쪽 지 보 기</h3>
-						</div>
-				<div class="panel-body">
-					
-
-<div style="width: 80%;">
-	<form method="post" enctype="multipart/form-data" action="/message/msgProc.message?msg_receiver=${mdto.msg_receiver }">
-	
-		<div class="btn-group-ml" role="group" style="text-align: right;">
-  					<button type="button" class="btn btn-primary" id="reWrite">새로 쓰기</button>
-  					<button type="button" class="btn btn-primary" id="delete">삭제</button>
-  					<button type="button" class="btn btn-primary" id="list">목록으로</button>
+							<h3 class="panel-title">쪽 지 보 기</h3>							
+		<div class="right">
+  					<input type="button" class="btn btn-primary btn-sm" id="delete" value="삭제">
+  					<input type="button" class="btn btn-primary btn-sm" id="list" value="목록으로">
 					</div>
-					<br>
+						</div>
+				<div class="panel-body">					
+<div style="width: 80%;">
+	<form method="post" enctype="multipart/form-data" action="/message/msgProc.message?msg_receiver=${mdto.msg_receiver }">	
 		<table class="table">
 					<thead>
 						<tr>
@@ -121,10 +116,6 @@
 	<!-- END WRAPPER -->
 
 <script>
-	document.getElementById("reWrite").onclick = function(){
-		location.href = "/message/writeMsg.message";
-	}
-	
 	document.getElementById("list").onclick = function(){
 		location.href = "/message/msgOutBoxList.message?cpage=1";
 	}

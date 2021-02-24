@@ -183,7 +183,7 @@ $(document).ready(function() {
   		<input type="file" class="form-control" name="attfiles" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" style="width: 100%;"> 
 		</div>
 		
-		<input id="subBtn" class="btn btn-primary" type="submit" value="보내기" style="float: right;" onclick="goWrite(this.form)"/>
+		<input id="subBtn" class="btn btn-primary bnt-sm" type="submit" value="보내기" style="float: right;" onclick="goWrite(this.form)"/>
 	</form>
 </div>
 </div>
