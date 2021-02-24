@@ -97,7 +97,16 @@
 								<th class="active">문서 번호</th>
 								<td>${app.app_docs_num}</td>
 								<th class="active">보존연한</th> 
-								<td>${app.app_archive}년</td>
+								<td>
+									<c:choose>
+										<c:when test="${app.app_archive eq 0}">
+											없음
+										</c:when>
+										<c:otherwise>
+											${app.app_archive}년
+										</c:otherwise>
+									</c:choose>
+								</td>
 							</tr>
 							<tr>
 								<th class="active">제목</th>
@@ -216,13 +225,7 @@
 										signTh.append($("<th class='active signTh'>"));
 										signStmp.append($("<td class='stamp signTd'>"));
 									}
-								
-/* 									let dserest = dseleng%rowCnt;
-									let dsecnt = rowCnt-dserest;
-									for(var i=0;i<dsecnt; i++){
-										dseTh.append($("<th class='active signTh'>"));
-										dseStmp.append($("<td class='stamp signTd'>"));
-									} */
+
 									let ccrest = ccleng%rowCnt;
 									let cccnt = rowCnt-ccrest;
 									for(var i=0;i<cccnt; i++){
@@ -232,8 +235,7 @@
 								
 							$("#signRow").append(signTh);
 							$("#signRow").append(signStmp);
-/* 							$("#dseRow").append(dseTh);
-							$("#dseRow").append(dseStmp); */
+
 							$("#ccRow").append(ccTh);
 						</script>
 						</div>
@@ -295,13 +297,13 @@
 		document.getElementById("btnSign").onclick = function(data){
 			let check = confirm("결재하시겠습니까?");
 			if(check){
-				location.href="/approval/signApproval.approval?isAccept=Y&app_seq="+${app_seq};
+				location.href="/approval/signApproval.approval?isAccept=Y&app_seq="+${app_seq}+"&app_type_code="+${app.app_type_code};
 			}
 		}
 		document.getElementById("btnRtrn").onclick = function(data){
 			let check = confirm("반송하시겠습니까?");
 			if(check){
-				location.href="/approval/signApproval.approval?isAccept=N&app_seq="+${app_seq};
+				location.href="/approval/signApproval.approval?isAccept=N&app_seq="+${app_seq}+"&app_type_code="+${app.app_type_code};
 			}
 		}
 		
@@ -386,7 +388,6 @@
 			//해당 페이지가 불려온 페이지로 돌아간다.
 			history.back();
 		    }
-
 		}
 	</script>
 </body>

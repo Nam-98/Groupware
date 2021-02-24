@@ -87,5 +87,15 @@ public class WebhardDAO {
 	public DepartmentDTO deptInfomationGet(int deptCode) {
 		return db.selectOne("Webhard.deptInfomationGet", deptCode);
 	}
+	
+	// 해당 seq값의 폴더 지우기
+	public int delFolderProc(Webhard_dirDTO dirDTO) {
+		return db.delete("Webhard.delFolderProc", dirDTO);
+	}
+	
+	// 해당 seq값의 파일 지우기
+	public int delFileProc(Webhard_filesDTO fileDTO) {
+		return db.delete("Webhard.delFileProc", fileDTO);
+	}
 
 }

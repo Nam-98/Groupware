@@ -17,7 +17,7 @@
 	</select>
 	
 	<select id="listDept" resultType = "kh.gw.dto.DepartmentDTO">
-		select * from st.department
+		select dept_code, dept_name, dept_dir_id, dept_level,nvl(dept_code_parent,-1) as dept_code_parent,dept_tree_code from st.department
 	</select>
 	
 	<select id ="getMyInfo" resultType ="java.util.HashMap">
@@ -25,14 +25,17 @@
 	</select>
 	
 	<insert id="insertMem">
-		insert into st.member values(#{id},#{id},#{name},#{birth},#{gender},#{contact},#{address1},#{address2},#{zip_code},#{is_married},#{dept_code},#{position_code},#{reg_date},null,0,#{break_total_count},0)
+		insert into st.member values(#{id},#{id},#{name},#{birth},#{gender},#{contact},#{address1},#{address2},#{zip_code},#{is_married},#{dept_code},#{position_code},#{reg_date},null,#{access_level_code},#{break_total_count},0)
 	</insert>
 	
 	<update id="updateMemInfo">
-		update st.member set name=#{name},birth=#{birth},gender=#{gender},contact=#{contact},address1=#{address1},address2=#{address2},zip_code=#{zip_code},is_married=#{is_married},dept_code=#{dept_code},position_code=#{position_code},break_total_count=#{break_total_count},break_use_count=#{break_use_count} where id= #{id}
+		update st.member set name=#{name},birth=#{birth},gender=#{gender},contact=#{contact},address1=#{address1},address2=#{address2},zip_code=#{zip_code},is_married=#{is_married},dept_code=#{dept_code},position_code=#{position_code},break_total_count=#{break_total_count},break_use_count=#{break_use_count},retire_date=#{retire_date},access_level_code=#{access_level_code} where id= #{id}
 	</update>
 	
 	<update id="updatePw">
 		update st.member set password=#{newpw} where id=#{id}
+	</update>
+	<update id="updateBreakUseCount">
+		update st.member set break_use_count=(break_use_count+#{break_use_count}) where id=#{id}
 	</update>
   </mapper>

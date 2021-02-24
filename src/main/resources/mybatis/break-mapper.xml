@@ -7,7 +7,7 @@
   		select * from st.break_type
   	</select>
   	<insert id="insertBreak">
-  		insert into st.break values(st.break_seq.nextval, #{break_id}, #{break_code}, #{break_discount}, to_date(#{strStartDate},'yyyy-MM-dd'), to_date(#{strEndDate},'yyyy-MM-dd'), #{break_reason})
+  		insert into st.break values(st.break_seq.nextval, #{break_id}, #{break_code}, #{break_discount}, to_date(#{strStartDate},'yyyy-MM-dd'), to_date(#{strEndDate},'yyyy-MM-dd'), #{break_reason},#{app_seq},null)
   	</insert>
   	<select id="getDiscount" resultType="_double">
   		select break_discount from st.break_type where break_code = #{value}
@@ -26,6 +26,16 @@
   	</insert>
   	
   	<select id="loadHolidayList" resultType="kh.gw.dto.BreakDTO">
-  		select * from st.break where break_id =#{value}
+  		select * from st.break where break_id =#{value} and break_accept='Y'
+  	</select>
+  	
+  	<select id="getBreakByAppSeq" resultType="kh.gw.dto.BreakDTO">
+  		select * from st.break where app_seq=#{app_seq}
+  	</select>
+  	<update id="updateAccept">
+  		update st.break set break_accept=#{break_accept} where app_seq=#{app_seq}
+  	</update>
+  	<select id="getDiscountByAppSeq" resultType="_double">
+  		select break_discount from st.break where app_seq=#{app_seq}
   	</select>
   </mapper>

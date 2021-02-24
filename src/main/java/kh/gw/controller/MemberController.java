@@ -16,8 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
-
 import kh.gw.dto.DepartmentDTO;
 import kh.gw.dto.MemberDTO;
 import kh.gw.service.MemberService;
@@ -70,25 +68,82 @@ public class MemberController {
 		}
 		
 	//조직도 불러오기
-		@RequestMapping("orgnizationChart.member")
-		public String orgnizationChart(Model m) throws Exception{
-			List<MemberDTO> mlist = mservice.listMem();//멤버를 불러옴
-			List<DepartmentDTO> dlist = mservice.listDept(); //부서명 가져옴
-			m.addAttribute("mlist", mlist);
-			m.addAttribute("dlist", dlist);
-			return "orgnization/orgnizationChart";
-		}
+		//조직도 불러오기
+	      @RequestMapping("orgnizationChart.member")
+	      public String orgnizationChart(Model m) throws Exception{
+	         List<MemberDTO> mlist = mservice.listMem();//멤버를 불러옴
+	         List<DepartmentDTO> dlist = mservice.listDept(); //부서명 가져옴
+	         List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+	         int a =0;
+	         for(DepartmentDTO dto : dlist) {
+	        	 if(dto.getDept_code_parent() == -1) {
+	        		 dto.setDept_code_parent(100000000);
+	        	 }
+	            Map<String,Object> map = new HashMap<>();
+	            map.put("departmentName",dto.getDept_name());
+	            map.put("name","");
+	            map.put("position","");
+	            map.put("memId","");
+	            map.put("reportsTo", dto.getDept_code_parent());
+	            map.put("departmentID", dto.getDept_code());
+	            list.add(map);
+	         }
+	         
+	         for(MemberDTO dto : mlist) {
+	            Map<String,Object> map = new HashMap<>();
+	            map.put("departmentName","");
+	            map.put("name",dto.getName());
+	            map.put("position",dto.getPosition_name());
+	            map.put("reportsTo",dto.getDept_code());
+	            map.put("departmentID", 100+a);
+	            map.put("memId",dto.getId());
+	            list.add(map);
+	            a++;
+	         }
+	         m.addAttribute("list", list);
+	         m.addAttribute("rowKey",107);
+	         return "orgnization/orgnizationChart";
+	      }
 	
 	//조직도 직원 클릭시 정보 불러오기
 		@RequestMapping("orgMemInfo.member")
 		public String orgMemInfo(HttpServletRequest request, Model m) throws Exception{
 			String id = request.getParameter("id");
+			String rowKey = request.getParameter("rowKey");
 			MemberDTO dto = mservice.getMemInfo(id);
 			List<MemberDTO> mlist = mservice.listMem();
 			List<DepartmentDTO> dlist = mservice.listDept(); //부서명 가져옴
+			
+	         List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+	         int a =0;
+	         for(DepartmentDTO dtod : dlist) {
+	        	 if(dtod.getDept_code_parent() == -1) {
+	        		 dtod.setDept_code_parent(100000000);
+	        	 }
+	            Map<String,Object> map = new HashMap<>();
+	            map.put("departmentName",dtod.getDept_name());
+	            map.put("name","");
+	            map.put("position","");
+	            map.put("memId","");
+	            map.put("reportsTo", dtod.getDept_code_parent());
+	            map.put("departmentID", dtod.getDept_code());
+	            list.add(map);
+	         }
+	         
+	         for(MemberDTO dtom : mlist) {
+	            Map<String,Object> map = new HashMap<>();
+	            map.put("departmentName","");
+	            map.put("name",dtom.getName());
+	            map.put("position",dtom.getPosition_name());
+	            map.put("reportsTo",dtom.getDept_code());
+	            map.put("departmentID", 100+a);
+	            map.put("memId",dtom.getId());
+	            list.add(map);
+	            a++;
+	         }
+	         m.addAttribute("list", list);
+	         m.addAttribute("rowKey",Integer.parseInt(rowKey));
 			m.addAttribute("dto", dto);
-			m.addAttribute("mlist", mlist);
-			m.addAttribute("dlist", dlist);
 			return "orgnization/orgnizationChart";
 		}
 		
