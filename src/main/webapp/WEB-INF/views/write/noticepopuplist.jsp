@@ -102,7 +102,7 @@ a {
 									<tr>
 										<th scope="col"><img
 											src="/resources/profileImage/${dtos.get(0).write_id }.png"
-											class="img-circle" style="height: 15px" alt="Avatar">
+											class="img-circle" style="height: 15px" alt="default">
 											${dtos.get(0).write_id }<input id="loginId" type="hidden"
 											value="${sessionScope.id}"></th>
 									</tr>

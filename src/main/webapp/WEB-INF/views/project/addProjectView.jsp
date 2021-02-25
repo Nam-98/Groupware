@@ -90,7 +90,7 @@
 							<h3 class="panel-title">프 로 젝 트 추 가</h3>
 						</div>
 						<div class="panel-body">
-							<form action="/project/addProjectProc.project" method="post" >
+							<form action="/project/addProjectProc.project" method="post" id="formBox" >
 								<div class="col-lg-12 col-12">
 									<table class="table table-sm">
 										<tbody>
@@ -115,7 +115,8 @@
 								</div>
 							
 							<div class="button-box">
-								<input type="submit" id="addsubmit" class="btn btn-primary" value="등록">&nbsp
+								<!-- <input type="submit" id="addsubmit" class="btn btn-primary" value="등록">&nbsp -->
+								<input type="button" id="addsubmit" class="btn btn-primary" value="등록">
 								<button type="button" id="addCancel" class="btn btn-secondary">취소</button>
 							</div>
 							</form>
@@ -158,5 +159,14 @@ if(end_date <= start_date){
 	document.getElementById("date2").value='';
 }
 });
+
+$("#addsubmit").on("click",function(){
+	if($("#projectManagerName").val()==""){
+		console.log("빈값");
+		alert("담당자를 선택해 주세요");
+		return;
+	}
+	$("#formBox").submit();
+})
 </script>
 </html>

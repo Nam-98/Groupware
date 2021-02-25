@@ -5,7 +5,7 @@
         <div class="sidebar-scroll">
             <nav>
             <ul id="myUL" class="nav">
-                <li><a href="/" class=""><i class="lnr lnr-home"></i> <span>MainPage</span></a></li>
+                <li><a href="/" class=""><i class="lnr lnr-home"></i> <span>메인페이지</span></a></li>
                 <li>
                     <a href="#subPagesApp1" data-toggle="collapse" class="collapsed"><i class="fas fa-file-signature"></i> <span>전자결재</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
                     <div id="subPagesApp1" class="collapse ">

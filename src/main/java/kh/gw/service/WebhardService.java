@@ -30,6 +30,16 @@ public class WebhardService {
 	@Autowired
 	private HttpSession session;
 	
+	// 아이디 값을 가지고 웹하드에 접속 시 디렉토리 할당 작업
+	public int dirAssignId(String sessionId) {
+		// 개인 디렉토리 생성 및 할당
+		personalMkdir(sessionId);
+		commonDirAssign(sessionId);
+		departmentDirAssign(sessionId);
+		
+		return 0;
+	}
+	
 	// 최초 접속 시 DB 조회 후 개인 디렉토리 생성 및 할당
 	public int personalMkdir(String sessionId) {
 		int count = personalDirIsExist(sessionId);
@@ -51,6 +61,64 @@ public class WebhardService {
 			accDTO.setWh_dir_type_code(0);
 			dirAssign(accDTO);
 			
+		}
+		
+		return 0;
+	}
+	
+	// 최초 공용 디렉토리 접속 시 할당
+	public int commonDirAssign(String sessionId) {
+		int count = commonDirIsExist(sessionId);
+		if (count < 1) {
+			
+			// 개인 아이디에 할당
+			Webhard_accessDTO accDTO = new Webhard_accessDTO();
+			accDTO.setWh_id(sessionId);
+			accDTO.setWh_dir_seq(1);
+			accDTO.setWh_dir_type_code(2);
+			dirAssign(accDTO);
+			
+		}
+		
+		return 0;
+	}
+	
+	// 최초 부서 디렉토리 접속 시 할당
+	public int departmentDirAssign(String sessionId) {
+		int count = departmentDirIsExist(sessionId);
+		if (count < 1) {
+			
+			// 할당 할 부서의 dirSeq값 가져오기
+			// 해당 아이디의 정보 가져와서 부서코드 get
+			MemberDTO mdto = idInfomationGet(sessionId);
+			int deptCode = mdto.getDept_code();
+			// 해당 부서코드의 정보 가져와서 웹하드 디렉토리 번호 get
+			DepartmentDTO ddto = deptInfomationGet(deptCode);
+			int dirSeq = ddto.getDept_dir_id();
+			
+			// 개인 아이디에 할당
+			Webhard_accessDTO accDTO = new Webhard_accessDTO();
+			accDTO.setWh_id(sessionId);
+			accDTO.setWh_dir_seq(dirSeq);
+			accDTO.setWh_dir_type_code(1);
+			dirAssign(accDTO);
+			
+		// 해당 부서가 있으면
+		}else {
+			// 할당 할 부서의 dirSeq값 가져오기
+			// 해당 아이디의 정보 가져와서 부서코드 get
+			MemberDTO mdto = idInfomationGet(sessionId);
+			int deptCode = mdto.getDept_code();
+			// 해당 부서코드의 정보 가져와서 웹하드 디렉토리 번호 get
+			DepartmentDTO ddto = deptInfomationGet(deptCode);
+			int dirSeq = ddto.getDept_dir_id();
+			
+			// 개인 아이디에 할당 업데이트
+			Webhard_accessDTO accDTO = new Webhard_accessDTO();
+			accDTO.setWh_id(sessionId);
+			accDTO.setWh_dir_seq(dirSeq);
+			accDTO.setWh_dir_type_code(1);
+			dirAssignUpdate(accDTO);
 		}
 		
 		return 0;
@@ -112,6 +180,11 @@ public class WebhardService {
 	// 디렉토리 아이디에 할당
 	public int dirAssign(Webhard_accessDTO accDTO) {
 		return whdao.dirAssign(accDTO);
+	}
+	
+	// 디렉토리 아이디에 할당될 값 업데이트
+	public int dirAssignUpdate(Webhard_accessDTO accDTO) {
+		return whdao.dirAssignUpdate(accDTO);
 	}
 	
 	// 해당 아이디의 개인 최상위 디렉토리 값 get
@@ -204,48 +277,6 @@ public class WebhardService {
 	// 해당 디렉토리의 폴더 리스트 가져오기
 	public List<Webhard_dirDTO> getDirFolderList(int dirSeq) {
 		return whdao.getDirFolderList(dirSeq);
-	}
-	
-	// 최초 공용 디렉토리 접속 시 할당
-	public int commonDirAssign(String sessionId) {
-		int count = commonDirIsExist(sessionId);
-		if (count < 1) {
-			
-			// 개인 아이디에 할당
-			Webhard_accessDTO accDTO = new Webhard_accessDTO();
-			accDTO.setWh_id(sessionId);
-			accDTO.setWh_dir_seq(1);
-			accDTO.setWh_dir_type_code(2);
-			dirAssign(accDTO);
-			
-		}
-		
-		return 0;
-	}
-	
-	// 최초 부서 디렉토리 접속 시 할당
-	public int departmentDirAssign(String sessionId) {
-		int count = departmentDirIsExist(sessionId);
-		if (count < 1) {
-			
-			// 할당 할 부서의 dirSeq값 가져오기
-			// 해당 아이디의 정보 가져와서 부서코드 get
-			MemberDTO mdto = idInfomationGet(sessionId);
-			int deptCode = mdto.getDept_code();
-			// 해당 부서코드의 정보 가져와서 웹하드 디렉토리 번호 get
-			DepartmentDTO ddto = deptInfomationGet(deptCode);
-			int dirSeq = ddto.getDept_dir_id();
-			
-			// 개인 아이디에 할당
-			Webhard_accessDTO accDTO = new Webhard_accessDTO();
-			accDTO.setWh_id(sessionId);
-			accDTO.setWh_dir_seq(dirSeq);
-			accDTO.setWh_dir_type_code(1);
-			dirAssign(accDTO);
-			
-		}
-		
-		return 0;
 	}
 	
 	// 중복되는 폴더, 파일이 있는지 체크

@@ -53,4 +53,7 @@ public class MemberDAO {
 		param.put("break_use_count", break_use_count);
 		return db.update("Member.updateBreakUseCount", param);
 	}
+	public List<Map<String,Object>> getMembersForAppWrite(){
+		return db.selectList("Member.getMembersForAppWrite");
+	}
 }
