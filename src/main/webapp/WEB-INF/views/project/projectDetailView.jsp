@@ -372,9 +372,16 @@
 	</div>
 	<!-- END WRAPPER -->
 	<script>
-		$("#deletepro").on("click", function() {
-			location.href = "/project/deleteProject.project?pro_seq=${pdto.pro_seq}";
-		});
+	$('#deletepro').on("click", function() {
+		var confirmflag = confirm("주의! 프로젝트가 삭제됩니다.");
+
+	      if(confirmflag){
+	    		location.href = "/project/deleteProject.project?pro_seq=${pdto.pro_seq}";
+	      }else{
+				return;
+	      }
+	});
+	
 		$("#back").on("click", function() {
 			location.href = "/project/enterProjectList.project?cpage=1";
 		});
@@ -405,7 +412,13 @@ $('#kanban').on('itemAttrClicked', function (event) {
 <!-- 칸반 초기화 -->
 <script>
 $('#destroyKanban').on("click", function() {
-	location.href = "/project/destroyKanban.project?pro_seq=${pdto.pro_seq}&pro_id=${pdto.pro_id}";
+	var confirmflag = confirm("주의! 칸반보드가 초기상태로 돌아갑니다.");
+
+      if(confirmflag){
+    		location.href = "/project/destroyKanban.project?pro_seq=${pdto.pro_seq}&pro_id=${pdto.pro_id}";
+      }else{
+			return;
+      }
 });
 </script>
 </body>

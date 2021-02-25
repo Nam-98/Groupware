@@ -63,7 +63,11 @@
 	height: 20px;
 	/* 	background-color: yellow; */
 }
-.dataRow:hover{cursor:pointer;}
+
+.dataRow:hover {
+	cursor: pointer;
+}
+
 .fc-toolbar-chunk {
 	display: flex;
 	//
@@ -78,8 +82,8 @@
 	정렬
 }
 
-.metric:hover{
-	opacity:0.5;
+.metric:hover {
+	opacity: 0.5;
 }
 </style>
 <body>
@@ -100,19 +104,20 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-				
+
 					<!-- MainMenu -->
 					<div class="row">
-					<div class="col-md-6">
-					<div class="panel">
-								
+						<div class="col-md-6">
+							<div class="panel">
+
 								<div class="panel-body">
 									<h2>
 										<span id="currentTimeSpan"></span>
 									</h2>
 									<div class="top-vacant d-none d-lg-block"></div>
 									<input type="button" value="출근" id="attendanceBtn"
-										class="btn btn-gray btn-xs"> <input type="button" value="퇴근" id="leaveWorkBtn" class="btn btn-gray btn-xs">
+										class="btn btn-gray btn-xs"> <input type="button"
+										value="퇴근" id="leaveWorkBtn" class="btn btn-gray btn-xs">
 									<hr>
 									<div class="">
 										<span class="glyphicon glyphicon-flag" aria-hidden="true"><b>${attendanceValue.status }</b>&nbsp
@@ -120,9 +125,9 @@
 										<c:if test='${attendanceValue.status != "-"}'>${attendanceValue.hour }시 ${attendanceValue.minute }분</c:if>
 
 									</div>
-									
+
 									<hr>
-									
+
 									<div class="">
 										<span class="glyphicon glyphicon-home" aria-hidden="true"><b>${leaveWorkValue.status }</b>&nbsp
 										</span>
@@ -141,92 +146,95 @@
 								</div> -->
 							</div>
 
-					</div>
-					
-					<div class="col-md-6">
-					<div class="panel panel-headline" style="height:270px;">
-						<div class="panel-heading">
-							<h3 class="panel-title">Main Menu</h3>
-							
 						</div>
-						<div class="panel-body">
-							
-														
-								<div class="col-md-6">
-									<div class="metric goWebhard" style="cursor: pointer;">
-										<span class="icon"><i class="fas fa-inbox fa-4x"></i></span>
-										<p>
-											<span class="number">WebHard</span><span class="title">웹하드</span>
-										</p>
-										<input type=hidden value="/">
-									</div>
+
+						<div class="col-md-6">
+							<div class="panel panel-headline" style="height: 270px;">
+								<div class="panel-heading">
+									<h3 class="panel-title">Main Menu</h3>
+
 								</div>
-								
-								
-								<div class="col-md-6">
-									
-																		<div class="metric" style="cursor: pointer;"
-										onclick="location.href='/nex/admin.nexacro';" id="adminBtn">
-										<span class="icon"><i
-											class="fas fa-user-cog fa-4x adminitem"></i></span>
-										<p>
-											<span class="number">Admin</span><span class="title">관리자</span>
-										</p>
-										<input type=hidden value="/nex/admin.nexacro">
+								<div class="panel-body">
+
+
+									<div class="col-md-6">
+										<div class="metric goWebhard" style="cursor: pointer;">
+											<span class="icon"><i class="fas fa-inbox fa-4x"></i></span>
+											<p>
+												<span class="number">WebHard</span><span class="title">웹하드</span>
+											</p>
+											<input type=hidden value="/">
+										</div>
+									</div>
+
+
+									<div class="col-md-6">
+
+										<div class="metric" style="cursor: pointer;" id="adminBtn">
+											<span class="icon"><i
+												class="fas fa-user-cog fa-4x adminitem"></i></span>
+											<p>
+												<span class="number">Admin</span><span class="title">관리자</span>
+											</p>
+											<input type=hidden value="/nex/admin.nexacro">
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-						</div>
 					</div>
 					<!-- END MainMenu -->
-					
-					
-					
-					 <!-- 근태 관리 -->
+
+
+
+					<!-- 근태 관리 -->
 					<!--<div class="row">
 						
 						END TASKS						
 					</div> -->
-					
-					
+
+
 					<div class="row">
-					
-					
+
+
 						<!-- 달력 -->
-						<div class="col-md-6" >
+						<div class="col-md-6">
 							<div class="panel">
 								<div class="panel-heading">
-									<h3 class="panel-title"><b>Schedule</b></h3>
+									<h3 class="panel-title">
+										<b>Schedule</b>
+									</h3>
 									<div class="right"></div>
 								</div>
-								<div class="panel-body" >
-										<div id='calendar'></div>
+								<div class="panel-body">
+									<div id='calendar'></div>
 
 								</div>
 								<div class="panel-footer">
 									<div class="row">
-										<div class="col-md-6">
-											
-										</div>
+										<div class="col-md-6"></div>
 										<div class="col-md-6 text-right">
-											<a href="/schedule/monthSchedule.schedule" class="btn btn-primary btn-sm">Go</a>
+											<a href="/schedule/monthSchedule.schedule"
+												class="btn btn-primary btn-sm">Go</a>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 						<!-- END TASKS -->
-					
-					<!-- 전자결제 -->
-						<div class="col-md-6" style="height:100%">
+
+						<!-- 전자결제 -->
+						<div class="col-md-6" style="height: 100%">
 							<!-- TASKS -->
 							<div class="panel">
 								<div class="panel-heading">
-									<h3 class="panel-title"><b>e-Approval</b></h3>
+									<h3 class="panel-title">
+										<b>e-Approval</b>
+									</h3>
 									<div class="right">
-											<a href="/approval/toAppMainView.approval" class="btn btn-primary btn-sm">Go</a>
-										</div>
+										<a href="/approval/toAppMainView.approval"
+											class="btn btn-primary btn-sm">Go</a>
+									</div>
 								</div>
 								<div class="panel-body">
 									<div id='jqxtabs'>
@@ -250,19 +258,21 @@
 														<c:choose>
 															<c:when test='${empty knrWriteList}'>
 																<tr class='dataRow'>
-																	<td colspan='5' style='text-align:center;'>작성한 문서가 없습니다.</td>
+																	<td colspan='5' style='text-align: center;'>작성한
+																		문서가 없습니다.</td>
 																</tr>
 															</c:when>
 															<c:otherwise>
 																<c:forEach var="i" items="${knrWriteList}">
 																	<tr class='dataRow'>
-																		<th scope="row"  class="visible-lg hidden-sm">${i.app_docs_num}<input type=hidden value="${i.app_seq}"></th>
+																		<th scope="row" class="visible-lg hidden-sm">${i.app_docs_num}<input
+																			type=hidden value="${i.app_seq}"></th>
 																		<td>${i.app_title}</td>
 																		<td class="visible-lg hidden-sm">${i.name}</td>
 																		<td class="visible-lg hidden-sm">${i.app_reg_date}</td>
 																		<td>${i.app_status_name}</td>
 																	</tr>
-																</c:forEach>															
+																</c:forEach>
 															</c:otherwise>
 														</c:choose>
 													</tbody>
@@ -285,13 +295,15 @@
 														<c:choose>
 															<c:when test='${empty knrToBeList}'>
 																<tr class='dataRow'>
-																	<td colspan='5' style='text-align:center;'>결재할 문서가 없습니다.</td>
+																	<td colspan='5' style='text-align: center;'>결재할
+																		문서가 없습니다.</td>
 																</tr>
 															</c:when>
 															<c:otherwise>
 																<c:forEach var="i" items="${knrToBeList}">
 																	<tr class='dataRow'>
-																		<th scope="row">${i.app_docs_num}<input type=hidden value="${i.app_seq}"></th>
+																		<th scope="row">${i.app_docs_num}<input
+																			type=hidden value="${i.app_seq}"></th>
 																		<td>${i.app_title}</td>
 																		<td>${i.name}</td>
 																		<td>${i.app_reg_date}</td>
@@ -300,26 +312,31 @@
 																</c:forEach>
 															</c:otherwise>
 														</c:choose>
-														
+
 													</tbody>
 												</table>
 											</div>
 										</div>
 									</div>
 								</div>
-								
+
 							</div>
 						</div>
 						<!-- END TASKS -->
-						
-						
-						
+
+
+
 						<!-- 공지사항 -->
-									<div class="col-md-6">
+						<div class="col-md-6">
 							<div class="panel">
 								<div class="panel-heading">
-									<h3 class="panel-title"><b>Notice</b></h3>
-									<div class="right"><a href="/write/noticeList.write?cpage=1" class="btn btn-primary btn-sm">Go</a></div>
+									<h3 class="panel-title">
+										<b>Notice</b>
+									</h3>
+									<div class="right">
+										<a href="/write/noticeList.write?cpage=1"
+											class="btn btn-primary btn-sm">Go</a>
+									</div>
 								</div>
 								<div class="panel-body">
 									<table class="table table-secondary table-striped">
@@ -336,7 +353,8 @@
 											<c:forEach var="i" items="${wlist }">
 												<tr>
 													<th scope="row">${i.rn }</th>
-													<td><a href="/write/noticeView.write?write_seq=${i.write_seq}">${i.write_title }</a></td>
+													<td><a
+														href="/write/noticeView.write?write_seq=${i.write_seq}">${i.write_title }</a></td>
 													<td>${i.write_id }</td>
 													<td>${i.write_reg_date_wr }</td>
 													<td>${i.write_read_count }</td>
@@ -345,20 +363,25 @@
 										</tbody>
 									</table>
 								</div>
-								
+
 							</div>
 						</div>
-							<!-- END TASKS -->
+						<!-- END TASKS -->
 					</div>
-					
-					
-					<!-- 3번째 줄 -->	
-					<div class="row" style="height:30%;">
-						<div class="col-md-6" style="height:100%;">
+
+
+					<!-- 3번째 줄 -->
+					<div class="row" style="height: 30%;">
+						<div class="col-md-6" style="height: 100%;">
 							<div class="panel">
 								<div class="panel-heading">
-									<h3 class="panel-title"><b>My Projects</b></h3>
-									<div class="right"><a href="/project/enterProjectList.project?cpage=1" class="btn btn-primary btn-sm">Go</a></div>
+									<h3 class="panel-title">
+										<b>My Projects</b>
+									</h3>
+									<div class="right">
+										<a href="/project/enterProjectList.project?cpage=1"
+											class="btn btn-primary btn-sm">Go</a>
+									</div>
 								</div>
 								<div class="panel-body">
 									<ul class="list-unstyled task-list">
@@ -379,7 +402,7 @@
 										</c:forEach>
 									</ul>
 								</div>
-								
+
 							</div>
 						</div>
 
@@ -393,7 +416,10 @@
 									<h3 class="panel-title">
 										<b>Inbox&nbsp</b><span class="badge rounded-pill bg-danger">${kgsMsgCount}</span>
 									</h3>
-									<div class="right"><a href="/message/msgInBoxList.message?cpage=1" class="btn btn-primary btn-sm">Go</a></div>
+									<div class="right">
+										<a href="/message/msgInBoxList.message?cpage=1"
+											class="btn btn-primary btn-sm">Go</a>
+									</div>
 								</div>
 								<div class="panel-body no-padding">
 									<table class="table table-hover">
@@ -408,7 +434,8 @@
 											<c:forEach var="i" items="${kgsMsgList}">
 												<tr>
 													<td>${i.msg_send_date}</td>
-													<th scope="row"><a href="/message/msgReceiveView.message?msg_seq=${i.msg_seq}&msg_receive_date_str=${msg_receive_date_str}">${i.msg_title}</a></th>
+													<th scope="row"><a
+														href="/message/msgReceiveView.message?msg_seq=${i.msg_seq}&msg_receive_date_str=${msg_receive_date_str}">${i.msg_title}</a></th>
 													<td>${i.msg_sender_name}</td>
 												</tr>
 											</c:forEach>
@@ -420,16 +447,14 @@
 										<div class="col-md-6">
 											<span class="panel-note"></span>
 										</div>
-										<div class="col-md-6 text-right">
-											
-										</div>
+										<div class="col-md-6 text-right"></div>
 									</div>
 								</div>
 							</div>
 							<!-- END TASKS -->
 
 						</div>
-						
+
 					</div>
 				</div>
 			</div>
@@ -532,7 +557,7 @@
          setTimeout("printTime()",1000);
       }
     </script>
-      <script type="text/javascript"> 
+	<script type="text/javascript"> 
       function getCookie(name) {
    	   var cookie = document.cookie;
    	   console.log(document.cookie);
@@ -547,7 +572,7 @@
    		   } return ; 
    	}
       </script>
-    <script>
+	<script>
       // 페이지 로드와 동시에 실행
       window.onload = function() {
          printTime();
@@ -558,7 +583,7 @@
 
    </script>
 
-   
+
 	<script>
 	  document.addEventListener('DOMContentLoaded', function() {
 	        var calendarEl = document.getElementById('calendar');
@@ -591,7 +616,7 @@
 	      });
 
    </script>
-   		<script>
+	<script>
 		//row눌렀을 때 링크로 이동
 		$(".dataRow").on("click",function(){
 			if($(this).children().first().children("input").val()==null){return;}
@@ -606,9 +631,13 @@
 	        );
 	</script>
 	<script>
+	$("#adminBtn").on("click",function(){
 		if("${memInfo.access_level_code}"=="0"){
-			$("#adminBtn").hide();
+			alert("관리자 전용 페이지입니다.");
+			return;
 		}
+		location.href='/nex/admin.nexacro';
+	});
 	</script>
 </body>
 </html>
