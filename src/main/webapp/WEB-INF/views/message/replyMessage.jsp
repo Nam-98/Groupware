@@ -70,17 +70,6 @@ $(document).ready(function() {
           fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
     });
 });
-$(document).ready(function() {
-	// Create jqxTree
-	$('#jqxTree').jqxTree({
-		height : '500px',
-		width : '120px'
-	});
-	$('#jqxTree').bind('select', function(event) {
-		var htmlElement = event.args.element;
-		var item = $('#jqxTree').jqxTree('getItem', htmlElement);
-	});
-});
 </script>	
 </head>
 <style>
@@ -141,57 +130,72 @@ $(document).ready(function() {
 			<div class="main-content">
 				<div class="container-fluid">
 					<h3 class="page-title">쪽지 보내기</h3>
-					<div class ="maincontainer">
-			    <div class="orgTree" id='jqxTree'>
-							<ul>
-								<c:forEach items="${dlist}" var="i">
-									<li item-expanded='true'>${i.dept_name}
-										<ul>
-											<c:forEach items="${mlist}" var="j">
-												<c:if test="${j.dept_code == i.dept_code}">
-													<li class="memberList" id="${j.name}"><a
-														href="/message/msgMemInfo.message?id=${j.id}">${j.name}</a></li>
-												</c:if>
-											</c:forEach>
-										</ul>
-									</li>
-								</c:forEach>
-							</ul>
+				<div class="col-md-9">
+						<div class="well">
+							<div class="panel panel-headline demo-icons">
+								<div class="panel-heading">
+									<h3 class="panel-title">쪽 지 작 성</h3>
+								</div>
+								<div class="panel-body">
+									<div style="width: 100%;">
+										<form method="post" enctype="multipart/form-data"
+											action="/message/msgProc.message">
+
+											<div class="row mb-3">
+												<div class="col-3 col-sm-2">
+													<b>받는 사람 </b>
+												</div>
+
+												<div class="col-9 col-sm-10 pr-5">
+													<input class="msgInput" type="text"
+														name="msg_receiver_name" id="msg_receiver_name" style="width: 80%;" readonly /> 
+														<input type="button" class="btn btn-sm btn-primary" value="찾기" id="search">
+														
+													<!-- 값을 숨겨서 보내는 장소 -->
+													<input type="text" name="msg_receiver" id="msg_receiver">
+													<input class="msgInput" type="hidden"
+														name="msg_sender_name" style="width: 75%;" value="${msg_sender_name}" />
+												</div>
+											</div>
+											<br>
+
+											<div class="row mb-3">
+												<div class="col-3 col-sm-2">
+													<b>제목 </b>
+												</div>
+												<div class="col-9 col-sm-10">
+													<input class="msgInput" type="text"
+														placeholder="제목을 입력하시오." name="msg_title" value="RE: ${mdto.msg_title}"
+														style="width: 80%;" />
+												</div>
+											</div>
+											<br>
+
+											<div class="row mb-3">
+												<div class="col-3 col-sm-2">
+													<b>파일첨부</b>
+												</div>
+												<div class="col-9 col-sm-10">
+													<input type="file" class="form-control" name="attfiles"
+														id="inputGroupFile04"
+														aria-describedby="inputGroupFileAddon04"
+														aria-label="Upload" style="width: 80%;">
+												</div>
+											</div>
+											<br>
+
+											<textarea id="summernote" name="msg_contents"
+												placeholder="내용을 입력하시오."></textarea>
+											<input id="subBtn" class="btn btn-primary btn-sm"
+												type="submit" style="float: right;" value="보내기"/>
+
+										</form>
+									</div>
+								</div>
+							</div>
 						</div>
-			    
-			    
-			    <div class="orgInfo">
-			    <div class="panel panel-headline demo-icons">
-			    <div class="panel-heading">
-							<h3 class="panel-title">쪽 지 작 성</h3>
-						</div>
-			<div class="panel-body">	
-<div style="width: 80%;">
-	<form method="post" enctype="multipart/form-data" action="/message/msgProc.message?msg_receiver=${msg_receiver }">
-		<div>
-		<b>받는 사람 :</b> <input class="msgInput" type="text" name="msg_receiver_name" style="width: 85%;" value="${msg_receiver_name}" readonly/></div><br>
-		<div>
-		<b>보낸 사람 :</b> <input class="msgInput" type="text" name="msg_sender_name" style="width: 85%;" value="${msg_sender_name }" readonly/></div>
-		<br>
-		<div>
-		<b>제목 :</b> <input class="msgInput" type="text" placeholder="제목을 입력하시오." name="msg_title" style="width: 90%;" value="Re: ${mdto.msg_title }"/></div>
-		<br>
-		<textarea id="summernote" name="msg_contents" placeholder="내용을 입력하시오."></textarea>
-	
-		
-		<div class="input-group" style="width: 100%;">
-  		<input type="file" class="form-control" name="attfiles" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" style="width: 100%;"> 
-		</div>
-		
-		<input id="subBtn" class="btn btn-primary" type="submit" value="보내기" style="float: right;" onclick="goWrite(this.form)"/>
-	</form>
-</div>
-</div>
-</div>
-			    </div>
-			    
-			    
-			</div>
+
+					</div>
 				</div>
 			</div>
 			<!-- END MAIN CONTENT -->
@@ -201,13 +205,39 @@ $(document).ready(function() {
 <jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
 	</div>
 	<!-- END WRAPPER -->
+	
 	<!-- summernote 내용 불러오기. -->
 	<script>
 	$(document).ready(function(){
-		var contents = "<br><br>---------Original Message---------<br>"+`${mdto.msg_contents}`;
+		var contents = "<br><br>---------Original Message---------<br> From : "+`${msg_receiver_name}`+"<br> To : "+`${msg_sender_name}`+"<br> DATE : "+`${mdto.msg_sender_date_str}`+"<br> Subject : "+`${mdto.msg_title}`+"<br><br>"+`${mdto.msg_contents}`;
 	$('#summernote').summernote('code',contents )});
 	</script>
 	
+	<!-- 받는 사람 값이 빈값일때. -->
+	<script>
+	var name = document.getElementById("msg_receiver_name").value;
+		if(name == ""){
+			document.getElementById("msg_receiver_name").value=`${msg_receiver_name}`;	
+		 	  document.getElementById("msg_receiver").value=`${msg_receiver}`;
+		};
+	</script>
+	
+	<!-- 주소록 찾아가기 -->
+	<script>
+		$("#search")
+				.on(
+						"click",
+						function() {
+							var options = 'top=40, left=40, width=1150, height=700, status=no, menubar=no, toolbar=no, resizable=no';
+							window.open("/message/msgPopup.message", "popup",
+									options);
+						});
+		function getReturnValue(returnValue) {
+			obj = JSON.parse(returnValue);
+			  document.getElementById("msg_receiver_name").value=obj.key1;	
+		 	  document.getElementById("msg_receiver").value=obj.key2;
+			} 
+	</script>
 	
 	
 </body>
