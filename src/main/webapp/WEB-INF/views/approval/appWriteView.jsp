@@ -402,6 +402,7 @@ td.resize-col {
 			})
 			
 			////모달창 내부 조직도 관련 script
+			////https://github.com/jonmiles/bootstrap-treeview
 			var treeData =	`${treeData}`;
 			$('#organTree').treeview({
 			  data: treeData,         // data is not optional

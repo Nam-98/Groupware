@@ -649,7 +649,7 @@ public class ApprovalService {
 					memInfo.put("text", mem.get("NAME")+"&emsp;"+mem.get("POSITION_NAME"));
 					memInfo.put("memInfo", mem);
 					memInfo.put("icon", "glyphicon glyphicon-user");
-					memInfo.put("icon", "glyphicon glyphicon-ok");
+					memInfo.put("selectedIcon", "glyphicon glyphicon-ok");
 					memlist.add(memInfo);
 				}
 			}

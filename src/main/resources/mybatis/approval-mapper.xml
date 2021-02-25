@@ -15,7 +15,7 @@
   	<insert id="setInitAppSign">
   		insert into st.approval_sign values(#{app_seq}, #{app_sign_id}, #{app_sign_order}, null, 'N', #{app_sign_type_code})
   	</insert>
-  	<select id="getNewAppSeq">
+  	<select id="getNewAppSeq" resultType="int">
   		select st.app_seq.nextval from dual
   	</select>
   	
