@@ -99,6 +99,12 @@ public class MessageDAO {
 		return db.insert("Message.msgInCabinsert",param);
 	}
 	
+	//쪽지 캐비넷 유무
+	public int msgCabCheck(int msg_seq) throws Exception{
+		
+		return db.insert("Message.msgCabCheck",msg_seq);
+	}
+	
 	//쪽지 chk박스로 보관함(발신)
 	public int msgOutCabinsert(String id, int msg_seq) throws Exception{
 		Map<String,Object> param = new HashMap<String,Object>();
@@ -185,6 +191,11 @@ public class MessageDAO {
 		param.put("endRowNum", endRowNum);
 		param.put("id", id);
 		return db.selectList("Message.msgInBoxCpage",param);
+	}
+	
+	//메세지 seq값 선정
+	public int newMsgSeqGet() throws Exception{
+		return db.selectOne("Message.newMsgSeqGet");
 	}
 	
 }

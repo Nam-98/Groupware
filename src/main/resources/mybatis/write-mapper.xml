@@ -131,4 +131,8 @@
   <select id="noticePopupView" resultType="kh.gw.dto.WriteDTO">
   	select * from st.write where write_code = #{value} order by write_seq desc
   </select>
+  
+  <select id="listBr" resultType="kh.gw.dto.WriteDTO">
+  	select * from st.write where write_code between '2' and '3' order by write_code
+  </select>
   </mapper>

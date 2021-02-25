@@ -40,6 +40,8 @@ public class MemberController {
 			MemberDTO dtos = mservice.getMemInfo(dto.getId());
 			session.setAttribute("id",dto.getId());
 			session.setAttribute("accessLevel",dtos.getAccess_level_code());
+			session.setAttribute("name", dtos.getName());
+			session.setAttribute("position", dtos.getPosition_name());
 			System.out.println("로그인 성공");
 			System.out.println("id : " + dtos.getId());
 			System.out.println("accessLevel : " + dtos.getAccess_level_code());
@@ -151,12 +153,42 @@ public class MemberController {
 		@RequestMapping("orgProMemInfo.member")
 		public String orgProMemInfo(HttpServletRequest request, Model m) throws Exception{
 			String id = request.getParameter("id");
+			String rowKey = request.getParameter("rowKey");
 			MemberDTO dto = mservice.getMemInfo(id);
 			List<MemberDTO> mlist = mservice.listMem();
 			List<DepartmentDTO> dlist = mservice.listDept(); //부서명 가져옴
+			
+	         List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+	         int a =0;
+	         for(DepartmentDTO dtod : dlist) {
+	        	 if(dtod.getDept_code_parent() == -1) {
+	        		 dtod.setDept_code_parent(100000000);
+	        	 }
+	            Map<String,Object> map = new HashMap<>();
+	            map.put("departmentName",dtod.getDept_name());
+	            map.put("name","");
+	            map.put("position","");
+	            map.put("memId","");
+	            map.put("reportsTo", dtod.getDept_code_parent());
+	            map.put("departmentID", dtod.getDept_code());
+	            list.add(map);
+	         }
+	         
+	         for(MemberDTO dtom : mlist) {
+	            Map<String,Object> map = new HashMap<>();
+	            map.put("departmentName","");
+	            map.put("name",dtom.getName());
+	            map.put("position",dtom.getPosition_name());
+	            map.put("reportsTo",dtom.getDept_code());
+	            map.put("departmentID", 100+a);
+	            map.put("memId",dtom.getId());
+	            list.add(map);
+	            a++;
+	         }
+			
 			m.addAttribute("dto", dto);
-			m.addAttribute("mlist", mlist);
-			m.addAttribute("dlist", dlist);
+	         m.addAttribute("list", list);
+	         m.addAttribute("rowKey",Integer.parseInt(rowKey));
 			return "project/projectPopupView";
 		}
 		

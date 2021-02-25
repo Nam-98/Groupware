@@ -2,6 +2,8 @@ package kh.gw.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,30 +43,92 @@ public class MessageController {
 	@Autowired
 	private HttpSession session;
 	
-	//쪽지 보내기에서 조직도 불러오기
 	@RequestMapping("writeMsg.message")
 	public String writeMsg(Model m) throws Exception{
-		List<MemberDTO> mlist = memservice.listMem();//멤버를 불러옴
-		List<DepartmentDTO> dlist = memservice.listDept(); //부서명 가져옴
-		m.addAttribute("mlist", mlist);
-		m.addAttribute("dlist", dlist);
+		String my = (String)session.getAttribute("id");
+		Map<String,Object> myInfo = memservice.getMyInfo(my);//현재 로그인 한 사람 정보 불러오기
+		m.addAttribute("myInfo", myInfo);
 		return "/message/sendMessage";
 	}
 	
-	//조직도 직원 클릭시 해당 정보 쪽지에 넣기
+	//쪽지 보내기에서popup 조직도 불러오기
+	@RequestMapping("msgPopup.message")
+	public String msgPopup(Model m) throws Exception{
+		List<MemberDTO> mlist = memservice.listMem();//멤버를 불러옴
+		List<DepartmentDTO> dlist = memservice.listDept(); //부서명 가져옴
+		 List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+         int a =0;
+         for(DepartmentDTO dto : dlist) {
+        	 if(dto.getDept_code_parent() == -1) {
+        		 dto.setDept_code_parent(100000000);
+        	 }
+            Map<String,Object> map = new HashMap<>();
+            map.put("departmentName",dto.getDept_name());
+            map.put("name","");
+            map.put("position","");
+            map.put("memId","");
+            map.put("reportsTo", dto.getDept_code_parent());
+            map.put("departmentID", dto.getDept_code());
+            list.add(map);
+         }
+         
+         for(MemberDTO dto : mlist) {
+            Map<String,Object> map = new HashMap<>();
+            map.put("departmentName","");
+            map.put("name",dto.getName());
+            map.put("position",dto.getPosition_name());
+            map.put("reportsTo",dto.getDept_code());
+            map.put("departmentID", 100+a);
+            map.put("memId",dto.getId());
+            list.add(map);
+            a++;
+         }
+         m.addAttribute("list", list);
+         m.addAttribute("rowKey",107);
+		return "/message/msgPopupView";
+	}
+	
+	//조직도 직원 클릭시 해당 정보 팝업에 넣기
 	@RequestMapping("msgMemInfo.message")
 	public String msgMemInfo(HttpServletRequest request, Model m) throws Exception{
 		String id = request.getParameter("id");
-		String my = (String)session.getAttribute("id");
-		Map<String,Object> myInfo = memservice.getMyInfo(my);//현재 로그인 한 사람 정보 불러오기
-		MemberDTO dto = memservice.getMemInfo(id);//조직도에서 선택된 아이디 정보
-		List<MemberDTO> mlist = memservice.listMem(); //조직도 전체 리스트 가져옴
+		String rowKey = request.getParameter("rowKey");
+		MemberDTO dto = memservice.getMemInfo(id);
+		List<MemberDTO> mlist = memservice.listMem();
 		List<DepartmentDTO> dlist = memservice.listDept(); //부서명 가져옴
-		m.addAttribute("myInfo", myInfo);
+		
+         List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+         int a =0;
+         for(DepartmentDTO dtod : dlist) {
+        	 if(dtod.getDept_code_parent() == -1) {
+        		 dtod.setDept_code_parent(100000000);
+        	 }
+            Map<String,Object> map = new HashMap<>();
+            map.put("departmentName",dtod.getDept_name());
+            map.put("name","");
+            map.put("position","");
+            map.put("memId","");
+            map.put("reportsTo", dtod.getDept_code_parent());
+            map.put("departmentID", dtod.getDept_code());
+            list.add(map);
+         }
+         
+         for(MemberDTO dtom : mlist) {
+            Map<String,Object> map = new HashMap<>();
+            map.put("departmentName","");
+            map.put("name",dtom.getName());
+            map.put("position",dtom.getPosition_name());
+            map.put("reportsTo",dtom.getDept_code());
+            map.put("departmentID", 100+a);
+            map.put("memId",dtom.getId());
+            list.add(map);
+            a++;
+         }
+		
 		m.addAttribute("dto", dto);
-		m.addAttribute("mlist", mlist);
-		m.addAttribute("dlist", dlist);
-		return "/message/sendMessage";
+         m.addAttribute("list", list);
+         m.addAttribute("rowKey",Integer.parseInt(rowKey));
+		return "/message/msgPopupView";
 	}
 	
 	//보낸 메세지 DB에 저장
@@ -76,7 +140,7 @@ public class MessageController {
 		System.out.println("======결과값===="+result);
 		
 		m.addAttribute("result", result);
-		return "/message/alertMessage";
+		return "redirect:/message/msgOutBoxList.message?cpage=1";
 		
 	}
 	
@@ -157,13 +221,16 @@ public class MessageController {
 		String msg_sender_name = request.getParameter("msg_sender_name");
 		String msg_receiver_name = request.getParameter("msg_receiver_name");
 		String msg_receiver = request.getParameter("msg_receiver");
+		int msg_seq = Integer.parseInt(request.getParameter("msg_seq"));
+		MessageDTO mdto = mservice.msgView(msg_seq);
 		List<MemberDTO> mlist = memservice.listMem(); //조직도 전체 리스트 가져옴
 		List<DepartmentDTO> dlist = memservice.listDept(); //부서명 가져옴
 		m.addAttribute("msg_sender_name", msg_sender_name);
 		m.addAttribute("msg_receiver_name", msg_receiver_name);
 		m.addAttribute("msg_receiver", msg_receiver);
-		m.addAttribute("mlist", mlist);
 		m.addAttribute("dlist", dlist);
+		m.addAttribute("mlist", mlist);
+		m.addAttribute("mdto", mdto);
 		return "/message/replyMessage";
 	}
 	
@@ -257,6 +324,7 @@ public class MessageController {
 			for(String i : chkArr) {
 				msg_seq = Integer.parseInt(i);
 				mservice.msgInCabinsert(id,msg_seq);
+				mservice.msgCabCheck(msg_seq);
 			}
 			result = "{\"result\":1}";
 		}
@@ -274,6 +342,7 @@ public class MessageController {
 				for(String i : chkArr) {
 					msg_seq = Integer.parseInt(i);
 					mservice.msgOutCabinsert(id,msg_seq);
+					mservice.msgCabCheck(msg_seq);
 				}
 				result = "{\"result\":1}";
 			}

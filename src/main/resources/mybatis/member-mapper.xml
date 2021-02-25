@@ -29,7 +29,7 @@
 	</insert>
 	
 	<update id="updateMemInfo">
-		update st.member set name=#{name},birth=#{birth},gender=#{gender},contact=#{contact},address1=#{address1},address2=#{address2},zip_code=#{zip_code},is_married=#{is_married},dept_code=#{dept_code},position_code=#{position_code},break_total_count=#{break_total_count},break_use_count=#{break_use_count},retire_date=#{retire_date},access_level_code=#{access_level_code} where id= #{id}
+		update st.member set name=#{name},gender=#{gender},contact=#{contact},address1=#{address1},address2=#{address2},zip_code=#{zip_code},is_married=#{is_married},dept_code=#{dept_code},position_code=#{position_code},break_use_count=#{break_use_count},retire_date=#{retire_date, jdbcType=DATE},access_level_code=#{access_level_code} where id= #{id}
 	</update>
 	
 	<update id="updatePw">
