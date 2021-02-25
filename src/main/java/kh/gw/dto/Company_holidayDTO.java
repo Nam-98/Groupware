@@ -7,7 +7,6 @@ public class Company_holidayDTO {
 	private String comp_hd_name;
 	private Date comp_hd_date;
 	private String comp_hd_date_str;
-	
 	public Company_holidayDTO() {}
 	public Company_holidayDTO(int comp_hd_seq, String comp_hd_name, Date comp_hd_date, String comp_hd_date_str) {
 		super();

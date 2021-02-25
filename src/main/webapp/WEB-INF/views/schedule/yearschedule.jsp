@@ -153,40 +153,32 @@ th{text-align:center;}
 									<table class="table table-striped">
 										<thead>
 											<tr>
-												<th scope="row" >No</th>
 												<th scope="row" >일정명</th>
 												<th scope="row" >일정 내용</th>
 												<th scope="row" >시작일자</th>
 												<th scope="row" >종료일자</th>
 											</tr>
-											
 										</thead>
 										<tbody>
-<%-- 										<c:choose > --%>
-<%-- 											<c:when test="${empty monList}"> --%>
-<!-- 												<tr> -->
-<!-- 													<td colspan=7> -->
-<!-- 														작성한 문서가 없습니다.  -->
-<!-- 													</td> -->
-<!-- 												</tr> -->
-<%-- 											</c:when> --%>
-<%-- 											<c:otherwise> --%>
-<%-- 											<c:forEach items="${monList}" var="i"> --%>
-<!-- 												<tr class='dataRow'> -->
-<%-- 													<td>${i.app_docs_num}<input type=hidden value="${i.app_seq}"></td> --%>
-<%-- 													<td>${i.app_type_name}</td> --%>
-<%-- 													<td>${i.app_title}</td> --%>
-<%-- 													<td>${i.name}</td> --%>
-<%-- 													<c:forEach items="${monPeriod}" var="p"> --%>
-<%-- 														<c:if test="${p.app_seq eq i.app_seq }"> --%>
-<%-- 															<td>${p.biz_periodstart} ~ ${p.biz_periodend}</td> --%>
-<%-- 														</c:if> --%>
-<%-- 													</c:forEach> --%>
-<%-- 													<td>${i.app_status_name}</td> --%>
-<!-- 												</tr> -->
-<%-- 											</c:forEach> --%>
-<%-- 											</c:otherwise> --%>
-<%-- 										</c:choose> --%>
+										<c:choose >
+											<c:when test="${empty list}">
+												<tr>
+													<td colspan=7>
+														작성한 문서가 없습니다. 
+													</td>
+												</tr>
+											</c:when>
+											<c:otherwise>
+											<c:forEach var="i" items="${list }">
+												<tr class="dataRow">
+													<td>${i.sch_title}</td>
+													<td>${i.sch_contents}</td>
+													<td>${i.sch_start_date_sc}</td>
+													<td>${i.sch_end_date_sc}</td>
+												</tr>
+											</c:forEach>
+											</c:otherwise>
+										</c:choose>
 										</tbody> 
 									</table>
 								</div>
@@ -206,31 +198,31 @@ th{text-align:center;}
 <jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
 	</div>
 	<!-- END WRAPPER -->
-	<script type="text/javascript">
-		document.getElementById("add_Schedule").onclick = function(){
-			location.href = "#";
-		}
+<!-- 	<script type="text/javascript"> -->
+// 		document.getElementById("add_Schedule").onclick = function(){
+// 			location.href = "#";
+// 		}
 		
-		//페이지가 로딩된 후 선택된 날짜에 맞추어 year부분 select를 설정한다.
-		let selectedDate = "${strDate}";
-		window.onload = function(){			
-			var sYear = selectedDate.split("-")[0];
-			var year = document.getElementById("date-year");
-			for(var i=0; i<10; i++){
-				year.options[year.options.length] = new Option(sYear-i+"년", sYear-i);
-			}
-			//이번달로 select를 자동 세팅함
-			var sMonth = selectedDate.split("-")[1];
-			document.getElementById("date-month").options[sMonth-1].selected = true;
-		}
+// 		//페이지가 로딩된 후 선택된 날짜에 맞추어 year부분 select를 설정한다.
+// 		let selectedDate = "${strDate}";
+// 		window.onload = function(){			
+// 			var sYear = selectedDate.split("-")[0];
+// 			var year = document.getElementById("date-year");
+// 			for(var i=0; i<10; i++){
+// 				year.options[year.options.length] = new Option(sYear-i+"년", sYear-i);
+// 			}
+// 			//이번달로 select를 자동 세팅함
+// 			var sMonth = selectedDate.split("-")[1];
+// 			document.getElementById("date-month").options[sMonth-1].selected = true;
+// 		}
 		
-		//날짜변경 버튼 클릭 시
-		document.getElementById("changeDate").onclick = function(){
-			var sYear = document.getElementById("date-year").value;
-			var sMonth = document.getElementById("date-month").value;
-			location.href = "";
-		}
-	</script>
+// 		//날짜변경 버튼 클릭 시
+// 		document.getElementById("changeDate").onclick = function(){
+// 			var sYear = document.getElementById("date-year").value;
+// 			var sMonth = document.getElementById("date-month").value;
+// 			location.href = "";
+// 		}
+<!-- 	</script> -->
 	<script>
 	//collapse 전용 javascript
 		var coll = document.getElementsByClassName("collapsible");

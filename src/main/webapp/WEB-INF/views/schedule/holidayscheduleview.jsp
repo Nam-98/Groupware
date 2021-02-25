@@ -54,32 +54,22 @@
 							<h3 class="panel-title">상 세 일 정</h3>
 						</div>
 						<div class="panel-body">
-						</div>
-						
 						<!-- Table -->
 						  <table class="table">
-						 	<tr>
-						  		<th>작성자 : ${dtos.sch_id } <input type="hidden" value="${dtos.sch_seq }"></th>
+						  <input type="hidden" value="${chdto.comp_hd_seq }">
+						  	<tr>
+						  		<th>일정명 : ${chdto.comp_hd_name }</th>
 						  	</tr>
 						  	<tr>
-						  		<th>일정명 : ${dtos.sch_title }</th>
-						  	</tr>
-						  	<tr>
-						  		<th>시작 날짜 : ${dtos.sch_start_date }</th>
-						  	</tr>
-						  	<tr>
-						  		<th>종료 날짜 : ${dtos.sch_end_date }</th>
-						  	</tr>
-						  	<tr>
-						  		<th>일정 내용 : ${dtos.sch_contents }</th>
+						  		<th>날짜 : ${chdto.comp_hd_date_str }</th>
 						  	</tr>
 						  </table>
+						</div>
+						
+
 				   </div>
 				   <div class="btnHome">
-				   	<button id="btnDelete" class="btn btn-primary">삭제하기</button>
-				   	<button id="btnModify" class="btn btn-primary">수정하기</button>
-				   	<button id="goHome" class="btn btn-primary">목록으로</button>
-				   	
+				   		<button id="goHome" class="btn btn-primary">목록으로</button>
 				   </div>
 		</div>
 </div>
@@ -88,17 +78,6 @@
 	document.getElementById("goHome").onclick=function(){
 		location.href="/schedule/monthSchedule.schedule";
 	}
-	if ("${dtos.sch_id}" == "${sessionScope.id}") {
-		document.getElementById("btnDelete").onclick = function() {
-			location.href = "/schedule/scheduleDelete.schedule?sch_seq=${dtos.sch_seq}";
-		}
-		document.getElementById("btnModify").onclick=function(){
-			location.href="/schedule/scheduleModifyBefore.schedule?sch_seq=${dtos.sch_seq}";
-		}
-	} else {
-		document.getElementById("btnDelete").style.visibility = "hidden";
-		document.getElementById("btnModify").style.visibiiity - "hidden";
-	}
-	</script>
+</script>
 </body>
 </html>

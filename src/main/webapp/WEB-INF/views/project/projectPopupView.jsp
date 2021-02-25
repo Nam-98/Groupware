@@ -98,21 +98,26 @@
             // create Tree Grid
             $("#treeGrid").jqxTreeGrid(
             {
-                width: 260,
+                width: 240,
                 source: dataAdapter,
-                ready: function () {
-                	$('#treeGrid').jqxTreeGrid({height:"600px"});
- //               	$("#treeGrid").jqxTreeGrid('expandRow',5);
-                },
-/*                 showToolbar: true,
+                enableHover: false,
+                showHeader: false,
+                showToolbar: true,
+                sortable: true,
                 renderToolbar: function (toolbar) {
-                    var container = $("<div style='margin: 5px;'></div>");
-                    var span = $("<span style='float: left; margin-top: 5px; margin-right: 4px;'>Search:</span>");
-                    var input = $("<input class='jqx-input jqx-widget-content jqx-rc-all' id='searchField' type='text' style='height: 23px; float: left; width: 223px;' />");
+                    var container = $("<div style='margin: 5px; height: 50px;'></div>");
+                    var span = $("<span style='float: left; margin-top: 5px; margin-right: 4px;'>검색:</span>");
+                    var input = $("<input class='jqx-input jqx-widget-content jqx-rc-all' id='searchField' type='text' placeholder='미구현' style='height: 23px; float: left; width: 180px;' />");
                     toolbar.append(container);
                     container.append(span);
                     container.append(input);
-                }, */ 
+                },
+                ready: function () {
+                	$('#treeGrid').jqxTreeGrid({height:"390px"});
+                	$('#treeGrid').jqxTreeGrid({scrollBarSize: 0}); 
+                	$("#treeGrid").jqxTreeGrid('expandAll');
+                	$("#treeGrid").jqxTreeGrid('sortBy', 'departmentName', 'asc');
+                },
                 columns: [
                 { text: '부서', align: 'center' ,dataField: 'departmentName', width: 100 },
                   { text: '성명',align: 'center', dataField: 'name', width: 70 },
@@ -143,8 +148,8 @@
 }
 
 .profilBox {
-	width: 130px;
-	height: 200px;
+	width: 100px;
+	height: 150px;
 	text-align: center;
 }
 
@@ -160,6 +165,10 @@
 .jqx-scrollbar {
 	display: none;
 }
+
+.jqx-cell {
+	cursor: pointer;
+}
 </style>
 <body>
 	<!-- WRAPPER -->
@@ -172,13 +181,6 @@
 						<h3 class="panel-title">담당자(ID) 검색</h3>
 					</div>
 					<div class="panel-body">
-						<input type="text" id="pmName" readonly value="${dto.name}"><input
-							type="text" id="pmId" readonly value="${dto.id}">
-						<button id="returnButton" class="btn btn-primary">선택</button>
-					</div>
-					<div class="panel-body">
-						<h3>조직도</h3>
-						<hr>
 						<div class="row">
 							<div class="col-md-4">
 								<div id="treeGrid"></div>
@@ -186,18 +188,12 @@
 							<div class="col-md-8">
 								<div class="orgInfo well">
 									<div class="profilBox d-none d-lg-block">
-										<img class="profileImg img-thumbnail" alt="${dto.id}"
+										<img class="profileImg img-thumbnail" id="profileImage" alt="${dto.id}"
 											src="/resources/profileImage/${dto.id}.png">
 									</div>
-									<div class="top-vacant d-none d-lg-block"></div>
+									<br>
 									<div class="bodyContents">
 										<table class="table table-sm">
-											<thead>
-												<tr class="table-secondary">
-													<th scope="col">항 목</th>
-													<th scope="col">내 용</th>
-												</tr>
-											</thead>
 											<tbody>
 												<tr>
 													<th scope="row">이 름</th>
@@ -206,10 +202,6 @@
 												<tr>
 													<th scope="row">연 락 처</th>
 													<td>${dto.contact}</td>
-												</tr>
-												<tr>
-													<th scope="row">생 년 월 일</th>
-													<td>${dto.birth}</td>
 												</tr>
 												<tr>
 													<th scope="row">부 서</th>
@@ -225,14 +217,18 @@
 								</div>
 							</div>
 						</div>
+						<div class="panel-body">
+							<input type="hidden" id="pmName" readonly value="${dto.name}"><input
+								type="hidden" id="pmId" readonly value="${dto.id}">
+							<button id="returnButton" class="btn btn-sm btn-primary">선택</button>
+						</div>
+
 					</div>
 				</div>
 			</div>
 			<!-- END MAIN CONTENT -->
-			<div class="clearfix"></div>
-			<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
 		</div>
-		</div>
+	</div>
 </body>
 
 <script>
@@ -266,4 +262,11 @@ $("#treeGrid").on('rowSelect', function (event) {
     console.log(rowKey);
 });
 </script>
+
+<script>
+	if("${dto.id}"==""){		
+		$("#profileImage").attr("src", "/resources/profileImage/default.png");
+	}
+</script>
+
 </html>

@@ -2,6 +2,7 @@ package kh.gw.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -349,7 +350,32 @@ public class WebhardService {
 		return whdao.delFileProc(fileDTO);
 	}
 	
+	// 접근 가능한 최상위 폴더 리스트 가져오기
+	public List<Integer> getTopAccessDirList(String sessionId) {
+		List<Integer> topAccessDirList = new ArrayList<Integer>();
+		// 해당 아이디의 개인 최상위 디렉토리 값 get
+		Map<String,Object> personalTopDirInfo = getTopDirInfo(sessionId);
+		int personalTopDirSeq = Integer.parseInt(String.valueOf(personalTopDirInfo.get("WH_DIR_SEQ")));
+		// 해당 아이디의 공용 최상위 디렉토리 값 get
+		Map<String,Object> commonTopDirInfo = getTopCommonDirInfo(sessionId);
+		int commonTopDirSeq = Integer.parseInt(String.valueOf(commonTopDirInfo.get("WH_DIR_SEQ")));
+		// 해당 아이디의 부서 최상위 디렉토리 값 get
+		Map<String,Object> departmentTopDirInfo = getTopDepartmentDirInfo(sessionId);
+		int departmentTopDirSeq = Integer.parseInt(String.valueOf(departmentTopDirInfo.get("WH_DIR_SEQ")));
+		
+		topAccessDirList.add(0, personalTopDirSeq);
+		topAccessDirList.add(1, commonTopDirSeq);
+		topAccessDirList.add(2, departmentTopDirSeq);
+		
+		return topAccessDirList;
+	}
 	
+	// 자식 디렉토리의 번호로 부모 디렉토리 번호 가져오기
+	public int getDirSeqParent(int dirSeqChild) {
+		int dirSeqParent = whdao.getDirSeqParent(dirSeqChild);
+		
+		return dirSeqParent;
+	}
 	
 	
 }

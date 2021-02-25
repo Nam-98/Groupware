@@ -88,7 +88,7 @@ public class MessageController {
 		return "/message/msgPopupView";
 	}
 	
-	//조직도 직원 클릭시 해당 정보 쪽지에 넣기
+	//조직도 직원 클릭시 해당 정보 팝업에 넣기
 	@RequestMapping("msgMemInfo.message")
 	public String msgMemInfo(HttpServletRequest request, Model m) throws Exception{
 		String id = request.getParameter("id");

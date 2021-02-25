@@ -96,23 +96,26 @@
             // create Tree Grid
             $("#treeGrid").jqxTreeGrid(
             {
-                width: 260,
+                width: 240,
                 source: dataAdapter,
-                theme : 'jqx-grid-cell-hover',
-                
-                ready: function () {
-                	$('#treeGrid').jqxTreeGrid({height:"600px"});
- //               	$("#treeGrid").jqxTreeGrid('expandRow',5);
-                },
-/*                 showToolbar: true,
+                enableHover: false,
+                showHeader: false,
+                showToolbar: true,
+                sortable: true,
                 renderToolbar: function (toolbar) {
-                    var container = $("<div style='margin: 5px;'></div>");
-                    var span = $("<span style='float: left; margin-top: 5px; margin-right: 4px;'>Search:</span>");
-                    var input = $("<input class='jqx-input jqx-widget-content jqx-rc-all' id='searchField' type='text' style='height: 23px; float: left; width: 223px;' />");
+                    var container = $("<div style='margin: 5px; height: 50px;'></div>");
+                    var span = $("<span style='float: left; margin-top: 5px; margin-right: 4px;'>검색:</span>");
+                    var input = $("<input class='jqx-input jqx-widget-content jqx-rc-all' id='searchField' type='text' placeholder='미구현' style='height: 23px; float: left; width: 180px;' />");
                     toolbar.append(container);
                     container.append(span);
                     container.append(input);
-                }, */ 
+                },
+                ready: function () {
+                	$('#treeGrid').jqxTreeGrid({height:"500px"});
+                	$('#treeGrid').jqxTreeGrid({scrollBarSize: 0}); 
+                	$("#treeGrid").jqxTreeGrid('expandAll');
+                	$("#treeGrid").jqxTreeGrid('sortBy', 'departmentName', 'asc');
+                },
                 columns: [
                 { text: '부서', align: 'center' ,dataField: 'departmentName', width: 100 },
                   { text: '성명',align: 'center', dataField: 'name', width: 70 },
@@ -137,8 +140,13 @@
 .jqx-grid-table .jqx-grid-cell {
 	border-width: 0px 0px 1px 0px;
 }
+
 .jqx-scrollbar {
 	display: none;
+}
+
+.jqx-cell {
+	cursor: pointer;
 }
 </style>
 <body>
@@ -170,20 +178,24 @@
 								</div>
 								
 								<div class="col-md-9">
-									<div class="well">
+									<div class="">
+											<br>
+											<br>
+											<br>
 										<div class="panel panel-headline demo-icons">
 											<div class="panel-heading">
-												<h3 class="panel-title">개 인 정 보</h3>
+												<h3 class="panel-title">사 원 정 보</h3>
 												<div class="right">
 													<input type="button" id="askFix"
 														class="btn btn-sm btn-warning" value="쪽지보내기">
 												</div>
 											</div>
 											<div class="panel-body">
+										
 												<div class="row">
 													<div class="col-md-2 col-12">
 														<div class="profilBox d-none d-lg-block">
-															<img class="profileImg img-thumbnail" alt="${dto.id}"
+															<img class="profileImg img-thumbnail" id="profileImage" alt="${dto.id}"
 																src="/resources/profileImage/${dto.id}.png">
 														</div>
 													</div>
@@ -211,34 +223,19 @@
 																<tr>
 																	<th scope="row">결 혼 유 무</th>
 																	<td>${dto.is_married}</td>
+																	<th scope="row">입 사 일</th>
+																	<td>${dto.reg_date}</td>
+																</tr>
+																<tr>
+																	<th scope="row">부 서</th>
+																	<td>${dto.dept_name}</td>
+																	<th scope="row">직 위</th>
+																	<td>${dto.position_name}</td>
 																</tr>
 															</tbody>
 														</table>
 													</div>
 												</div>
-											</div>
-										</div>
-										<div class="panel panel-headline demo-icons">
-											<div class="panel-heading">
-												<h3 class="panel-title">사 원 정 보</h3>
-											</div>
-											<div class="panel-body">
-												<table class="table table-sm">
-													<tbody>
-														<tr>
-															<th scope="row">부 서</th>
-															<td>${dto.dept_name}</td>
-															<th scope="row">직 위</th>
-															<td>${dto.position_name}</td>
-														</tr>
-														<tr>
-															<th scope="row">입 사 일</th>
-															<td>${dto.reg_date}</td>
-															<th scope="row">휴 가 일 수</th>
-															<td>${dto.break_use_count}일/${dto.break_total_count}일</td>
-														</tr>
-													</tbody>
-												</table>
 											</div>
 										</div>
 									</div>
@@ -267,10 +264,8 @@ $("#treeGrid").on('rowSelect', function (event) {
     
     if(rowData.name!=""){
     	location.href="/member/orgMemInfo.member?id="+rowData.memId+"&rowKey="+rowKey;
-    } 
-    
-   
-    
+
+    }
     console.log(args);
     console.log(rowData);
     console.log(rowKey);
@@ -280,6 +275,11 @@ $("#treeGrid").on('rowSelect', function (event) {
 <script>
 document.getElementById("askFix").onclick = function(){
 	location.href="/message/orgSendMessage.message?msg_receiver_name=${dto.position_name} ${dto.name}&msg_receiver=${dto.id}";
+}
+</script>
+<script>
+if("${dto.id}"==""){		
+	$("#profileImage").attr("src", "/resources/profileImage/default.png");
 }
 </script>
 </html>

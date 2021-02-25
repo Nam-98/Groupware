@@ -504,4 +504,8 @@ public class WriteService {
 			
 		}
 
+		public List<WriteDTO> listBr() {
+			return wdao.listBr();
+		}
+
 }
