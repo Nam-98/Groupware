@@ -46,7 +46,7 @@
   </select>
   
   <insert id="insertBoardWrite">
-  	insert into st.write values(st.write_seq.nextval,02,#{write_title}, #{write_contents},#{write_id},sysdate,'','Y',0)
+  	insert into st.write values(#{write_seq},02,#{write_title}, 'temp', #{write_id},(SELECT CURRENT_DATE FROM DUAL),'','Y',0)
   </insert>
   
   <delete id="deleteBoardWrite">
@@ -62,7 +62,7 @@
   </update>
   
   <insert id="insertGalleryWrite">
-  	insert into st.write values(st.write_seq.nextval,03,#{write_title}, #{write_contents},#{write_id},sysdate,'','Y',0)
+  	insert into st.write values(#{write_seq},03,#{write_title}, 'temp' ,#{write_id},(SELECT CURRENT_DATE FROM DUAL),'','Y',0)
   </insert>
   
   <delete id="deleteGalleryWrite">
@@ -103,7 +103,7 @@
   </insert>
   
     <select id="reCommentNow" resultType="kh.gw.dto.Write_commentsDTO">
-	select * from st.write_comments where write_cmt_seq = (select max(write_cmt_seq) from st.write_comments where write_seq = #{write_seq} and write_cmt_parent_seq = #{write_cmt_parent_seq})
+	select * from st.write_comments where write_cmt_seq = (select max(write_cmt_seq) from st.write_comments where write_seq = #{write_seq} and write_cmt_parent_seq = #{write_cmt_parent_seq}) order by write_cmt_seq desc
   </select>
   
   <insert id="insertWrite">
@@ -135,4 +135,12 @@
   <select id="listBr" resultType="kh.gw.dto.WriteDTO">
   	select * from st.write where write_code between '2' and '3' order by write_code
   </select>
+  
+  <select id="getNewBoardSeq" resultType="Integer">
+    select st.write_seq.nextval from dual
+  </select>
+  
+  <delete id="commentReDelete">
+  	delete from st.write_comments where write_cmt_seq = #{value}
+  </delete>
   </mapper>

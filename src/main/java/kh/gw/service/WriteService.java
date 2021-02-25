@@ -1,8 +1,13 @@
 package kh.gw.service;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 
@@ -17,6 +22,10 @@ import kh.gw.statics.BoardConfigurator;
 
 @Service
 public class WriteService {
+	
+	@Autowired 
+	private ServletContext servletContext;
+	
 	@Autowired
 	private WriteDAO wdao;
 	
@@ -329,6 +338,11 @@ public class WriteService {
 	
 	//------------- 회사 게시판 글쓰기
 	public int insertBoardWrite(WriteDTO dto) throws Exception{
+		int write_seq = wdao.getNewBoardSeq();
+		dto.setWrite_seq(write_seq);
+		
+		this.makeTempContent(write_seq, dto.getWrite_contents());
+		
 		return wdao.insertBoardWrite(dto);
 	}
 	
@@ -405,6 +419,12 @@ public class WriteService {
 		
 		//------------- 갤러리 게시판 글쓰기
 		public int insertGalleryWrite(WriteDTO dto) throws Exception{
+			
+			int write_seq = wdao.getNewBoardSeq();
+			dto.setWrite_seq(write_seq);
+			
+			this.makeTempContent(write_seq, dto.getWrite_contents());
+			
 			return wdao.insertGalleryWrite(dto);
 		}
 		
@@ -506,6 +526,64 @@ public class WriteService {
 
 		public List<WriteDTO> listBr() {
 			return wdao.listBr();
+		}
+		
+		private String makeTempContent(int write_seq, String contents) throws Exception {
+			// WARING!!!!!! -> project workspace경로가 아닌 project server가 가동되는 경로에 생되므로
+			// Project clean시 생성한 file도 삭제됩니다. clean전에 반드시 backup 해주세요!!!!!
+			String sDir = servletContext.getRealPath("/resources/board_contents");// src/main/webapp/resources/approval_contents폴더
+																					// 경로 출력
+			String sFileName = write_seq + ".html";// 저장할 file이름은 seq.html이 될것입니다.
+			File filesPath = new File(sDir);
+			// 파일 디렉토리가 존재한지 검사 없다면 생성
+			if (!filesPath.exists()) {
+				filesPath.mkdir();
+			}
+
+			// BufferedWriter 와 FileWriter를 조합하여 사용 (속도 향상, 기록하고자 하는 파일의 크기가 100K를 넘을때)
+			// sDir경로에 sFileName이름의 파일 생성함
+			File conFile = new File(sDir, sFileName);
+			BufferedWriter fw = new BufferedWriter(new FileWriter(conFile));
+
+			// 파일안에 문자열 쓰기
+			fw.write(contents);
+			fw.flush();
+
+			// 객체 닫기
+			fw.close();
+			return sFileName;
+		}
+		
+		
+		public String getHtmlText (int write_seq) throws Exception {
+		      //----------------------html파일 전달하기
+		      int cur = 0;
+		      
+		      //src/main/webapp/resources/write_contents폴더 경로 출력
+		      String sDir = servletContext.getRealPath("/resources/board_contents");
+		      //저장할 file이름은 게시판코드_글id.html이 될것입니다.
+		      String sFileName = write_seq+".html";
+		      
+		      StringBuilder sb = new StringBuilder();
+		         //sDir 폴더속 sFileName을 가져온다.
+		         File file = new File(sDir, sFileName);
+		         if(!file.exists()) {
+		        	 return write_seq+"_contents";
+		         }
+		         FileReader file_reader = new FileReader(file);
+
+		         while((cur = file_reader.read()) != -1){
+		            sb.append((char)cur);
+		         }
+		         
+		         file_reader.close();
+		     	      
+		      return sb.toString() ;
+		      
+		}
+		// 대댓글 삭제
+		public int commentReDelete(int write_cmt_seq) {
+			return wdao.commentReDelete(write_cmt_seq);
 		}
 
 }

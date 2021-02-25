@@ -67,4 +67,8 @@ public class MemberService {
 	public int updatePw(String id, String newpw) throws IOException {
 		return mdao.updatePw(id,newpw);
 	}
+	
+	public List<Map<String, Object>> getMembersForAppWrite(){
+		return mdao.getMembersForAppWrite();
+	}
 }
