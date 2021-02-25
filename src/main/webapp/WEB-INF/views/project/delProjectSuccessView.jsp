@@ -8,6 +8,6 @@
 </head>
 <body>
 <script>alert("프로젝트를 삭제했습니다.");</script>
-	<script>location.href ="/project/enterProjectList.project";</script>
+	<script>location.href ="/project/enterProjectList.project?cpage=1";</script>
 </body>
 </html>
