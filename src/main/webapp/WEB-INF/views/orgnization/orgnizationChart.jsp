@@ -280,6 +280,7 @@ document.getElementById("askFix").onclick = function(){
 <script>
 if("${dto.id}"==""){		
 	$("#profileImage").attr("src", "/resources/profileImage/default.png");
+	$("#askFix").hide();
 }
 </script>
 </html>

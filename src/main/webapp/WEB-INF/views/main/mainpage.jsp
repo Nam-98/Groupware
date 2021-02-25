@@ -531,16 +531,34 @@
          clock.innerHTML = nowTime;
          setTimeout("printTime()",1000);
       }
-      
+    </script>
+      <script type="text/javascript"> 
+      function getCookie(name) {
+   	   var cookie = document.cookie;
+   	   console.log(document.cookie);
+   	   if (document.cookie != "") { 
+   		   var cookie_array = cookie.split("; "); 
+   		   for ( var index in cookie_array) { 
+   			   var cookie_name = cookie_array[index].split("="); 
+   			   if (cookie_name[0] == "popupYN") { 
+   				   return cookie_name[1]; 
+   				   } 
+   			   } 
+   		   } return ; 
+   	}
+      </script>
+    <script>
       // 페이지 로드와 동시에 실행
       window.onload = function() {
          printTime();
-         
          var options='top=10, left=10, width=500, height=500, status=no, menubar=no, toolbar=no, resizable=no';
-	     window.open("/write/noticePopupView.write?write_code=0" ,"notice", options);
+         var cookieCheck = getCookie("popupYN"); 
+		 if (cookieCheck != "N") window.open("/write/noticePopupView.write?write_code=0", "notice", options);
       }
 
    </script>
+
+   
 	<script>
 	  document.addEventListener('DOMContentLoaded', function() {
 	        var calendarEl = document.getElementById('calendar');
