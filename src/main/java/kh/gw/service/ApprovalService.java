@@ -625,24 +625,35 @@ public class ApprovalService {
 		String result = null;
 		Gson gson = new Gson();
 		List<Map<String, Object>> deptMap = new ArrayList<>();
+		Map<String, Object> state = new HashMap<>();
+		state.put("checked", false);
+		state.put("disabled", false);
+		state.put("expanded", false);
+		state.put("selected", false);
 		
 		//json에 dept정보 + 해당 dept의 member정보만 넣는다. 
 		for(DepartmentDTO dept : depts) {
 			Map<String, Object> map = new HashMap();
 			map.put("text", dept.getDept_name());
 			map.put("dept_code", dept.getDept_code());
+			map.put("state", state);
 			List<Map<String, Object>> memlist = new ArrayList<>();
-			System.out.println("처리중인 dept : "+dept.getDept_name());
 			
 			
 			//member list 넣기
 			for(Map<String,Object> mem : members) {
-				if(Integer.parseInt(String.valueOf(mem.get("DEPT_CODE")))==dept.getDept_code()) {
-					memlist.add(mem);
-					System.out.println("추가된 id : "+mem.get("ID"));
+				String id =  (String)session.getAttribute("id");
+				//지금 넣고 있는 부서에 속해있는 member이고 지금 approval을 작성하고 있는 사람이 아닌 인원을 넣는다.(작성자는 무조건 첫번째 결재자이기 때문)
+				if(Integer.parseInt(String.valueOf(mem.get("DEPT_CODE")))==dept.getDept_code() && !id.contentEquals(String.valueOf(mem.get("ID")))) {
+					Map<String,Object> memInfo = new HashMap();
+					memInfo.put("text", mem.get("NAME")+"&emsp;"+mem.get("POSITION_NAME"));
+					memInfo.put("memInfo", mem);
+					memInfo.put("icon", "glyphicon glyphicon-user");
+					memInfo.put("icon", "glyphicon glyphicon-ok");
+					memlist.add(memInfo);
 				}
 			}
-			map.put("node", memlist);
+			map.put("nodes", memlist);
 			
 			
 			//만약 해당 dept가 하위 dept이라면 해당 dept정보를 상위 dept의 node에 넣는다. 
@@ -653,21 +664,18 @@ public class ApprovalService {
 				//부모가 되는 dept를 찾는다
 				for(Map<String, Object> inserted : deptMap) {
 					if((int)inserted.get("dept_code")==parent) {
-						List<Map<String, Object>> origin = (List<Map<String, Object>>) inserted.get("node");
-						inserted.remove("node");//기존 node삭제
+						List<Map<String, Object>> origin = (List<Map<String, Object>>) inserted.get("nodes");
+						inserted.remove("nodes");//기존 node삭제
 						origin.add(map);//기존 node값에 하위부서 정보를 넣는다. 
-						inserted.put("node", origin);
-						break;
+						inserted.put("nodes", origin);
 					}
 				}
 				
-				break;
+			}else {
+				deptMap.add(map);
 			}
-			deptMap.add(map);
 		}
-		System.out.println(deptMap.toString());
 		result = gson.toJson(deptMap);
-		System.out.println("result : "+result);
 		return result;
 	}
 }

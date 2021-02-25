@@ -69,48 +69,12 @@ public class ApprovalController {
 		List<Approval_sign_typeDTO> adtList = aservice.allSignType();
 		List<Break_typeDTO> btList = bservice.getAllType();
 		String treeData = aservice.makeOrganTreeData(mlist, dlist);
-		System.out.println("inController : "+treeData);
 		model.addAttribute("mlist", mlist);
 		model.addAttribute("dlist", dlist);
 		model.addAttribute("adtList", adtList);
 		model.addAttribute("breakType", btList);
-		
-//		//new tree date
-//        List<MemberDTO> mlist = mservice.listMem();//멤버를 불러옴
-//        List<DepartmentDTO> dlist = mservice.listDept(); //부서명 가져옴
-//        List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
-//        int a =0;
-//        for(DepartmentDTO dto : dlist) {
-//       	 if(dto.getDept_code_parent() == -1) {
-//       		 dto.setDept_code_parent(100000000);
-//       	 }
-//           Map<String,Object> map = new HashMap<>();
-//           map.put("departmentName",dto.getDept_name());
-//           map.put("name","");
-//           map.put("position","");
-//           map.put("memId","");
-//           map.put("reportsTo", dto.getDept_code_parent());
-//           map.put("departmentID", dto.getDept_code());
-//           list.add(map);
-//        }
-//        
-//        for(MemberDTO dto : mlist) {
-//           Map<String,Object> map = new HashMap<>();
-//           map.put("departmentName2",dto.getDept_name());
-//           map.put("name",dto.getName());
-//           map.put("position",dto.getPosition_name());
-//           map.put("reportsTo",dto.getDept_code());
-//           map.put("departmentID", 100+a);
-//           map.put("memId",dto.getId());
-//           list.add(map);
-//           a++;
-//        }
-//        model.addAttribute("list", list);
-//        model.addAttribute("rowKey",107);
-		
-		
-		
-		return "approval/appWriteView_tree";
+		model.addAttribute("treeData",treeData);
+		return "approval/appWriteView";
 	}
 	
 	@RequestMapping("/writeApproval.approval")
