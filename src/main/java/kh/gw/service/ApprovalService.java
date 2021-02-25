@@ -632,7 +632,9 @@ public class ApprovalService {
 			map.put("text", dept.getDept_name());
 			map.put("dept_code", dept.getDept_code());
 			List<Map<String, Object>> memlist = new ArrayList<>();
-
+			System.out.println("처리중인 dept : "+dept.getDept_name());
+			
+			
 			//member list 넣기
 			for(Map<String,Object> mem : members) {
 				if(Integer.parseInt(String.valueOf(mem.get("DEPT_CODE")))==dept.getDept_code()) {
