@@ -97,5 +97,10 @@ public class WebhardDAO {
 	public int delFileProc(Webhard_filesDTO fileDTO) {
 		return db.delete("Webhard.delFileProc", fileDTO);
 	}
+	
+	// 자식 디렉토리의 번호로 부모 디렉토리 번호 가져오기
+	public int getDirSeqParent(int dirSeqChild) {
+		return db.selectOne("Webhard.getDirSeqParent", dirSeqChild);
+	}
 
 }

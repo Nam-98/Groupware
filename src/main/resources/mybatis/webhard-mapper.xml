@@ -54,5 +54,8 @@
 	<delete id="delFileProc">
 		delete from st.webhard_files where (wh_files_seq = #{wh_files_seq})
 	</delete>
+	<select id="getDirSeqParent" resultType="Integer">
+		select wh_dir_parent_seq from st.webhard_dir where (wh_dir_seq = #{dirSeqChild})
+	</select>
   
   </mapper>

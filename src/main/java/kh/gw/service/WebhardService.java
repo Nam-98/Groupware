@@ -370,7 +370,12 @@ public class WebhardService {
 		return topAccessDirList;
 	}
 	
-	
+	// 자식 디렉토리의 번호로 부모 디렉토리 번호 가져오기
+	public int getDirSeqParent(int dirSeqChild) {
+		int dirSeqParent = whdao.getDirSeqParent(dirSeqChild);
+		
+		return dirSeqParent;
+	}
 	
 	
 }

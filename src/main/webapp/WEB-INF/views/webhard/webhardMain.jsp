@@ -64,13 +64,12 @@
 					<div class="panel panel-headline demo-icons">
 						<div class="panel-heading">
 							<form method="post" enctype="multipart/form-data" action="/webhard/uploadFile.webhard?dirSeq=${dirSeq }" id="uploadForm">
-								<input type="button" value="Upload" id="upload-btn" class="btn btn-primary btn-xs">
-								<span class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-cloud"></span> Upload</span>
-								<input type="button" value="To parent folder" id="parentFolder-btn" class="btn btn-default btn-xs">		
-								<input type="button" value="New Folder" id="newFolder-btn" class="btn btn-default btn-xs">		
-								<input type="button" value="Download" id="download-btn" class="btn btn-default btn-xs">
-								<input type="button" value="Delete" id="checkDel-btn" class="btn btn-default btn-xs">
-								
+								<span id="upload-btn" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-open"></span> Upload</span>
+								<span id="parentFolder-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-level-up"></span> To Parent Folder</span>
+								<span id="newFolder-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-plus"></span> New Folder</span>
+								<span id="download-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-save"></span> Download</span>
+								<span id="checkDel-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-floppy-remove"></span> Delete</span>
+	
 								
 								<input type="file" name="attfiles" id="attfiles" multiple style="display:none">
 							</form>

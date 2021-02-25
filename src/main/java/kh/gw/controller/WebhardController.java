@@ -181,13 +181,14 @@ public class WebhardController {
 	// 부모디렉토리로 이동 (부모디렉토리 찾아서 webhardMain으로 리다이렉트)
 	@RequestMapping("goToParentDir.webhard")
 	public String goToParentDir(HttpServletRequest request, Model model) {
-		// 접속할 디렉토리 번호
+		// 자식 디렉토리 번호
 		String stringdirSeqChildGet = request.getParameter("dirSeqChild");
 		int dirSeqChild = Integer.parseInt(stringdirSeqChildGet);
-		System.out.println(dirSeqChild);
+	
+		int dirSeqParent = whservice.getDirSeqParent(dirSeqChild);
 		
 		
-		return "/";
+		return "redirect:/webhard/webhardMain.webhard?dirSeq="+dirSeqParent;
 	}
 	
 	
