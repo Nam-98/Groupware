@@ -44,13 +44,16 @@ public class MessageController {
 	private HttpSession session;
 	
 	@RequestMapping("writeMsg.message")
-	public String writeMsg() throws Exception{
+	public String writeMsg(Model m) throws Exception{
+		String my = (String)session.getAttribute("id");
+		Map<String,Object> myInfo = memservice.getMyInfo(my);//현재 로그인 한 사람 정보 불러오기
+		m.addAttribute("myInfo", myInfo);
 		return "/message/sendMessage";
 	}
 	
 	//쪽지 보내기에서popup 조직도 불러오기
 	@RequestMapping("msgPopup.message")
-	public String writeMsg(Model m) throws Exception{
+	public String msgPopup(Model m) throws Exception{
 		List<MemberDTO> mlist = memservice.listMem();//멤버를 불러옴
 		List<DepartmentDTO> dlist = memservice.listDept(); //부서명 가져옴
 		 List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
@@ -89,16 +92,43 @@ public class MessageController {
 	@RequestMapping("msgMemInfo.message")
 	public String msgMemInfo(HttpServletRequest request, Model m) throws Exception{
 		String id = request.getParameter("id");
-		String my = (String)session.getAttribute("id");
-		Map<String,Object> myInfo = memservice.getMyInfo(my);//현재 로그인 한 사람 정보 불러오기
-		MemberDTO dto = memservice.getMemInfo(id);//조직도에서 선택된 아이디 정보
-		List<MemberDTO> mlist = memservice.listMem(); //조직도 전체 리스트 가져옴
+		String rowKey = request.getParameter("rowKey");
+		MemberDTO dto = memservice.getMemInfo(id);
+		List<MemberDTO> mlist = memservice.listMem();
 		List<DepartmentDTO> dlist = memservice.listDept(); //부서명 가져옴
-		m.addAttribute("myInfo", myInfo);
+		
+         List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+         int a =0;
+         for(DepartmentDTO dtod : dlist) {
+        	 if(dtod.getDept_code_parent() == -1) {
+        		 dtod.setDept_code_parent(100000000);
+        	 }
+            Map<String,Object> map = new HashMap<>();
+            map.put("departmentName",dtod.getDept_name());
+            map.put("name","");
+            map.put("position","");
+            map.put("memId","");
+            map.put("reportsTo", dtod.getDept_code_parent());
+            map.put("departmentID", dtod.getDept_code());
+            list.add(map);
+         }
+         
+         for(MemberDTO dtom : mlist) {
+            Map<String,Object> map = new HashMap<>();
+            map.put("departmentName","");
+            map.put("name",dtom.getName());
+            map.put("position",dtom.getPosition_name());
+            map.put("reportsTo",dtom.getDept_code());
+            map.put("departmentID", 100+a);
+            map.put("memId",dtom.getId());
+            list.add(map);
+            a++;
+         }
+		
 		m.addAttribute("dto", dto);
-		m.addAttribute("mlist", mlist);
-		m.addAttribute("dlist", dlist);
-		return "/message/sendMessage";
+         m.addAttribute("list", list);
+         m.addAttribute("rowKey",Integer.parseInt(rowKey));
+		return "/message/msgPopupView";
 	}
 	
 	//보낸 메세지 DB에 저장

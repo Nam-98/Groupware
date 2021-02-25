@@ -39,32 +39,93 @@
 <script src="/assets/scripts/klorofil-common.js"></script>
 <!-- 제이쿼리 -->
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<!-- jqxtree  -->
+
+<!--tree  -->
 <link rel="stylesheet"
 	href="/resources/lib/jqwidgets/styles/jqx.base.css" type="text/css" />
+<link rel="stylesheet"
+	href="/resources/lib/jqwidgets/styles/jqx.energyblue.css"
+	type="text/css" />
 <script type="text/javascript"
 	src="/resources/lib/scripts/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="/resources/lib/jqwidgets/jqxcore.js"></script>
+<script type="text/javascript" src="/resources/lib/jqwidgets/jqxdata.js"></script>
 <script type="text/javascript"
 	src="/resources/lib/jqwidgets/jqxbuttons.js"></script>
 <script type="text/javascript"
 	src="/resources/lib/jqwidgets/jqxscrollbar.js"></script>
 <script type="text/javascript"
-	src="/resources/lib/jqwidgets/jqxpanel.js"></script>
-<script type="text/javascript" src="/resources/lib/jqwidgets/jqxtree.js"></script>
+	src="/resources/lib/jqwidgets/jqxdatatable.js"></script>
+<script type="text/javascript"
+	src="/resources/lib/jqwidgets/jqxtreegrid.js"></script>
+<script type="text/javascript" src="/resources/lib/scripts/demos.js"></script>
 <script type="text/javascript">
-	$(document).ready(function() {
-		// Create jqxTree
-		$('#jqxTree').jqxTree({
-			height : '500px',
-			width : '120px'
-		});
-		$('#jqxTree').bind('select', function(event) {
-			var htmlElement = event.args.element;
-			var item = $('#jqxTree').jqxTree('getItem', htmlElement);
-		});
-	});
-</script>
+        $(document).ready(function () {
+            var employees = [
+            
+               <c:forEach varStatus="i" items="${list}" var="dto">
+               {"departmentID": ${dto.departmentID}, 
+            	   "ReportsTo": ${dto.reportsTo},
+                  "departmentName": "${dto.departmentName}",
+                  "name": "${dto.name}", 
+                  "position": "${dto.position}",
+                  "memId":"${dto.memId}"
+               }
+               <c:if test= "${!i.last}">,</c:if>
+         </c:forEach>
+               ];
+            // prepare the data
+            var source =
+            {
+                dataType: "json",
+                dataFields: [
+                    { name: 'departmentID', type: 'number' },
+                    { name: 'ReportsTo', type: 'number' },
+                    { name: 'departmentName', type: 'string' },
+                    { name: 'name', type: 'string' },
+                    { name: 'position', type: 'string' },
+                    { name: 'memId', type: 'string' }
+                ],
+                hierarchy:
+                {
+                    keyDataField: { name: 'departmentID' },
+                    parentDataField: { name: 'ReportsTo' }
+                },
+                id: 'departmentID',
+                localData: employees
+            };
+            var dataAdapter = new $.jqx.dataAdapter(source);
+            // create Tree Grid
+            $("#treeGrid").jqxTreeGrid(
+            {
+                width: 240,
+                source: dataAdapter,
+                enableHover: false,
+                showHeader: false,
+                showToolbar: true,
+                sortable: true,
+                renderToolbar: function (toolbar) {
+                    var container = $("<div style='margin: 5px; height: 50px;'></div>");
+                    var span = $("<span style='float: left; margin-top: 5px; margin-right: 4px;'>검색:</span>");
+                    var input = $("<input class='jqx-input jqx-widget-content jqx-rc-all' id='searchField' type='text' placeholder='미구현' style='height: 23px; float: left; width: 180px;' />");
+                    toolbar.append(container);
+                    container.append(span);
+                    container.append(input);
+                },
+                ready: function () {
+                	$('#treeGrid').jqxTreeGrid({height:"500px"});
+                	$('#treeGrid').jqxTreeGrid({scrollBarSize: 0}); 
+                	$("#treeGrid").jqxTreeGrid('expandAll');
+                	$("#treeGrid").jqxTreeGrid('sortBy', 'departmentName', 'asc');
+                },
+                columns: [
+                { text: '부서', align: 'center' ,dataField: 'departmentName', width: 100 },
+                  { text: '성명',align: 'center', dataField: 'name', width: 70 },
+                  { text: '직급',align: 'center', dataField: 'position', width: 70 }
+                ]
+            });
+        });
+    </script>
 </head>
 <style>
 .top-vacant {
@@ -77,25 +138,8 @@
 	text-align: center;
 }
 
-.orgTree {
-	width: 20%;
-	float: left;
-}
-
-.orgInfo {
-	margin-left: 20px; padding-left : 20px;
-	width: 80%;
-	float: left;
-	padding-left: 20px;
-}
-
 .table table-sm {
 	width: 100%;
-}
-
-li>a {
-	color: black;
-	text-decoration: none;
 }
 
 .profilBox>img {
@@ -113,6 +157,17 @@ li>a {
 	margin-bottom: 0px;
 	text-align: left;
 }
+
+.jqx-grid-table .jqx-grid-cell {
+	border-width: 0px 0px 1px 0px;
+}
+
+.jqx-scrollbar {
+	display: none;
+}
+.jqx-cell {
+	cursor: pointer;
+}
 </style>
 <body>
 	<!-- WRAPPER -->
@@ -125,82 +180,87 @@ li>a {
 						<h3 class="panel-title">담당자(ID) 검색</h3>
 					</div>
 					<div class="panel-body">
-						<input type="text" id="pmName" readonly value="${dto.name}"><input
-							type="text" id="pmId" readonly value="${dto.id}">
-						<button id="returnButton" class="btn btn-primary">선택</button>
+						<input type="text" id="msg_receiver_name" readonly value="${dto.name} ${dto.position_name}" style="width:250px;">
+						<input type="hidden" id="msg_receiver" readonly value="${dto.id}">
+						<button id="returnButton" class="btn btn-primary btn-sm">선택</button>
 					</div>
 					<div class="panel-body">
-						<h3>조직도</h3>
-						<hr>
-						<div class="orgTree" id='jqxTree'>
-							<ul>
-								<c:forEach items="${dlist}" var="i">
-									<li item-expanded='true'>${i.dept_name}
-										<ul>
-											<c:forEach items="${mlist}" var="j">
-												<c:if test="${j.dept_code == i.dept_code}">
-													<li class="memberList" id="${j.name}"><a
-														href="/member/orgProMemInfo.member?id=${j.id}">${j.name}</a></li>
-												</c:if>
-											</c:forEach>
-										</ul>
-									</li>
-								</c:forEach>
-							</ul>
-						</div>
-						<div class="orgInfo well">
-							<div class="profilBox d-none d-lg-block">
-								<img class="profileImg img-thumbnail" alt="${dto.id}"
-									src="/resources/profileImage/${dto.id}.png">
-							</div>
-							<div class="top-vacant d-none d-lg-block"></div>
-							<div class="bodyContents">
-								<table class="table table-sm">
-									<thead>
-										<tr class="table-secondary">
-											<th scope="col">항 목</th>
-											<th scope="col">내 용</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<th scope="row">이 름</th>
-											<td>${dto.name}</td>
-										</tr>
-										<tr>
-											<th scope="row">연 락 처</th>
-											<td>${dto.contact}</td>
-										</tr>
-										<tr>
-											<th scope="row">생 년 월 일</th>
-											<td>${dto.birth}</td>
-										</tr>
-										<tr>
-											<th scope="row">부 서</th>
-											<td>${dto.dept_name}</td>
-										</tr>
-										<tr>
-											<th scope="row">직 위</th>
-											<td>${dto.position_name}</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
+						<div class="row">
+							<div class="col-md-3">
+									<div id="treeGrid"></div>
+								</div>
+								<div class="col-md-9">
+									<div class="" id="information">
+											<br>
+											<br>
+											<br>
+										<div class="panel panel-headline demo-icons">
+											
+											<div class="panel-body">
+										
+												<div class="row">
+													<div class="col-md-2 col-12">
+														<div class="profilBox d-none d-lg-block">
+															<img class="profileImg img-thumbnail" id="profileImage" alt="${dto.id}"
+																src="/resources/profileImage/${dto.id}.png">
+														</div>
+													</div>
+													<div class="col-md-10 col-12">
+														<table class="table table-sm">
+															<tbody>
+																<tr>
+																	<th scope="row">이 름</th>
+																	<td>${dto.name}</td>
+																	<th scope="row">생 년 월 일</th>
+																	<td>${dto.birth}</td>
+																</tr>
+																<tr>
+																	<th scope="row">연 락 처</th>
+																	<td>${dto.contact}</td>
+																	<th scope="row">성 별</th>
+																	<td>${dto.gender}</td>
+																</tr>
+																<tr>
+																	<th scope="row">주 소</th>
+																	<td>${dto.address1}</td>
+																	<th scope="row">상 세 주 소</th>
+																	<td>${dto.address2}(${dto.zip_code})</td>
+																</tr>
+																<tr>
+																	<th scope="row">결 혼 유 무</th>
+																	<td>${dto.is_married}</td>
+																	<th scope="row">입 사 일</th>
+																	<td>${dto.reg_date}</td>
+																</tr>
+																<tr>
+																	<th scope="row">부 서</th>
+																	<td>${dto.dept_name}</td>
+																	<th scope="row">직 위</th>
+																	<td>${dto.position_name}</td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
 						</div>
 					</div>
 				</div>
 			</div>
+			<!-- END MAIN CONTENT -->
+			<div class="clearfix"></div>
+			<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
 		</div>
-	<!-- END MAIN CONTENT -->
-	<div class="clearfix"></div>
-<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
-	</div>
+		</div>
 </body>
 
 <script>
 	$('#returnButton').click(function() {
-		var returnValueName = document.getElementById('pmName').value;
-		var returnValueId = document.getElementById('pmId').value;
+		var returnValueName = document.getElementById('msg_receiver_name').value;
+		var returnValueId = document.getElementById('msg_receiver').value;
 		var returnValue = {
 			key1 : returnValueName,
 			key2 : returnValueId
@@ -209,5 +269,27 @@ li>a {
 		window.opener.getReturnValue(JSON.stringify(returnValue));
 		window.close();
 	});
+</script>
+<script>
+$("#treeGrid").on('rowSelect', function (event) {
+    // event arguments
+    var args = event.args;
+    // row data
+    var rowData = args.row;
+    // row key
+    var rowKey = args.key;
+    
+    if(rowData.name!=""){
+    	location.href="/message/msgMemInfo.message?id="+rowData.memId+"&rowKey="+rowKey;
+    }
+    console.log(args);
+    console.log(rowData);
+    console.log(rowKey);
+});
+</script>
+<script>
+if("${dto.id}"==""){		
+	$("#profileImage").attr("src", "/resources/profileImage/default.png");
+}
 </script>
 </html>

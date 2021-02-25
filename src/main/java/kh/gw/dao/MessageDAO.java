@@ -193,4 +193,9 @@ public class MessageDAO {
 		return db.selectList("Message.msgInBoxCpage",param);
 	}
 	
+	//메세지 seq값 선정
+	public int newMsgSeqGet() throws Exception{
+		return db.selectOne("Message.newMsgSeqGet");
+	}
+	
 }
