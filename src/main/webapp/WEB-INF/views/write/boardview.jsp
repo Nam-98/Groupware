@@ -211,23 +211,23 @@
    <!-- END WRAPPER -->
 </body>
 <script>
-
-
-
 	$('.show-reply').click(function() {
 		var a = $(this).parent().find($('.re_comment_write_frm'));
 		var write_cmt_seq = $(this).parent().find($('input[name=cmt_seq]')).val();
 		var replyList = $(this).parent().find($('.reply-list'));
 		var reply = $(this).children(".reply");
 		if(reply.val() == 'Y'){
-			$(this).parent().children(".reply-list").css("display","none");
 			$(this).parent().children(".re_comment_write_frm").css("display","none");
+			$(this).parent().children(".reply-list").css("display","none");
+			
 			replyList.empty();
-			 reply.val('F');
+			reply.val('F');
+			
 		}else if(reply.val() == 'F'){
 			$(this).parent().children(".reply-list").css("display","inline");
 			a.css('display','block');
 			reply.val('Y');
+			console.log(reply.val);
 			$.ajax({
 	             url : "${pageContext.request.contextPath}/write/reCommentList.write",
 	             method : 'POST',
@@ -241,19 +241,19 @@
 	            				 '<div class="bundle">'
 								 +'<div class="row">'
 								 + '<div class="col-sm-12" style="text-align: left;">'
-								 + ' &nbsp&nbsp|&nbsp&nbsp'
-	            				 + data.reCmtList[0].write_cmt_id
-	            				 + ' &nbsp&nbsp|&nbsp&nbsp'
-	            				 + data.reCmtList[0].write_cmt_contents
-	            				 + ' &nbsp&nbsp|&nbsp&nbsp'
-	            				 + data.reCmtList[0].write_cmt_date
-	            				 + ' &nbsp&nbsp|&nbsp&nbsp'
-	            				 +'<button type="button" class="btnReDelete">삭제</button>'
-	            				 +'</div>'
-	            				 +'<input type="hidden" name="re_cmt_seq" value="'+data.reCmtList[0].write_cmt_seq+'">'
-	            				 +'</div>'
+								 + '&nbsp&nbsp|&nbsp&nbsp'
+	            				 + data.reCmtList[i].write_cmt_id
+	            				 + '&nbsp&nbsp|&nbsp&nbsp'
+	            				 + data.reCmtList[i].write_cmt_contents
+	            				 + '&nbsp&nbsp|&nbsp&nbsp'
+	            				 + data.reCmtList[i].write_cmt_date
+	            				 + '&nbsp&nbsp|&nbsp&nbsp'
+	            				 + '<button type="button" class="btnReDelete">삭제</button>'
+	            				 + '</div>'
+	            				 + '<input type="hidden" name="re_cmt_seq" value="'+data.reCmtList[i].write_cmt_seq+'">'
+	            				 + '</div>'
 	            				 );
-	            	 }
+	            	 };
 	            	 reply.val('Y');
 	             },   error : function(data) {
 	                 console.log('컨트롤러 못가');
@@ -262,6 +262,7 @@
 		}
 		else{
 			console.log('아무것도 인식 안돼');
+
 		}
 	})
 	
@@ -294,18 +295,30 @@
 										},
 										success : function(data) {
 										console.log(data);
-										insertReplyArea.first().append(
-												'<div class="bundle">	'
+										$(".reWrite").val("");
+										insertReplyArea.last().append(
+												 '<div class="bundle">'
+												 +'<div class="row">'
+												 + '<div class="col-sm-12" style="text-align: left;">'
+												 + '&nbsp&nbsp|&nbsp&nbsp'
 					            				 + data.reCmtList[0].write_cmt_id
+					            				 + '&nbsp&nbsp|&nbsp&nbsp'
 					            				 + data.reCmtList[0].write_cmt_contents
+					            				 + '&nbsp&nbsp|&nbsp&nbsp'
 					            				 + data.reCmtList[0].write_cmt_date
-					            				 +'</div>'
-										)
-						}
-					
-				})
-}
-			});
+					            				 + '&nbsp&nbsp|&nbsp&nbsp'
+					            				 + '<button type="button" class="btnReDelete">삭제</button>'
+					            				 + '</div>'
+					            				 + '<input type="hidden" name="re_cmt_seq" value="'+data.reCmtList[0].write_cmt_seq+'">'
+					            				 + '</div>'
+					            				 );
+						},
+				});
+			}
+		});
+	</script>
+
+	<script>
 
 	$('#brWrite').click(function() {
 						var brText = $('#brWriteArea').val();
@@ -336,7 +349,7 @@
 											console.log(data.cmtList[0].write_cmt_date);
 											console.log(data.cmtList[0].write_cmt_id);
 											console.log(data.cmtList[0].write_cmt_seq);
-											insertCommentArea.last().append(
+											insertCommentArea.first().append(
 															'<div class="rows">'
 																	+ '<div class="row">'
 																	+ '<div class="col-sm-12"><img style="width: 50px; height: 50px; text-align: left; margin-right: 5px;" src="/resources/profileImage/${dtos.write_id }.png"></div>'
@@ -357,7 +370,9 @@
 																	+ '</div>'
 																	+ '</div>'
 																	+ '<label class="show-reply">답변달기</label>'
-																	+ '</div>');
+																	+ '</div>'
+																	);
+											window.location.reload();
 
 										},
 										error : function(data) {
@@ -398,7 +413,7 @@
 							console.log(write_cmt_seq);
 							console.log(parentTr);
 							$.ajax({
-										url : "${pageContext.request.contextPath}/write/commentDelete.write",
+										url : "${pageContext.request.contextPath}/write/commentReDelete.write",
 										type : "POST",
 										dataType : "json",
 										data : {
