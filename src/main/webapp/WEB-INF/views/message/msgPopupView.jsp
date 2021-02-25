@@ -180,9 +180,9 @@
 						<h3 class="panel-title">담당자(ID) 검색</h3>
 					</div>
 					<div class="panel-body">
-						<input type="text" id="msg_receiver_name" readonly value="${dto.name} ${dto.position_name}" style="width:250px;">
+						<input type="hidden" id="msg_receiver_name" readonly value="${dto.name} ${dto.position_name}" style="width:250px;">
 						<input type="hidden" id="msg_receiver" readonly value="${dto.id}">
-						<button id="returnButton" class="btn btn-primary btn-sm">선택</button>
+						
 					</div>
 					<div class="panel-body">
 						<div class="row">
@@ -240,6 +240,7 @@
 																</tr>
 															</tbody>
 														</table>
+														<button id="returnButton" class="btn btn-primary btn-sm">선택</button>
 													</div>
 												</div>
 											</div>

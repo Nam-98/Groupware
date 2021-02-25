@@ -415,7 +415,10 @@
 
 								<div class="panel-heading">
 									<h3 class="panel-title">
-										<b>Inbox&nbsp</b><span class="badge rounded-pill bg-danger">${kgsMsgCount}</span>
+										<b>Inbox&nbsp</b>
+										<c:if test="${kgsMsgCount != 0}">
+										<span class="badge rounded-pill bg-danger">${kgsMsgCount}</span>
+										</c:if>
 									</h3>
 									<div class="right">
 										<a href="/message/msgInBoxList.message?cpage=1"
@@ -432,14 +435,24 @@
 											</tr>
 										</thead>
 										<tbody>
+										<c:choose>
+											<c:when test='${empty kgsMsgList }'>
+												<tr>
+													<td colspan='3' style='text-align:center;'>수신함에 쪽지가 없습니다.</td>
+												</tr>
+											</c:when>
+											<c:otherwise>
 											<c:forEach var="i" items="${kgsMsgList}">
 												<tr>
 													<td>${i.msg_send_date}</td>
-													<th scope="row"><a
-														href="/message/msgReceiveView.message?msg_seq=${i.msg_seq}&msg_receive_date_str=${msg_receive_date_str}">${i.msg_title}</a></th>
+
+													<th scope="row"><a href="/message/msgReceiveView.message?msg_seq=${i.msg_seq}&msg_receive_date_str=${i.msg_receive_date_str}">${i.msg_title}</a></th>
+
 													<td>${i.msg_sender_name}</td>
 												</tr>
 											</c:forEach>
+											</c:otherwise>
+											</c:choose>
 										</tbody>
 									</table>
 								</div>
