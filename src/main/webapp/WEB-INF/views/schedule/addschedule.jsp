@@ -64,7 +64,7 @@
 							<h3 class="panel-title">일 정 추 가 하 기</h3>
 						</div>
 						<div class="panel-body">
-							<form action="/schedule/addSchedule.schedule"  method="post">
+							<form action="/schedule/addSchedule.schedule"  method="post" id="addSchedule">
 								<div class="col-lg-12 col-12">
 									<table class="table table-sm">
 										<thead>
@@ -148,7 +148,7 @@
 									</table>
 								</div>
 								<div class="button-box">
-									<input type="submit" id="addsubmit" class="btn btn-primary" value="등록">&nbsp
+									<input type="button" id="addsubmit" class="btn btn-primary" value="등록" onclick="add(this.form)">&nbsp
 									<button type="button" id="addCancel" class="btn btn-secondary">취소</button>
 								</div>
 							</form>
@@ -158,15 +158,67 @@
 			</div>
 			
 			<script>
-				document.getElementById("addsubmit").onsubmit=function(){
-					alert("등록되었습니다.");
-
-				}
+// 				document.getElementById("addsubmit").onsubmit=function(){
+// 					var start_date = new Date(document.getElementById("date3").value);
+// 					var end_date = new Date(document.getElementById("dat2").value);
+					
+// 					var dateDiff = Math.ceil((end_date.getTime()-start_date.getTime())/(1000*3600*24));
+					
+// 					console.log(dateDiff);
+					
+// 					if(dateDiff < 0){
+// 						alert("종료일자를 재 설정해주세요.");
+// 						document.getElementById("date2").value='';
+// 					}else if(dateDiff = 0){
+// 						var start_time = new Date(document.getElementById("hour").value);
+// 						var end_time = new Date(document.getElementById("hour2").value);
+// 						var min = new Date(document.getElementById("min").value);
+// 						var min2 = new Date(document.getElementById("min2").value);
+						
+// 						var timeDiff = Math.ceil((end_time.getTime()*60+min2) - (start_time.getTime()*60 + min));
+						
+// 						if(timeDiff >= 0){
+// 							alert("등록되었습니다.")
+// 							location.href="/schedule/addSchedule.schedule";
+// 						}else{
+// 							alert("시간을 다시 입력하세요");
+// 							document.getElementById("hour2").value='';
+// 						}
+// 					}
+// 				}
+				
 				document.getElementById("addCancel").onclick=function(){
 					window.close();
 				}
 			</script>
 			
-			<script></script>
+			<script>
+				function add(frm){
+					var start_date = new Date(document.getElementById("date3").value);
+					var end_date = new Date(document.getElementById("date2").value);
+					
+					var dateDiff = Math.ceil((end_date.getTime()-start_date.getTime())/(1000*3600*24));
+					
+					if(dateDiff < 0){
+						alert("종료 날짜를 다시 입력해주세요");
+						return false;
+					}
+					if(dateDiff == 0){
+						var start_time = parseInt(document.getElementById("hour").value);
+						var end_time = parseInt(document.getElementById("hour2").value);
+						
+						var timeDiff = end_time - start_time;
+						
+						if(timeDiff < 0){
+							alert("종료 시간을 다시 입력해주세요.");
+							return false;
+						}
+						frm.submit();
+					}
+					if(dateDiff > 0){
+						frm.submit();
+					}
+				}
+			</script>
 </body>
 </html>

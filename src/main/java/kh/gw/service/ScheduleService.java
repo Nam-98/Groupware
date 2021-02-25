@@ -98,6 +98,13 @@ public class ScheduleService {
 			dto.setSch_end_date_sc(simpleDateFormat.format(dto.getSch_end_date()));
 		}
 	}
+	
+	public void addDateStr2(ScheduleDTO dtos) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		dtos.setSch_start_date_sc(simpleDateFormat.format(dtos.getSch_start_date()));
+		dtos.setSch_end_date_sc(simpleDateFormat.format(dtos.getSch_end_date()));
+		
+	}
 
 	public List<ScheduleDTO> listAllSchedule(String id) throws Exception{
 		return sdao.listAllSchedule(id);
@@ -161,4 +168,11 @@ public class ScheduleService {
 		chdto.setComp_hd_date_str(simpleDateFormat.format(chdto.getComp_hd_date()));
 		
 	}
+
+
+//	public String dateHdconverter(String dateHdString) {
+//		return dateHdString.substring(0,10);
+//	}
+
+
 }

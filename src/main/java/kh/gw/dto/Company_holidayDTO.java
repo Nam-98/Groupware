@@ -7,14 +7,19 @@ public class Company_holidayDTO {
 	private String comp_hd_name;
 	private Date comp_hd_date;
 	private String comp_hd_date_str;
+	
+	private String comp_hd_date_converter;
+	
 	public Company_holidayDTO() {}
-	public Company_holidayDTO(int comp_hd_seq, String comp_hd_name, Date comp_hd_date, String comp_hd_date_str) {
+	public Company_holidayDTO(int comp_hd_seq, String comp_hd_name, Date comp_hd_date, String comp_hd_date_str, String comp_hd_date_converter) {
 		super();
 		this.comp_hd_seq = comp_hd_seq;
 		this.comp_hd_name = comp_hd_name;
 		this.comp_hd_date = comp_hd_date;
 		this.comp_hd_date_str = comp_hd_date_str;
+		this.comp_hd_date_converter = comp_hd_date_converter;
 	}
+	
 	public int getComp_hd_seq() {
 		return comp_hd_seq;
 	}
@@ -39,7 +44,10 @@ public class Company_holidayDTO {
 	public void setComp_hd_date_str(String comp_hd_date_str) {
 		this.comp_hd_date_str = comp_hd_date_str;
 	}
-	
-		
-	
+	public String getComp_hd_date_converter() {
+		return comp_hd_date_converter;
+	}
+	public void setComp_hd_date_converter(String comp_hd_date_converter) {
+		this.comp_hd_date_converter = comp_hd_date_converter;
+	}
 }
