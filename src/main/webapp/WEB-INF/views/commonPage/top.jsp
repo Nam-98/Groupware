@@ -14,7 +14,7 @@
 				<div id="navbar-menu">
 					<ul class="nav navbar-nav navbar-right">
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="/resources/profileImage/${sessionScope.id}.png" class="img-circle" alt="Avatar"> <span>${sessionScope.id}</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="/resources/profileImage/${sessionScope.id}.png" class="img-circle" alt="Avatar"> <span>${sessionScope.name}&nbsp${sessionScope.position}님</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
 							<ul class="dropdown-menu">
 								<li><a href="/member/enterMyPage.member"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp&nbsp <span>My Profile</span></a></li>
 								<li><a href="/message/msgInBoxList.message?cpage=1"><span class="glyphicon glyphicon-send" aria-hidden="true"></span>&nbsp&nbsp  <span>Message</span></a></li>

@@ -4,12 +4,10 @@
 <!DOCTYPE html>
 <html>
 <style>
-.panel-body div {
-	border: 1px solid black;
-}
-.popupSpan {
-	cursor: pointer;
-}
+
+
+
+
 </style>
 <head>
 <meta charset="UTF-8">
@@ -62,25 +60,31 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
+					<h3 class="page-title">Webhard</h3>
 					<div class="panel panel-headline demo-icons">
+						<div class="panel-heading">
+							<form method="post" enctype="multipart/form-data" action="/webhard/uploadFile.webhard?dirSeq=${dirSeq }" id="uploadForm">
+								<span id="upload-btn" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-open"></span> Upload</span>
+								<span id="newFolder-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-plus"></span> New Folder</span>
+								<span id="parentFolder-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-level-up"></span> To Parent Folder</span>
+								<span id="download-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-save"></span> Download</span>
+								<span id="checkDel-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-floppy-remove"></span> Delete</span>
+								<span id="rename-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-erase"></span> Rename</span>
+	
+								
+								<input type="file" name="attfiles" id="attfiles" multiple style="display:none">
+							</form>
+						</div>
+						<hr>
 						<!-- pannel 내부의 제목 작성 div-->
 						<div class="panel-body">
-							<div class="control">
-								<form method="post" enctype="multipart/form-data" action="/webhard/uploadFile.webhard?dirSeq=${dirSeq }">
-									<input type="submit" value="upload">
-									<input type="button" value="download" id="download-btn">
-									<input type="file" name="attfiles" multiple>
-									<input type= "button" value="새폴더 만들기" id="newFolder-btn">
-									<input type= "button" value="삭제" id="checkDel-btn">
-								</form>
-							</div>
 							<table class="table table-hover">
 								<thead>
 									<tr>
 										<th scope="col"><input class="form-check-input checkAll" type="checkbox" value="" id="flexCheckDefault"></th>
 										<th scope="col">형식</th>
 										<th scope="col">파일명</th>
-										<th scope="col">업로드일</th>
+										<th scope="col">수정된 날짜</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -110,11 +114,10 @@
 									</c:forEach>
 								</tbody>
 							</table>
-							
 						</div>
+						
+						
 					</div>
-
-
 				</div>
 			</div>
 			<!-- END MAIN CONTENT -->
@@ -127,6 +130,13 @@
 
 
 	<script>
+		// 페이지 온로드
+		$( document ).ready(function() {
+			check_result();
+			topDirHide();
+		});
+
+
 		// 강제로 panel 최상단으로 끌어올리기
 		$(".main").css({
 			"padding-top": "0px"
@@ -139,11 +149,13 @@
             } else {
                 $("input[type=checkbox]").prop("checked", false);
             }
+            check_result();
 		});
 		
 		// 단일체크 동작 시 전체체크 해제
 		$(".checkObj").on("click",function(){
 			$(".checkAll").prop("checked", false);
+			check_result();
 		});
 		
 		// 체크 후 다운로드 버튼 클릭 시 동작
@@ -214,6 +226,140 @@
 				}
 		});
 		
+		// 파일 컴포넌트가 변경되었을경우 (파일을 첨부하였다면) form submit 하기
+		document.getElementById("attfiles").onchange = function() {
+		    document.getElementById("uploadForm").submit();
+		};
+		
+		// 업로드 버튼 누를시 file 컴포넌트 누르는 것처럼 연결
+		$('#upload-btn').on('click',function(){
+			$('#attfiles').click();
+		})
+		
+		// 내 최상위 디렉토리와 비교 후 부모폴더로 이동
+		$('#parentFolder-btn').on('click',function(){
+// 			// 접근 가능 최상위 디렉토리 리스트 만들기
+// 			var topAccessDirList = [
+// 				<c:forEach varStatus="i" items="${topAccessDirList}" var="list">
+// 				${list}
+// 				<c:if test="${!i.last}">,</c:if>
+// 				</c:forEach>
+// 			];
+// 			// 현재 디렉토리가 최상위 디렉토리인지 확인
+// 			for (var i = 0; i < topAccessDirList.length; i++) {
+// 				if (${dirSeq } == topAccessDirList[i]) {
+// 					alert("접근 가능한 최상위 폴더입니다.");
+// 					return 0;
+// 				}
+// 			}
+			// 현재 디렉토리의 부모 디렉토리로 진짜 이동
+			location.href = "/webhard/goToParentDir.webhard?dirSeqChild="+${dirSeq };
+		})
+		
+		// 하나 체크 후 이름변경 클릭 시
+		$('#rename-btn').on('click',function(){
+			var newFolderName = prompt('변경할 이름을 입력해 주세요.'); 
+			if ((newFolderName != null) && (newFolderName != "")) {
+			// 해당 디렉토리에 중복되는 폴더 이름이 있는지 확인
+				$.ajax({
+					url:'/webhard/mkdirOverlapCheck.webhard',
+					type:'post',
+					data:{dirSeq:"${dirSeq }", newFolderName:newFolderName},
+					success:function(resp){
+						if (resp > 0) {
+							alert(newFolderName + "과(와) 동일한 이름을 가진 \n파일 또는 폴더가 이미 존재합니다.");
+							return 1;
+						}else{
+							// 폴더건 파일이건 해당 seq 번호
+							var objectSeq;
+							// 변경할 대상의 타입
+							var dirType;
+							
+							// 폴더의 체크값 어레이 선언
+							var chkArrFolder = new Array();
+							// 파일의 체크값 어레이 선언
+							var chkArrFile = new Array();
+							
+							// 체크된 폴더 리스트 값 담기
+							$("input[class='form-check-input checkObj checkFolder']:checked").each(function(){
+								chkArrFolder.push($(this).attr("value"));
+							});					
+							
+							// 체크된 파일 리스트 값 담기
+							$("input[class='form-check-input checkObj checkFile']:checked").each(function(){
+								chkArrFile.push($(this).attr("value"));
+							});
+							
+							// 체크된 값이 폴더라면
+							if (chkArrFolder[0] != null) {
+								objectSeq = chkArrFolder[0];
+								dirType = "folder";
+								
+							// 체크된 값이 파일이라면
+							}else if (chkArrFile[0] != null) {
+								objectSeq = chkArrFile[0];
+								dirType = "file";
+							}
+							location.href = "/webhard/renameObjectProcess.webhard?objectSeq=" +objectSeq+ "&newFolderName=" +newFolderName+"&dirType=" +dirType;
+							
+						}
+					}
+					
+				});
+			}
+		});
+		
+		// 체크박스 개수를 판단해 컴포넌트 노출 제어
+		function check_result(){
+			// 폴더와 파일의 체크값 어레이 선언
+			var chkArrObject = new Array();
+			
+			// 체크된 폴더 리스트 값 담기
+			$("input[class='form-check-input checkObj checkFolder']:checked").each(function(){
+				chkArrObject.push($(this).attr("value"));
+			});					
+			
+			// 체크된 파일 리스트 값 담기
+			$("input[class='form-check-input checkObj checkFile']:checked").each(function(){
+				chkArrObject.push($(this).attr("value"));
+			});
+			// 체크가 하나도 안되어 있는 경우
+			if (chkArrObject.length == 0) {
+				$('#download-btn').hide();
+				$('#checkDel-btn').hide();
+				$('#rename-btn').hide();
+				
+			// 체크가 딱 하나만 되어있는 경우
+			}else if (chkArrObject.length == 1) {
+				$('#download-btn').show();
+				$('#checkDel-btn').show();
+				$('#rename-btn').show();
+			
+			// 체크가 두개 이상인 경우
+			}else if (chkArrObject.length >= 2) {
+				$('#download-btn').show();
+				$('#checkDel-btn').show();
+				$('#rename-btn').hide();
+			}
+		}
+		
+		// 최상위 디렉토리일 경우 상위 디렉토리 이동버튼 제거
+		function topDirHide(){
+			// 접근 가능 최상위 디렉토리 리스트 만들기
+			var topAccessDirList = [
+				<c:forEach varStatus="i" items="${topAccessDirList}" var="list">
+				${list}
+				<c:if test="${!i.last}">,</c:if>
+				</c:forEach>
+			];
+			// 현재 디렉토리가 최상위 디렉토리인지 확인
+			for (var i = 0; i < topAccessDirList.length; i++) {
+				// 맞다면 버튼 숨기기
+				if (${dirSeq } == topAccessDirList[i]) {
+					$('#parentFolder-btn').hide();
+				}
+			}
+		}
 		
 		
 		

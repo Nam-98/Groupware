@@ -40,6 +40,8 @@ public class MemberController {
 			MemberDTO dtos = mservice.getMemInfo(dto.getId());
 			session.setAttribute("id",dto.getId());
 			session.setAttribute("accessLevel",dtos.getAccess_level_code());
+			session.setAttribute("name", dtos.getName());
+			session.setAttribute("position", dtos.getPosition_name());
 			System.out.println("로그인 성공");
 			System.out.println("id : " + dtos.getId());
 			System.out.println("accessLevel : " + dtos.getAccess_level_code());

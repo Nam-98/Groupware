@@ -2,6 +2,7 @@ package kh.gw.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -349,7 +350,69 @@ public class WebhardService {
 		return whdao.delFileProc(fileDTO);
 	}
 	
+	// 접근 가능한 최상위 폴더 리스트 가져오기
+	public List<Integer> getTopAccessDirList(String sessionId) {
+		List<Integer> topAccessDirList = new ArrayList<Integer>();
+		// 해당 아이디의 개인 최상위 디렉토리 값 get
+		Map<String,Object> personalTopDirInfo = getTopDirInfo(sessionId);
+		int personalTopDirSeq = Integer.parseInt(String.valueOf(personalTopDirInfo.get("WH_DIR_SEQ")));
+		// 해당 아이디의 공용 최상위 디렉토리 값 get
+		Map<String,Object> commonTopDirInfo = getTopCommonDirInfo(sessionId);
+		int commonTopDirSeq = Integer.parseInt(String.valueOf(commonTopDirInfo.get("WH_DIR_SEQ")));
+		// 해당 아이디의 부서 최상위 디렉토리 값 get
+		Map<String,Object> departmentTopDirInfo = getTopDepartmentDirInfo(sessionId);
+		int departmentTopDirSeq = Integer.parseInt(String.valueOf(departmentTopDirInfo.get("WH_DIR_SEQ")));
+		
+		topAccessDirList.add(0, personalTopDirSeq);
+		topAccessDirList.add(1, commonTopDirSeq);
+		topAccessDirList.add(2, departmentTopDirSeq);
+		
+		return topAccessDirList;
+	}
 	
+	// 자식 디렉토리의 번호로 부모 디렉토리 번호 가져오기
+	public int getDirSeqParent(int dirSeqChild) {
+		int dirSeqParent = whdao.getDirSeqParent(dirSeqChild);
+		
+		return dirSeqParent;
+	}
+	
+	// 체크된 대상의 이름 변경 프로세스
+	public int renameObjectProcess(int objectSeq, String newObjectName, String dirType) {
+		// 정상처리 되었는지
+		int result = 1;
+		// 오브젝트가 폴더인 경우
+		if (dirType.contentEquals("folder")) {
+			Webhard_dirDTO dirDTO = new Webhard_dirDTO();
+			dirDTO.setWh_dir_seq(objectSeq);
+			dirDTO.setWh_dir_name(newObjectName);
+			
+			// 디렉토리 이름변경 메서드
+			result -= renameDirProcess(dirDTO);
+
+		
+		// 오브젝트가 파일인 경우
+		}else if (dirType.contentEquals("file")) {
+			Webhard_filesDTO fileDTO = new Webhard_filesDTO();
+			fileDTO.setWh_files_seq(objectSeq);
+			fileDTO.setWh_ori_name(newObjectName);
+			
+			// 파일 이름변경 메서드
+			result -= renameFileProcess(fileDTO);
+		}
+		
+		return result;
+	}
+	
+	// 해당되는 번호의 디렉토리 이름 변경
+	public int renameDirProcess(Webhard_dirDTO dirDTO) {
+		return whdao.renameDirProcess(dirDTO);
+	}
+	
+	// 해당되는 번호의 파일 이름 변경
+	public int renameFileProcess(Webhard_filesDTO fileDTO) {
+		return whdao.renameFileProcess(fileDTO);
+	}
 	
 	
 }
