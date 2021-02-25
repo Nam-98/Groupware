@@ -100,70 +100,16 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
+				
 					<!-- MainMenu -->
-					<div class="panel panel-headline">
-						<div class="panel-heading">
-							<h3 class="panel-title">Main Menu</h3>
-							<p class="panel-subtitle">STJ Groupware</p>
-						</div>
-						<div class="panel-body">
-							<div class="row">
-								<div class="col-md-3">
-									<div class="metric goWebhard" style="cursor: pointer;">
-										<span class="icon"><i class="fas fa-inbox fa-4x"></i></span>
-										<p>
-											<span class="number">WebHard</span><span class="title">웹하드</span>
-										</p>
-										<input type=hidden value="/">
-									</div>
-								</div>
-								<div class="col-md-3">
-								<div class="metric" style="cursor: pointer;"
-										onclick="location.href='/message/msgInBoxList.message?cpage=1';">
-										<span class="icon"><i class="fas fa-envelope fa-4x"></i></span>
-										<p>
-											<span class="number">Message</span> <span class="title">쪽지함</span>
-										</p>
-									</div>
-								</div>
-								<div class="col-md-3">
-									<div class="metric" style="cursor: pointer;"
-										onclick="location.href='/approval/toAppMainView.approval';">
-										<span class="icon"><i
-											class="fas fa-file-signature fa-4x"></i></span>
-										<p>
-											<span class="number">e-Approval</span> <span class="title">전자결재</span>
-										</p>
-									</div>
-								</div>
-								<div class="col-md-3">
-									
-																		<div class="metric" style="cursor: pointer;"
-										onclick="location.href='/nex/admin.nexacro';" id="adminBtn">
-										<span class="icon"><i
-											class="fas fa-user-cog fa-4x adminitem"></i></span>
-										<p>
-											<span class="number">Administrator</span><span class="title">관리자</span>
-										</p>
-										<input type=hidden value="/nex/admin.nexacro">
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- END MainMenu -->
 					<div class="row">
-
-						<div class="col-md-2">
-							<div class="panel">
-								<div class="panel-heading">
-									<h3 class="panel-title"><b>Commuting check</b></h3>
-									<div class="right"></div>
-								</div>
+					<div class="col-md-6">
+					<div class="panel">
+								
 								<div class="panel-body">
-									<h4>
+									<h2>
 										<span id="currentTimeSpan"></span>
-									</h4>
+									</h2>
 									<div class="top-vacant d-none d-lg-block"></div>
 									<input type="button" value="출근" id="attendanceBtn"
 										class="btn btn-gray btn-xs"> <input type="button" value="퇴근" id="leaveWorkBtn" class="btn btn-gray btn-xs">
@@ -174,14 +120,16 @@
 										<c:if test='${attendanceValue.status != "-"}'>${attendanceValue.hour }시 ${attendanceValue.minute }분</c:if>
 
 									</div>
+									
 									<hr>
+									
 									<div class="">
 										<span class="glyphicon glyphicon-home" aria-hidden="true"><b>${leaveWorkValue.status }</b>&nbsp
 										</span>
 										<c:if test='${leaveWorkValue.status != "-"}'> ${leaveWorkValue.hour }시 ${leaveWorkValue.minute }분</c:if>
 									</div>
 								</div>
-								<div class="panel-footer">
+								<!-- <div class="panel-footer">
 									<div class="row">
 										<div class="col-md-6">
 											<span class="panel-note"></span>
@@ -190,15 +138,95 @@
 											<a href="/tna/tnaCheckPage.tna" class="btn btn-primary">Go</a>
 										</div>
 									</div>
+								</div> -->
+							</div>
+
+					</div>
+					
+					<div class="col-md-6">
+					<div class="panel panel-headline" style="height:270px;">
+						<div class="panel-heading">
+							<h3 class="panel-title">Main Menu</h3>
+							
+						</div>
+						<div class="panel-body">
+							
+														
+								<div class="col-md-6">
+									<div class="metric goWebhard" style="cursor: pointer;">
+										<span class="icon"><i class="fas fa-inbox fa-4x"></i></span>
+										<p>
+											<span class="number">WebHard</span><span class="title">웹하드</span>
+										</p>
+										<input type=hidden value="/">
+									</div>
+								</div>
+								
+								
+								<div class="col-md-6">
+									
+																		<div class="metric" style="cursor: pointer;"
+										onclick="location.href='/nex/admin.nexacro';" id="adminBtn">
+										<span class="icon"><i
+											class="fas fa-user-cog fa-4x adminitem"></i></span>
+										<p>
+											<span class="number">Admin</span><span class="title">관리자</span>
+										</p>
+										<input type=hidden value="/nex/admin.nexacro">
+									</div>
 								</div>
 							</div>
 						</div>
-						<div class="col-md-5">
+						</div>
+					</div>
+					<!-- END MainMenu -->
+					
+					
+					
+					 <!-- 근태 관리 -->
+					<!--<div class="row">
+						
+						END TASKS						
+					</div> -->
+					
+					
+					<div class="row">
+					
+					
+						<!-- 달력 -->
+						<div class="col-md-6" >
+							<div class="panel">
+								<div class="panel-heading">
+									<h3 class="panel-title"><b>Schedule</b></h3>
+									<div class="right"></div>
+								</div>
+								<div class="panel-body" >
+										<div id='calendar'></div>
+
+								</div>
+								<div class="panel-footer">
+									<div class="row">
+										<div class="col-md-6">
+											
+										</div>
+										<div class="col-md-6 text-right">
+											<a href="/schedule/monthSchedule.schedule" class="btn btn-primary btn-sm">Go</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- END TASKS -->
+					
+					<!-- 전자결제 -->
+						<div class="col-md-6" style="height:100%">
 							<!-- TASKS -->
 							<div class="panel">
 								<div class="panel-heading">
 									<h3 class="panel-title"><b>e-Approval</b></h3>
-									<div class="right"></div>
+									<div class="right">
+											<a href="/approval/toAppMainView.approval" class="btn btn-primary btn-sm">Go</a>
+										</div>
 								</div>
 								<div class="panel-body">
 									<div id='jqxtabs'>
@@ -279,23 +307,19 @@
 										</div>
 									</div>
 								</div>
-								<div class="panel-footer">
-									<div class="row">
-										<div class="col-md-6">
-											<span class="panel-note"></span>
-										</div>
-										<div class="col-md-6 text-right">
-											<a href="/approval/toAppMainView.approval" class="btn btn-primary">more</a>
-										</div>
-									</div>
-								</div>
+								
 							</div>
 						</div>
-										<div class="col-md-5">
+						<!-- END TASKS -->
+						
+						
+						
+						<!-- 공지사항 -->
+									<div class="col-md-6">
 							<div class="panel">
 								<div class="panel-heading">
 									<h3 class="panel-title"><b>Notice</b></h3>
-									<div class="right"></div>
+									<div class="right"><a href="/write/noticeList.write?cpage=1" class="btn btn-primary btn-sm">Go</a></div>
 								</div>
 								<div class="panel-body">
 									<table class="table table-secondary table-striped">
@@ -321,25 +345,20 @@
 										</tbody>
 									</table>
 								</div>
-								<div class="panel-footer">
-									<div class="row">
-										<div class="col-md-6">
-										</div>
-										<div class="col-md-6 text-right">
-											<a href="/write/noticeList.write?cpage=1" class="btn btn-primary">Go</a>
-										</div>
-									</div>
-								</div>
+								
 							</div>
 						</div>
 							<!-- END TASKS -->
 					</div>
-					<div class="row">
-						<div class="col-md-4">
+					
+					
+					<!-- 3번째 줄 -->	
+					<div class="row" style="height:30%;">
+						<div class="col-md-6" style="height:100%;">
 							<div class="panel">
 								<div class="panel-heading">
 									<h3 class="panel-title"><b>My Projects</b></h3>
-									<div class="right"></div>
+									<div class="right"><a href="/project/enterProjectList.project?cpage=1" class="btn btn-primary btn-sm">Go</a></div>
 								</div>
 								<div class="panel-body">
 									<ul class="list-unstyled task-list">
@@ -360,20 +379,11 @@
 										</c:forEach>
 									</ul>
 								</div>
-								<div class="panel-footer">
-									<div class="row">
-										<div class="col-md-6">
-											<span class="panel-note"></span>
-										</div>
-										<div class="col-md-6 text-right">
-											<a href="/project/enterProjectList.project?cpage=1" class="btn btn-primary">Go</a>
-										</div>
-									</div>
-								</div>
+								
 							</div>
 						</div>
 
-						<div class="col-md-4">
+						<div class="col-md-6">
 
 							<!-- TASKS -->
 
@@ -383,7 +393,7 @@
 									<h3 class="panel-title">
 										<b>Inbox&nbsp</b><span class="badge rounded-pill bg-danger">${kgsMsgCount}</span>
 									</h3>
-									<div class="right"></div>
+									<div class="right"><a href="/message/msgInBoxList.message?cpage=1" class="btn btn-primary btn-sm">Go</a></div>
 								</div>
 								<div class="panel-body no-padding">
 									<table class="table table-hover">
@@ -411,7 +421,7 @@
 											<span class="panel-note"></span>
 										</div>
 										<div class="col-md-6 text-right">
-											<a href="/message/msgInBoxList.message?cpage=1" class="btn btn-primary">more</a>
+											
 										</div>
 									</div>
 								</div>
@@ -419,28 +429,7 @@
 							<!-- END TASKS -->
 
 						</div>
-						<div class="col-md-4">
-							<div class="panel">
-								<div class="panel-heading">
-									<h3 class="panel-title"><b>Schedule</b></h3>
-									<div class="right"></div>
-								</div>
-								<div class="panel-body">
-										<div id='calendar'></div>
-
-								</div>
-								<div class="panel-footer">
-									<div class="row">
-										<div class="col-md-6">
-											
-										</div>
-										<div class="col-md-6 text-right">
-											<a href="/schedule/monthSchedule.schedule" class="btn btn-primary">Go</a>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+						
 					</div>
 				</div>
 			</div>
@@ -542,16 +531,34 @@
          clock.innerHTML = nowTime;
          setTimeout("printTime()",1000);
       }
-      
+    </script>
+      <script type="text/javascript"> 
+      function getCookie(name) {
+   	   var cookie = document.cookie;
+   	   console.log(document.cookie);
+   	   if (document.cookie != "") { 
+   		   var cookie_array = cookie.split("; "); 
+   		   for ( var index in cookie_array) { 
+   			   var cookie_name = cookie_array[index].split("="); 
+   			   if (cookie_name[0] == "popupYN") { 
+   				   return cookie_name[1]; 
+   				   } 
+   			   } 
+   		   } return ; 
+   	}
+      </script>
+    <script>
       // 페이지 로드와 동시에 실행
       window.onload = function() {
          printTime();
-         
          var options='top=10, left=10, width=500, height=500, status=no, menubar=no, toolbar=no, resizable=no';
-	     window.open("/write/noticePopupView.write?write_code=0" ,"notice", options);
+         var cookieCheck = getCookie("popupYN"); 
+		 if (cookieCheck != "N") window.open("/write/noticePopupView.write?write_code=0", "notice", options);
       }
 
    </script>
+
+   
 	<script>
 	  document.addEventListener('DOMContentLoaded', function() {
 	        var calendarEl = document.getElementById('calendar');
