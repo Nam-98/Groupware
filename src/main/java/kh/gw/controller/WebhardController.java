@@ -191,6 +191,29 @@ public class WebhardController {
 		return "redirect:/webhard/webhardMain.webhard?dirSeq="+dirSeqParent;
 	}
 	
+	// 체크된 대상의 이름 변경 프로세스
+	@RequestMapping("renameObjectProcess.webhard")
+	public String renameObjectProcess(HttpServletRequest request, Model model) {
+		// 체크된 대상의 오브젝트 seq 번호
+		String stringobjectSeqGet = request.getParameter("objectSeq");
+		int objectSeq = Integer.parseInt(stringobjectSeqGet);
+		// 변경할 이름 값
+		String newObjectName = request.getParameter("newFolderName");
+		// 변경될 대상의 타입
+		String dirType = request.getParameter("dirType");
+		
+		whservice.renameObjectProcess(objectSeq, newObjectName, dirType);
+		
+		
+		
+		
+		
+		// 이전 페이지 주소값
+		String referer = request.getHeader("REFERER");
+		
+		return "redirect:" + referer;
+	}
+	
 	
 	
 	
