@@ -82,6 +82,11 @@ a { text-decoration:none }
 				<div class="container-fluid">
 					<h3 class="page-title">공지사항 검색</h3>
 					<div class="maincontainer">
+					<div class="panel panel-headline demo-icons">
+					<div class="panel-heading">
+					<h3 class="panel-title">공지사항 검색 리스트</h3>
+					
+					<div class="panel-body">
 			<form action="noticeSearch.write?cpage=1" method="post">
 				<table>
 					<tr>
@@ -115,15 +120,18 @@ a { text-decoration:none }
 								<th scope="row">${i.rn }</th>
 								<td><a href="noticeView.write?write_seq=${i.write_seq}">${i.write_title }</a></td>
 								<td>${i.write_id }</td>
-								<td>${i.write_reg_date }</td>
+								<td>${i.write_reg_date_wr }</td>
 								<td>${i.write_read_count }</td>
 							</tr>
 						</c:forEach>
 					</tbody>
 				</table>
+				</div>
 				<div class="navi">${navi }</div>
 			</div>
 				</div>
+			</div>
+			</div>
 			</div>
 			<!-- END MAIN CONTENT -->
 		</div>

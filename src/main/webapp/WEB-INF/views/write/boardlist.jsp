@@ -55,9 +55,6 @@ a { text-decoration:none }
 	float: left;
 }
 
-table {
-	text-align: center;
-}
 
 .navi {
 	text-align: center;
@@ -89,29 +86,36 @@ table {
 				<div class="container-fluid">
 					<h3 class="page-title">회사 게시판</h3>
 					<div class="maincontainer">
-			<form action="boardSearch.write?cpage=1" method="post">
-				<table>
-					<tr>
-						<td>
-						<select id="condition" name="condition">
-<!-- 							<option value="">검색조건</option> -->
-<!-- 							<option value="">전체보기</option> -->
-							<option value="write_title">제목</option>
-							<option value="write_id">작성자</option>
-						</select>
-						<input type="text" name="keyword" id="keyword" placeholder="검색어를 입력하세요">
-						<button id="searchBtn" type="submit">검색</button>
-<!-- 						<input class="form-control me" type="search" aria-label="Search"  name="keyword" id="keyword" placeholder="검색어를 입력하세요"> -->
-<!-- 						<button id="searchBtn" class="btn btn-outline-success" type="submit">검색</button> -->
-						</td>
-					</tr>
-				</table>
-			 </form>
-
-				<table class="table table-secondary table-striped">
+					<div class="panel panel-headline demo-icons">
+					<div class="panel-heading">
+					<h3 class="panel-title">회사 게시판</h3>
+					
+					<div class="panel-body">
+						<form action="/write/boardSearch.write?cpage=1" method="post">
+							<table>
+								<tr>
+									<td>
+									<select id="condition" name="condition">
+			<!-- 							<option value="">검색조건</option> -->
+			<!-- 							<option value="">전체보기</option> -->
+										<option value="write_title">제목</option>
+										<option value="write_id">작성자</option>
+									</select>
+									<input type="text" name="keyword" id="keyword" placeholder="검색어를 입력하세요">
+									<input type="submit" id="searchBtn" value="검색">
+			<!-- 						<input class="form-control me" type="search" aria-label="Search"  name="keyword" id="keyword" placeholder="검색어를 입력하세요"> -->
+			<!-- 						<button id="searchBtn" class="btn btn-outline-success" type="submit">검색</button> -->
+									</td>
+								</tr>
+							</table>
+						 </form>
+					</div>
+				
+				<div class="panel-body">
+				<table class="table table-secondary">
 					<thead class="table-light">
 						<tr>
-							<th scope="col">No</th>
+							<th scope="col">#</th>
 							<th scope="col">제목</th>
 							<th scope="col">작성자</th>
 							<th scope="col">등록일</th>
@@ -130,6 +134,7 @@ table {
 						</c:forEach>
 					</tbody>
 				</table>
+				</div>
 				<button id="write" class="btn btn-primary">글쓰기</button>
 				<div class="navi">${navi }</div>
 			</div>

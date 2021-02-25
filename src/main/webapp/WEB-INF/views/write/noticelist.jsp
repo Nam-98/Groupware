@@ -81,7 +81,12 @@ a { text-decoration:none }
 				<div class="container-fluid">
 					<h3 class="page-title">공지사항</h3>
 					<div class="maincontainer">
-			<form action="noticeSearch.write?cpage=1" method="post">
+					<div class="panel panel-headline demo-icons">
+					<div class="panel-heading">
+					<h3 class="panel-title">공지사항</h3>
+					
+					<div class="panel-body">
+					<form action="noticeSearch.write?cpage=1" method="post">
 				<table>
 					<tr>
 						<td>
@@ -92,7 +97,7 @@ a { text-decoration:none }
 							<option value="write_id">작성자</option>
 						</select>
 						<input type="text" name="keyword" id="keyword" placeholder="검색어를 입력하세요">
-						<button id="searchBtn" type="submit">검색</button>
+						<input type="submit" id="searchBtn" value="검색">
 <!-- 						<input class="form-control me" type="search" aria-label="Search"  name="keyword" id="keyword" placeholder="검색어를 입력하세요"> -->
 <!-- 						<button id="searchBtn" class="btn btn-outline-success" type="submit">검색</button> -->
 						</td>
@@ -100,7 +105,7 @@ a { text-decoration:none }
 				</table>
 			 </form>
 
-				<table class="table table-secondary table-striped">
+				<table class="table table-secondary">
 					<thead class="table-light">
 						<tr>
 							<th scope="col">No</th>
@@ -122,10 +127,12 @@ a { text-decoration:none }
 						</c:forEach>
 					</tbody>
 				</table>
+				</div>
 				<div class="navi">${navi }</div>
-				<button id="test">테스트</button>
 			</div>
 				</div>
+			</div>
+			</div>
 			</div>
 			<!-- END MAIN CONTENT -->
 		</div>
@@ -134,11 +141,6 @@ a { text-decoration:none }
 <jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
 	</div>
 	<!-- END WRAPPER -->
-	
-	<script>
-		document.getElementById("test").onclick=function(){
-			location.href="/write/noticePopupList.write?cpage=1";
-		}
-	</script>
+
 </body>
 </html>

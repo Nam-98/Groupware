@@ -82,6 +82,7 @@ public class WriteController {
 		String keyword = request.getParameter("keyword");
 		int cpage = Integer.parseInt(request.getParameter("cpage"));
 		List<WriteDTO>list = wservice.noticeSearch(cpage,condition,"00",keyword);
+		wservice.addDateStr(list);
 		String navi = wservice.noticeSearchNavi(cpage,condition,"00",keyword);
 		m.addAttribute("list",list);
 		m.addAttribute("navi", navi);
@@ -129,6 +130,8 @@ public class WriteController {
 		int cpage = Integer.parseInt(request.getParameter("cpage"));
 		List<WriteDTO>list = wservice.noticeSearch(cpage,condition,"01",keyword);
 		String navi = wservice.systemNoticeSearchNavi(cpage,condition,"01",keyword);
+		wservice.addDateStr(list);
+		
 		m.addAttribute("list",list);
 		m.addAttribute("navi", navi);
 		m.addAttribute("keyword",keyword);
@@ -177,6 +180,8 @@ public class WriteController {
 		int cpage = Integer.parseInt(request.getParameter("cpage"));
 		List<WriteDTO>list = wservice.noticeSearch(cpage,condition,"02",keyword);
 		String navi = wservice.boardSearchNavi(cpage,condition,"02",keyword);
+		wservice.addDateStr(list);
+		
 		m.addAttribute("list",list);
 		m.addAttribute("navi", navi);
 		m.addAttribute("keyword",keyword);
@@ -270,6 +275,8 @@ public class WriteController {
 		int cpage = Integer.parseInt(request.getParameter("cpage"));
 		List<WriteDTO>list = wservice.noticeSearch(cpage,condition,"03",keyword);
 		String navi = wservice.gallerySearchNavi(cpage,condition,"03",keyword);
+		wservice.addDateStr(list);
+		
 		m.addAttribute("list",list);
 		m.addAttribute("navi", navi);
 		m.addAttribute("keyword",keyword);

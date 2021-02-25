@@ -91,19 +91,25 @@ public class ScheduleController {
 	//------------- 일간일정 들어오기
 	@RequestMapping("daySchedule.schedule")
 	public String daySchedule(HttpServletRequest request, Model m, ScheduleDTO dto) throws Exception{
-		String id = (String)session.getAttribute("id");
-		List<ScheduleDTO> list = sservice.listAllSchedule(id);
-
-		sservice.addDateStr(list);
-
-		//scheduledto에 날짜만 저장된 컬럼 2개를 만듬.
-		for(ScheduleDTO i : list) {
-			i.setSch_end_date_converter(sservice.dateconverter(i.getSch_end_date_sc()));
-			i.setSch_start_date_converter(sservice.dateconverter(i.getSch_start_date_sc()));
-		}		 
-
-		m.addAttribute("list", list);
-
+		 String id = (String)session.getAttribute("id");
+		 List<ScheduleDTO> list = sservice.listAllSchedule(id);
+		 
+		 sservice.addDateStr(list);
+		 
+		 //scheduledto에 날짜만 저장된 컬럼 2개를 만듬.
+		 for(ScheduleDTO i : list) {
+		 i.setSch_end_date_converter(sservice.dateconverter(i.getSch_end_date_sc()));
+		 i.setSch_start_date_converter(sservice.dateconverter(i.getSch_start_date_sc()));
+		 }	
+		 
+		 
+		 List<Company_holidayDTO> hlist = sservice.holidaySchedule();
+		 sservice.addhDateStr(hlist);
+		 
+		 m.addAttribute("hlist", hlist);
+		 
+		 m.addAttribute("list", list);
+		 
 		return "/schedule/dayschedule";
 	}
 
@@ -137,8 +143,11 @@ public class ScheduleController {
 		dto.setSch_end_date(plusEndDate);
 
 		int result = sservice.insertSchedule(dto);
+		
+		return "/schedule/addscheduleview";
+		
 
-		return "redirect:/schedule/daySchedule.schedule?cpage="+session.getAttribute("cpage");
+
 	}
 
 	//------------- 일정 리스트 페이지 들어가기
@@ -152,7 +161,10 @@ public class ScheduleController {
 	public String scheduleView(Model m, HttpServletRequest request, ScheduleDTO dto) throws Exception{
 		dto.setSch_seq(Integer.parseInt(request.getParameter("sch_seq")));
 		System.out.println(dto.getSch_seq());
+		
 		ScheduleDTO dtos = sservice.scheduleView(dto.getSch_seq());
+		sservice.addDateStr2(dtos);
+		 
 		m.addAttribute("dtos", dtos);
 
 

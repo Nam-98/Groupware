@@ -49,17 +49,10 @@
                     <a href="#subPagesScd1" data-toggle="collapse" class="collapsed"> <i class="fas fa-calendar-alt"></i> <span>일정관리</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
                     <div id="subPagesScd1" class="collapse ">
                         <ul class="nav">
-                            <li>
-                                <a href="#subPagesScd2" data-toggle="collapse" class="collapsed"> <i class="fas fa-calendar-check"></i> <span>일정보기</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
-                                <div id="subPagesScd2" class="collapse ">
-                                    <ul class="nav">
-                                        <li><a href="/schedule/daySchedule.schedule" class="">일간일정</a></li>
-                                        <li><a href="/schedule/weekSchedule.schedule" class="">주간일정</a></li>
-                                        <li><a href="/schedule/monthSchedule.schedule" class="">월간일정</a></li>
-                                        <li><a href="/schedule/yearSchedule.schedule" class="">연간일정</a></li>
-                                    </ul>
-                                </div>
-                            </li>
+                        		<li><a href="/schedule/daySchedule.schedule" class="">일간일정</a></li>
+                                <li><a href="/schedule/weekSchedule.schedule" class="">주간일정</a></li>
+                                <li><a href="/schedule/monthSchedule.schedule" class="">월간일정</a></li>
+                                <li><a href="/schedule/yearSchedule.schedule" class="">연간일정</a></li>
                         </ul>
                     </div>
                 </li>
