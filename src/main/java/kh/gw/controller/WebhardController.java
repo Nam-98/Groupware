@@ -49,8 +49,8 @@ public class WebhardController {
 		int dirSeq = 1;
 		
 		
-		// 최초 웹하드 접속시 개인 폴더 생성
-		whservice.personalMkdir(sessionId);
+		// 최초 웹하드 접속시 개인,부서,공용 디렉토리 생성, 할당
+		whservice.dirAssignId(sessionId);
 
 		
 		if (stringdirSeqGet != null) {
