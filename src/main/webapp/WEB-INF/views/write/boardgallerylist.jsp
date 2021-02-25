@@ -95,7 +95,9 @@ a {
 								</tr>
 							</table>
 						</form>
-
+						<br><br>
+						
+						<div class="panel">
 						<table class="table table-secondary table-striped">
 							<thead class="table-light">
 								<tr>
@@ -118,7 +120,9 @@ a {
 								</c:forEach>
 							</tbody>
 						</table>
+						</div>
 						<button id="write" class="btn btn-primary">글쓰기</button>
+						
 						<div class="navi">${navi }</div>
 					</div>
 				</div>

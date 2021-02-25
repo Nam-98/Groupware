@@ -9,8 +9,10 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import kh.gw.dto.Company_holidayDTO;
 import kh.gw.dto.MemberDTO;
 import kh.gw.dto.MessageDTO;
 import kh.gw.dto.Project_kanbanDTO;
@@ -100,6 +102,10 @@ public class HomeController {
 			sservice.addDateStr(list);
 			model.addAttribute("list", list);
 			
+			 List<Company_holidayDTO> hlist = sservice.holidaySchedule();
+			 sservice.addhDateStr(hlist);
+			 model.addAttribute("hlist", hlist);
+			
 			//공지사항 리스트 최근 3개
 			int cpage = 1;
 			
@@ -124,4 +130,11 @@ public class HomeController {
 			return "home";
 		}
 	
+	
+	// error
+	@ExceptionHandler
+	public String exceptionalHandler(Exception e) {
+		e.printStackTrace();
+		return "error";
+	}
 }

@@ -38,4 +38,7 @@
 	<update id="updateBreakUseCount">
 		update st.member set break_use_count=(break_use_count+#{break_use_count}) where id=#{id}
 	</update>
+	<select id="getMembersForAppWrite" resultType="java.util.HashMap">
+		select id, name, dept_name, position_name, dept_tree_code, dept_code from st.member join st.department using (dept_code) join st.position using (position_code) order by dept_tree_code
+	</select>
   </mapper>
