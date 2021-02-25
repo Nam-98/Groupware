@@ -312,7 +312,7 @@
 											<c:forEach var="i" items="${wlist }">
 												<tr>
 													<th scope="row">${i.rn }</th>
-													<td><a href="noticeView.write?write_seq=${i.write_seq}">${i.write_title }</a></td>
+													<td><a href="/write/noticeView.write?write_seq=${i.write_seq}">${i.write_title }</a></td>
 													<td>${i.write_id }</td>
 													<td>${i.write_reg_date_wr }</td>
 													<td>${i.write_read_count }</td>
