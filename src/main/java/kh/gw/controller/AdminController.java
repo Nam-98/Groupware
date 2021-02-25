@@ -365,6 +365,13 @@ public class AdminController {
 		return "redirect:/";
 	}
 	
+	//로그아웃
+	@RequestMapping("logout.nexacro")
+	public String logout() throws Exception {
+		session.invalidate();
+		return "redirect:/";
+	}
+	
 	//출퇴근 기준 시간 가져오기
 	@RequestMapping("/tnaStandardTime.nexacro")
 	public NexacroResult tnaStandardTime() throws Exception{
