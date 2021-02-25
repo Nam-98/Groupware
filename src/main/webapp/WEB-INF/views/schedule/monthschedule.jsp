@@ -119,7 +119,7 @@
         var calendar = new FullCalendar.Calendar(calendarEl, {        	
         	headerToolbar: {
 				left: '',
-				center: 'prevYear prev title next',
+				center: 'prevYear prev title next nextYear',
 				right: 'today'
 			},
 			locale: 'ko',
@@ -138,17 +138,16 @@
 				          </c:forEach>
 				    	  
 				    	  <c:forEach var="a" items="${hlist}">
-		              
 		                    	 <c:forEach var="j" begin="2020" end="2050" step="1">
 		                    	 {
 			                        title : '${a.comp_hd_name}',
 			                        <c:set var="date" value="${fn:split(a.comp_hd_date_str,'-')}"></c:set>
 			                        start : '${j}-<c:out value='${date[0]}'></c:out>-<c:out value='${date[1]}'></c:out>',
+			                        url : "/schedule/holidayScheduleView.schedule?comp_hd_seq=${a.comp_hd_seq}",
 			                        color: '#e4cb10'
 		                    	 },
-		                        </c:forEach>
-		              
 		                     </c:forEach>
+		                </c:forEach>
 				      ],
 				    }
 				]

@@ -151,4 +151,14 @@ public class ScheduleService {
 			dto.setComp_hd_date_str(simpleDateFormat.format(dto.getComp_hd_date()));
 		}
 	}
+
+	public Company_holidayDTO holidayScheduleView(int comp_hd_seq) throws Exception{
+		return sdao.holidayScheduleView(comp_hd_seq);
+	}
+
+	public void addhDateStr2(Company_holidayDTO chdto) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		chdto.setComp_hd_date_str(simpleDateFormat.format(chdto.getComp_hd_date()));
+		
+	}
 }

@@ -54,4 +54,8 @@
 	<select id="holidaySchedule" resultType="kh.gw.dto.Company_holidayDTO">
 		select * from st.company_holiday
 	</select>
+	
+	<select id="holidayScheduleView" resultType="kh.gw.dto.Company_holidayDTO">
+		select * from st.company_holiday where comp_hd_seq = #{value} order by comp_hd_date desc
+	</select>
   </mapper>

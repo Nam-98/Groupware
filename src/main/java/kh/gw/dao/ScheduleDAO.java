@@ -78,5 +78,9 @@ public class ScheduleDAO {
 	public List<Company_holidayDTO> holidaySchedule() throws Exception{
 		return db.selectList("Schedule.holidaySchedule");
 	}
-	
+
+	public Company_holidayDTO holidayScheduleView(int comp_hd_seq) {
+		return db.selectOne("Schedule.holidayScheduleView", comp_hd_seq);
+	}
+
 }

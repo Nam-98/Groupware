@@ -133,7 +133,9 @@
 			    	  },
 			    	  </c:otherwise>
 			    	  </c:choose>
-			          </c:forEach>			    	  
+			          </c:forEach>	
+			          
+			          
 			      ],
 			});
 			 calendar.render();

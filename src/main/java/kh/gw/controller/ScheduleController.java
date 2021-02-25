@@ -63,7 +63,7 @@ public class ScheduleController {
 		 sservice.addhDateStr(hlist);
 		 
 		 m.addAttribute("hlist", hlist);
-		 System.out.println(hlist.get(0).getComp_hd_date_str());
+//		 System.out.println(hlist.get(0).getComp_hd_date_str());
 		 
 
 		 return "/schedule/monthschedule";
@@ -78,6 +78,12 @@ public class ScheduleController {
 		 sservice.addDateStr(list);
 		 
 		 m.addAttribute("list", list);
+		 
+		 List<Company_holidayDTO> hlist = sservice.holidaySchedule();
+		 
+		 sservice.addhDateStr(hlist);
+		 
+		 m.addAttribute("hlist", hlist);
 		return "/schedule/weekschedule";
 	}
 	
@@ -153,7 +159,7 @@ public class ScheduleController {
 	}
 	
 	//------------- 일정 삭제하기
-	@RequestMapping("scheduleDelete")
+	@RequestMapping("scheduleDelete.schedule")
 	public String scheduleDelete(HttpServletRequest request, ScheduleDTO dto) throws Exception{
 		dto.setSch_seq(Integer.parseInt(request.getParameter("sch_seq")));
 		int result = sservice.scheduleDelete(dto.getSch_seq());
@@ -187,4 +193,19 @@ public class ScheduleController {
 
 		return "/schedule/mainaddschedule";
 	}
+	
+	//------------- 휴가 상세
+		@RequestMapping("holidayScheduleView.schedule")
+		public String holidayScheduleView(Model m, HttpServletRequest request, Company_holidayDTO dto) throws Exception{
+			dto.setComp_hd_seq(Integer.parseInt(request.getParameter("comp_hd_seq")));
+			System.out.println(dto.getComp_hd_seq());
+			
+			Company_holidayDTO chdto = sservice.holidayScheduleView(dto.getComp_hd_seq());
+			sservice.addhDateStr2(chdto);
+			
+			m.addAttribute("chdto", chdto);
+			
+			return "/schedule/holidayscheduleview";
+		}
+		
 }
