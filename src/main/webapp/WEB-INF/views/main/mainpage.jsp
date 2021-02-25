@@ -458,7 +458,7 @@
 			var popupHeight = 810;
 			var popupX = (window.screen.width / 2) - (popupWidth / 2);
 			// 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주었음
-			var popupY = (window.screen.height / 2) - (popupHeight / 2) - 50;
+			var popupY = (window.screen.height / 2) - (popupHeight / 2) - 0;
 			// 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주었음
 			
 			var options='top='+popupY+', left='+popupX+', width='+popupWidth+', height='+popupHeight+', status=no, menubar=no, toolbar=no, resizable=no, location=no';

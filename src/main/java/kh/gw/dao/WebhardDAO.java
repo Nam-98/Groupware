@@ -102,5 +102,15 @@ public class WebhardDAO {
 	public int getDirSeqParent(int dirSeqChild) {
 		return db.selectOne("Webhard.getDirSeqParent", dirSeqChild);
 	}
+	
+	// 해당되는 번호의 디렉토리 이름 변경
+	public int renameDirProcess(Webhard_dirDTO dirDTO) {
+		return db.update("Webhard.renameDirProcess", dirDTO);
+	}
+	
+	// 해당되는 번호의 파일 이름 변경
+	public int renameFileProcess(Webhard_filesDTO fileDTO) {
+		return db.update("Webhard.renameFileProcess", fileDTO);
+	}
 
 }
