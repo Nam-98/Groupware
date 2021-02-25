@@ -48,6 +48,11 @@ public class WebhardDAO {
 		return db.insert("Webhard.dirAssign", accDTO);
 	}
 	
+	// 디렉토리를 아이디에 배정 업데이트
+	public int dirAssignUpdate(Webhard_accessDTO accDTO) {
+		return db.update("Webhard.dirAssignUpdate", accDTO);
+	}
+	
 	// 개인 최상위 디렉토리 정보 가져오기
 	public Map<String,Object> getTopDirInfo(Webhard_accessDTO accDTO) {
 		return db.selectOne("Webhard.getTopDirInfo", accDTO);
