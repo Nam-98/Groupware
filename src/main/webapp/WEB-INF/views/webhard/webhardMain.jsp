@@ -65,6 +65,7 @@
 						<div class="panel-heading">
 							<form method="post" enctype="multipart/form-data" action="/webhard/uploadFile.webhard?dirSeq=${dirSeq }" id="uploadForm">
 								<input type="button" value="Upload" id="upload-btn" class="btn btn-primary btn-xs">
+								<span class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-cloud"></span> Upload</span>
 								<input type="button" value="To parent folder" id="parentFolder-btn" class="btn btn-default btn-xs">		
 								<input type="button" value="New Folder" id="newFolder-btn" class="btn btn-default btn-xs">		
 								<input type="button" value="Download" id="download-btn" class="btn btn-default btn-xs">
