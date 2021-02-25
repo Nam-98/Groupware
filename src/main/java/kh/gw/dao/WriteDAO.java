@@ -176,6 +176,10 @@ public class WriteDAO {
 		return db.selectList("Write.noticePopupView", write_code);
 	}
 
+	public List<WriteDTO> listBr() {
+		return db.selectList("Write.listBr");
+	}
+
 
 
 }

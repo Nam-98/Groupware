@@ -174,7 +174,7 @@
                                        
                                        <label class="show-reply"><input type="hidden" class="reply" value="F">답변달기</label>
                                        <div class="re_comment_write_frm"  style="display: none;">
-                                      	 <input type="text" class="reWrite" name="reply-write" style='width:1000px;'>
+                                      	 <input type="text" class="reWrite" name="reply-write" style='width:1000px;'><input type="hidden" name="re_cmt_seq" value="${i.write_cmt_seq }">
                                        	 <button type="button" class="reply-submit">작성</button>
                                        </div>
                                        <div class="reply-list">
@@ -238,10 +238,19 @@
 	             success : function(data) {
 	            	 for(var i=0; i<data.reCmtList.length; i++){
 	            		 replyList.append(
-	            				 '<div class="bundle">	'
-	            				 + data.reCmtList[i].write_cmt_id
-	            				 + data.reCmtList[i].write_cmt_contents
-	            				 + data.reCmtList[i].write_cmt_date
+	            				 '<div class="bundle">'
+								 +'<div class="row">'
+								 + '<div class="col-sm-12" style="text-align: left;">'
+								 + ' &nbsp&nbsp|&nbsp&nbsp'
+	            				 + data.reCmtList[0].write_cmt_id
+	            				 + ' &nbsp&nbsp|&nbsp&nbsp'
+	            				 + data.reCmtList[0].write_cmt_contents
+	            				 + ' &nbsp&nbsp|&nbsp&nbsp'
+	            				 + data.reCmtList[0].write_cmt_date
+	            				 + ' &nbsp&nbsp|&nbsp&nbsp'
+	            				 +'<button type="button" class="btnReDelete">삭제</button>'
+	            				 +'</div>'
+	            				 +'<input type="hidden" name="re_cmt_seq" value="'+data.reCmtList[0].write_cmt_seq+'">'
 	            				 +'</div>'
 	            				 );
 	            	 }
@@ -383,6 +392,30 @@
 								});
 
 					})
+		$(document).on('click','.btnReDelete',function() {
+							var parentTr = $(this).parent().parent().parent();
+							var write_cmt_seq = $(this).parent().parent().parent().find('input[name=re_cmt_seq]').val();
+							console.log(write_cmt_seq);
+							console.log(parentTr);
+							$.ajax({
+										url : "${pageContext.request.contextPath}/write/commentDelete.write",
+										type : "POST",
+										dataType : "json",
+										data : {
+											write_cmt_seq : write_cmt_seq
+										},
+										success : function(data) {
+											console.log(data);
+											parentTr.remove();
+											console.log('삭제됨');
+										},
+										error : function(data) {
+											console.log(data);
+											console.log('삭제안돼');
+										}
+									});
+	
+						})					
 
 	document.getElementById("list").onclick = function() {
 		location.href = "/write/boardList.write?cpage=1";
