@@ -114,7 +114,14 @@ public class ProjectController {
 		model.addAttribute("timeRate", timeRate);
 		model.addAttribute("list",list);
 		model.addAttribute("projectRate", projectRate);
-
+		
+		//프로젝트 관련 정보 select
+		List<MemberDTO> mdtoList = mservice.listMem();
+		
+		model.addAttribute("pdto", pdto);
+		model.addAttribute("pkdtoList", pkdtoList);
+		model.addAttribute("mdtoList", mdtoList);
+		
 		return "project/projectDetailView";
 	}
 
