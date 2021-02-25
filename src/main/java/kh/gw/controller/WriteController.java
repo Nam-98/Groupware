@@ -155,6 +155,9 @@ public class WriteController {
 	public String boardView(Model m, HttpServletRequest request, WriteDTO dto, Write_commentsDTO cdto) throws Exception{
 		dto.setWrite_seq(Integer.parseInt(request.getParameter("write_seq")));
 		WriteDTO dtos = wservice.noticeView(dto.getWrite_seq());
+		
+		dtos.setWrite_contents(wservice.getHtmlText(Integer.parseInt(request.getParameter("write_seq"))));
+		
 		wservice.addDateStrOne(dtos);
 		int result = wservice.addViewCount(dto.getWrite_seq()); // 조회수+1
 		cdto.setWrite_seq(Integer.parseInt(request.getParameter("write_seq")));
@@ -243,6 +246,8 @@ public class WriteController {
 	public String boardGalleryView(Model m, HttpServletRequest request, WriteDTO dto, Write_commentsDTO cdto) throws Exception{
 		dto.setWrite_seq(Integer.parseInt(request.getParameter("write_seq")));
 		WriteDTO dtos = wservice.noticeView(dto.getWrite_seq());
+		
+		dtos.setWrite_contents(wservice.getHtmlText(Integer.parseInt(request.getParameter("write_seq"))));
 
 		wservice.addDateStrOne(dtos);
 		int result = wservice.addViewCount(dto.getWrite_seq()); // 조회수+1
@@ -334,7 +339,7 @@ public class WriteController {
 			System.out.println("삭제됨");
 			
 		}else {
-			System.out.println("붐?");
+			System.out.println("삭제안돼");
 			
 		}
 		Gson gson = new Gson();
@@ -372,6 +377,25 @@ public class WriteController {
 		String reCmtList = gson.toJson(map);
 		return reCmtList;
 	}
+	
+	//------------- 대댓글 삭제
+		@RequestMapping(value = "commentReDelete.write", method = RequestMethod.POST)
+		@ResponseBody
+		public Object commentReDelete(HttpServletRequest request, Write_commentsDTO cdto) throws Exception{
+			System.out.println(cdto.getWrite_cmt_seq());
+			int ac = wservice.commentReDelete(cdto.getWrite_cmt_seq());
+			if(ac == 1) {
+				
+				System.out.println("삭제됨");
+				
+			}else {
+				System.out.println("안돼?");
+				
+			}
+			Gson gson = new Gson();
+			String a = gson.toJson(ac);
+			return a;
+		}
 		
 	//메인페이지 팝업 최신 1개만 내용 보이기
 		@RequestMapping("noticePopupView.write")

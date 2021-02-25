@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -575,6 +576,18 @@
 						          url : "/schedule/scheduleView.schedule?sch_seq=${i.sch_seq}"
 					    	  },
 					          </c:forEach>
+					    	  
+					    	  <c:forEach var="a" items="${hlist}">
+		                    	 <c:forEach var="j" begin="2020" end="2050" step="1">
+		                    	 {
+			                        title : '${a.comp_hd_name}',
+			                        <c:set var="date" value="${fn:split(a.comp_hd_date_str,'-')}"></c:set>
+			                        start : '${j}-<c:out value='${date[0]}'></c:out>-<c:out value='${date[1]}'></c:out>',
+			                        url : "/schedule/holidayScheduleView.schedule?comp_hd_seq=${a.comp_hd_seq}",
+			                        color: '#e4cb10'
+		                    	 },
+		                     </c:forEach>
+		                </c:forEach>
 					      ],
 					    }
 					]
