@@ -377,5 +377,42 @@ public class WebhardService {
 		return dirSeqParent;
 	}
 	
+	// 체크된 대상의 이름 변경 프로세스
+	public int renameObjectProcess(int objectSeq, String newObjectName, String dirType) {
+		// 정상처리 되었는지
+		int result = 1;
+		// 오브젝트가 폴더인 경우
+		if (dirType.contentEquals("folder")) {
+			Webhard_dirDTO dirDTO = new Webhard_dirDTO();
+			dirDTO.setWh_dir_seq(objectSeq);
+			dirDTO.setWh_dir_name(newObjectName);
+			
+			// 디렉토리 이름변경 메서드
+			result -= renameDirProcess(dirDTO);
+
+		
+		// 오브젝트가 파일인 경우
+		}else if (dirType.contentEquals("file")) {
+			Webhard_filesDTO fileDTO = new Webhard_filesDTO();
+			fileDTO.setWh_files_seq(objectSeq);
+			fileDTO.setWh_ori_name(newObjectName);
+			
+			// 파일 이름변경 메서드
+			result -= renameFileProcess(fileDTO);
+		}
+		
+		return result;
+	}
+	
+	// 해당되는 번호의 디렉토리 이름 변경
+	public int renameDirProcess(Webhard_dirDTO dirDTO) {
+		return whdao.renameDirProcess(dirDTO);
+	}
+	
+	// 해당되는 번호의 파일 이름 변경
+	public int renameFileProcess(Webhard_filesDTO fileDTO) {
+		return whdao.renameFileProcess(fileDTO);
+	}
+	
 	
 }
