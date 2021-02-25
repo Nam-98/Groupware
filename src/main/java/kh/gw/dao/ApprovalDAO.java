@@ -35,8 +35,8 @@ public class ApprovalDAO {
 	public int setInitAppSign(Approval_signDTO dto) {
 		return db.insert("Approval.setInitAppSign", dto);
 	}
-	public int getLatestSeqById(String id) {
-		return db.selectOne("Approval.getLatestSeqById",id);
+	public int getNewAppSeq() {
+		return db.selectOne("Approval.getNewAppSeq");
 	}
 	public int insertAf(Approval_attached_filesDTO dto) {
 		return db.insert("Approval.insertAf", dto);

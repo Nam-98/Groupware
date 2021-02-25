@@ -1,7 +1,10 @@
 package kh.gw.controller;
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletOutputStream;
@@ -60,15 +63,54 @@ public class ApprovalController {
 		//전자문서 종류 가져오기
 		model.addAttribute("docsType", aservice.appDocsType());
 		//결재선 선택용 자료 보내기
-		List<MemberDTO> mlist = mservice.listMem();//멤버를 불러옴
+		//List<MemberDTO> mlist = mservice.listMem();//멤버를 불러옴
+		List<Map<String,Object>> mlist = mservice.getMembersForAppWrite();
 		List<DepartmentDTO> dlist = mservice.listDept(); //부서명 가져옴
 		List<Approval_sign_typeDTO> adtList = aservice.allSignType();
 		List<Break_typeDTO> btList = bservice.getAllType();
+		String treeData = aservice.makeOrganTreeData(mlist, dlist);
+		System.out.println("inController : "+treeData);
 		model.addAttribute("mlist", mlist);
 		model.addAttribute("dlist", dlist);
 		model.addAttribute("adtList", adtList);
 		model.addAttribute("breakType", btList);
-		return "approval/appWriteView";
+		
+//		//new tree date
+//        List<MemberDTO> mlist = mservice.listMem();//멤버를 불러옴
+//        List<DepartmentDTO> dlist = mservice.listDept(); //부서명 가져옴
+//        List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+//        int a =0;
+//        for(DepartmentDTO dto : dlist) {
+//       	 if(dto.getDept_code_parent() == -1) {
+//       		 dto.setDept_code_parent(100000000);
+//       	 }
+//           Map<String,Object> map = new HashMap<>();
+//           map.put("departmentName",dto.getDept_name());
+//           map.put("name","");
+//           map.put("position","");
+//           map.put("memId","");
+//           map.put("reportsTo", dto.getDept_code_parent());
+//           map.put("departmentID", dto.getDept_code());
+//           list.add(map);
+//        }
+//        
+//        for(MemberDTO dto : mlist) {
+//           Map<String,Object> map = new HashMap<>();
+//           map.put("departmentName2",dto.getDept_name());
+//           map.put("name",dto.getName());
+//           map.put("position",dto.getPosition_name());
+//           map.put("reportsTo",dto.getDept_code());
+//           map.put("departmentID", 100+a);
+//           map.put("memId",dto.getId());
+//           list.add(map);
+//           a++;
+//        }
+//        model.addAttribute("list", list);
+//        model.addAttribute("rowKey",107);
+		
+		
+		
+		return "approval/appWriteView_tree";
 	}
 	
 	@RequestMapping("/writeApproval.approval")
@@ -78,6 +120,9 @@ public class ApprovalController {
 			bservice.insertBreak(bdto,dto,appSeq);
 		}
 		aservice.setInitAppSign(approval_signDTOList, appSeq);
+		
+		
+		//앞에 approval/붙이면 approval/approval/toApp~ 로 가길래 아래와 같이 작성함. 
 		return "redirect:toAppDetailView.approval?app_seq="+appSeq;
 	}
 	

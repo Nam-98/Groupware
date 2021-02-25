@@ -8,6 +8,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
@@ -18,6 +20,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import kh.gw.dao.ApprovalDAO;
 import kh.gw.dao.BreakDAO;
@@ -30,6 +35,7 @@ import kh.gw.dto.Approval_sign_typeDTO;
 import kh.gw.dto.Approval_statusDTO;
 import kh.gw.dto.Approval_typeDTO;
 import kh.gw.dto.BreakDTO;
+import kh.gw.dto.DepartmentDTO;
 import kh.gw.statics.ApprovalConfigurator;
 import kh.gw.statics.ApprovalComparator;
 
@@ -60,14 +66,24 @@ public class ApprovalService {
 	}
 	public int writeApp(ApprovalDTO dto) throws Exception {
 		dto.setApp_id((String)session.getAttribute("id"));
+		
+		//docs_num setting
 		SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
 		Date today = new Date();
 		String docsNum = sdf.format(today)+"-"+(adao.getAppCountToday()+1);
 		dto.setApp_docs_num(docsNum);
+		
+		//contents file 생성 setting
 		String contents = dto.getApp_contents();
+		dto.setApp_contents("");
+		
+		//seq값 선점
+		int app_seq = adao.getNewAppSeq();
+		dto.setApp_seq(app_seq);
+		
+		//db에 작성
 		int result = adao.writeApp(dto);
 		if(result>0) {
-			int app_seq = adao.getLatestSeqById((String)session.getAttribute("id"));
 			//첨부파일 저장
 			if(dto.getAttachedfiles()!=null) {
 				this.uploadAttachedFiles(dto.getAttachedfiles(), app_seq);	
@@ -605,5 +621,51 @@ public class ApprovalService {
 	public List<Approval_statusDTO> nxAppStatusList(){
 		return adao.nxAppStatusList();
 	}
-	
+	public String makeOrganTreeData(List<Map<String,Object>> members, List<DepartmentDTO> depts) {
+		String result = null;
+		Gson gson = new Gson();
+		List<Map<String, Object>> deptMap = new ArrayList<>();
+		
+		//json에 dept정보 + 해당 dept의 member정보만 넣는다. 
+		for(DepartmentDTO dept : depts) {
+			Map<String, Object> map = new HashMap();
+			map.put("text", dept.getDept_name());
+			map.put("dept_code", dept.getDept_code());
+			List<Map<String, Object>> memlist = new ArrayList<>();
+
+			//member list 넣기
+			for(Map<String,Object> mem : members) {
+				if(Integer.parseInt(String.valueOf(mem.get("DEPT_CODE")))==dept.getDept_code()) {
+					memlist.add(mem);
+					System.out.println("추가된 id : "+mem.get("ID"));
+				}
+			}
+			map.put("node", memlist);
+			
+			
+			//만약 해당 dept가 하위 dept이라면 해당 dept정보를 상위 dept의 node에 넣는다. 
+			int level = dept.getDept_level();
+			if(level!=1) {
+				int parent = dept.getDept_code_parent();
+				
+				//부모가 되는 dept를 찾는다
+				for(Map<String, Object> inserted : deptMap) {
+					if((int)inserted.get("dept_code")==parent) {
+						List<Map<String, Object>> origin = (List<Map<String, Object>>) inserted.get("node");
+						inserted.remove("node");//기존 node삭제
+						origin.add(map);//기존 node값에 하위부서 정보를 넣는다. 
+						inserted.put("node", origin);
+						break;
+					}
+				}
+				
+				break;
+			}
+			deptMap.add(map);
+		}
+		System.out.println(deptMap.toString());
+		result = gson.toJson(deptMap);
+		System.out.println("result : "+result);
+		return result;
+	}
 }

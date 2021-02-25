@@ -120,23 +120,12 @@ td.resize-col {
 						<div class="col-sm-4">
 						<div class="orgTree bg-light bg-gradient modalL">
 						<h3 class="text-center">조직도</h3>
-							<ul id="myUL1">
-								<c:forEach items="${dlist }" var="i">
-									<li><span class="caret1">${i.dept_name}</span>
-										<ul class="nested1">
-											<c:forEach items="${mlist}" var="j">
-												<c:if
-													test="${j.dept_code == i.dept_code && j.id != sessionScope.id}">
-													<li class="modalLi">${j.name}&emsp;${j.position_name} <input
-														type=hidden class="modalPosi" value="${j.position_name}">
-														<input type=hidden class="modalName" value="${j.name}">
-														<input type=hidden class="modalId" value="${j.id}">
-													</li>
-												</c:if>
-											</c:forEach>
-										</ul></li>
-								</c:forEach>
-							</ul>
+							<div id="organTree"></div>
+
+							
+							
+							
+							
 						</div>
 						</div>
 						<div class="col-sm-8">
@@ -418,15 +407,30 @@ td.resize-col {
 			})
 			
 			////모달창 내부 조직도 관련 script
-			var toggler = document.getElementsByClassName("caret1");
-			var i;
-	
-			for (i = 0; i < toggler.length; i++) {
-				toggler[i].addEventListener("click", function() {
-					this.parentElement.querySelector(".nested1").classList.toggle("active1");
-					this.classList.toggle("caret-down1");
-				});
-			}
+			var treeData =	[
+					{text: "Parent 1",
+				    nodes: [
+				      {
+				        text: "Child 1",
+				        nodes: [
+				          {
+				            text: "Grandchild 1"
+				          },
+				          {
+				            text: "Grandchild 2"
+				          }
+				        ]
+				      },
+				      {
+				        text: "Child 2"
+				      }
+				    ]
+				  }];
+			$('#organTree').treeview({
+			  data: treeData,         // data is not optional
+			  levels: 5,
+			  backColor: 'skyblue'
+			});
 			
 			//sign_type의 객체를 arr형태로 저장
 			let sign_type_arr = new Array();
@@ -436,7 +440,7 @@ td.resize-col {
 			</c:forEach>
 			
 			////조직도에서 인원 클릭시 추가 
-			$(".modalLi").on("click",function(){
+/* 			$(".modalLi").on("click",function(){
 				//이미 같은 사람이 추가되어 있는지 확인
 				let list = $(".selectedName");
 				let sName = $(this).children(".modalName").val();
@@ -485,7 +489,7 @@ td.resize-col {
 				
 				fnRenumbering();
 	
-			})
+			}) */
 			////조직도 상세 내부에서 인원 삭제
 			$("#selectedContainer").on("click",".selectedDel",function(){
 				
