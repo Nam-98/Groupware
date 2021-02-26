@@ -113,7 +113,6 @@ public class ApprovalController {
 		model.addAttribute("app", aservice.getAppBySeq(app_seq));
 		model.addAttribute("signs", aservice.getAppSignBySeq(app_seq));
 		model.addAttribute("isMyCheckTurn", aservice.isMyCheckTurn(app_seq));
-		model.addAttribute("cmts", aservice.getAppCmtBySeq(app_seq));
 		model.addAttribute("files", aservice.getAppFileBySeq(app_seq));
 		model.addAttribute("contents", aservice.getHtmlText(app_seq));
 		model.addAttribute("app_seq", app_seq);
