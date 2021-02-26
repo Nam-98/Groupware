@@ -42,13 +42,17 @@
    	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-treeview/1.2.0/bootstrap-treeview.min.js"></script>
    	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-treeview/1.2.0/bootstrap-treeview.min.css">
    	
+   	<!-- toggle -->
+   	<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+	<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+	
 <style type="text/css">
 #organTree{max-height: 600px; overflow: auto;}
+#tableSelected{max-height: 600px; overflow: auto;}
 .table>thead>tr>th{vertical-align: middle;}
 th{width:50px;}
 .table>thead>tr>th{border-bottom:none;}
-.jqxdate{margin-top:7px;}
-.selectedOrder{display:none;}
+
 td.resize-col {
     padding: 0;
     vertical-align: middle;
@@ -86,10 +90,10 @@ td.resize-col {
 						<div class="col-sm-8">
 						<div class="modalR">
 							<h3 class="text-center">결재 인원창</h3>
-							<table class="table table-sm">
+							<table class="table table-sm" id="tableSelected">
 								<thead class='thead-light'>
 									<tr>
-										<th scope="col" style="display:none;">결재순서</th>
+										<th scope="col" class="dOrders">결재순서</th>
 										<th scope="col">부서</th>
 										<th scope="col">이름</th>
 										<th scope="col">직위</th>
@@ -101,7 +105,7 @@ td.resize-col {
 									<tr class="selectedBlock">
 										<c:forEach items="${mlist}" var="i">
 											<c:if test="${i.ID == sessionScope.id}">
-												<td class="selectedOrder">1</td>
+												<td class="selectedOrder dOrders">1</td>
 												<td class="selectedDept">${i.DEPT_NAME }</td>
 												<td class="selectedName">${i.NAME }</td>
 												<td class="selectedPosi">${i.POSITION_NAME }</td>
@@ -124,6 +128,7 @@ td.resize-col {
 					</div>
 				</div>
 				<div class="modal-footer">
+					<input type="checkbox" checked data-toggle="toggle" data-size="small" data-onstyle="info" id="orderDisplay" data-on="결재순서 보기" data-off="결재순서 끄기" data-width="130">
 					<button type="button" class="btn btn-primary btnClose" data-dismiss="modal">Close</button>
 				</div>
 			</div>
@@ -308,15 +313,8 @@ td.resize-col {
 				  }, function(start, end, label) {6
 					  $("#breakSrt").val(start.format('YYYY-MM-DD'));
 					  $("#breakEnd").val(end.format('YYYY-MM-DD'));
-					 console.log($("#breakSrt").val());
-				    console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-				  });
 				});
-			// 종료일 자동설정
-	          $("#setDate").click(function () {
-	        	  var date = $('#jqxdateStart').jqxDateTimeInput('getDate');
-	              $('#jqxdateEnd').jqxDateTimeInput('setDate', date);
-	          });
+				});
 
 			
 			//file block
@@ -377,9 +375,7 @@ td.resize-col {
 			</c:forEach>
 			
 			////조직도에서 인원 클릭시 추가 
-			$('#organTree').on('nodeSelected', function(event, data) {
-				console.log(data.memInfo.ID);
-				
+			$('#organTree').on('nodeSelected', function(event, data) {				
 				//이미 같은 사람이 추가되어 있는지 확인
 				let list = $(".selectedName");
 				let sName = data.memInfo.NAME;
@@ -409,7 +405,7 @@ td.resize-col {
 					name.append(sName);
 				let del = $("<td class='selectedDel'>");
 					del.append($("<i class='far fa-minus-square'></i>"))
-				let order = $("<td class='selectedOrder'>");
+				let order = $("<td class='selectedOrder dOrders'>");
 					let ordercount = index+1;
 					order.append(ordercount);
 				let signType = $("<td class='selectTypeTd'>")
@@ -469,22 +465,25 @@ td.resize-col {
 				sign_info_Json[sName][1] = changed;
 				$(this).closest(".hSignType").val(changed);
 				if(changed==1){
-					let order = $(this).closest(".selectedBlock").children(".selectedOrder");
+					let order = $(this).closest(".selectedBlock").children(".selectedOrder");//td 결재순서에 노출될 값 변경
 					order.text('참조');
-					$(this).closest(".selectedBlock").children(".hSignType").val(1)
+					$(this).closest(".selectedBlock").children(".hSignType").val(1);//server에 보낼 값 조정
 					$(this).closest(".selectedBlock").children(".hOrder").val(-1);
+					$(this).closest(".selectedBlock").css("background-color","aliceblue");//background color변경
 					//참조인 블럭은 맨 아래로 옮긴다. 
 					let block = $(this).closest(".selectedBlock");
-					block.clone().appendTo("#selectedContainer");
-					$(".selectType").last().val("1").prop("selected",true);
-					block.remove();
+					block.clone().appendTo("#selectedContainer");//아래쪽에 추가
+					$(".selectType").last().val("1").prop("selected",true);//결재구분을 참조자로 고정
+					block.remove();//기존에 위에 있던 block삭제
 				}else if(changed==2){
 					 $(this).closest(".selectedBlock").children(".selectedOrder").text(1);
 					$(this).closest(".selectedBlock").children(".hSignType").val(2);
+					$(this).closest(".selectedBlock").css("background-color","lightyellow");//background color변경
 					
 				}else{
 					$(this).closest(".selectedBlock").children(".selectedOrder").text(1);
 					$(this).closest(".selectedBlock").children(".hSignType").val(0);
+					$(this).closest(".selectedBlock").css("background-color","");//background color변경
 				}
 				if(changed!=1 && wasCC==-1){
 					let block = $(this).closest(".selectedBlock");
@@ -530,6 +529,22 @@ td.resize-col {
                 day = day >= 10 ? day : '0' + day;
                 return year + '-' + month + '-' + day;
             }
+			
+			//toggle button 
+			  $(function() {
+			    $('#orderDisplay').bootstrapToggle();
+			  })
+			  $(function() {
+				    $('#orderDisplay').change(function() {
+				    	console.log($(this).prop('checked'));
+				    	if($(this).prop('checked')){
+				    		$(".dOrders").css("display","table-cell");
+				    		return;
+				    	}
+				    	$(".dOrders").css("display","none");
+				    })
+				})
+
 		</script>
 <jsp:include page="/WEB-INF/views/commonPage/summernote-plugin.jsp" />
 

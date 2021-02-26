@@ -43,16 +43,16 @@ public class MessageController {
 	@Autowired
 	private HttpSession session;
 	
-	@RequestMapping("writeMsg.message")
+	@RequestMapping("/writeMsg.message")
 	public String writeMsg(Model m) throws Exception{
 		String my = (String)session.getAttribute("id");
 		Map<String,Object> myInfo = memservice.getMyInfo(my);//현재 로그인 한 사람 정보 불러오기
 		m.addAttribute("myInfo", myInfo);
-		return "/message/sendMessage";
+		return "message/sendMessage";
 	}
 	
 	//쪽지 보내기에서popup 조직도 불러오기
-	@RequestMapping("msgPopup.message")
+	@RequestMapping("/msgPopup.message")
 	public String msgPopup(Model m) throws Exception{
 		List<MemberDTO> mlist = memservice.listMem();//멤버를 불러옴
 		List<DepartmentDTO> dlist = memservice.listDept(); //부서명 가져옴
@@ -85,11 +85,11 @@ public class MessageController {
          }
          m.addAttribute("list", list);
          m.addAttribute("rowKey",107);
-		return "/message/msgPopupView";
+		return "message/msgPopupView";
 	}
 	
 	//조직도 직원 클릭시 해당 정보 팝업에 넣기
-	@RequestMapping("msgMemInfo.message")
+	@RequestMapping("/msgMemInfo.message")
 	public String msgMemInfo(HttpServletRequest request, Model m) throws Exception{
 		String id = request.getParameter("id");
 		String rowKey = request.getParameter("rowKey");
@@ -128,11 +128,11 @@ public class MessageController {
 		m.addAttribute("dto", dto);
          m.addAttribute("list", list);
          m.addAttribute("rowKey",Integer.parseInt(rowKey));
-		return "/message/msgPopupView";
+		return "message/msgPopupView";
 	}
 	
 	//보낸 메세지 DB에 저장
-	@RequestMapping("msgProc.message")
+	@RequestMapping("/msgProc.message")
 	public String msgProc(MessageDTO mdto, Model m) throws Exception{
 		mdto.setMsg_sender((String)session.getAttribute("id"));
 		System.out.println("============"+mdto.getAttfiles());
@@ -145,7 +145,7 @@ public class MessageController {
 	}
 	
 	//첨부파일 다운로드
-	@RequestMapping("attFilesDown.message")
+	@RequestMapping("/attFilesDown.message")
 	public void attFilesDown(Message_attached_filesDTO adto, HttpServletResponse resp) throws Exception{
 		
 		System.out.println("요청 파일 seq : " + adto.getMsg_seq());
@@ -173,7 +173,7 @@ public class MessageController {
 	}
 	
 	//수신함 리스트 이동
-	@RequestMapping("msgInBoxList.message")
+	@RequestMapping("/msgInBoxList.message")
 	public String msgInBoxList(Model m, HttpServletRequest request) throws Exception{
 		String id = (String)session.getAttribute("id");
 		int cpage = Integer.parseInt(request.getParameter("cpage"));
@@ -181,11 +181,11 @@ public class MessageController {
 		String navi = mservice.inBoxGetNavi(cpage,id);
 		m.addAttribute("mlist", mlist);
 		m.addAttribute("navi", navi);
-		return "/message/inBox";
+		return "message/inBox";
 	}
 	
 	//쪽지 상세페이지 보기(수신함)
-	@RequestMapping("msgReceiveView.message")
+	@RequestMapping("/msgReceiveView.message")
 	public String msgReceiveView(HttpServletRequest request, Model m) throws Exception{
 		int msg_seq= Integer.parseInt(request.getParameter("msg_seq"));
 		String msg_receive_date_str = request.getParameter("msg_receive_date_str");
@@ -196,11 +196,11 @@ public class MessageController {
 		MessageDTO mdto = mservice.msgView(msg_seq);
 		m.addAttribute("mdto", mdto);
 		m.addAttribute("attlist", attlist);
-		return "/message/msgReceiveView"; 
+		return "message/msgReceiveView"; 
 	}
 	
 	//쪽지 삭제 (수신)
-	@RequestMapping("msgDelete.message")
+	@RequestMapping("/msgDelete.message")
 	public String msgDelete(HttpServletRequest request, Model m) throws Exception{
 		int msg_seq= Integer.parseInt(request.getParameter("msg_seq"));
 		int inDel = mservice.msgDelete(msg_seq);
@@ -208,7 +208,7 @@ public class MessageController {
 	}
 	
 	//쪽지 삭제(발신)
-	@RequestMapping("msgOutBoxDel.message")
+	@RequestMapping("/msgOutBoxDel.message")
 	public String msgOutBoxDel(HttpServletRequest request, Model m) throws Exception{
 		int msg_seq= Integer.parseInt(request.getParameter("msg_seq"));
 		int outDel = mservice.msgOutBoxDel(msg_seq);
@@ -216,7 +216,7 @@ public class MessageController {
 	}
 	
 	//쪽지 상세페이지에서 답장하기 버튼
-	@RequestMapping("msgReply.message")
+	@RequestMapping("/msgReply.message")
 	public String msgReply(HttpServletRequest request, Model m) throws Exception{
 		String msg_sender_name = request.getParameter("msg_sender_name");
 		String msg_receiver_name = request.getParameter("msg_receiver_name");
@@ -231,11 +231,11 @@ public class MessageController {
 		m.addAttribute("dlist", dlist);
 		m.addAttribute("mlist", mlist);
 		m.addAttribute("mdto", mdto);
-		return "/message/replyMessage";
+		return "message/replyMessage";
 	}
 	
 	//조직도에서 쪽지보내기 버튼 클릭시
-	@RequestMapping("orgSendMessage.message")
+	@RequestMapping("/orgSendMessage.message")
 	public String orgSendMessage(HttpServletRequest request, Model m) throws Exception{
 		String my = (String)session.getAttribute("id");
 		String msg_receiver_name = request.getParameter("msg_receiver_name");
@@ -248,11 +248,11 @@ public class MessageController {
 		m.addAttribute("mlist", mlist);
 		m.addAttribute("dlist", dlist);
 		m.addAttribute("myInfo", myInfo);
-		return "/message/orgSendMessage";
+		return "message/orgSendMessage";
 	}
 	
 	//쪽지 발신함 list 불러오기
-	@RequestMapping("msgOutBoxList.message")
+	@RequestMapping("/msgOutBoxList.message")
 	public String msgOutBoxList(HttpServletRequest request, Model m) throws Exception{
 		String id = (String)session.getAttribute("id");
 		int cpage = Integer.parseInt(request.getParameter("cpage"));
@@ -260,24 +260,24 @@ public class MessageController {
 		String navi = mservice.outBoxGetNavi(cpage,id);
 		m.addAttribute("mlist", mlist);
 		m.addAttribute("navi", navi);
-		return "/message/outBox";
+		return "message/outBox";
 	}
 	
 	//발신함 상세페이지 보기
-	@RequestMapping("msgSenderView.message")
+	@RequestMapping("/msgSenderView.message")
 	public String msgSenderView(HttpServletRequest request, Model m) throws Exception{
 		int msg_seq = Integer.parseInt(request.getParameter("msg_seq"));
 		MessageDTO mdto = mservice.msgView(msg_seq);
 		List<Message_attached_filesDTO> attlist = mservice.attFilesAll(msg_seq);
 		m.addAttribute("mdto", mdto);
 		m.addAttribute("attlist", attlist);
-		return "/message/msgSenderView";	
+		return "message/msgSenderView";	
 	}
 	
 	
 	//list chk박스로 삭제(수신)
 	@ResponseBody
-	@RequestMapping(value="delMsgInList.message", method=RequestMethod.POST)
+	@RequestMapping(value="/delMsgInList.message", method=RequestMethod.POST)
 	public String delMsgInList(@RequestParam(value="chk[]") List<String> chkArr) throws Exception{
 		String id = (String)session.getAttribute("id");
 		String result = "0";
@@ -296,7 +296,7 @@ public class MessageController {
 	
 	//list chk박스로 삭제(발신)
 	@ResponseBody
-	@RequestMapping(value="delMsgOutList.message", method=RequestMethod.POST)
+	@RequestMapping(value="/delMsgOutList.message", method=RequestMethod.POST)
 	public String delMsgOutList(@RequestParam(value="chk[]") List<String> chkArr) throws Exception{
 		String id = (String)session.getAttribute("id");
 		String result = "0";
@@ -315,7 +315,7 @@ public class MessageController {
 		
 	//list chk박스로 보관함(수신)
 	@ResponseBody
-	@RequestMapping(value="msgInCabinsert.message", method=RequestMethod.POST)
+	@RequestMapping(value="/msgInCabinsert.message", method=RequestMethod.POST)
 	public String msgInCabinsert(@RequestParam(value="chk[]") List<String> chkArr) throws Exception{
 		String id = (String)session.getAttribute("id");
 		String result = "0";
@@ -333,7 +333,7 @@ public class MessageController {
 	
 	//list chk박스로 보관함(발신)
 		@ResponseBody
-		@RequestMapping(value="msgOutCabinsert.message", method=RequestMethod.POST)
+		@RequestMapping(value="/msgOutCabinsert.message", method=RequestMethod.POST)
 		public String msgOutCabinsert(@RequestParam(value="chk[]") List<String> chkArr) throws Exception{
 			String id = (String)session.getAttribute("id");
 			String result = "0";
@@ -350,7 +350,7 @@ public class MessageController {
 		}
 	
 	//보관함 list 불러오기
-	@RequestMapping("msgCabList.message")
+	@RequestMapping("/msgCabList.message")
 	public String msgCabInList(HttpServletRequest request, Model m) throws Exception{
 		String id = (String)session.getAttribute("id");
 		int cpage = Integer.parseInt(request.getParameter("cpage"));
@@ -367,7 +367,7 @@ public class MessageController {
 	
 	//보관함 삭제
 	@ResponseBody
-	@RequestMapping(value="delMsgCabList.message", method=RequestMethod.POST)
+	@RequestMapping(value="/delMsgCabList.message", method=RequestMethod.POST)
 	public String delMsgCabList(@RequestParam(value="chk[]") List<String> chkArr) throws Exception{
 		String id = (String)session.getAttribute("id");
 		String result = "0";
@@ -383,7 +383,7 @@ public class MessageController {
 	}
 	
 	//보관함 상세페이지 보기
-	@RequestMapping("msgCabView.message")
+	@RequestMapping("/msgCabView.message")
 	public String msgCabView(HttpServletRequest request, Model m) throws Exception{
 		int msg_seq = Integer.parseInt(request.getParameter("msg_seq"));
 		String msg_receive_date_str = request.getParameter("msg_receive_date_str");
@@ -392,11 +392,11 @@ public class MessageController {
 		List<Message_attached_filesDTO> attlist = mservice.attFilesAll(msg_seq);
 		m.addAttribute("mdto", mdto);
 		m.addAttribute("attlist", attlist);
-		return "/message/msgCabView";	
+		return "message/msgCabView";	
 	}
 	
 	//보관함 상세페이지 삭제 버튼
-	@RequestMapping("delMsgCab.message")
+	@RequestMapping("/delMsgCab.message")
 	public String delMsgCab(HttpServletRequest request,Model m) throws Exception{
 		int msg_seq = Integer.parseInt(request.getParameter("msg_seq"));
 		String id = (String)session.getAttribute("id");
@@ -406,7 +406,7 @@ public class MessageController {
 	
 	
 	//내게쓴쪽지함 list불러오기
-	@RequestMapping("msgMyBoxList.message")
+	@RequestMapping("/msgMyBoxList.message")
 	public String msgMyBoxList(HttpServletRequest request, Model m) throws Exception{
 		String id = (String)session.getAttribute("id");
 		int cpage = Integer.parseInt(request.getParameter("cpage"));
@@ -414,12 +414,12 @@ public class MessageController {
 		String navi = mservice.msgMyBoxGetNavi(cpage,id);
 		m.addAttribute("mlist", mlist);
 		m.addAttribute("navi", navi);
-		return "/message/myBox";
+		return "message/myBox";
 		
 	}
 	
 	//내게쓴쪽지 상세페이지 보기
-	@RequestMapping("msgMyView.message")
+	@RequestMapping("/msgMyView.message")
 	public String msgMyView(HttpServletRequest request, Model m) throws Exception{
 		int msg_seq = Integer.parseInt(request.getParameter("msg_seq"));
 		String msg_receive_date_str = request.getParameter("msg_receive_date_str");
@@ -428,11 +428,11 @@ public class MessageController {
 		List<Message_attached_filesDTO> attlist = mservice.attFilesAll(msg_seq);
 		m.addAttribute("mdto", mdto);
 		m.addAttribute("attlist", attlist);
-		return "/message/msgMyView";	
+		return "message/msgMyView";	
 	}
 	
 	//내게쓴쪽지함 상세페이지 삭제 버튼
-	@RequestMapping("delMyMsg.message")
+	@RequestMapping("/delMyMsg.message")
 	public String delMyMsg(HttpServletRequest request,Model m) throws Exception{
 		int msg_seq = Integer.parseInt(request.getParameter("msg_seq"));
 		int del = mservice.delMyMsg(msg_seq);
@@ -441,7 +441,7 @@ public class MessageController {
 	
 	//내게쓴쪽지함 chk박스로 삭제
 	@ResponseBody
-	@RequestMapping(value="delMsgMyList.message", method=RequestMethod.POST)
+	@RequestMapping(value="/delMsgMyList.message", method=RequestMethod.POST)
 	public String delMsgMyList(@RequestParam(value="chk[]") List<String> chkArr) throws Exception{
 		String id = (String)session.getAttribute("id");
 		String result = "0";
@@ -458,14 +458,16 @@ public class MessageController {
 			return result;
 		}
 	
-//	//
-//	@ResponseBody
-//	@RequestMapping(value="msgCount.message", method=RequestMethod.POST)
-//	public String msgCount(HttpServletRequest request) throws Exception{
-//		String id = (String)session.getAttribute("id");
-//		String result = mservice.msgCount(id);
-//		return result;
-//	}
+	//
+	
+	@RequestMapping("/msgCount.message")
+	public String msgCount(HttpServletRequest request,Model m) throws Exception{
+		String id = (String)session.getAttribute("id");
+		String result = mservice.msgCount(id);
+		
+		m.addAttribute("result", result);
+		return "commonPage/left";
+	}
 	
 	
 	// error

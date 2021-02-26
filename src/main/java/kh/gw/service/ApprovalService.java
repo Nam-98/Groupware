@@ -363,7 +363,7 @@ public class ApprovalService {
 	public List<Approval_attached_filesDTO> getAppFileBySeq(int app_seq){
 		return adao.getAppFileBySeq(app_seq);
 	}
-	public List<Approval_commentsDTO> getAppCmtBySeq(int app_seq){
+	public List<Map<String,Object>> getAppCmtBySeq(int app_seq){
 		return adao.getAppCmtBySeq(app_seq);
 	}
 	private String makeTempContent(int app_seq, String contents) throws Exception {

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>업무일지 작성</title>
+<title>전자결재 작성</title>
 	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <!-- 아이콘 fontawesome -->
     <script src="https://kit.fontawesome.com/b1e233372d.js"></script>
@@ -25,33 +25,55 @@
 	<link rel="apple-touch-icon" sizes="76x76" href="/assets/img/apple-icon.png">
     <link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicon.png">
     <script src="/assets/vendor/jquery/jquery.min.js"></script>
+	<!--<script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>-->
 	<script src="/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 	<script src="/assets/vendor/chartist/js/chartist.min.js"></script>
 	<script src="/assets/scripts/klorofil-common.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+  
+  	<!-- daterangepicker -->
+  	<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 	
 	<!-- treeView -->
    	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-treeview/1.2.0/bootstrap-treeview.min.js"></script>
    	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-treeview/1.2.0/bootstrap-treeview.min.css">
    	
-	
+   	<!-- jquery ui -->
+   	 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+   	
 <style type="text/css">
-
+#organTree{max-height: 600px; overflow: auto;}
+#tableSelected{max-height: 600px; overflow: auto;}
 .table>thead>tr>th{vertical-align: middle;}
 th{width:50px;}
 .table>thead>tr>th{border-bottom:none;}
 .jqxdate{margin-top:7px;}
-#boldText{    font-weight: bolder;
-    font-size: xx-large;}
-.in-block{display:inline-block;} 
+.selectedOrder{display:none;}
+td.resize-col {
+    padding: 0;
+    vertical-align: middle;
+    cursor: col-resize;
+    user-select: none;
+    background-color: #f5f5f5;
+    color: #a9a9a9;
+  }
+  .resize-width {
+    display: flex;
+    vertical-align: middle;
+    height: 100%;
+  }
+    .resize-width i{
+      transform: rotate(90deg);
+    }
 </style>
-
 </head>
 <body>
-<form action="/bizlog/writeBizlog.bizlog" id="writeForm" method="post" enctype="multipart/form-data" >
-<div class="modal selectSign" tabindex="-1" role="dialog">
+<form action="/approval/writeApproval.approval" id="writeForm" method="post" enctype="multipart/form-data" >
+		<div class="modal selectSign" tabindex="-1" role="dialog">
 		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -68,10 +90,10 @@ th{width:50px;}
 						<div class="col-sm-8">
 						<div class="modalR">
 							<h3 class="text-center">결재 인원창</h3>
-							<table class="table table-sm">
+							<table class="table table-sm" id="tableSelected">
 								<thead class='thead-light'>
 									<tr>
-										<th scope="col" class="dOrders">결재순서</th>
+										<th scope="col" style="display:none;">결재순서</th>
 										<th scope="col">부서</th>
 										<th scope="col">이름</th>
 										<th scope="col">직위</th>
@@ -82,11 +104,11 @@ th{width:50px;}
 								<tbody id="selectedContainer">
 									<tr class="selectedBlock">
 										<c:forEach items="${mlist}" var="i">
-											<c:if test="${i.id == sessionScope.id}">
-												<td class="selectedOrder dOrders">1</td>
-												<td class="selectedDept">${i.dept_name }</td>
-												<td class="selectedName">${i.name }</td>
-												<td class="selectedPosi">${i.position_name }</td>
+											<c:if test="${i.ID == sessionScope.id}">
+												<td class="selectedOrder">1</td>
+												<td class="selectedDept">${i.DEPT_NAME }</td>
+												<td class="selectedName">${i.NAME }</td>
+												<td class="selectedPosi">${i.POSITION_NAME }</td>
 												<td class="selectTypeTd">
 													<select class="form-control form-select-sm selectType">
 														<option value="0">결재자</option>
@@ -106,7 +128,6 @@ th{width:50px;}
 					</div>
 				</div>
 				<div class="modal-footer">
-					<input type="checkbox" checked data-toggle="toggle" data-size="small" data-onstyle="info" id="orderDisplay" data-on="결재순서 보기" data-off="결재순서 끄기" data-width="130">
 					<button type="button" class="btn btn-primary btnClose" data-dismiss="modal">Close</button>
 				</div>
 			</div>
@@ -131,26 +152,25 @@ th{width:50px;}
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 class="page-title">업무일지 작성</h3>
+					<h3 class="page-title">전자결재 문서 작성</h3>
 					<div class="panel">
 						<div class="panel-heading">
 							<h3 class="panel-title">기본내용 작성</h3>
-								<!--pannel의 최소화 및 닫기 버튼-->
-								<div class="right">
-									<button type="button" class="btn-toggle-collapse">
-										<i class="lnr lnr-chevron-up"></i>
-									</button>
-								</div>
-							</div>
+						</div>
 						<div class="panel-body">
 								<table class="table">
 									<thead>
 										<tr>
 											<th scope="row" class="align-middle">문서종류</th>
-											<td colspan=3>
+											<td>
 												<select class="form-control form-select-sm" id="docsType" name="app_type_code" style='width:auto;display:inline;'>
-													<c:forEach items="${docsType}" var="dto">
+													<c:forEach items="${docsType}" var="dto" varStatus="status">
 														<option value="${dto.app_type_code}">${dto.app_type_name}</option>
+													</c:forEach>
+												</select>
+												<select class="form-control form-select-sm" id="breakType" name="break_code" style='width:auto;display:none;'>
+													<c:forEach items="${breakType}" var="dto">
+														<option value="${dto.break_code}">${dto.break_name}</option>
 													</c:forEach>
 												</select>
 												<button type=button id="addSign" class="btn btn-outline-dark btn-sm pull-right" data-bs-toggle="tooltip" data-bs-placement="right" title="결재자를 추가하려면 이 버튼을 누르세요">
@@ -159,18 +179,15 @@ th{width:50px;}
 											</td>
 										</tr>
 										<tr>
-											<th scope="row" class="align-middle">업무일</th>								
+											<th scope="row">보존기간</th>
 											<td>
-												<input type=date name=biz_periodstart id=bizPerSrt style="display:none">
-												<input type=date name=biz_periodend id=bizPerEnd style="display:none">
-												<div class="in-block dateBox">
-													<input type=date id="bizDate">
-												</div>
-												<div class="weekBox" style='display:none;'>
-													<input type="week" id="sh_week">
-												</div>
-												<div class="monthBox" style='display:none;'>
-													<input type=month id="sh_month">
+												<div class="form-check form-check-inline">
+													 <label class="radio-inline"><input class="form-check-input" type="radio" name="app_archive" value="1" checked>1년 </label>
+													 <label class="radio-inline"><input class="form-check-input" type="radio" name="app_archive" value="2" >2년 </label>
+													 <label class="radio-inline"><input class="form-check-input" type="radio" name="app_archive" value="3" >3년 </label>
+													 <label class="radio-inline"><input class="form-check-input" type="radio" name="app_archive" value="5" >5년 </label>
+													 <label class="radio-inline"><input class="form-check-input" type="radio" name="app_archive" value="10" >10년 </label>
+
 												</div>
 											</td>
 										</tr>
@@ -178,12 +195,12 @@ th{width:50px;}
 											<th scope="row" class="align-middle">
 												<button type="button" class="btn btn-outline-secondary" id=addFileBlock>첨부파일</button>
 											</th>
-											<td colspan=3>
+											<td>
 												<div class="fileContainer row"></div>
 											</td>
 										</tr>
 										<tr>
-											<td colspan="4"><input type="text" class="form-control form-control-sm" id="title"	placeholder="제목" name="app_title"></td>
+											<td colspan="2"><input type="text" class="form-control form-control-sm" id="title"	placeholder="제목" name="app_title"></td>
 										</tr>
 										<tr>
 									</thead>
@@ -194,10 +211,24 @@ th{width:50px;}
 								<!-- pannel 내부의 제목 작성 div-->
 								<div class="panel-heading">
 									<h3 class="panel-title detInfo">상세내용 작성</h3>
+									<h3 class="panel-title breakInfo" style="display:none">휴가내용 작성</h3>
 								</div>
 
 								<!-- pannel 내부의 내용 작성 div-->
 								<div class="panel-body">
+									
+									<div class=breakInfo style="display:none" >
+									<div class="row">
+										<div class="col-md-2 col-sm-6"><h5>휴가 일정 선택</h5></div>
+										<div class="col-md-10 col-sm-6">
+											<input type=text id=breakPer > 
+											<input type=date id=breakSrt name='strStartDate' style="display:none"> 
+											<input type=date id=breakEnd name='strEndDate' style="display:none">
+											
+										</div>
+									</div>
+									
+								</div>
 									<div class="row">
 										<textarea class="summernote"></textarea>
 										<input type=hidden name="app_contents" id="contents">
@@ -236,51 +267,20 @@ th{width:50px;}
 		
 		//contents 전송준비
 		let contents = $(".summernote").summernote('code');
-				
-		//업무일지 기간 넣기
-		let docsType = $("#docsType").val();
-		let dStrt = new Date();
-		let dEnd = new Date();
-
-		if(docsType==7){
-			//일일 업무일지
-			if(document.getElementById("bizDate").value==''){alert("날짜를 선택해 주세요");return;}
-			dStrt = document.getElementById("bizDate").value.split("-");
-			dStrt = new Date(dStrt[0],dStrt[1]-1,dStrt[2]);//month는 0부터 시작하기 때문에 -1을 해줌
-			//dStrt = getFormatDate($('#jqxdateStart').jqxDateTimeInput('getDate'));
-			dEnd = dStrt;
-
-		}else if(docsType==8){
-			//주간 업무일지
-			if(document.getElementById("sh_week").value==''){alert("날짜를 선택해 주세요");return;}
-			let temp = document.getElementById("sh_week").value
-			dStrt = getStartDateFromISOWeek(temp);
-			//dStrt setting시에 하루 앞으로 당겨져 date가 지정되는 오류가 있어 하루 뒤의 date를 넣어줌
-			dStrt.setDate(dStrt.getDate()+1);
-			dEnd.setDate(dStrt.getDate()+6);
-
-			
-		}else{
-			//월간 업무일지
-			if(document.getElementById("sh_month").value==''){alert("날짜를 선택해 주세요");return;}
-			var monthFull = document.getElementById("sh_month").value.split("-");
-			let year = monthFull[0];
-			let mon = monthFull[1];
-			//input type date에 넣을 때 하루씩 앞으로 당겨지는 오류가 있어 하루 뒤의 date를 setting해준다.
-			dStrt = new Date(year, mon-1, 2);
-			dEnd = new Date(year, mon, 1);
-
+		
+		$("#sign_info_Json").val(JSON.stringify(sign_info_Json));
+		
+		//휴가계일 때 날짜정보 전송 및 내용에도 날짜정보 포함시키기.
+		if($("#docsType").val()==3){
+			let str = "<p>휴가 구분 : "+$("#breakType option:checked").text()+"</p><p>신청 기간 : "+$("#breakSrt").val()+" ~ "+$("#breakEnd").val()+"</p>";
+			contents = str + contents;
 		}
-
-		//input type date에 담아 form을 통해 controller로 전송
-		document.getElementById("bizPerSrt").value = dStrt.toISOString().substring(0, 10);
-		document.getElementById("bizPerEnd").value = dEnd.toISOString().substring(0, 10);
 		$("#contents").val(contents);
 		$("#writeForm").submit();
-		
 	})
 	
-	$(document).ready(function(){
+	 
+	 $(document).ready(function(){
 		//화면이 로딩될 때 summernote에 '0'번째 docs template 설정
 		 $.ajax({
 			url : "/approval/getTemplate.approval?app_docs_type="+$("#docsType option:eq(0)").val(),
@@ -289,13 +289,14 @@ th{width:50px;}
 				$('.summernote').summernote('code', template);
 			}
 		})
+		
+		//휴가 날짜 설정에 default로 오늘날짜 설정
+		 $('#breakSrt').val(new Date().toISOString().substring(0, 10));
+		 $('#breakEnd').val(new Date().toISOString().substring(0, 10));
 	})
 	</script>
-	
+	<!-- /.modal -->
 		<script>
-		
-		//결재선 script 보조용 json, arr
-		//맨 처음에 '나'를 default 결재자로 넣는다.
 		let sign_info_Json = {};
 		let sign_name_Json = [];
 		<c:forEach items="${mlist}" var="i">
@@ -304,6 +305,23 @@ th{width:50px;}
 				sign_info_Json["${i.name}"] = ["${sessionScope.id}",0];
 			</c:if>
 		</c:forEach>
+			//휴가관련 내용
+				$(function() {
+				  $('#breakPer').daterangepicker({
+				    opens: 'left'
+				  }, function(start, end, label) {6
+					  $("#breakSrt").val(start.format('YYYY-MM-DD'));
+					  $("#breakEnd").val(end.format('YYYY-MM-DD'));
+					 console.log($("#breakSrt").val());
+				    console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+				  });
+				});
+			// 종료일 자동설정
+	          $("#setDate").click(function () {
+	        	  var date = $('#jqxdateStart').jqxDateTimeInput('getDate');
+	              $('#jqxdateEnd').jqxDateTimeInput('setDate', date);
+	          });
+
 			
 			//file block
 			$("#addFileBlock").on("click",function(){
@@ -314,24 +332,16 @@ th{width:50px;}
 				$(this).closest(".fileBlock").remove();
 			})
 
-			
-			</script>
-			
-			<script>
 			//문서종류 변경 이벤트
 			$("#docsType").on("change",function(){
-				if(this.value==7){
-					$(".dateBox").css("display","inline-block");
-					$(".weekBox").css("display","none");
-					$(".monthBox").css("display","none");
-				}else if(this.value==8){
-					$(".dateBox").css("display","none");
-					$(".weekBox").css("display","inline-block");
-					$(".monthBox").css("display","none");
+				if(this.value==3){
+					$("#breakType").css("display","inline");
+					$(".breakInfo").css("display","inline");
+					$(".detInfo").css("display","none");
 				}else{
-					$(".dateBox").css("display","none");
-					$(".weekBox").css("display","none");
-					$(".monthBox").css("display","inline-block");
+					$("#breakType").css("display","none");
+					$(".breakInfo").css("display","none");
+					$(".detInfo").css("display","inline");
 				}
 				
 				$.ajax({
@@ -342,10 +352,6 @@ th{width:50px;}
 					}
 				})
 			})
-			
-			
-			
-			
 			//결재라인 관련 스크립트
 			
 			////모달창 열기
@@ -359,7 +365,6 @@ th{width:50px;}
 				$(".selectSign").hide();
 			})
 			
-			
 			////모달창 내부 조직도 관련 script
 			////https://github.com/jonmiles/bootstrap-treeview
 			var treeData =	`${treeData}`;
@@ -367,16 +372,21 @@ th{width:50px;}
 			  data: treeData,         // data is not optional
 			  levels: 5
 			});
+			
 			//sign_type의 객체를 arr형태로 저장
 			let sign_type_arr = new Array();
-				let signArr= ["0","결재자"];
-				sign_type_arr.push(signArr);	
+			<c:forEach items="${adtList}" var="item" varStatus="i">
+				let arr${i.count}= ["${item.app_sign_type_code}","${item.app_sign_type_name}"];
+				sign_type_arr.push(arr${i.count});	
+			</c:forEach>
 			
 			////조직도에서 인원 클릭시 추가 
-			$('#organTree').on('nodeSelected', function(event, data) {				
+			$('#organTree').on('nodeSelected', function(event, data) {
+				console.log(data.memInfo.ID);
+				
 				//이미 같은 사람이 추가되어 있는지 확인
 				let list = $(".selectedName");
-				let sName = data.memInfo.name;
+				let sName = data.memInfo.NAME;
 				for(var i=0; i<list.length;i++){
 					if(sName==list.eq(i).text()){
 						alert("결재라인에 같은 사람을 올릴 수 없습니다.");
@@ -391,8 +401,8 @@ th{width:50px;}
 				console.log("index : "+(Object.keys(sign_info_Json).length));
 				//if(Object.keys(sign_info_Json).length==0){index=1}else{index=Object.keys(sign_info_Json).length}
 				
-				let sDept = data.memInfo.dept_name;
-				let sPosi = data.memInfo.position_name;
+				let sDept = data.memInfo.DEPT_NAME;
+				let sPosi = data.memInfo.POSITION_NAME
 				
 				let block = $("<tr class=selectedBlock>");
 				let dept = $("<td class='selectedDept'>");
@@ -403,7 +413,7 @@ th{width:50px;}
 					name.append(sName);
 				let del = $("<td class='selectedDel'>");
 					del.append($("<i class='far fa-minus-square'></i>"))
-				let order = $("<td class='selectedOrder dOrders'>");
+				let order = $("<td class='selectedOrder'>");
 					let ordercount = index+1;
 					order.append(ordercount);
 				let signType = $("<td class='selectTypeTd'>")
@@ -414,7 +424,7 @@ th{width:50px;}
 					}
 					signType.append(sSt);
 				//form으로 보낼 데이터 작성	
-				let hId = $("<input type=hidden name='approval_signDTOList["+index+"].app_sign_id' value='"+data.memInfo.id+"' class='hId'>");
+				let hId = $("<input type=hidden name='approval_signDTOList["+index+"].app_sign_id' value='"+data.memInfo.ID+"' class='hId'>");
 				let hOrder = $("<input type=hidden name='approval_signDTOList["+index+"].app_sign_order' value='"+(ordercount)+"' class='hOrder'>");
 				let hSignType = $("<input type=hidden name='approval_signDTOList["+index+"].app_sign_type_code' value='"+0+"' class='hSignType'>");
 				block.append(order);block.append(dept);block.append(name);block.append(posi);block.append(signType);block.append(del);block.append(hId);block.append(hOrder);block.append(hSignType);
@@ -422,10 +432,11 @@ th{width:50px;}
 				
 				// json저장 형식 => 이름 : [id (이름으로 아이디를 찾을 수 있게):결재자(defualt값이 결재자임)]
 				sign_name_Json.push(sName);
-				sign_info_Json[sName] = [data.memInfo.id,0];
+				sign_info_Json[sName] = [data.memInfo.ID,0];
 				
 				fnRenumbering();
 				});
+
 			////조직도 상세 내부에서 인원 삭제
 			$("#selectedContainer").on("click",".selectedDel",function(){
 				
@@ -453,20 +464,79 @@ th{width:50px;}
 				//order값 수정
 				fnRenumbering();
 				})
+				
+			////선택된 인원 sortable
+			  $(function() {
+		
+		         $('#selectedContainer').sortable({
+		
+		            update: fnRenumbering()
+		
+		         });
+		
+		      });
+			////결재구분 변경
+			$("#selectedContainer").on("change",".selectType",function(){
+				let sName = $(this).closest(".selectedBlock").children(".selectedName").text();
+				let wasCC = $(this).closest(".selectedBlock").children(".hOrder").val();
+				let changed = $(this).closest(".selectType").val();
+				sign_info_Json[sName][1] = changed;
+				$(this).closest(".hSignType").val(changed);
+				if(changed==1){
+					let order = $(this).closest(".selectedBlock").children(".selectedOrder");
+					order.text('참조');
+					$(this).closest(".selectedBlock").children(".hSignType").val(1)
+					$(this).closest(".selectedBlock").children(".hOrder").val(-1);
+					//참조인 블럭은 맨 아래로 옮긴다. 
+					let block = $(this).closest(".selectedBlock");
+					block.clone().appendTo("#selectedContainer");
+					$(".selectType").last().val("1").prop("selected",true);
+					block.remove();
+				}else if(changed==2){
+					 $(this).closest(".selectedBlock").children(".selectedOrder").text(1);
+					$(this).closest(".selectedBlock").children(".hSignType").val(2);
+					
+				}else{
+					$(this).closest(".selectedBlock").children(".selectedOrder").text(1);
+					$(this).closest(".selectedBlock").children(".hSignType").val(0);
+				}
+				if(changed!=1 && wasCC==-1){
+					let block = $(this).closest(".selectedBlock");
+					block.clone().prependTo("#selectedContainer");
+					$(".selectType").first().val(changed).prop("selected",true);
+					block.remove();
+				}
+				
+				//order재정립
+				fnRenumbering();
+				
+			});
 			
 			//order순서 재정립 함수
 			let fnRenumbering = function(){
+				console.log("순서 재정립중");
 				let orderList = $(".selectedOrder");
 				let horderList = $(".hOrder");
 				let stList = $(".selectType");
 				let ordercount = 1;
 				for(var i = orderList.length-1; i>=0;i--){
+					//결재구분이 '참조'인 사람을 제외하고 order를 정리한다. 
+					if(orderList[i].innerText=='참조'){continue;}
+					//협의라면 내 아랫순번의 결재순서와 같게 한다. 
+					if(stList[i].value==2){
+						//만약 내 이전 순번이 첫 결재자라면 아랫순번과 같은 결재 순서를 가지진 않는다. 
+						if(stList[i+1].value!=2){
+							ordercount++;
+						}
+						ordercount--;
+						
+					}
 						horderList[i].value = ordercount;
 						orderList[i].innerText = ordercount;
 						ordercount++;					
 				}
 			}
-			//날짜변환 yyyy-MM-dd
+			//날짜변환 yyyy-MM-dd(date to string)
             function getFormatDate(date){
                 var year = date.getFullYear();
                 var month = (1 + date.getMonth());
@@ -475,53 +545,8 @@ th{width:50px;}
                 day = day >= 10 ? day : '0' + day;
                 return year + '-' + month + '-' + day;
             }
-			
-			//toggle button 
-			  $(function() {
-			    $('#orderDisplay').bootstrapToggle();
-			  })
-			  $(function() {
-				    $('#orderDisplay').change(function() {
-				    	console.log($(this).prop('checked'));
-				    	if($(this).prop('checked')){
-				    		$(".dOrders").css("display","table-cell");
-				    		return;
-				    	}
-				    	$(".dOrders").css("display","none");
-				    })
-				})
 		</script>
-		
-		
-		<script>
-		// Date 객체를 받아 week number를 반환 
-		// 참고: https://weeknumber.net/how-to/javascript 
-		function getWeekFromISODate(dt) { 
-			dt.setHours(0,0,0,0); 
-			dt.setDate(dt.getDate() + 3 - (dt.getDay() + 6) % 7); 
-			const week1 = new Date(dt.getFullYear(), 0, 4); 
-			const weekNumber = 1 + Math.round(((dt.getTime() - week1.getTime())/ 86400000 - 3 + (week1.getDay() + 6) % 7) / 7); 
-			return `${dt.getFullYear()}-W${weekNumber}`; } 
-
-		// YYYY-W00 형태의 ISO 8601 week number를 받아 해당 주의 월요일 Date 객체를 반환 
-		// https://stackoverflow.com/questions/16590500/javascript-calculate-date-from-week-number 
-		function getStartDateFromISOWeek(ISOweek) { 
-			const y = parseInt(ISOweek.substring(0, 4)); 
-			const w = parseInt(ISOweek.substring(6, 8)); 
-			const simpleDate = new Date(y, 0, 1 + (w - 1) * 7); 
-			const dayOfWeek = simpleDate.getDay(); 
-			const ISOweekStart = simpleDate; 
-			if (dayOfWeek <= 4) { 
-				ISOweekStart.setDate(simpleDate.getDate() - simpleDate.getDay() + 1);
-			 } else { 
-				ISOweekStart.setDate(simpleDate.getDate() + 8 - simpleDate.getDay()); 
-			} 
-			return ISOweekStart; 
-		} 
-		</script>
-
-	<jsp:include page="/WEB-INF/views/commonPage/summernote-plugin.jsp" />
-
+<jsp:include page="/WEB-INF/views/commonPage/summernote-plugin.jsp" />
 
 </body>
 </html>
