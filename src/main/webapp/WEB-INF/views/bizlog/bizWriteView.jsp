@@ -321,6 +321,17 @@ th{width:50px;}
 		$("#writeForm").submit();
 		
 	})
+	
+	$(document).ready(function(){
+		//화면이 로딩될 때 summernote에 '0'번째 docs template 설정
+		 $.ajax({
+			url : "/approval/getTemplate.approval?app_docs_type="+$("#docsType option:eq(0)").val(),
+			method : 'POST',
+			success : function(template){
+				$('.summernote').summernote('code', template);
+			}
+		})
+	})
 	</script>
 	
 		<script>
@@ -445,7 +456,7 @@ th{width:50px;}
 					}
 					signType.append(sSt);
 				//form으로 보낼 데이터 작성	
-				let hId = $("<input type=hidden name='approval_signDTOList["+index+"].app_sign_id' value='"+$(this).children(".modalId").val()+"' class='hId'>");
+				let hId = $("<input type=hidden name='approval_signDTOList["+index+"].app_sign_id' value='"+data.memInfo.id+"' class='hId'>");
 				let hOrder = $("<input type=hidden name='approval_signDTOList["+index+"].app_sign_order' value='"+(ordercount)+"' class='hOrder'>");
 				let hSignType = $("<input type=hidden name='approval_signDTOList["+index+"].app_sign_type_code' value='"+0+"' class='hSignType'>");
 				block.append(order);block.append(dept);block.append(name);block.append(posi);block.append(signType);block.append(del);block.append(hId);block.append(hOrder);block.append(hSignType);

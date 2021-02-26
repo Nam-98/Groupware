@@ -43,47 +43,7 @@
    	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-treeview/1.2.0/bootstrap-treeview.min.css">
    	
 <style type="text/css">
-/* Remove default bullets */
-ul, #myUL1 {
-	list-style-type: none;
-}
-
-/* Remove margins and padding from the parent ul */
-#myUL1 {
-	margin: 0;
-	padding: 0;
-	width: 200px;
-	height: 100%;
-}
-
-/* Style the caret/arrow */
-.caret1 {
-	cursor: pointer;
-	user-select: none; /* Prevent text selection */
-}
-
-/* Create the caret/arrow with a unicode, and style it */
-.caret1::before {
-	content: "\25B6";
-	color: black;
-	display: inline-block;
-	margin-right: 6px;
-}
-
-/* Rotate the caret/arrow icon when clicked on (using JavaScript) */
-.caret-down1::before {
-	transform: rotate(90deg);
-}
-
-/* Hide the nested list */
-.nested1 {
-	display: none;
-}
-
-/* Show the nested list when the user clicks on the caret/arrow (with JavaScript) */
-.active1 {
-	display: block;
-}
+#organTree{max-height: 600px; overflow: auto;}
 .table>thead>tr>th{vertical-align: middle;}
 th{width:50px;}
 .table>thead>tr>th{border-bottom:none;}
@@ -460,7 +420,7 @@ td.resize-col {
 					}
 					signType.append(sSt);
 				//form으로 보낼 데이터 작성	
-				let hId = $("<input type=hidden name='approval_signDTOList["+index+"].app_sign_id' value='"+$(this).children(".modalId").val()+"' class='hId'>");
+				let hId = $("<input type=hidden name='approval_signDTOList["+index+"].app_sign_id' value='"+data.memInfo.ID+"' class='hId'>");
 				let hOrder = $("<input type=hidden name='approval_signDTOList["+index+"].app_sign_order' value='"+(ordercount)+"' class='hOrder'>");
 				let hSignType = $("<input type=hidden name='approval_signDTOList["+index+"].app_sign_type_code' value='"+0+"' class='hSignType'>");
 				block.append(order);block.append(dept);block.append(name);block.append(posi);block.append(signType);block.append(del);block.append(hId);block.append(hOrder);block.append(hSignType);

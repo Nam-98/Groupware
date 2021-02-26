@@ -104,7 +104,19 @@
 											<td>${i.app_title}</td>
 											<td>${i.name}</td>
 											<td>${i.app_reg_date}</td>
-											<td>${i.app_status_name}</td>
+											<td>
+												<c:choose>
+													<c:when test="${i.app_status_name eq '반송'}">
+														<span class="label label-danger">${i.app_status_name}</span>
+													</c:when>
+													<c:when test="${i.app_status_name eq '진행중'}">
+														<span class="label label-warning">${i.app_status_name}</span>
+													</c:when>
+													<c:when test="${i.app_status_name eq '결재완료'}">
+														<span class="label label-success">${i.app_status_name}</span>
+													</c:when>
+												</c:choose>
+											</td>
 										</tr>
 									</c:forEach>
 									</c:otherwise>
