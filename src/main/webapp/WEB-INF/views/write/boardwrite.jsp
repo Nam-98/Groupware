@@ -53,7 +53,7 @@
 						$('#summernote')
 								.summernote(
 										{
-											height : 300, // 에디터 높이
+											height : 500, // 에디터 높이
 											minHeight : 500, // 최소 높이
 											maxHeight : null, // 최대 높이
 											focus : true, // 에디터 로딩후 포커스를 맞출지 여부
@@ -108,12 +108,22 @@
 
 <style>
 * {
+	border: 0px solid black;
 	box-sizing: border-box;
+	margin: 0;
 }
 
-.maincontainer {
-	margin-top: 80px;
+.top-vacant {
+	width: 1020px;
+	height: 20px;
 }
+
+.page-name {
+	width: 100%;;
+	height: 50px;
+	float: left;
+}
+
 </style>
 
 </head>
@@ -135,23 +145,31 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 class="page-title">게시판 글쓰기</h3>
-					<div class="maincontainer">
-						<div style="width: 50%; margin-left: 300px;">
-							<form action="/write/insertBoardWrite.write" method="post">
-								제목 : <input type="text" name="write_title" style="width: 40%;"
-									placeholder="제목을 입력하세요." /><br>
-								<br> 작성자 : <input type="text" name="write_id"
-									style="width: 20%;" value="${id}" readonly /> <br>
-								<br>
-								<textarea id="summernote" name="write_contents"></textarea>
-								<input id="subBtn" type="button" value="작성 완료"
-									style="float: right;" onclick="goWrite(this.form)" /> <input
-									id="delBtn" type="button" value="작성 취소" style="float: right;">
-							</form>
+						<h3 class="page-title">게시판 글쓰기</h3>
+					<div class="col-md-9">
+						<div class="well">
+							<div class="panel panel-headline demo-icons">
+								<div class="panel-heading">
+									<h3 class="panel-title">게시판 글 작성</h3>
+								</div>
+							<div class="panel-body">
+								<div>
+									<form action="/write/insertBoardWrite.write" method="post">
+									제목 : <input type="text" name="write_title" style="width: 40%;"
+										placeholder="제목을 입력하세요." /><br>
+									<br> 작성자 : <input type="text" name="write_id"
+										style="width: 20%;" value="${id}" readonly /> <br>
+									<br>
+									<textarea id="summernote" name="write_contents"></textarea>
+									 <input	id="delBtn" class="btn btn-secondary" type="button" value="작성 취소" style="float: right;">
+									 <input id="subBtn" class="btn btn-primary" type="button" value="작성 완료" style="float: right;" onclick="goWrite(this.form)" />
+									</form>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
+			</div>
 			</div>
 			<!-- END MAIN CONTENT -->
 		</div>

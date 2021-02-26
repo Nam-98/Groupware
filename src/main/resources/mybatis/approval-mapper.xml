@@ -10,14 +10,15 @@
   		select * from st.approval_sign_type
   	</select>
   	<insert id="writeApp">
-  		insert into st.approval values(st.app_seq.nextval, #{app_type_code}, #{app_id}, #{app_archive}, #{app_title}, 'temp', (select current_date from dual),#{app_docs_num},1)
+  		insert into st.approval values(#{app_seq}, #{app_type_code}, #{app_id}, #{app_archive}, #{app_title}, 'temp', (select current_date from dual),#{app_docs_num},1)
   	</insert>
   	<insert id="setInitAppSign">
   		insert into st.approval_sign values(#{app_seq}, #{app_sign_id}, #{app_sign_order}, null, 'N', #{app_sign_type_code})
   	</insert>
-  	<select id="getLatestSeqById" resultType="int">
-  		select max(app_seq) from st.approval where app_id=#{id}
+  	<select id="getNewAppSeq" resultType="int">
+  		select st.app_seq.nextval from dual
   	</select>
+  	
   	<insert id="insertAf">
   		insert into st.approval_attached_files values(#{app_seq},#{app_ori_name},#{app_saved_name})
   	</insert>

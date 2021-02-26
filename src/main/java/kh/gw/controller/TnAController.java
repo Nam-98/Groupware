@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import kh.gw.dto.TnADTO;
@@ -232,7 +233,13 @@ public class TnAController {
 		
 	}
 
-
+	
+	// error
+	@ExceptionHandler
+	public String exceptionalHandler(Exception e) {
+		e.printStackTrace();
+		return "error";
+	}
 
 
 }

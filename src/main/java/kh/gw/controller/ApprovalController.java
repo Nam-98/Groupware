@@ -1,7 +1,10 @@
 package kh.gw.controller;
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletOutputStream;
@@ -60,14 +63,17 @@ public class ApprovalController {
 		//전자문서 종류 가져오기
 		model.addAttribute("docsType", aservice.appDocsType());
 		//결재선 선택용 자료 보내기
-		List<MemberDTO> mlist = mservice.listMem();//멤버를 불러옴
+		//List<MemberDTO> mlist = mservice.listMem();//멤버를 불러옴
+		List<Map<String,Object>> mlist = mservice.getMembersForAppWrite();
 		List<DepartmentDTO> dlist = mservice.listDept(); //부서명 가져옴
 		List<Approval_sign_typeDTO> adtList = aservice.allSignType();
 		List<Break_typeDTO> btList = bservice.getAllType();
+		String treeData = aservice.makeOrganTreeData(mlist, dlist);
 		model.addAttribute("mlist", mlist);
 		model.addAttribute("dlist", dlist);
 		model.addAttribute("adtList", adtList);
 		model.addAttribute("breakType", btList);
+		model.addAttribute("treeData",treeData);
 		return "approval/appWriteView";
 	}
 	
@@ -78,6 +84,9 @@ public class ApprovalController {
 			bservice.insertBreak(bdto,dto,appSeq);
 		}
 		aservice.setInitAppSign(approval_signDTOList, appSeq);
+		
+		
+		//앞에 approval/붙이면 approval/approval/toApp~ 로 가길래 아래와 같이 작성함. 
 		return "redirect:toAppDetailView.approval?app_seq="+appSeq;
 	}
 	

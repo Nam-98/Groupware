@@ -82,6 +82,11 @@ a { text-decoration:none }
 				<div class="container-fluid">
 					<h3 class="page-title">시스템 공지사항</h3>
 					<div class="maincontainer">
+					<div class="panel panel-headline demo-icons">
+					<div class="panel-heading">
+					<h3 class="panel-title">시스템 공지사항</h3>
+					
+					<div class="panel-body">
 			<form action="systemNoticeSearch.write?cpage=1" method="post" class="d-flex">
 				<table>
 					<tr>
@@ -93,7 +98,7 @@ a { text-decoration:none }
 							<option value="write_id">작성자</option>
 						</select>
 						<input type="text" name="keyword" id="keyword" placeholder="검색어를 입력하세요">
-						<button id="searchBtn" type="submit">검색</button>
+						<input type="submit" id="searchBtn" value="검색">
 <!-- 						<input class="form-control me" type="search" aria-label="Search"  name="keyword" id="keyword" placeholder="검색어를 입력하세요"> -->
 <!-- 						<button id="searchBtn" class="btn btn-outline-success" type="submit">검색</button> -->
 						</td>
@@ -101,7 +106,7 @@ a { text-decoration:none }
 				</table>
 			 </form>
 
-				<table class="table table-secondary table-striped">
+				<table class="table table-secondary">
 					<thead class="table-light">
 						<tr>
 							<th scope="col">No</th>
@@ -123,9 +128,12 @@ a { text-decoration:none }
 						</c:forEach>
 					</tbody>
 				</table>
+				</div>
 				<div class="navi">${navi }</div>
 			</div>
 				</div>
+			</div>
+			</div>
 			</div>
 			<!-- END MAIN CONTENT -->
 		</div>

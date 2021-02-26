@@ -37,49 +37,13 @@
   	<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+	
+	<!-- treeView -->
+   	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-treeview/1.2.0/bootstrap-treeview.min.js"></script>
+   	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-treeview/1.2.0/bootstrap-treeview.min.css">
    	
 <style type="text/css">
-/* Remove default bullets */
-ul, #myUL1 {
-	list-style-type: none;
-}
-
-/* Remove margins and padding from the parent ul */
-#myUL1 {
-	margin: 0;
-	padding: 0;
-	width: 200px;
-	height: 100%;
-}
-
-/* Style the caret/arrow */
-.caret1 {
-	cursor: pointer;
-	user-select: none; /* Prevent text selection */
-}
-
-/* Create the caret/arrow with a unicode, and style it */
-.caret1::before {
-	content: "\25B6";
-	color: black;
-	display: inline-block;
-	margin-right: 6px;
-}
-
-/* Rotate the caret/arrow icon when clicked on (using JavaScript) */
-.caret-down1::before {
-	transform: rotate(90deg);
-}
-
-/* Hide the nested list */
-.nested1 {
-	display: none;
-}
-
-/* Show the nested list when the user clicks on the caret/arrow (with JavaScript) */
-.active1 {
-	display: block;
-}
+#organTree{max-height: 600px; overflow: auto;}
 .table>thead>tr>th{vertical-align: middle;}
 th{width:50px;}
 .table>thead>tr>th{border-bottom:none;}
@@ -116,23 +80,7 @@ td.resize-col {
 						<div class="col-sm-4">
 						<div class="orgTree bg-light bg-gradient modalL">
 						<h3 class="text-center">조직도</h3>
-							<ul id="myUL1">
-								<c:forEach items="${dlist }" var="i">
-									<li><span class="caret1">${i.dept_name}</span>
-										<ul class="nested1">
-											<c:forEach items="${mlist}" var="j">
-												<c:if
-													test="${j.dept_code == i.dept_code && j.id != sessionScope.id}">
-													<li class="modalLi">${j.name}&emsp;${j.position_name} <input
-														type=hidden class="modalPosi" value="${j.position_name}">
-														<input type=hidden class="modalName" value="${j.name}">
-														<input type=hidden class="modalId" value="${j.id}">
-													</li>
-												</c:if>
-											</c:forEach>
-										</ul></li>
-								</c:forEach>
-							</ul>
+							<div id="organTree"></div>
 						</div>
 						</div>
 						<div class="col-sm-8">
@@ -152,11 +100,11 @@ td.resize-col {
 								<tbody id="selectedContainer">
 									<tr class="selectedBlock">
 										<c:forEach items="${mlist}" var="i">
-											<c:if test="${i.id == sessionScope.id}">
+											<c:if test="${i.ID == sessionScope.id}">
 												<td class="selectedOrder">1</td>
-												<td class="selectedDept">${i.dept_name }</td>
-												<td class="selectedName">${i.name }</td>
-												<td class="selectedPosi">${i.position_name }</td>
+												<td class="selectedDept">${i.DEPT_NAME }</td>
+												<td class="selectedName">${i.NAME }</td>
+												<td class="selectedPosi">${i.POSITION_NAME }</td>
 												<td class="selectTypeTd">
 													<select class="form-control form-select-sm selectType">
 														<option value="0">결재자</option>
@@ -414,15 +362,12 @@ td.resize-col {
 			})
 			
 			////모달창 내부 조직도 관련 script
-			var toggler = document.getElementsByClassName("caret1");
-			var i;
-	
-			for (i = 0; i < toggler.length; i++) {
-				toggler[i].addEventListener("click", function() {
-					this.parentElement.querySelector(".nested1").classList.toggle("active1");
-					this.classList.toggle("caret-down1");
-				});
-			}
+			////https://github.com/jonmiles/bootstrap-treeview
+			var treeData =	`${treeData}`;
+			$('#organTree').treeview({
+			  data: treeData,         // data is not optional
+			  levels: 5
+			});
 			
 			//sign_type의 객체를 arr형태로 저장
 			let sign_type_arr = new Array();
@@ -430,11 +375,14 @@ td.resize-col {
 				let arr${i.count}= ["${item.app_sign_type_code}","${item.app_sign_type_name}"];
 				sign_type_arr.push(arr${i.count});	
 			</c:forEach>
+			
 			////조직도에서 인원 클릭시 추가 
-			$(".modalLi").on("click",function(){
+			$('#organTree').on('nodeSelected', function(event, data) {
+				console.log(data.memInfo.ID);
+				
 				//이미 같은 사람이 추가되어 있는지 확인
 				let list = $(".selectedName");
-				let sName = $(this).children(".modalName").val();
+				let sName = data.memInfo.NAME;
 				for(var i=0; i<list.length;i++){
 					if(sName==list.eq(i).text()){
 						alert("결재라인에 같은 사람을 올릴 수 없습니다.");
@@ -442,12 +390,16 @@ td.resize-col {
 					}
 	
 				}
-	
+				
+				
 				//왼쪽 상세창에 추가
-				let index;
-				if(Object.keys(sign_info_Json).length==0){index=1}else{index=Object.keys(sign_info_Json).length}
-				let sDept = $(this).parent().parent().children(".caret1").html();
-				let sPosi = $(this).children(".modalPosi").val();
+				let index = (Object.keys(sign_info_Json).length)+1;
+				console.log("index : "+(Object.keys(sign_info_Json).length));
+				//if(Object.keys(sign_info_Json).length==0){index=1}else{index=Object.keys(sign_info_Json).length}
+				
+				let sDept = data.memInfo.DEPT_NAME;
+				let sPosi = data.memInfo.POSITION_NAME
+				
 				let block = $("<tr class=selectedBlock>");
 				let dept = $("<td class='selectedDept'>");
 					dept.append(sDept);
@@ -468,7 +420,7 @@ td.resize-col {
 					}
 					signType.append(sSt);
 				//form으로 보낼 데이터 작성	
-				let hId = $("<input type=hidden name='approval_signDTOList["+index+"].app_sign_id' value='"+$(this).children(".modalId").val()+"' class='hId'>");
+				let hId = $("<input type=hidden name='approval_signDTOList["+index+"].app_sign_id' value='"+data.memInfo.ID+"' class='hId'>");
 				let hOrder = $("<input type=hidden name='approval_signDTOList["+index+"].app_sign_order' value='"+(ordercount)+"' class='hOrder'>");
 				let hSignType = $("<input type=hidden name='approval_signDTOList["+index+"].app_sign_type_code' value='"+0+"' class='hSignType'>");
 				block.append(order);block.append(dept);block.append(name);block.append(posi);block.append(signType);block.append(del);block.append(hId);block.append(hOrder);block.append(hSignType);
@@ -476,11 +428,11 @@ td.resize-col {
 				
 				// json저장 형식 => 이름 : [id (이름으로 아이디를 찾을 수 있게):결재자(defualt값이 결재자임)]
 				sign_name_Json.push(sName);
-				sign_info_Json[sName] = [$(this).children(".modalId").val(),0];
+				sign_info_Json[sName] = [data.memInfo.ID,0];
 				
 				fnRenumbering();
-	
-			})
+				});
+
 			////조직도 상세 내부에서 인원 삭제
 			$("#selectedContainer").on("click",".selectedDel",function(){
 				

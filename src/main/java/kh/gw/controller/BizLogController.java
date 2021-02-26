@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -19,6 +20,7 @@ import kh.gw.dto.Approval_signDTO;
 import kh.gw.dto.Approval_sign_typeDTO;
 import kh.gw.dto.BizLog_periodDTO;
 import kh.gw.dto.BreakDTO;
+import kh.gw.dto.Break_typeDTO;
 import kh.gw.dto.DepartmentDTO;
 import kh.gw.dto.MemberDTO;
 import kh.gw.service.ApprovalService;
@@ -48,6 +50,12 @@ public class BizLogController {
 		model.addAttribute("mlist", mlist);
 		model.addAttribute("docsType", bservice.getDocsType());
 		model.addAttribute("thisYear", LocalDate.now().getYear());//올해 몇년도인지 보내기
+
+		//결재선 선택용 자료 보내기
+		//List<DepartmentDTO> dlist = mservice.listDept(); //부서명 가져옴
+		String treeData = bservice.makeOrganTreeData(mlist);
+		model.addAttribute("treeData",treeData);
+		
 		return "bizlog/bizWriteView";
 	}
 	

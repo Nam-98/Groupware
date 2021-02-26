@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -81,6 +82,7 @@ public class WriteController {
 		String keyword = request.getParameter("keyword");
 		int cpage = Integer.parseInt(request.getParameter("cpage"));
 		List<WriteDTO>list = wservice.noticeSearch(cpage,condition,"00",keyword);
+		wservice.addDateStr(list);
 		String navi = wservice.noticeSearchNavi(cpage,condition,"00",keyword);
 		m.addAttribute("list",list);
 		m.addAttribute("navi", navi);
@@ -128,6 +130,8 @@ public class WriteController {
 		int cpage = Integer.parseInt(request.getParameter("cpage"));
 		List<WriteDTO>list = wservice.noticeSearch(cpage,condition,"01",keyword);
 		String navi = wservice.systemNoticeSearchNavi(cpage,condition,"01",keyword);
+		wservice.addDateStr(list);
+		
 		m.addAttribute("list",list);
 		m.addAttribute("navi", navi);
 		m.addAttribute("keyword",keyword);
@@ -155,6 +159,9 @@ public class WriteController {
 	public String boardView(Model m, HttpServletRequest request, WriteDTO dto, Write_commentsDTO cdto) throws Exception{
 		dto.setWrite_seq(Integer.parseInt(request.getParameter("write_seq")));
 		WriteDTO dtos = wservice.noticeView(dto.getWrite_seq());
+		
+		dtos.setWrite_contents(wservice.getHtmlText(Integer.parseInt(request.getParameter("write_seq"))));
+		
 		wservice.addDateStrOne(dtos);
 		int result = wservice.addViewCount(dto.getWrite_seq()); // 조회수+1
 		cdto.setWrite_seq(Integer.parseInt(request.getParameter("write_seq")));
@@ -173,6 +180,8 @@ public class WriteController {
 		int cpage = Integer.parseInt(request.getParameter("cpage"));
 		List<WriteDTO>list = wservice.noticeSearch(cpage,condition,"02",keyword);
 		String navi = wservice.boardSearchNavi(cpage,condition,"02",keyword);
+		wservice.addDateStr(list);
+		
 		m.addAttribute("list",list);
 		m.addAttribute("navi", navi);
 		m.addAttribute("keyword",keyword);
@@ -243,6 +252,8 @@ public class WriteController {
 	public String boardGalleryView(Model m, HttpServletRequest request, WriteDTO dto, Write_commentsDTO cdto) throws Exception{
 		dto.setWrite_seq(Integer.parseInt(request.getParameter("write_seq")));
 		WriteDTO dtos = wservice.noticeView(dto.getWrite_seq());
+		
+		dtos.setWrite_contents(wservice.getHtmlText(Integer.parseInt(request.getParameter("write_seq"))));
 
 		wservice.addDateStrOne(dtos);
 		int result = wservice.addViewCount(dto.getWrite_seq()); // 조회수+1
@@ -264,6 +275,8 @@ public class WriteController {
 		int cpage = Integer.parseInt(request.getParameter("cpage"));
 		List<WriteDTO>list = wservice.noticeSearch(cpage,condition,"03",keyword);
 		String navi = wservice.gallerySearchNavi(cpage,condition,"03",keyword);
+		wservice.addDateStr(list);
+		
 		m.addAttribute("list",list);
 		m.addAttribute("navi", navi);
 		m.addAttribute("keyword",keyword);
@@ -334,7 +347,7 @@ public class WriteController {
 			System.out.println("삭제됨");
 			
 		}else {
-			System.out.println("붐?");
+			System.out.println("삭제안돼");
 			
 		}
 		Gson gson = new Gson();
@@ -372,6 +385,25 @@ public class WriteController {
 		String reCmtList = gson.toJson(map);
 		return reCmtList;
 	}
+	
+	//------------- 대댓글 삭제
+		@RequestMapping(value = "commentReDelete.write", method = RequestMethod.POST)
+		@ResponseBody
+		public Object commentReDelete(HttpServletRequest request, Write_commentsDTO cdto) throws Exception{
+			System.out.println(cdto.getWrite_cmt_seq());
+			int ac = wservice.commentReDelete(cdto.getWrite_cmt_seq());
+			if(ac == 1) {
+				
+				System.out.println("삭제됨");
+				
+			}else {
+				System.out.println("안돼?");
+				
+			}
+			Gson gson = new Gson();
+			String a = gson.toJson(ac);
+			return a;
+		}
 		
 	//메인페이지 팝업 최신 1개만 내용 보이기
 		@RequestMapping("noticePopupView.write")
@@ -384,5 +416,11 @@ public class WriteController {
 			m.addAttribute("dtos", dtos);
 			return "/write/noticepopuplist";
 		}
-	
+		
+		// error
+		@ExceptionHandler
+		public String exceptionalHandler(Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
 }

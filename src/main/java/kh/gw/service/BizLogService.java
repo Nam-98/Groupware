@@ -15,10 +15,13 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.gson.Gson;
+
 import kh.gw.dao.BizLogDAO;
 import kh.gw.dto.ApprovalDTO;
 import kh.gw.dto.Approval_typeDTO;
 import kh.gw.dto.BizLog_periodDTO;
+import kh.gw.dto.DepartmentDTO;
 import kh.gw.dto.MemberDTO;
 
 @Service
@@ -32,6 +35,39 @@ public class BizLogService {
 	public List<MemberDTO> getMyDeptMem(){
 		return bdao.getMyDeptMem((String)session.getAttribute("id"));
 	}
+	
+	public String makeOrganTreeData(List<MemberDTO> members) {
+		String result = null;
+		Gson gson = new Gson();
+		List<Map<String, Object>> memlist = new ArrayList<>();
+		Map<String, Object> state = new HashMap<>();
+		state.put("checked", false);
+		state.put("disabled", false);
+		state.put("expanded", false);
+		state.put("selected", false);
+
+			
+			//member list 넣기
+			for(MemberDTO mem : members) {
+				String id =  (String)session.getAttribute("id");
+				//지금 넣고 있는 부서에 속해있는 member이고 지금 approval을 작성하고 있는 사람이 아닌 인원을 넣는다.(작성자는 무조건 첫번째 결재자이기 때문)
+				if(!id.contentEquals(mem.getId())) {
+					Map<String,Object> memInfo = new HashMap();
+					memInfo.put("text", mem.getName()+"&emsp;"+mem.getPosition_name());
+					memInfo.put("memInfo", mem);
+					memInfo.put("state", state);
+					memInfo.put("icon", "glyphicon glyphicon-user");
+					memInfo.put("selectedIcon", "glyphicon glyphicon-ok");
+					memlist.add(memInfo);
+				}
+			}
+
+		result = gson.toJson(memlist);
+		return result;
+	}
+	
+	
+	
 	public List<Approval_typeDTO> getDocsType(){
 		return bdao.getDocsType();
 	}

@@ -9,7 +9,8 @@
 </head>
 <body>
 	<script>
-		window.opener.location.href="/schedule/monthSchedule.schedule";
+		alert("등록되었습니다.");
+		opener.parent.location.reload();
 		window.close();
 	</script>
 </body>

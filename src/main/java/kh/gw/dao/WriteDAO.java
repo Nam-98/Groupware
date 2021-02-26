@@ -180,6 +180,12 @@ public class WriteDAO {
 		return db.selectList("Write.listBr");
 	}
 
+	public int getNewBoardSeq() {
+		return db.selectOne("Write.getNewBoardSeq");
+	}
 
+	public int commentReDelete(int write_cmt_seq) {
+		return db.delete("Write.commentReDelete", write_cmt_seq);
+	}
 
 }

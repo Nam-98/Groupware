@@ -9,7 +9,7 @@
 	</select>
   
   	<select id ="getMemInfo" resultType ="kh.gw.dto.MemberDTO">
-		select m.*, d.dept_name as dept_name, p.position_name as position_name from st.member m, st.position p, st.department d where (id=#{value}) and (m.dept_code like d.dept_code) and (m.position_code like p.position_code)
+		select m.id,m.password,m.name,to_char(m.birth,'YY. mm. dd') as birth_str,m.birth,m.gender,m.contact,m.address1,m.address2,m.zip_code,m.is_married,m.dept_code,m.position_code,to_char(m.reg_date,'YY. mm. dd') as reg_date_str,m.reg_date, m.access_level_code,m.break_total_count,m.break_use_count,m.retire_date, d.dept_name as dept_name, p.position_name as position_name from st.member m, st.position p, st.department d where (id=#{value}) and (m.dept_code like d.dept_code) and (m.position_code like p.position_code)
 	</select>
 	
 	<select id="listMem" resultType = "kh.gw.dto.MemberDTO">
@@ -38,4 +38,7 @@
 	<update id="updateBreakUseCount">
 		update st.member set break_use_count=(break_use_count+#{break_use_count}) where id=#{id}
 	</update>
+	<select id="getMembersForAppWrite" resultType="java.util.HashMap">
+		select id, name, dept_name, position_name, dept_tree_code, dept_code from st.member join st.department using (dept_code) join st.position using (position_code) order by dept_tree_code
+	</select>
   </mapper>
