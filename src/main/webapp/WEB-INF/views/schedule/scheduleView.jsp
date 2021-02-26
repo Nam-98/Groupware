@@ -65,14 +65,15 @@
 						  		<th>일정명 : ${dtos.sch_title }</th>
 						  	</tr>
 						  	<tr>
+						  		<th>일정 내용 : ${dtos.sch_contents }</th>
+						  	</tr>
+						  	<tr>
 						  		<th>시작 날짜 : ${dtos.sch_start_date_sc }</th>
 						  	</tr>
 						  	<tr>
 						  		<th>종료 날짜 : ${dtos.sch_end_date_sc }</th>
 						  	</tr>
-						  	<tr>
-						  		<th>일정 내용 : ${dtos.sch_contents }</th>
-						  	</tr>
+						  	
 						  </table>
 				   </div>
 				   <div class="btnHome">

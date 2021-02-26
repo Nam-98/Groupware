@@ -52,7 +52,7 @@
                         		<li><a href="/schedule/daySchedule.schedule" class="">일간일정</a></li>
                                 <li><a href="/schedule/weekSchedule.schedule" class="">주간일정</a></li>
                                 <li><a href="/schedule/monthSchedule.schedule" class="">월간일정</a></li>
-                                <li><a href="/schedule/yearSchedule.schedule" class="">연간일정</a></li>
+                                <li><a href="/schedule/yearSchedule.schedule" class="" id="yearSchedule">연간일정</a></li>
                         </ul>
                     </div>
                 </li>
@@ -147,5 +147,15 @@
 			var options='top='+popupY+', left='+popupX+', width='+popupWidth+', height='+popupHeight+', status=no, menubar=no, toolbar=no, resizable=no, location=no';
 			window.open(url,"webhard",options);
 		})
+	</script>
+	
+	<script>
+	window.addEventListener('DOMContentLoaded', function(){
+		var aBiz = document.getElementById("yearSchedule");
+		var today = new Date();
+		var sYear = today.getFullYear();
+		var sMonth = today.getMonth()+1;//달은 0부터 시작하기 때문에 +1을 함.(1월 == 0, 2월 == 1, 12월 == 11)
+		aBiz.setAttribute("href", "/schedule/yearSchedule.schedule?year="+sYear);
+	})
 	</script>
 

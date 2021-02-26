@@ -45,11 +45,11 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 class="page-title">일정 상세</h3>					
+					<h3 class="page-title">상세일정수정</h3>					
 				</div>
 					<div class="top-vacant d-none d-lg-block"></div>
 					
-					<form action="/schedule/scheduleModify.schedule?sch_seq=${sdto.sch_seq }" method="post">
+					
 					<div class="panel panel-headline demo-icons">
 						<div class="panel-heading">
 							<h3 class="panel-title">상 세 일 정 수 정</h3>
@@ -57,12 +57,12 @@
 						
 						<div class="panel-body">
 						
-						</div>
 						
+						<form action="/schedule/scheduleModify.schedule" method="post">
 						<!-- Table -->
 						  <table class="table">
 						 	<tr>
-						  		<th>작성자 : ${sdto.sch_id } <input type="hidden" value="${sdto.sch_seq }"></th>
+						  		<th>작성자 : ${sdto.sch_id } <input type="hidden" name="sch_seq" value="${sdto.sch_seq }"></th>
 						  	</tr>
 						  	<tr>
 						  		<th>일정명 : <input type="text" name="sch_title" value="${sdto.sch_title }" required></th>
@@ -73,20 +73,77 @@
 						  	</tr>
 						  	
 						  	<tr>
-						  		<th>시작 날짜 : <input type="date" name="sch_start_date_sc" value="${sdto.sch_start_date_sc }" required></th>
+						  		<th>시작 날짜 : <input type="date" id="date3" name="sch_start_date_sc" value="${sdto.sch_start_date_sc }" required>
+						  		<select id="hour" name="condition">
+													<option value="6">6</option>
+													<option value="7">7</option>
+													<option value="8">8</option>
+													<option value="9">9</option>
+													<option value="10">10</option>
+													<option value="11">11</option>
+													<option value="12">12</option>
+													<option value="13">13</option>
+													<option value="14">14</option>
+													<option value="15">15</option>
+													<option value="16">16</option>
+													<option value="17">17</option>
+													<option value="18">18</option>
+													<option value="19">19</option>
+													<option value="20">20</option>
+													<option value="21">21</option>
+													<option value="22">22</option>
+												</select>시
+												<select id="min" name="condition2">
+													<option value="00">00</option>
+													<option value="10">10</option>
+													<option value="20">20</option>
+													<option value="30">30</option>
+													<option value="40">40</option>
+													<option value="50">50</option>
+												</select>분 <br><br>
+												</th>
+
 						  	</tr>
 						  	<tr>
-						  		<th>종료 날짜 : <input type="date" name="sch_end_date_sc" value="${sdto.sch_end_date_sc }" required></th>
+						  		<th>종료 날짜 : <input type="date" id="date2" name="sch_end_date_sc" value="${sdto.sch_end_date_sc }" required>
+						  		<select id="hour2" name="condition3">
+													<option value="6">6</option>
+													<option value="7">7</option>
+													<option value="8">8</option>
+													<option value="9">9</option>
+													<option value="10">10</option>
+													<option value="11">11</option>
+													<option value="12">12</option>
+													<option value="13">13</option>
+													<option value="14">14</option>
+													<option value="15">15</option>
+													<option value="16">16</option>
+													<option value="17">17</option>
+													<option value="18">18</option>
+													<option value="19">19</option>
+													<option value="20">20</option>
+													<option value="21">21</option>
+													<option value="22">22</option>
+												</select>시
+												<select id="min2" name="condition4">
+													<option value="00">00</option>
+													<option value="10">10</option>
+													<option value="20">20</option>
+													<option value="30">30</option>
+													<option value="40">40</option>
+													<option value="50">50</option>
+												</select>분 </th>
 						  	</tr>
 						  	
 						  </table>
 						
-				   </div>
 				   <div class="btnHome">
-				   		<button id="btnModify" class="btn btn-primary" onclick="goWrite(this.form)">수정하기</button>
+				   		<input type="submit" id="btnModify" class="btn btn-primary" value="수정하기" onclick="add(this.form)">
+<!-- 				   		<button id="btnModify" class="btn btn-primary" onclick="goWrite(this.form)">수정하기</button> -->
 				   		<input type="button" id="btnCancel" class="btn btn-primary" value="취소하기">
 				   </div>
-				  </form>
+				    </form>
+				    </div>
 		</div>
 </div>
 
@@ -95,6 +152,35 @@
 		location.href="/schedule/monthSchedule.schedule";
 	}
 </script>
+
+<script>
+				function add(frm){
+					var start_date = new Date(document.getElementById("date3").value);
+					var end_date = new Date(document.getElementById("date2").value);
+					
+					var dateDiff = Math.ceil((end_date.getTime()-start_date.getTime())/(1000*3600*24));
+					
+					if(dateDiff < 0){
+						alert("종료 날짜를 다시 입력해주세요");
+						return false;
+					}
+					if(dateDiff == 0){
+						var start_time = parseInt(document.getElementById("hour").value);
+						var end_time = parseInt(document.getElementById("hour2").value);
+						
+						var timeDiff = end_time - start_time;
+						
+						if(timeDiff < 0){
+							alert("종료 시간을 다시 입력해주세요.");
+							return false;
+						}
+						frm.submit();
+					}
+					if(dateDiff > 0){
+						frm.submit();
+					}
+				}
+			</script>
 
 </body>
 </html>
