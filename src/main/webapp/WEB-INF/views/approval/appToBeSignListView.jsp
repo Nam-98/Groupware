@@ -95,7 +95,14 @@
 													<td>${i.name}</td>
 													<td>${i.app_reg_date}</td>
 													<td>
-														${i.app_is_my_sign_turn}
+														<c:choose>
+															<c:when test="${i.app_is_my_sign_turn eq '승인 요청중'}">
+																<span class="label label-success">${i.app_is_my_sign_turn}</span>
+															</c:when>
+															<c:when test="${i.app_is_my_sign_turn eq '결재 순서 대기중'}">
+																<span class="label label-warning">${i.app_is_my_sign_turn}</span>
+															</c:when>
+														</c:choose>
 													</td>
 												</tr>
 											</c:forEach>
