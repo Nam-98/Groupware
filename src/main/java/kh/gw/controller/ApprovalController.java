@@ -1,6 +1,8 @@
 package kh.gw.controller;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -113,7 +115,6 @@ public class ApprovalController {
 		model.addAttribute("app", aservice.getAppBySeq(app_seq));
 		model.addAttribute("signs", aservice.getAppSignBySeq(app_seq));
 		model.addAttribute("isMyCheckTurn", aservice.isMyCheckTurn(app_seq));
-		model.addAttribute("cmts", aservice.getAppCmtBySeq(app_seq));
 		model.addAttribute("files", aservice.getAppFileBySeq(app_seq));
 		model.addAttribute("contents", aservice.getHtmlText(app_seq));
 		model.addAttribute("app_seq", app_seq);
@@ -125,15 +126,61 @@ public class ApprovalController {
 		aservice.updateSign(app_seq, isAccept,app_type_code);
 		return this.toAppDetailView(model, app_seq);
 	}
+	
+    // 브라우저 정보 체크
+    public String getBrowser(HttpServletRequest request) {
+        String header = request.getHeader("User-Agent");
+        if (header.indexOf("MSIE") > -1) {
+            return "MSIE";
+        } else if (header.indexOf("Trident") > -1) {   // IE11 문자열 깨짐 방지
+            return "Trident";
+        } else if (header.indexOf("Chrome") > -1) {
+            return "Chrome";
+        } else if (header.indexOf("Opera") > -1) {
+            return "Opera";
+        } else if (header.indexOf("Safari") > -1) {
+            return "Safari";
+        }
+        return "Firefox";
+    }
+    
 	@RequestMapping(value="/dlAttachedFiles.approval", produces="application/text;charset=utf-8")
-	public void dlAttachedFiles(Approval_attached_filesDTO dto, HttpServletResponse resp) throws Exception {
+	public void dlAttachedFiles(Approval_attached_filesDTO dto, HttpServletRequest request, HttpServletResponse resp) throws Exception {
 		String filePath = session.getServletContext().getRealPath("/resources/Approval_attached_files");
 		File targetFile = new File(filePath+"/"+dto.getApp_saved_name());//경로 뒤에 download받고 싶은 file명을 붙이면 해당 file을 absolute path가 되며 이를 이용하여 java에서 객체로 받아올 수 있다.
 		if(targetFile.exists() && targetFile.isFile()) {
+			
+			// 브라우저별 파일명 한글깨짐 해결 로직
+			String browser = getBrowser(request);
+			String encodedFilename = null;
+			if (browser.equals("MSIE")) {
+				encodedFilename = URLEncoder.encode(dto.getApp_ori_name(), "UTF-8").replaceAll(
+						"\\+", "%20");
+			} else if (browser.equals("Firefox")) {
+				encodedFilename = "\""
+						+ new String(dto.getApp_ori_name().getBytes("UTF-8"), "8859_1") + "\"";
+			} else if (browser.equals("Opera")) {
+				encodedFilename = "\""
+						+ new String(dto.getApp_ori_name().getBytes("UTF-8"), "8859_1") + "\"";
+			} else if (browser.equals("Chrome")) {
+				StringBuffer sb = new StringBuffer();
+				for (int j = 0; j < dto.getApp_ori_name().length(); j++) {
+					char c = dto.getApp_ori_name().charAt(j);
+					if (c > '~') {
+						sb.append(URLEncoder.encode("" + c, "UTF-8"));
+					} else {
+						sb.append(c);
+					}
+				}
+				encodedFilename = sb.toString();
+			} else {
+				throw new IOException("Not supported browser");
+			}
+			
 			//resp의 defualt content type은 text/html이며 현재 우리가 보낼 file이 text/html이 아니므로 어떤 형태인지 설정해주어야 한다.  
 			resp.setContentType("application/octet-steam; charset=utf8");
 			resp.setContentLength((int)targetFile.length());
-			resp.setHeader("Content-Disposition", "attachment; filename='"+dto.getApp_ori_name()+"'");//파일이 download될 때 해당 file의 name을 설정해준다. 
+			resp.setHeader("Content-Disposition", "attachment; filename="+encodedFilename);//파일이 download될 때 해당 file의 name을 설정해준다. 
 			FileInputStream fis = new FileInputStream(targetFile);
 			ServletOutputStream sos = resp.getOutputStream();
 			FileCopyUtils.copy(fis, sos);//param의 왼쪽을 오른쪽으로 copy해라. 
