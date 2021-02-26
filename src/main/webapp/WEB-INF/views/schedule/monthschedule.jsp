@@ -107,11 +107,7 @@
 		<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
    </div>
    <!-- END WRAPPER -->
-   <script>
-   	document.getElementById("golist").onclick=function(){
-   		location.href="/schedule/scheduleListProc.schedule?cpage=1";
-   	}
-   </script>
+  
    <script>
       document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');

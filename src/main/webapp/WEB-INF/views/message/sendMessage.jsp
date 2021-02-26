@@ -82,11 +82,7 @@
 															[ 'ul', 'ol',
 																	'paragraph' ] ],
 													[ 'height', [ 'height' ] ],
-													[ 'insert', [ 'picture' ] ],
-													[
-															'view',
-															[ 'fullscreen',
-																	'help' ] ] ],
+													[ 'insert', [ 'picture' ] ] ],
 											fontNames : [ 'Arial',
 													'Arial Black',
 													'Comic Sans MS',
@@ -204,7 +200,7 @@ li>a {
 											<textarea id="summernote" name="msg_contents"
 												placeholder="내용을 입력하시오."></textarea>
 											<input id="subBtn" class="btn btn-primary btn-sm"
-												type="submit" style="float: right;" value="보내기"/>
+												type="button" style="float: right;" value="보내기" onclick="goWrite(this.form)"/>
 
 										</form>
 									</div>
@@ -234,16 +230,16 @@ li>a {
 
 			if (title.trim() == '') {
 				alert("제목을 입력해주세요");
-				return;
+				return false;
 			}
 
 			if (content.trim() == '') {
 				alert("내용을 입력해주세요");
-				return;
+				return false;
 			}
 			if (writer.trim() == '') {
 				alert("작성자를 입력해주세요");
-				return;
+				return false;
 			}
 			console.log("리턴 타고왔니?");
 			frm.submit();
@@ -251,10 +247,7 @@ li>a {
 	</script>
 
 	<script>
-		$("#search")
-				.on(
-						"click",
-						function() {
+		$("#search").on("click",function() {
 							var options = 'top=40, left=40, width=1150, height=700, status=no, menubar=no, toolbar=no, resizable=no';
 							window.open("/message/msgPopup.message", "popup",
 									options);

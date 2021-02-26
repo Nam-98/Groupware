@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -81,6 +82,7 @@ public class WriteController {
 		String keyword = request.getParameter("keyword");
 		int cpage = Integer.parseInt(request.getParameter("cpage"));
 		List<WriteDTO>list = wservice.noticeSearch(cpage,condition,"00",keyword);
+		wservice.addDateStr(list);
 		String navi = wservice.noticeSearchNavi(cpage,condition,"00",keyword);
 		m.addAttribute("list",list);
 		m.addAttribute("navi", navi);
@@ -128,6 +130,8 @@ public class WriteController {
 		int cpage = Integer.parseInt(request.getParameter("cpage"));
 		List<WriteDTO>list = wservice.noticeSearch(cpage,condition,"01",keyword);
 		String navi = wservice.systemNoticeSearchNavi(cpage,condition,"01",keyword);
+		wservice.addDateStr(list);
+		
 		m.addAttribute("list",list);
 		m.addAttribute("navi", navi);
 		m.addAttribute("keyword",keyword);
@@ -176,6 +180,8 @@ public class WriteController {
 		int cpage = Integer.parseInt(request.getParameter("cpage"));
 		List<WriteDTO>list = wservice.noticeSearch(cpage,condition,"02",keyword);
 		String navi = wservice.boardSearchNavi(cpage,condition,"02",keyword);
+		wservice.addDateStr(list);
+		
 		m.addAttribute("list",list);
 		m.addAttribute("navi", navi);
 		m.addAttribute("keyword",keyword);
@@ -269,6 +275,8 @@ public class WriteController {
 		int cpage = Integer.parseInt(request.getParameter("cpage"));
 		List<WriteDTO>list = wservice.noticeSearch(cpage,condition,"03",keyword);
 		String navi = wservice.gallerySearchNavi(cpage,condition,"03",keyword);
+		wservice.addDateStr(list);
+		
 		m.addAttribute("list",list);
 		m.addAttribute("navi", navi);
 		m.addAttribute("keyword",keyword);
@@ -408,5 +416,11 @@ public class WriteController {
 			m.addAttribute("dtos", dtos);
 			return "/write/noticepopuplist";
 		}
-	
+		
+		// error
+		@ExceptionHandler
+		public String exceptionalHandler(Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
 }

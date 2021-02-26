@@ -68,7 +68,7 @@
 								<span id="newFolder-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-plus"></span> New Folder</span>
 								<span id="parentFolder-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-level-up"></span> To Parent Folder</span>
 								<span id="download-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-save"></span> Download</span>
-								<span id="checkDel-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-floppy-remove"></span> Delete</span>
+								<span id="checkDel-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-trash"></span> Delete</span>
 								<span id="rename-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-erase"></span> Rename</span>
 	
 								

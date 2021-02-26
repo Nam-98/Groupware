@@ -63,8 +63,7 @@ $(document).ready(function() {
               ['table', ['table']],
               ['para', ['ul', 'ol', 'paragraph']],
               ['height', ['height']],
-              ['insert',['picture']],
-              ['view', ['fullscreen', 'help']]
+              ['insert',['picture']]
             ],
           fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋음체','바탕체'],
           fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
@@ -152,7 +151,7 @@ $(document).ready(function() {
 														<input type="button" class="btn btn-sm btn-primary" value="찾기" id="search">
 														
 													<!-- 값을 숨겨서 보내는 장소 -->
-													<input type="text" name="msg_receiver" id="msg_receiver">
+													<input type="hidden" name="msg_receiver" id="msg_receiver">
 													<input class="msgInput" type="hidden"
 														name="msg_sender_name" style="width: 75%;" value="${msg_sender_name}" />
 												</div>

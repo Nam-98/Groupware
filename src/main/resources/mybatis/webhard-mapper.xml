@@ -13,7 +13,7 @@
   	</select>
   	<select id="departmentDirIsExist" resultType="Integer">
 	  	select count(*) from st.webhard_access 
-	  	where (wh_id = #{wh_id}) and (wh_dir_type_code = #{wh_dir_type_code}) and (wh_dir_seq = #{wh_dir_seq})
+	  	where (wh_id = #{wh_id}) and (wh_dir_type_code = #{wh_dir_type_code})
   	</select>
   	<insert id="newDirMake">
   		insert into st.webhard_dir values(#{wh_dir_seq}, #{wh_dir_name}, #{wh_dir_parent_seq})
@@ -24,6 +24,9 @@
   	<insert id="dirAssign">
   		insert into st.webhard_access values(#{wh_id}, #{wh_dir_seq}, #{wh_dir_type_code})
   	</insert>
+  	<update id="dirAssignUpdate">
+  		update st.webhard_access set wh_dir_seq = #{wh_dir_seq} where (wh_id = #{wh_id}) and (wh_dir_type_code = #{wh_dir_type_code})
+  	</update>
   	<select id="getTopDirInfo" resultType="java.util.HashMap">
   		select acc.wh_id, acc.wh_dir_seq, acc.wh_dir_type_code, dir.wh_dir_name, dir.wh_dir_parent_seq from st.webhard_access acc, st.webhard_dir dir where (acc.wh_id = #{wh_id}) and (acc.wh_dir_type_code = #{wh_dir_type_code}) and (acc.wh_dir_seq = dir.wh_dir_seq) and (dir.wh_dir_parent_seq = 0)
   	</select>
@@ -31,7 +34,7 @@
   		select acc.wh_id, acc.wh_dir_seq, acc.wh_dir_type_code, dir.wh_dir_name, dir.wh_dir_parent_seq from st.webhard_access acc, st.webhard_dir dir where (acc.wh_id = #{wh_id}) and (acc.wh_dir_type_code = #{wh_dir_type_code}) and (acc.wh_dir_seq = dir.wh_dir_seq) and (dir.wh_dir_parent_seq is null)
   	</select>
   	<select id="getTopDepartmentDirInfo" resultType="java.util.HashMap">
-  		select acc.wh_id, acc.wh_dir_seq, acc.wh_dir_type_code, dir.wh_dir_name, dir.wh_dir_parent_seq from st.webhard_access acc, st.webhard_dir dir where (acc.wh_id = #{wh_id}) and (acc.wh_dir_type_code = #{wh_dir_type_code}) and (acc.wh_dir_seq = dir.wh_dir_seq) and (dir.wh_dir_parent_seq = 2)
+  		select acc.wh_id, acc.wh_dir_seq, acc.wh_dir_type_code, dir.wh_dir_name, dir.wh_dir_parent_seq from st.webhard_access acc, st.webhard_dir dir where (acc.wh_id = #{wh_id}) and (acc.wh_dir_type_code = #{wh_dir_type_code}) and (acc.wh_dir_seq = dir.wh_dir_seq)
   	</select>
 	<insert id="uploadFile">
 		insert into st.webhard_files values(st.wh_files_seq.nextval, #{wh_dir_seq}, #{wh_ori_name}, #{wh_saved_name}, (SELECT CURRENT_DATE FROM DUAL))

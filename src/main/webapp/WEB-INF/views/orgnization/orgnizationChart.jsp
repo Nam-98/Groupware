@@ -274,7 +274,7 @@ $("#treeGrid").on('rowSelect', function (event) {
 
 <script>
 document.getElementById("askFix").onclick = function(){
-	location.href="/message/orgSendMessage.message?msg_receiver_name=${dto.position_name} ${dto.name}&msg_receiver=${dto.id}";
+	location.href="/message/orgSendMessage.message?msg_receiver_name=${dto.name} ${dto.position_name}&msg_receiver=${dto.id}";
 }
 </script>
 <script>

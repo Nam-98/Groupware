@@ -24,9 +24,42 @@ public class MemberDTO {
 	private String position_name;
 	private int dept_level;
 	private String retire_date_str;
-	public MemberDTO() {
+	private String birth_str;
+	private String reg_date_str;
+	
+	public MemberDTO(String id, String password, String name, Date birth, String gender, String contact,
+			String address1, String address2, String zip_code, String is_married, int dept_code, int position_code,
+			Date reg_date, Date retire_date, int access_level_code, double break_total_count, double break_use_count,
+			String dept_name, String position_name, int dept_level, String retire_date_str, String birth_str,
+			String reg_date_str) {
 		super();
+		this.id = id;
+		this.password = password;
+		this.name = name;
+		this.birth = birth;
+		this.gender = gender;
+		this.contact = contact;
+		this.address1 = address1;
+		this.address2 = address2;
+		this.zip_code = zip_code;
+		this.is_married = is_married;
+		this.dept_code = dept_code;
+		this.position_code = position_code;
+		this.reg_date = reg_date;
+		this.retire_date = retire_date;
+		this.access_level_code = access_level_code;
+		this.break_total_count = break_total_count;
+		this.break_use_count = break_use_count;
+		this.dept_name = dept_name;
+		this.position_name = position_name;
+		this.dept_level = dept_level;
+		this.retire_date_str = retire_date_str;
+		this.birth_str = birth_str;
+		this.reg_date_str = reg_date_str;
 	}
+	
+	public MemberDTO() {}
+	
 	public String getId() {
 		return id;
 	}
@@ -153,32 +186,20 @@ public class MemberDTO {
 	public void setRetire_date_str(String retire_date_str) {
 		this.retire_date_str = retire_date_str;
 	}
-	public MemberDTO(String id, String password, String name, Date birth, String gender, String contact,
-			String address1, String address2, String zip_code, String is_married, int dept_code, int position_code,
-			Date reg_date, Date retire_date, int access_level_code, double break_total_count, double break_use_count,
-			String dept_name, String position_name, int dept_level, String retire_date_str) {
-		super();
-		this.id = id;
-		this.password = password;
-		this.name = name;
-		this.birth = birth;
-		this.gender = gender;
-		this.contact = contact;
-		this.address1 = address1;
-		this.address2 = address2;
-		this.zip_code = zip_code;
-		this.is_married = is_married;
-		this.dept_code = dept_code;
-		this.position_code = position_code;
-		this.reg_date = reg_date;
-		this.retire_date = retire_date;
-		this.access_level_code = access_level_code;
-		this.break_total_count = break_total_count;
-		this.break_use_count = break_use_count;
-		this.dept_name = dept_name;
-		this.position_name = position_name;
-		this.dept_level = dept_level;
-		this.retire_date_str = retire_date_str;
+	public String getBirth_str() {
+		return birth_str;
 	}
+	public void setBirth_str(String birth_str) {
+		this.birth_str = birth_str;
+	}
+	public String getReg_date_str() {
+		return reg_date_str;
+	}
+	public void setReg_date_str(String reg_date_str) {
+		this.reg_date_str = reg_date_str;
+	}
+	
+	
+	
 	
 }

@@ -83,6 +83,11 @@ a { text-decoration:none }
 				<div class="container-fluid">
 					<h3 class="page-title">시스템 공지사항 검색</h3>
 					<div class="maincontainer">
+					<div class="panel panel-headline demo-icons">
+					<div class="panel-heading">
+					<h3 class="panel-title">시스템 공지사항 검색 리스트</h3>
+					
+					<div class="panel-body">
 			<form action="systemNoticeSearch.write?cpage=1" method="post">
 				<table>
 					<tr>
@@ -94,13 +99,13 @@ a { text-decoration:none }
 							<option value="write_id">작성자</option>
 						</select>
 						<input type="text" name="keyword" id="keyword" placeholder="검색어를 입력하세요">
-						<button id="searchBtn" type="submit">검색</button>
+						<input type="submit" id="searchBtn" value="검색">
 						</td>
 					</tr>
 				</table>
 			 </form>
 
-				<table class="table table-secondary table-striped">
+				<table class="table table-secondary">
 					<thead class="table-light">
 						<tr>
 							<th scope="col">No</th>
@@ -116,15 +121,18 @@ a { text-decoration:none }
 								<th scope="row">${i.rn }</th>
 								<td><a href="systemNoticeView.write?write_seq=${i.write_seq}">${i.write_title }</a></td>
 								<td>${i.write_id }</td>
-								<td>${i.write_reg_date }</td>
+								<td>${i.write_reg_date_wr }</td>
 								<td>${i.write_read_count }</td>
 							</tr>
 						</c:forEach>
 					</tbody>
 				</table>
+				</div>
 				<div class="navi">${navi }</div>
 			</div>
 				</div>
+			</div>
+			</div>
 			</div>
 			<!-- END MAIN CONTENT -->
 		</div>

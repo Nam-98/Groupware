@@ -112,7 +112,7 @@
 													<th scope="row">아 이 디</th>
 													<td>${id}</td>
 													<th scope="row">생 년 월 일</th>
-													<td>${dto.birth}</td>
+													<td>${dto.birth_str}</td>
 												</tr>
 												<tr>
 													<th scope="row">연 락 처</th>
@@ -155,15 +155,12 @@
 												</tr>
 												<tr>
 													<th scope="row">입 사 일</th>
-													<td>${dto.reg_date}</td>
-													<th scope="row">퇴 사 일</th>
-													<td>${dto.retire_date}</td>
-												</tr>
-												<tr>
+													<td>${dto.reg_date_str}</td>
 													<th scope="row">사용휴가일수</th>
 													<td>${dto.break_use_count}일 (전체 :
 														${dto.break_total_count} &nbsp일 )</td>
 												</tr>
+												
 											</tbody>
 										</table>
 									</div>
