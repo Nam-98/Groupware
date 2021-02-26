@@ -77,6 +77,12 @@ public class AdminController {
 	public NexacroResult loadMem() throws Exception {
 		NexacroResult nr = new NexacroResult();
 		List<MemberDTO> list = mser.listMem();
+		
+		for ( MemberDTO dto : list) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+			dto.setBirth_str(sdf.format(dto.getBirth()));
+		}
+		
 		nr.addDataSet("ds_out",list);
 		return nr;
 	}
@@ -126,9 +132,13 @@ public class AdminController {
 	            	dto.setZip_code(ds.getString(i, "zip_code"));
 	            	dto.setIs_married(ds.getString(i, "is_married"));
 	            	dto.setDept_code(ds.getInt(i,"dept_code"));
+	            	dto.setDept_name(ds.getString(i,"dept_name"));
+	            	dto.setPosition_name(ds.getString(i,"position_name"));
 	            	dto.setPosition_code(ds.getInt(i,"position_code"));
 	            	dto.setBreak_use_count(ds.getDouble(i, "break_use_count"));
 	            	dto.setAccess_level_code(ds.getInt(i, "access_level_code"));
+	            	dto.setBirth(ds.getDateTime(i, "birth_str"));
+	            		
 	            	mser.updateMemList(dto);
 	            }else if (rowType == DataSet.ROW_TYPE_INSERTED) {
 	                //sser.inserthol(dto);
