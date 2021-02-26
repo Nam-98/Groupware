@@ -3,6 +3,7 @@ package kh.gw.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
@@ -111,7 +112,7 @@ public class WebhardController {
 	
 	//첨부파일 단일 다운로드
 	@RequestMapping("attFilesDown.webhard")
-	public void attFilesDown(Webhard_filesDTO whfDTO, HttpServletResponse resp) throws Exception{
+	public void attFilesDown(Webhard_filesDTO whfDTO, HttpServletRequest request, HttpServletResponse resp) throws Exception{
 		
 		System.out.println("요청 파일 seq : " + whfDTO.getWh_files_seq());
 		System.out.println("요청 파일 SavedName : " + whfDTO.getWh_saved_name());
@@ -120,11 +121,42 @@ public class WebhardController {
 		
 		String filePath = session.getServletContext().getRealPath("/resources/Webhard_attached_files");
 		File targetFile = new File(filePath+"/"+whfDTO.getWh_saved_name());
+		//파일이 존재하고 진짜 파일이 맞다면
 		if(targetFile.exists() && targetFile.isFile()) {
-			//파일이 존재하고 진짜 파일이 맞다면
+			
+			// 브라우저별 파일명 한글깨짐 해결 로직
+			String browser = getBrowser(request);
+			String encodedFilename = null;
+			if (browser.equals("MSIE")) {
+				encodedFilename = URLEncoder.encode(whfDTO.getWh_ori_name(), "UTF-8").replaceAll(
+						"\\+", "%20");
+			} else if (browser.equals("Firefox")) {
+				encodedFilename = "\""
+						+ new String(whfDTO.getWh_ori_name().getBytes("UTF-8"), "8859_1") + "\"";
+			} else if (browser.equals("Opera")) {
+				encodedFilename = "\""
+						+ new String(whfDTO.getWh_ori_name().getBytes("UTF-8"), "8859_1") + "\"";
+			} else if (browser.equals("Chrome")) {
+				StringBuffer sb = new StringBuffer();
+				for (int j = 0; j < whfDTO.getWh_ori_name().length(); j++) {
+					char c = whfDTO.getWh_ori_name().charAt(j);
+					if (c > '~') {
+						sb.append(URLEncoder.encode("" + c, "UTF-8"));
+					} else {
+						sb.append(c);
+					}
+				}
+				encodedFilename = sb.toString();
+			} else {
+				throw new IOException("Not supported browser");
+			}
+			
+			
+			///////////////////////////////////////
+			
 			resp.setContentType("application/octet-stream; charset=utf8");
 			resp.setContentLength((int)targetFile.length());//파일 크기
-			resp.setHeader("Content-Disposition", "attachment;filename=\""+whfDTO.getWh_ori_name()+"\";");
+			resp.setHeader("Content-Disposition", "attachment;filename=\""+encodedFilename+"\";");
 			//파일 다운시 필요 정보
 			
 			FileInputStream fis = new FileInputStream(targetFile);
@@ -214,6 +246,22 @@ public class WebhardController {
 		return "redirect:" + referer;
 	}
 	
+	// 브라우저 정보 체크
+	public String getBrowser(HttpServletRequest request) {
+        String header = request.getHeader("User-Agent");
+        if (header.indexOf("MSIE") > -1) {
+            return "MSIE";
+        } else if (header.indexOf("Trident") > -1) {   // IE11 문자열 깨짐 방지
+            return "Trident";
+        } else if (header.indexOf("Chrome") > -1) {
+            return "Chrome";
+        } else if (header.indexOf("Opera") > -1) {
+            return "Opera";
+        } else if (header.indexOf("Safari") > -1) {
+            return "Safari";
+        }
+        return "Firefox";
+    }
 	
 	
 	

@@ -64,18 +64,24 @@
 					<div class="panel panel-headline demo-icons">
 						<div class="panel-heading">
 							<form method="post" enctype="multipart/form-data" action="/webhard/uploadFile.webhard?dirSeq=${dirSeq }" id="uploadForm">
-								<span id="upload-btn" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-open"></span> Upload</span>
-								<span id="newFolder-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-plus"></span> New Folder</span>
-								<span id="parentFolder-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-level-up"></span> To Parent Folder</span>
-								<span id="download-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-save"></span> Download</span>
-								<span id="checkDel-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-trash"></span> Delete</span>
-								<span id="rename-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-erase"></span> Rename</span>
-	
+								<div class="navbar-form navbar-left" role="control">
+    								<span id="upload-btn" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-open"></span> Upload</span>
+									<span id="newFolder-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-plus"></span> New Folder</span>
+									<span id="parentFolder-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-level-up"></span> To Parent Folder</span>
+									<span id="download-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-save"></span> Download</span>
+									<span id="checkDel-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-trash"></span> Delete</span>
+									<span id="rename-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-erase"></span> Rename</span>
+									
+									<!-- 보이지않는 파일 첨부 영역 -->
+									<input type="file" name="attfiles" id="attfiles" multiple style="display:none">
+								</div>
 								
-								<input type="file" name="attfiles" id="attfiles" multiple style="display:none">
+								<div class="navbar-form navbar-right" role="search">
+									<input type="text" class="form-control" placeholder="Search">
+									<span id="search-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-search"></span></span>
+								</div>
 							</form>
 						</div>
-						<hr>
 						<!-- pannel 내부의 제목 작성 div-->
 						<div class="panel-body">
 							<table class="table table-hover">
@@ -360,6 +366,11 @@
 				}
 			}
 		}
+		
+		// 검색버튼 클릭 시
+		$('#search-btn').on('click',function(){
+			alert("준비 중입니다.");
+		});
 		
 		
 		
