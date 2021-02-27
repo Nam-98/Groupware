@@ -37,14 +37,18 @@ public class ScheduleController {
 	@RequestMapping("yearSchedule.schedule")
 	public String yearSchedule(HttpServletRequest request, Model m, ScheduleDTO dto) throws Exception{
 		String id = (String)session.getAttribute("id");
+		String year = request.getParameter("year");
+		
+//		List<ScheduleDTO> list = sservice.listAllSchedule(id);
+		List<ScheduleDTO> list = sservice.yearSchedule(year);
+		List<Company_holidayDTO> hlist = sservice.holidaySchedule();
 
-		List<ScheduleDTO> list = sservice.listAllSchedule(id);
-		sservice.addDateStr(list);
+		sservice.addhDateStr3(hlist);
+		sservice.addDateStr3(list);
 
 		m.addAttribute("list", list);
-		//		List<ScheduleDTO> ylist = sservice.listYearSchedule(id);
-
-		//		m.addAttribute("ylist", ylist);
+		m.addAttribute("year", year);
+		m.addAttribute("hlist", hlist);
 
 		return "/schedule/yearschedule";
 	}
@@ -102,12 +106,10 @@ public class ScheduleController {
 		 i.setSch_start_date_converter(sservice.dateconverter(i.getSch_start_date_sc()));
 		 }	
 		 
-		 
 		 List<Company_holidayDTO> hlist = sservice.holidaySchedule();
 		 sservice.addhDateStr(hlist);
 		 
 		 m.addAttribute("hlist", hlist);
-		 
 		 m.addAttribute("list", list);
 		 
 		return "/schedule/dayschedule";
@@ -160,7 +162,6 @@ public class ScheduleController {
 	@RequestMapping("scheduleView.schedule")
 	public String scheduleView(Model m, HttpServletRequest request, ScheduleDTO dto) throws Exception{
 		dto.setSch_seq(Integer.parseInt(request.getParameter("sch_seq")));
-		System.out.println(dto.getSch_seq());
 		
 		ScheduleDTO dtos = sservice.scheduleView(dto.getSch_seq());
 		sservice.addDateStr2(dtos);
@@ -181,23 +182,29 @@ public class ScheduleController {
 	}
 	// ----------- 일정 수정 전
 	@RequestMapping("scheduleModifyBefore")
-	public String scheduleModifyBefore(HttpServletRequest request, Model m) throws Exception{
-		int sch_seq = Integer.parseInt(request.getParameter("sch_seq"));
-		ScheduleDTO sdto = sservice.scheduleModifyBefore(sch_seq);
+	public String scheduleModifyBefore(HttpServletRequest request, Model m, ScheduleDTO dto) throws Exception{
+		dto.setSch_seq(Integer.parseInt(request.getParameter("sch_seq")));
+//		int sch_seq = Integer.parseInt(request.getParameter("sch_seq"));
+		ScheduleDTO sdto = sservice.scheduleModifyBefore(dto.getSch_seq());
 
 		m.addAttribute("sdto", sdto);
+		
 		return "/schedule/schedulemodifybeforeview";
 	}
 
 	// ----------- 일정 수정하기
 	@RequestMapping("scheduleModify.schedule")
-	public String scheduleModify(ScheduleDTO dto) throws Exception{
+	public String scheduleModify(HttpServletRequest request, ScheduleDTO dto) throws Exception{
+		dto.setSch_seq(Integer.parseInt(request.getParameter("sch_seq")));
+		
+		System.out.println(dto.getSch_seq());
+		
 		dto.setSch_start_date(new SimpleDateFormat("yyyy-MM-dd").parse(dto.getSch_start_date_sc()));
 		dto.setSch_end_date(new SimpleDateFormat("yyyy-MM-dd").parse(dto.getSch_end_date_sc()));
-
+		
 		int result = sservice.scheduleModify(dto);
 		System.out.println("글수정 성공유무 ::"+result);
-		return "redirect:/schedule/monthSchedule.schedule";
+		return "redirect:/schedule/scheduleView.schedule?sch_seq=" + dto.getSch_seq();
 	}
 
 	//메인 일정 추가하기
@@ -220,6 +227,8 @@ public class ScheduleController {
 
 		return "/schedule/holidayscheduleview";
 	}
+	
+	
 
 
 	// error

@@ -105,6 +105,45 @@ public class ScheduleService {
 		dtos.setSch_end_date_sc(simpleDateFormat.format(dtos.getSch_end_date()));
 		
 	}
+	
+	public void addDateStr3(List<ScheduleDTO> list) throws Exception{
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM월dd일");
+		
+		for(ScheduleDTO dto : list) {
+			dto.setSch_start_date_sc(simpleDateFormat.format(dto.getSch_start_date()));
+			dto.setSch_end_date_sc(simpleDateFormat.format(dto.getSch_end_date()));
+		}
+		
+	}
+	
+	public void addDateStr4(ScheduleDTO dtos) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		dtos.setSch_start_date_sc(simpleDateFormat.format(dtos.getSch_start_date()));
+		dtos.setSch_end_date_sc(simpleDateFormat.format(dtos.getSch_end_date()));
+		
+	}
+	
+	public void addhDateStr(List<Company_holidayDTO> hlist) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd");
+		
+		for(Company_holidayDTO dto : hlist) {
+			dto.setComp_hd_date_str(simpleDateFormat.format(dto.getComp_hd_date()));
+		}
+	}
+	
+	public void addhDateStr2(Company_holidayDTO chdto) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd");
+		chdto.setComp_hd_date_str(simpleDateFormat.format(chdto.getComp_hd_date()));
+		
+	}
+	
+	public void addhDateStr3(List<Company_holidayDTO> hlist) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM월dd일");
+		
+		for(Company_holidayDTO dto : hlist) {
+			dto.setComp_hd_date_str(simpleDateFormat.format(dto.getComp_hd_date()));
+		}
+	}
 
 	public List<ScheduleDTO> listAllSchedule(String id) throws Exception{
 		return sdao.listAllSchedule(id);
@@ -151,28 +190,15 @@ public class ScheduleService {
 		return sdao.holidaySchedule();
 	}
 
-	public void addhDateStr(List<Company_holidayDTO> hlist) {
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd");
-		
-		for(Company_holidayDTO dto : hlist) {
-			dto.setComp_hd_date_str(simpleDateFormat.format(dto.getComp_hd_date()));
-		}
-	}
+
+	
 
 	public Company_holidayDTO holidayScheduleView(int comp_hd_seq) throws Exception{
 		return sdao.holidayScheduleView(comp_hd_seq);
 	}
 
-	public void addhDateStr2(Company_holidayDTO chdto) {
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		chdto.setComp_hd_date_str(simpleDateFormat.format(chdto.getComp_hd_date()));
-		
+	public List<ScheduleDTO> yearSchedule(String year){
+		return sdao.yearSchedule(year);
 	}
-
-
-//	public String dateHdconverter(String dateHdString) {
-//		return dateHdString.substring(0,10);
-//	}
-
 
 }

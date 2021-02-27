@@ -86,10 +86,6 @@
 .reply-list{
 	margin-top:50px; margin-bottom:50px;
 }
-.reply-submit{
-	background-color:blue;
-	color:white;
-}
 .reWrite{
 }
 
@@ -191,7 +187,7 @@
       									<input type="text" class="form-control reWrite" name="reply-write">
       									<input type="hidden" name="re_cmt_seq" value="${i.write_cmt_seq }">
 									      <span class="input-group-btn">
-									        <button class="btn btn-primary" id="reply-submit" type="button">작성</button>
+									        <button class="reply-submit btn btn-primary" type="button">작성</button>
 									      </span>
 									    </div><!-- /input-group -->
                                        </div>
@@ -285,7 +281,7 @@
 	})
 	
 
-	$('#reply-submit').click(function() {
+	$('.reply-submit').click(function() {
 						var reText = $(this).closest('div').children('.reWrite').val();
 						var reId = $('.reWrite').parent().parent().parent().parent().parent().parent().parent().find('#loginId').val();
 						var reBid = $('.reWrite').parent().parent().parent().parent().parent().parent().parent().find('#brWriteId').val();
@@ -453,7 +449,7 @@
 										}
 									});
 	
-						})					
+						})			
 
 	document.getElementById("list").onclick = function() {
 		location.href = "/write/boardList.write?cpage=1";
