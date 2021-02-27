@@ -409,6 +409,78 @@
 		});
 		
 		
+		/////////////////////////////////
+		
+		// 드래그 앤 드롭 테스트
+		$(function () {
+			var obj = $(".panel-body");
+
+			obj.on('dragenter', function (e) {
+			e.stopPropagation();
+			e.preventDefault();
+			$(this).css('border', '2px solid #5272A0');
+			});
+
+			obj.on('dragleave', function (e) {
+			e.stopPropagation();
+			e.preventDefault();
+			$(this).css('border', '0px dotted #8296C2');
+			});
+
+			obj.on('dragover', function (e) {
+			e.stopPropagation();
+			e.preventDefault();
+			$(this).css('border', '2px dotted #8296C2');
+			});
+
+			obj.on('drop', function (e) {
+			e.preventDefault();
+			$(this).css('border', '2px dotted #8296C2');
+
+			var attfiles = e.originalEvent.dataTransfer.files;
+			if(attfiles.length < 1)
+				return;
+
+			F_FileMultiUpload(attfiles, obj);
+			});
+
+		});
+		
+	
+		// 파일 멀티 업로드
+		function F_FileMultiUpload(attfiles, obj) {
+			if(confirm(attfiles.length + "개의 파일을 업로드 하시겠습니까?") ) {
+				var data = new FormData();
+				for (var i = 0; i < attfiles.length; i++) {
+					data.append('attfiles', attfiles[i]);
+					data.append('dirSeq', ${dirSeq});
+				}
+
+				var url = "uploadFile.webhard";
+				$.ajax({
+					url: url,
+					method: 'post',
+					data: data,
+					dataType: 'json',
+					processData: false,
+					contentType: false,
+					success: function(res) {
+						F_FileMultiUpload_Callback(res.attfiles);
+					};
+				});
+				location.reload();
+			};
+		};
+
+// 		// 파일 멀티 업로드 Callback
+// 		function F_FileMultiUpload_Callback(attfiles) {
+// 			for(var i=0; i < attfiles.length; i++){
+// 				console.log(attfiles[i].file_nm + " - " + attfiles[i].file_size);
+// 			}
+			
+// 		}
+		
+		
 		
 	</script>
 </body>
