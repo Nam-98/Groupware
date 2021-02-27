@@ -271,7 +271,19 @@
 																		<td>${i.app_title}</td>
 																		<td class="visible-lg hidden-sm">${i.name}</td>
 																		<td class="visible-lg hidden-sm">${i.app_reg_date}</td>
-																		<td>${i.app_status_name}</td>
+																		<td>
+																			<c:choose>
+																				<c:when test="${i.app_status_name eq '반송'}">
+																					<span class="label label-danger">${i.app_status_name}</span>
+																				</c:when>
+																				<c:when test="${i.app_status_name eq '진행중'}">
+																					<span class="label label-warning">${i.app_status_name}</span>
+																				</c:when>
+																				<c:when test="${i.app_status_name eq '결재완료'}">
+																					<span class="label label-success">${i.app_status_name}</span>
+																				</c:when>
+																			</c:choose>
+																		</td>
 																	</tr>
 																</c:forEach>
 															</c:otherwise>
@@ -308,7 +320,16 @@
 																		<td>${i.app_title}</td>
 																		<td>${i.name}</td>
 																		<td>${i.app_reg_date}</td>
-																		<td>${i.app_is_my_sign_turn}</td>
+																		<td>
+																			<c:choose>
+																				<c:when test="${i.app_is_my_sign_turn eq '승인 요청중'}">
+																					<span class="label label-success">${i.app_is_my_sign_turn}</span>
+																				</c:when>
+																				<c:when test="${i.app_is_my_sign_turn eq '결재 순서 대기중'}">
+																					<span class="label label-warning">${i.app_is_my_sign_turn}</span>
+																				</c:when>
+																			</c:choose>
+																		</td>
 																	</tr>
 																</c:forEach>
 															</c:otherwise>

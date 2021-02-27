@@ -27,7 +27,7 @@
                  <li><a href="/bizlog/toMainPage.bizlog" class="" id="bizlogHref"><i class="fas fa-pen-square"></i> <span>업무일지</span></a></li>         
                 
                 <li>
-                    <a href="#subPagesMsg1" data-toggle="collapse" class="collapsed"> <i class="fas fa-envelope"></i> <span>쪽지함<span class="badge rounded-pill bg-danger" id="asdd1"></span></span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                    <a href="#subPagesMsg1" data-toggle="collapse" class="collapsed"> <i class="fas fa-envelope"></i> <span>쪽지함<span class="badge rounded-pill bg-danger" id="asdd1">${result }</span></span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
                     <div id="subPagesMsg1" class="collapse ">
                         <ul class="nav">
                             <li><a href="/message/writeMsg.message" class="">쪽지보내기(조직도검색)</a></li>
@@ -52,7 +52,7 @@
                         		<li><a href="/schedule/daySchedule.schedule" class="">일간일정</a></li>
                                 <li><a href="/schedule/weekSchedule.schedule" class="">주간일정</a></li>
                                 <li><a href="/schedule/monthSchedule.schedule" class="">월간일정</a></li>
-                                <li><a href="/schedule/yearSchedule.schedule" class="">연간일정</a></li>
+                                <li><a href="/schedule/yearSchedule.schedule" class="" id="yearSchedule">연간일정</a></li>
                         </ul>
                     </div>
                 </li>
@@ -107,7 +107,7 @@
       </ul>
             </nav>
         </div>
-        
+        	
 
      <script>
 /* 		setInterval(function(){
@@ -148,4 +148,15 @@
 			window.open(url,"webhard",options);
 		})
 	</script>
+	
+	<script>
+	window.addEventListener('DOMContentLoaded', function(){
+		var aBiz = document.getElementById("yearSchedule");
+		var today = new Date();
+		var sYear = today.getFullYear();
+		var sMonth = today.getMonth()+1;//달은 0부터 시작하기 때문에 +1을 함.(1월 == 0, 2월 == 1, 12월 == 11)
+		aBiz.setAttribute("href", "/schedule/yearSchedule.schedule?year="+sYear);
+	})
+	</script>
+
 

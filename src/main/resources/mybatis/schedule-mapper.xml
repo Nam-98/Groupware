@@ -19,6 +19,10 @@
   		select * from (select st.schedule.*, row_number() over (order by sch_seq desc) rn from st.schedule) where sch_id = #{value}
   	</select>
   	
+  	<select id="yearSchedule" resultType="kh.gw.dto.ScheduleDTO">
+  		select * from st.schedule where to_char(sch_start_date, 'YYYY') = #{year} or to_char(sch_end_date, 'YYYY') = #{year} order by sch_start_date asc
+  	</select>
+  	
   	<select id="scheduleView" resultType="kh.gw.dto.ScheduleDTO">
   		select * from st.schedule where sch_seq = #{value} order by sch_start_date desc
   	</select>
@@ -28,11 +32,11 @@
   	</delete>
   	
   	<select id="scheduleModifyBefore" resultType="kh.gw.dto.ScheduleDTO">
-  		select * from st.schedule where sch_seq=#{sch_seq}
+  		select * from st.schedule where sch_seq=#{value}
   	</select>
   	
   	<update id="scheduleModify">
-  		update st.schedule set sch_title=#{sch_title}, sch_contents=#{sch_contents}, sch_start_date=#{sch_start_date}, sch_end_date=#{sch_end_date} where sch_seq=#{value}
+  		update st.schedule set sch_title=#{sch_title}, sch_contents=#{sch_contents}, sch_start_date=#{sch_start_date}, sch_end_date=#{sch_end_date} where sch_seq = #{sch_seq}
   	</update>
 
 	<select id="loadComHd" resultType="kh.gw.dto.Company_holidayDTO">
@@ -52,7 +56,7 @@
 	</update>
 	
 	<select id="holidaySchedule" resultType="kh.gw.dto.Company_holidayDTO">
-		select * from st.company_holiday
+		select * from st.company_holiday order by comp_hd_date asc
 	</select>
 	
 	<select id="holidayScheduleView" resultType="kh.gw.dto.Company_holidayDTO">

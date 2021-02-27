@@ -164,15 +164,15 @@
 											</c:when>
 											<c:when test="${sign.app_sign_accept=='Y' && sign.app_sign_date!=null}">
 												//이미 결재가 완료된 사안이면 stamp칸에 "승인" 이미지를 띄운다. 
-												stmpTd${sta.count}.append($("<h6>승인<h6>"));
+												stmpTd${sta.count}.append($("<span class='label label-success'>승인</span>"));
 											</c:when>
 											<c:when test="${sign.app_sign_accept=='N' && sign.app_sign_date!=null}">
 												//반려된 사안이면 stamp칸에 "반려" 이미지를 띄운다. 
-												stmpTd${sta.count}.append($("<h6>반려<h6>"));
+												stmpTd${sta.count}.append($("<span class='label label-warning'>반려</span>"));
 											</c:when>
 											<c:otherwise>
 												//아직 결재 차례가 오지 않았다면 미결재로 둔다. 
-												stmpTd${sta.count}.append($("<h6>미결재<h6>"));
+												stmpTd${sta.count}.append($("<span class='label label-warning'>미결재</span>"));
 											</c:otherwise>
 										</c:choose>
 										
@@ -255,12 +255,12 @@
 	                    			<c:forEach items="${cmts}" var="cmt">
 	                    			<div class="rows well">
                                        <div class="row replyRow">
-                                          <div class="col-sm-12"><img style='width: 50px; height: 50px; text-align: left; margin-right: 5px;' src="/resources/profileImage/${cmt.app_cmt_writer}.png"></div>
-                                          <div class="col-sm-12 rwiDiv" style='text-align: left;'>${cmt.app_cmt_writer }
-                                          <input type="hidden" class="cmtSeq" value="${cmt.app_cmt_seq }">
-                                             &nbsp&nbsp|&nbsp&nbsp ${cmt.app_cmt_date}&nbsp&nbsp|&nbsp&nbsp
+                                          <div class="col-sm-12"><img style='width: 50px; height: 50px; text-align: left; margin-right: 5px;' src="/resources/profileImage/${cmt.APP_CMT_WRITER}.png"></div>
+                                          <div class="col-sm-12 rwiDiv" style='text-align: left;'>${cmt.NAME }
+                                          <input type="hidden" class="cmtSeq" value="${cmt.APP_CMT_SEQ }">
+                                             &nbsp&nbsp|&nbsp&nbsp ${cmt.APP_CMT_DATE}&nbsp&nbsp|&nbsp&nbsp
                                              <c:choose>
-                                             	<c:when test="${cmt.app_cmt_writer eq sessionScope.id}">
+                                             	<c:when test="${cmt.APP_CMT_WRITER eq sessionScope.id}">
 		                                             <button class="btnDelete">삭제</button>
                                              	</c:when>
                                              	<c:otherwise></c:otherwise>
@@ -269,7 +269,7 @@
                                           </div>
     									<div class="row add_recomment">
                                           <div class="col-sm-12">
-                                             <div class="col-sm-12">${cmt.app_cmt_contents }<input type="hidden" name="cmt_seq" value=${cmt.app_cmt_seq }>
+                                             <div class="col-sm-12">${cmt.APP_CMT_CONTENTS}<input type="hidden" name="cmt_seq" value=${cmt.APP_CMT_SEQ }>
                                              </div>
                                           </div>
                                        </div>

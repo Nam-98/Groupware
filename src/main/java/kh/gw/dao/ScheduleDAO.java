@@ -82,5 +82,9 @@ public class ScheduleDAO {
 	public Company_holidayDTO holidayScheduleView(int comp_hd_seq) {
 		return db.selectOne("Schedule.holidayScheduleView", comp_hd_seq);
 	}
+	
+	public List<ScheduleDTO> yearSchedule(String year){
+		return db.selectList("Schedule.yearSchedule", year);
+	}
 
 }

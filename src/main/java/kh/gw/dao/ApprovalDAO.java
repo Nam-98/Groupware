@@ -2,6 +2,7 @@ package kh.gw.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,7 +82,7 @@ public class ApprovalDAO {
 	public List<Approval_attached_filesDTO> getAppFileBySeq(int app_seq){
 		return db.selectList("Approval.getAppFileBySeq",app_seq);
 	}
-	public List<Approval_commentsDTO> getAppCmtBySeq(int app_seq){
+	public List<Map<String,Object>> getAppCmtBySeq(int app_seq){
 		return db.selectList("Approval.getAppCmtBySeq", app_seq);
 	}
 	public int contentsUpdate(int app_seq, String fileName) {
