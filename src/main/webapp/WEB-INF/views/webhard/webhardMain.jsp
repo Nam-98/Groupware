@@ -60,7 +60,9 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 class="page-title">Webhard</h3>
+					<h3 class="page-title">
+					Webhard [${nowDirName }]
+					</h3>
 					<div class="panel panel-headline demo-icons">
 						<div class="panel-heading">
 							<form method="post" enctype="multipart/form-data" action="/webhard/uploadFile.webhard?dirSeq=${dirSeq }" id="uploadForm">
@@ -449,14 +451,16 @@
 	
 		// 파일 멀티 업로드
 		function F_FileMultiUpload(attfiles, obj) {
-			if(confirm(attfiles.length + "개의 파일을 업로드 하시겠습니까?") ) {
+			if(confirm(attfiles.length + "개의 파일을 업로드 하시겠습니까?\n(파일만 업로드 가능합니다)") ) {
 				var data = new FormData();
+				
+				data.append('dirSeq', ${dirSeq});
 				for (var i = 0; i < attfiles.length; i++) {
 					data.append('attfiles', attfiles[i]);
-					data.append('dirSeq', ${dirSeq});
 				}
-
-				var url = "uploadFile.webhard";
+				
+				
+				var url = "/webhard/uploadFile.webhard";
 				$.ajax({
 					url: url,
 					method: 'post',
@@ -466,10 +470,10 @@
 					contentType: false,
 					success: function(res) {
 						F_FileMultiUpload_Callback(res.attfiles);
-					};
+					}
 				});
 				location.reload();
-			};
+			}
 		};
 
 // 		// 파일 멀티 업로드 Callback

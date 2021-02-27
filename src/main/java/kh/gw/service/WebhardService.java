@@ -233,6 +233,15 @@ public class WebhardService {
 		return whdao.getTopDepartmentDirInfo(accDTO);
 	}
 	
+	// 해당되는 seq 번호의 디렉토리 값 get
+	public Webhard_dirDTO getNowDirInfo(int dirSeq) {
+		
+		Webhard_dirDTO dirDTO = new Webhard_dirDTO();
+		dirDTO.setWh_dir_seq(dirSeq);
+		
+		return whdao.getNowDirInfo(dirDTO);
+	}
+	
 	// 파일 업로드
 	public int uploadFile(int dirSeq, List<MultipartFile> attfiles) throws IOException {
 		

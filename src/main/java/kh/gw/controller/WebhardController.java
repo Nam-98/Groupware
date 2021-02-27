@@ -90,10 +90,17 @@ public class WebhardController {
 		// 접근 가능한 최상위 폴더 리스트 가져오기
 		List<Integer> topAccessDirList = whservice.getTopAccessDirList(sessionId);
 		
+		// 현재 접근할 폴더 정보 가져오기
+		Webhard_dirDTO nowDirInfo = whservice.getNowDirInfo(dirSeq);
+		// 현재 디렉토리 이름 보내기
+		String nowDirName = nowDirInfo.getWh_dir_name();
+		
+		
 		model.addAttribute("dirFolderList", dirFolderList);
 		model.addAttribute("dirFileList", dirFileList);
 		model.addAttribute("dirSeq", dirSeq);
 		model.addAttribute("topAccessDirList", topAccessDirList);
+		model.addAttribute("nowDirName", nowDirName);
 		
 		return "/webhard/webhardMain";
 	}

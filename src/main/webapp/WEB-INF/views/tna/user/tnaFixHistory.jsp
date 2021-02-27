@@ -112,7 +112,19 @@
 									</script></td>
 											<td>${i.TNA_STATUS_NAME}</td>
 											<td>${i.TNA_OBJ_REG_DATE}</td>
-											<td>${i.TNA_OBJ_PROC_STATUS_NAME}</td>
+											<td>
+												<c:choose>
+													<c:when test="${i.TNA_OBJ_PROC_STATUS_NAME eq '반려'}">
+														<span class="label label-danger">${i.TNA_OBJ_PROC_STATUS_NAME}</span>
+													</c:when>
+													<c:when test="${i.TNA_OBJ_PROC_STATUS_NAME eq '조정중'}">
+														<span class="label label-warning">${i.TNA_OBJ_PROC_STATUS_NAME}</span>
+													</c:when>
+													<c:when test="${i.TNA_OBJ_PROC_STATUS_NAME eq '승인'}">
+														<span class="label label-success">${i.TNA_OBJ_PROC_STATUS_NAME}</span>
+													</c:when>
+												</c:choose>
+											</td>
 										</tr>
 									</c:forEach>
 								</tbody>

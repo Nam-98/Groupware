@@ -68,6 +68,11 @@ public class WebhardDAO {
 		return db.selectOne("Webhard.getTopDepartmentDirInfo", accDTO);
 	}
 	
+	// 해당되는 seq 번호의 디렉토리 값 get
+	public Webhard_dirDTO getNowDirInfo(Webhard_dirDTO dirDTO) {
+		return db.selectOne("Webhard.getNowDirInfo", dirDTO);
+	}
+	
 	// 파일업로드
 	public int uploadFile(Webhard_filesDTO fileDTO) {
 		return db.insert("Webhard.uploadFile", fileDTO);
