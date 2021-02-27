@@ -1,14 +1,21 @@
 package kh.gw.service;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
+import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
@@ -317,7 +324,7 @@ public class WebhardService {
 		return result;
 	}
 	
-	// 폴더와 파일 리스트 받아서 각각 처리
+	// 폴더와 파일 리스트 받아서 각각 삭제 처리
 	public int delListProc(List<String> chkArrFolder, List<String> chkArrFile) {
 		int result = 0;
 		
@@ -443,6 +450,76 @@ public class WebhardService {
 	// 해당되는 번호의 파일 이름 변경
 	public int renameFileProcess(Webhard_filesDTO fileDTO) {
 		return whdao.renameFileProcess(fileDTO);
+	}
+	
+	// 해당되는 파일 seq값의 정보 가져오기
+	public Webhard_filesDTO getFileInfo(int fileSeq) {
+		return whdao.getFileInfo(fileSeq);
+	}
+	
+	// 문자열이 , 로 구분된 코드 리스트로 반환
+	public List<String> codesToList(String codes) {
+		return Arrays.asList(codes.split("\\s*,\\s*"));
+	}
+	
+	// zip파일 형태로 압축 로직
+	public File getCompressZipFile(ArrayList<String> arrSaved, String filePath, String compressName) throws Exception {
+
+		String path = filePath;
+		String files[] = new String[arrSaved.size()];          
+//		File destination = new File(path);
+
+		for(int i=0;i<arrSaved.size();i++) {
+			files[i] = (String)arrSaved.get(i);
+		}
+
+		//buffer size
+		int size = 1024;
+		byte[] buf = new byte[size];
+		String outZipNm = path +File.separator+ compressName +".zip";
+
+		File file = new File(outZipNm);
+
+		FileInputStream fis = null;
+		ZipArchiveOutputStream zos = null;
+		BufferedInputStream bis = null;
+
+		try {
+			// Zip 파일생성
+			zos = new ZipArchiveOutputStream(new BufferedOutputStream(new FileOutputStream(outZipNm))); 
+			for( int i=0; i < files.length; i++ ){
+				//encoding 설정
+				zos.setEncoding("UTF-8");
+
+				//buffer에 해당파일의 stream을 입력한다.
+				fis = new FileInputStream(path +"/"+ files[i]);
+				bis = new BufferedInputStream(fis,size);
+
+				//zip에 넣을 다음 entry 를 가져온다.
+				zos.putArchiveEntry(new ZipArchiveEntry(files[i].substring(33)));   // saved 내임을 원래이름으로 바꾸기 위에 uuid 앞의 33개를 빼고 출력              
+
+				//준비된 버퍼에서 집출력스트림으로 write 한다.
+				int len;
+				while((len = bis.read(buf,0,size)) != -1){
+					zos.write(buf,0,len);
+				}
+
+				bis.close();
+				fis.close();
+				zos.closeArchiveEntry();
+
+			}
+			zos.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			if( zos != null ){  zos.close();  }
+			if( fis != null ){  fis.close();  }
+			if( bis != null ){  bis.close();  }
+		}
+
+		return file;
 	}
 	
 	
