@@ -101,6 +101,14 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
+		<!-- 압축하기 라이브러리 -->
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-compress -->
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-compress</artifactId>
+		    <version>1.20</version>
+		</dependency>
+		
 
 		<!-- AspectJ -->
 		<dependency>

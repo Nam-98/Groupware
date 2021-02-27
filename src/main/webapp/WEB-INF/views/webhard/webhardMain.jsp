@@ -112,7 +112,11 @@
 											<th scope="row"><input class="form-check-input checkObj checkFile" type="checkbox" value="${i.wh_files_seq}" name="chkList"></th>
 											<td><span class="glyphicon glyphicon-file" aria-hidden="true"></span></td>
 											<td>
-											<a href = "/webhard/attFilesDown.webhard?wh_files_seq=${i.wh_files_seq }&wh_ori_name=${i.wh_ori_name}&wh_saved_name=${i.wh_saved_name}"> ${i.wh_ori_name}</a>
+											<a href = "" id="downloadFileId${i.wh_files_seq }"> ${i.wh_ori_name}</a>
+											 <script>
+											 	var enc = encodeURI("/webhard/attFilesDown.webhard?wh_files_seq=${i.wh_files_seq }&wh_ori_name=${i.wh_ori_name}&wh_saved_name=${i.wh_saved_name}");
+											 	$("#downloadFileId${i.wh_files_seq }").attr("href", enc)
+											 </script>
 											
 											</td>
 											<td>${i.wh_upload_date}</td>
@@ -138,7 +142,9 @@
 	<script>
 		// 페이지 온로드
 		$( document ).ready(function() {
+			// 체크박스 개수를 판단해 컴포넌트 노출 제어
 			check_result();
+			// 최상위 디렉토리일 경우 상위 디렉토리 이동버튼 제거
 			topDirHide();
 		});
 
@@ -166,20 +172,46 @@
 		
 		// 체크 후 다운로드 버튼 클릭 시 동작
 		$("#download-btn").on("click",function(){
-			  var chked_val = "";
-			  $(":checkbox[name='chkList']:checked").each(function(pi,po){
-			    chked_val += ","+po.value;
-			  });
-			  if(chked_val != "") {
-				  chked_val = chked_val.substring(1);
-			  }
-			  alert(chked_val)
-// 			  return chked_val;
+			// 폴더의 체크값 어레이 선언
+			var chkArrFolder = new Array();
+			// 파일의 체크값 어레이 선언
+			var chkArrFile = new Array();
+			
+			// 체크된 폴더 리스트 값 담기
+			$("input[class='form-check-input checkObj checkFolder']:checked").each(function(){
+				chkArrFolder.push($(this).attr("value"));
+			});					
+			
+			// 체크된 파일 리스트 값 담기
+			$("input[class='form-check-input checkObj checkFile']:checked").each(function(){
+				chkArrFile.push($(this).attr("value"));
+			});
+			
+			// 파일이 하나도 체크되어있지 않다면 함수종료
+			if (chkArrFile[0] == null) {
+				alert("파일을 하나 이상 선택해 주세요.");
+				return 0;
+			}
+			
+			// 특정 문자(특수문자)를 보낼 수 없으므로 인코딩 해서 url값 보냄
+			var enc = encodeURI("/webhard/multiFilesDown.webhard?chkArrFile="+chkArrFile);
+			location.href = enc;
+			
+			
+			
+// 			$.ajax({
+// 				url : "/webhard/multiFilesDown.webhard",
+// 				type : "post",
+// 				data : {"chkArrFile" : chkArrFile},
+// 			}).done(function(result){
+// // 				location.reload();
+// 			})
+			
 		});
 		
 		// 새폴더 만들기
 		$("#newFolder-btn").on("click",function(){
-			var newFolderName = prompt('새 폴더 이름을 입력해 주세요.'); 
+			var newFolderName = prompt('새 폴더 이름을 입력해 주세요.');
 			if ((newFolderName != null) && (newFolderName != "")) {
 			// 해당 디렉토리에 중복되는 폴더 이름이 있는지 확인
 				$.ajax({
@@ -191,7 +223,9 @@
 							alert(newFolderName + "과(와) 동일한 이름을 가진 \n파일 또는 폴더가 이미 존재합니다.");
 							return 1;
 						}else{
-							location.href = "/webhard/mkdirProcess.webhard?dirSeq=" +${dirSeq }+ "&newFolderName=" +newFolderName;
+							// 특정 문자(특수문자)를 보낼 수 없으므로 인코딩 해서 url값 보냄
+							var enc = encodeURI("/webhard/mkdirProcess.webhard?dirSeq=" +${dirSeq }+ "&newFolderName=" +newFolderName);
+							location.href = enc;
 						}
 					}
 					
@@ -258,7 +292,7 @@
 // 					return 0;
 // 				}
 // 			}
-			// 현재 디렉토리의 부모 디렉토리로 진짜 이동
+			// 현재 디렉토리의 부모 디렉토리로 이동
 			location.href = "/webhard/goToParentDir.webhard?dirSeqChild="+${dirSeq };
 		})
 		
@@ -306,7 +340,9 @@
 								objectSeq = chkArrFile[0];
 								dirType = "file";
 							}
-							location.href = "/webhard/renameObjectProcess.webhard?objectSeq=" +objectSeq+ "&newFolderName=" +newFolderName+"&dirType=" +dirType;
+							// 특정 문자(특수문자)를 보낼 수 없으므로 인코딩 해서 url값 보냄
+							var enc = encodeURI("/webhard/renameObjectProcess.webhard?objectSeq=" +objectSeq+ "&newFolderName=" +newFolderName+"&dirType=" +dirType);
+							location.href = enc;
 							
 						}
 					}

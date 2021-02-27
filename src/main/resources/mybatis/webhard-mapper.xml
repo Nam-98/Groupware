@@ -66,5 +66,8 @@
 	<update id="renameFileProcess">
 		update st.webhard_files set wh_ori_name = #{wh_ori_name}, wh_upload_date = (SELECT CURRENT_DATE FROM DUAL) where (wh_files_seq = #{wh_files_seq})
 	</update>
+	<select id="getFileInfo" resultType="kh.gw.dto.Webhard_filesDTO">
+		select * from st.webhard_files where (wh_files_seq = #{fileSeq})
+	</select>
   
   </mapper>

@@ -117,5 +117,10 @@ public class WebhardDAO {
 	public int renameFileProcess(Webhard_filesDTO fileDTO) {
 		return db.update("Webhard.renameFileProcess", fileDTO);
 	}
+	
+	// 해당되는 파일 seq값의 정보 가져오기
+	public Webhard_filesDTO getFileInfo(int fileSeq) {
+		return db.selectOne("Webhard.getFileInfo", fileSeq);
+	}
 
 }

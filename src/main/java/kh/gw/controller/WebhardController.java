@@ -4,8 +4,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -171,6 +175,139 @@ public class WebhardController {
 		}
 	}
 	
+	
+	// 체크된 파일 다운로드 프로세스
+	@RequestMapping(value="multiFilesDown.webhard")
+	public void multiFilesDown(HttpServletRequest request, HttpServletResponse resp) throws Exception {
+		
+		// 다운로드 받을 파일 seq 번호 목록 문자열
+		String chkArrFileString = request.getParameter("chkArrFile");
+		// 문자열이 , 로 구분된 코드를 리스트로 반환
+		List<String> chkArrFile = whservice.codesToList(chkArrFileString);
+		
+		// 실제 파일이 존재하는 경로
+		String filePath = session.getServletContext().getRealPath("/resources/Webhard_attached_files");
+		
+		// 체크된 파일이 단 하나일 경우
+		if(chkArrFile.size() <= 1) {
+			// 파일 seq 번호값
+			int fileSeq = Integer.parseInt(chkArrFile.get(0));
+			// 해당되는 seq값의 dto 가져옴
+			Webhard_filesDTO fileDTO = whservice.getFileInfo(fileSeq);
+			
+			String oriName = fileDTO.getWh_ori_name();
+			String savedName = fileDTO.getWh_saved_name();
+			File targetFile = new File(filePath + "/" + savedName);
+			System.out.println(oriName);
+			System.out.println(savedName);
+			System.out.println(targetFile);
+			
+			//파일이 존재하고 진짜 파일이 맞다면
+			if(targetFile.exists() && targetFile.isFile()) {
+				
+				// 브라우저별 파일명 한글깨짐 해결 로직
+				String browser = getBrowser(request);
+				String encodedFilename = null;
+				if (browser.equals("MSIE")) {
+					encodedFilename = URLEncoder.encode(oriName, "UTF-8").replaceAll(
+							"\\+", "%20");
+				} else if (browser.equals("Firefox")) {
+					encodedFilename = "\""
+							+ new String(oriName.getBytes("UTF-8"), "8859_1") + "\"";
+				} else if (browser.equals("Opera")) {
+					encodedFilename = "\""
+							+ new String(oriName.getBytes("UTF-8"), "8859_1") + "\"";
+				} else if (browser.equals("Chrome")) {
+					StringBuffer sb = new StringBuffer();
+					for (int j = 0; j < oriName.length(); j++) {
+						char c = oriName.charAt(j);
+						if (c > '~') {
+							sb.append(URLEncoder.encode("" + c, "UTF-8"));
+						} else {
+							sb.append(c);
+						}
+					}
+					encodedFilename = sb.toString();
+				} else {
+					throw new IOException("Not supported browser");
+				}
+				
+				
+				///////////////////////////////////////
+				resp.setContentType("application/octet-stream; charset=utf8");
+				resp.setContentLength((int)targetFile.length());//파일 크기
+				resp.setHeader("Content-Disposition", "attachment;filename=\""+encodedFilename+"\";");
+				//파일 다운시 필요 정보
+				
+				FileInputStream fis = new FileInputStream(targetFile);
+				//파일 통로(ram으로 보냄)
+				ServletOutputStream sos = resp.getOutputStream();
+				FileCopyUtils.copy(fis, sos);
+				
+				fis.close();
+				sos.flush();
+				sos.close();
+			}
+			
+		// 다운받을 파일이 2개 이상인 경우	
+		}else {
+			//실제 파일 취급
+			File targetFile = null;
+			//다운받을 파일에 입힐 이름
+			String tranName ="";
+			
+			ArrayList<String> arrSaved = new ArrayList<String>();
+			ArrayList<String> arrOrg = new ArrayList<String>();
+			
+			for(int i = 0; i < chkArrFile.size(); i++) {
+				
+				// 파일 seq 번호값
+				int fileSeq = Integer.parseInt(chkArrFile.get(i));
+				// 해당되는 seq값의 dto 가져옴
+				Webhard_filesDTO fileDTO = whservice.getFileInfo(fileSeq);
+				
+				// 저장된 이름 목록 리스트 만들기
+				String savedName = fileDTO.getWh_saved_name();
+				arrSaved.add(i, savedName);
+				
+				// 출력할 이름 목록 리스트 만들기
+				String oriName  = fileDTO.getWh_ori_name();
+				arrOrg.add(i, oriName);
+			}
+			
+			for(int i = 0; i<arrSaved.size(); i++) {
+				// 받을 zip 파일명 지정
+				Date nowDate = new Date(System.currentTimeMillis());
+				String yearValue = (nowDate.getYear() + 1900) + "-";
+				String monthValue = (nowDate.getMonth() + 1) + "-";
+				String dayValue = (nowDate.getDate()) + "";
+				
+				
+				String title = "STJWARE_"+ yearValue + monthValue + dayValue;
+				
+				// 파일이 2개 이상이면 압축파일로 저장한다.
+				if(arrSaved.size() > 1) {
+					// 만들 압축파일의 고유값 생성
+					String uid = UUID.randomUUID().toString().replaceAll("-", "");
+				    targetFile = whservice.getCompressZipFile(arrSaved, filePath, "compressZip_"+uid);	    
+				    tranName = title+".zip";	 
+					resp.setContentType("application/zip; charset=utf-8"); 	//응답으로 보낼 데이터의 내용 형태 세팅/resp 기본적으로 text형식으로 보낸다.(text형식으로 보내면 랜더링 된다
+
+					resp.setContentLength((int)targetFile.length());
+					resp.setHeader("Content-Disposition", "attachment; filename=\""+tranName+"\"");
+					FileInputStream fis = new FileInputStream(targetFile);
+					ServletOutputStream sos = resp.getOutputStream();
+					FileCopyUtils.copy(fis, sos);
+					fis.close();
+					sos.flush();
+					sos.close();
+				}
+			}
+		}
+		
+
+	}
+	
 	// 새폴더 생성 중복체크
 	@RequestMapping("mkdirOverlapCheck.webhard")
 	@ResponseBody
@@ -237,15 +374,19 @@ public class WebhardController {
 		
 		whservice.renameObjectProcess(objectSeq, newObjectName, dirType);
 		
-		
-		
-		
-		
 		// 이전 페이지 주소값
 		String referer = request.getHeader("REFERER");
 		
 		return "redirect:" + referer;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	// 브라우저 정보 체크
 	public String getBrowser(HttpServletRequest request) {
@@ -269,7 +410,7 @@ public class WebhardController {
 	@ExceptionHandler
 	public String exceptionalHandler(Exception e) {
 		e.printStackTrace();
-		return "error";
+		return "errorPopup";
 	}
 	
 	
