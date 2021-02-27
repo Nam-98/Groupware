@@ -81,6 +81,7 @@ public class AdminController {
 		for ( MemberDTO dto : list) {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 			dto.setBirth_str(sdf.format(dto.getBirth()));
+			dto.setReg_date_str(sdf.format(dto.getReg_date()));
 		}
 		
 		nr.addDataSet("ds_out",list);
@@ -141,7 +142,25 @@ public class AdminController {
 	            		
 	            	mser.updateMemList(dto);
 	            }else if (rowType == DataSet.ROW_TYPE_INSERTED) {
-	                //sser.inserthol(dto);
+	            	MemberDTO dto = new MemberDTO();
+	            	dto.setId(ds.getString(i, "id"));
+	            	dto.setName(ds.getString(i,"name"));
+	            	dto.setGender(ds.getString(i, "gender"));
+	            	dto.setContact(ds.getString(i,"contact"));
+	            	dto.setAddress1(ds.getString(i,"address1"));
+	            	dto.setAddress2(ds.getString(i, "address2"));
+	            	dto.setZip_code(ds.getString(i, "zip_code"));
+	            	dto.setIs_married(ds.getString(i, "is_married"));
+	            	dto.setDept_code(ds.getInt(i,"dept_code"));
+	            	dto.setDept_name(ds.getString(i,"dept_name"));
+	            	dto.setPosition_name(ds.getString(i,"position_name"));
+	            	dto.setPosition_code(ds.getInt(i,"position_code"));
+	            	dto.setBreak_use_count(ds.getDouble(i, "break_use_count"));
+	            	dto.setBreak_total_count(ds.getDouble(i, "break_total_count"));
+	            	dto.setAccess_level_code(ds.getInt(i, "access_level_code"));
+	            	dto.setBirth(ds.getDateTime(i, "birth_str"));
+	            	dto.setReg_date(ds.getDateTime(i,"reg_date_str"));
+	            	mser.insertMem(dto);
 	            }
 	        }
 		return new NexacroResult();
