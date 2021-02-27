@@ -33,7 +33,7 @@
 	href="/assets/img/apple-icon.png">
 <link rel="icon" type="image/png" sizes="96x96"
 	href="/assets/img/favicon.png">
-<script src="/assets/vendor/jquery/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <script src="/assets/vendor/chartist/js/chartist.min.js"></script>
@@ -45,8 +45,6 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta name="viewport"
 	content="width=device-width, initial-scale=1 maximum-scale=1 minimum-scale=1" />
-<script type="text/javascript"
-	src="/resources/lib/scripts/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="/resources/lib/jqwidgets/jqxcore.js"></script>
 <script type="text/javascript"
 	src="/resources/lib/jqwidgets/jqxsortable.js"></script>

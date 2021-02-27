@@ -13,25 +13,18 @@
 <!-- 아이콘 fontawesome -->
 <script src="https://kit.fontawesome.com/b1e233372d.js"></script>
 <!-- VENDOR CSS -->
-<link rel="stylesheet"
-	href="/assets/vendor/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="/assets/vendor/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet"	href="/assets/vendor/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet"	href="/assets/vendor/font-awesome/css/font-awesome.min.css">
 <link rel="stylesheet" href="/assets/vendor/linearicons/style.css">
-<link rel="stylesheet"
-	href="/assets/vendor/chartist/css/chartist-custom.css">
+<link rel="stylesheet"	href="/assets/vendor/chartist/css/chartist-custom.css">
 <!-- MAIN CSS -->
 <link rel="stylesheet" href="/assets/css/main.css">
 
 <!-- GOOGLE FONTS -->
-<link
-	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700"
-	rel="stylesheet">
+<link	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700"	rel="stylesheet">
 <!-- ICONS -->
-<link rel="apple-touch-icon" sizes="76x76"
-	href="/assets/img/apple-icon.png">
-<link rel="icon" type="image/png" sizes="96x96"
-	href="/assets/img/favicon.png">
+<link rel="apple-touch-icon" sizes="76x76"	href="/assets/img/apple-icon.png">
+<link rel="icon" type="image/png" sizes="96x96"	href="/assets/img/favicon.png">
 <script src="/assets/vendor/jquery/jquery.min.js"></script>
 <script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
@@ -43,8 +36,7 @@
 <!--jqwidgets  -->
 <link rel="stylesheet"
 	href="/resources/lib/jqwidgets/styles/jqx.base.css" type="text/css" />
-<script type="text/javascript"
-	src="/resources/lib/scripts/jquery-1.11.1.min.js"></script>
+<!-- <script type="text/javascript"	src="/resources/lib/scripts/jquery-1.11.1.min.js"></script> -->
 <script type="text/javascript" src="/resources/lib/jqwidgets/jqxcore.js"></script>
 <script type="text/javascript" src="/resources/lib/jqwidgets/jqxtabs.js"></script>
 <script type="text/javascript">
@@ -273,16 +265,16 @@
 																		<td class="visible-lg hidden-sm">${i.app_reg_date}</td>
 																		<td>
 																			<c:choose>
-																				<c:when test="${i.app_status_name eq '반송'}">
-																					<span class="label label-danger">${i.app_status_name}</span>
-																				</c:when>
-																				<c:when test="${i.app_status_name eq '진행중'}">
-																					<span class="label label-warning">${i.app_status_name}</span>
-																				</c:when>
-																				<c:when test="${i.app_status_name eq '결재완료'}">
-																					<span class="label label-success">${i.app_status_name}</span>
-																				</c:when>
-																			</c:choose>
+																		<c:when test="${i.app_status_name eq '반송'}">
+																			<span class="label label-danger">${i.app_status_name}</span>
+																		</c:when>
+																		<c:when test="${i.app_status_name eq '진행중'}">
+																			<span class="label label-warning">${i.app_status_name}</span>
+																		</c:when>
+																		<c:when test="${i.app_status_name eq '결재완료'}">
+																			<span class="label label-success">${i.app_status_name}</span>
+																		</c:when>
+																	</c:choose>
 																		</td>
 																	</tr>
 																</c:forEach>
