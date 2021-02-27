@@ -116,6 +116,13 @@ public class ScheduleService {
 		
 	}
 	
+	public void addDateStr4(ScheduleDTO dtos) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		dtos.setSch_start_date_sc(simpleDateFormat.format(dtos.getSch_start_date()));
+		dtos.setSch_end_date_sc(simpleDateFormat.format(dtos.getSch_end_date()));
+		
+	}
+	
 	public void addhDateStr(List<Company_holidayDTO> hlist) {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd");
 		

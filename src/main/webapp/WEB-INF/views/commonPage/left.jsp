@@ -157,5 +157,6 @@
 		var sMonth = today.getMonth()+1;//달은 0부터 시작하기 때문에 +1을 함.(1월 == 0, 2월 == 1, 12월 == 11)
 		aBiz.setAttribute("href", "/schedule/yearSchedule.schedule?year="+sYear);
 	})
+	</script>
 
 

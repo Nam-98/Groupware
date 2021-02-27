@@ -187,6 +187,15 @@
 						frm.submit();
 					}
 					if(dateDiff > 0){
+						var start_time = parseInt(document.getElementById("hour").value);
+						var end_time = parseInt(document.getElementById("hour2").value);
+						
+						var timeDiff = end_time - start_time;
+						
+						if(timeDiff < 0){
+							alert("종료 시간을 다시 입력해주세요.");
+							return false;
+						}
 						frm.submit();
 					}
 				}

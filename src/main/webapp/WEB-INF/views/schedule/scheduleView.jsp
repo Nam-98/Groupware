@@ -41,6 +41,18 @@
 </style>
 </head>
 <body>
+<div id="wrapper">
+      <!-- NAVBAR -->
+      <nav class="navbar navbar-default navbar-fixed-top">
+         <jsp:include page="/WEB-INF/views/commonPage/top.jsp"/>
+      </nav>
+      <!-- END NAVBAR -->
+      <!-- LEFT SIDEBAR -->
+      <div class="sidebar" id="sidebar-nav">
+         <jsp:include page="/WEB-INF/views/commonPage/left.jsp"/>
+      </div>
+      <!-- END LEFT SIDEBAR -->
+      <!-- MAIN -->
 <div class="main">
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
@@ -85,6 +97,9 @@
 		</div>
 </div>
 
+  <div class="clearfix"></div>
+		<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
+</div>
 <script>
 	document.getElementById("goHome").onclick=function(){
 		location.href="/schedule/monthSchedule.schedule";
