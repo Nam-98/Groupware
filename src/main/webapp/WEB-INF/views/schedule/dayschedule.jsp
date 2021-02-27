@@ -160,7 +160,7 @@
 	   		if(con == true){
 	   			window.open("/schedule/addSchedulePage.schedule", "popup", popup)
 	   		}else{
-	   			location.href="/schedule/monthSchedule.schedule"
+	   			this.close();
 	   		}
    		}
 	</script>

@@ -30,6 +30,7 @@
 	<script src="/assets/scripts/klorofil-common.js"></script>
 
 <style>
+<style>
 * {
    box-sizing: border-box;
 }
@@ -76,23 +77,6 @@
    display: none;
 }
 
-.reply-list>table {
-   width: 100%;
-   border-collapse: collapse;
-}
-
-.reply-list>table th, .reply-list>table td {
-   border: 1px solid black;
-   text-align: center;
-   padding: 5px 0;
-}
-
-.reply-list .reply-body-td {
-   text-align: left;
-   padding-left: 5px;
-   padding-right: 5px;
-}
-
 .show-reply{
  text-decoration: underline;
  font-size: 10px; 
@@ -100,6 +84,13 @@
  margin-left: 15px;
  cursor: pointer;
 }
+.reply-list{
+	margin-top:50px; margin-bottom:50px;
+}
+.reWrite{
+}
+
+
 </style>
 
 </head>
@@ -121,7 +112,7 @@
          <!-- MAIN CONTENT -->
          <div class="main-content">
             <div class="container-fluid">
-               <h3 class="page-title">시스템 공지사항 뷰</h3>
+               <h3 class="page-title">회사 게시판 뷰</h3>
                <button id="list" class="btn pull-left btn-primary">목록으로</button>
                <button id="modify" class="btn pull-left btn-primary">수정하기</button>
                <button id="delete" class="btn pull-left btn-primary">삭제하기</button>
@@ -148,43 +139,63 @@
 	                    			<c:forEach var="i" items="${list }">
 	                    			<div class="rows">
                                        <div class="row replyRow">
-                                          <div class="col-sm-12"><img style='width: 50px; height: 50px; text-align: left; margin-right: 5px;' src="/resources/profileImage/${dtos.write_id }.png"></div>
-                                          <div class="col-sm-12 rwiDiv" style='text-align: left;'>${i.write_cmt_id }
-                                          <input type="hidden" class="reWriteId" value="${i.write_cmt_id }">
-                                          <input type="hidden" value="${i.write_cmt_parent_seq }">
-                                          <input type="hidden" class="reWritePseq" value="${i.write_cmt_seq }">
-	                                      <input type="hidden" value="${i.write_seq }">
-	                                      <input type="hidden" value="${i.write_cmt_contents }">
-	                                      <input type="hidden" value="${i.write_cmt_date }">
-                                             &nbsp&nbsp|&nbsp&nbsp ${i.write_cmt_date}&nbsp&nbsp|&nbsp&nbsp
-                                             <c:choose>
+                                       
+                                          <div class="col-sm-12" ><img class=img-circle style='width: 50px; height: 50px; text-align: left; margin-right: 5px;' src="/resources/profileImage/${dtos.write_id }.png">
+											 <b>${i.write_cmt_id }</b> &nbsp&nbsp&nbsp&nbsp ${i.write_cmt_date}&nbsp&nbsp&nbsp&nbsp
+											 <c:choose>
                                              	<c:when test="${i.write_cmt_id eq sessionScope.id}">
-		                                             <button class="btnDelete">삭제</button>
+		                                             <button id="btnReDelete" class="btn btn-danger btn-xs" style="float:right">삭제</button>
                                              	</c:when>
                                              	<c:otherwise></c:otherwise>
                                              </c:choose>
-                                             </div>
-                                          </div>
-    									<div class="row add_recomment">
+											 
+											 <div class="row add_recomment" style="position:relative; left:50px;">
                                           <div class="col-sm-12">
                                              <div class="col-sm-12">${i.write_cmt_contents } <input type="hidden" name="cmt_seq" value=${i.write_cmt_seq }>
                                              </div>
                                           </div>
                                        </div>
+											 
+											 </div>
+                                          <div class="col-sm-12 rwiDiv" style='text-align: left;'>
+                                          
+	                                          <input type="hidden" class="reWriteId" value="${i.write_cmt_id }">
+	                                          <input type="hidden" value="${i.write_cmt_parent_seq }">
+	                                          <input type="hidden" class="reWritePseq" value="${i.write_cmt_seq }">
+		                                      <input type="hidden" value="${i.write_seq }">
+		                                      <input type="hidden" value="${i.write_cmt_contents }">
+		                                      <input type="hidden" value="${i.write_cmt_date }">
+	                                      </div>
+                                             
+                                          </div>
+                                          
+                                          
+    									<label class="show-reply"><input type="hidden" class="reply" value="F">답변달기</label>
+                                        <div class="reply-list">
+                                       	
+                                       	
+                                       </div>   
                                        
-                                       <label class="show-reply"><input type="hidden" class="reply" value="F">답변달기</label>
-                                       <div class="re_comment_write_frm"  style="display: none;">
-                                      	 <input type="text" class="reWrite" name="reply-write" style='width:1000px;'>
-                                       	 <button type="button" class="reply-submit">작성</button>
+                                       
+                                       
+                                       <%-- <div class="re_comment_write_frm"  style="display: none; width:100%">
+                                   
+                                      	 <input type="text" class="reWrite" name="reply-write" style='width:95%;'><input type="hidden" name="re_cmt_seq" value="${i.write_cmt_seq }">
+                                       	 <button type="button" id="reply-submit" class="btn btn-primary btn-xs">작성</button>
+                                       </div>  --%> 
+                                       <div class="re_comment_write_frm"  style="display: none; width:100%">
+                                        <div class="input-group input-group-sm" style="margin: 20px;">
+      									<input type="text" class="form-control reWrite" name="reply-write">
+      									<input type="hidden" name="re_cmt_seq" value="${i.write_cmt_seq }">
+									      <span class="input-group-btn">
+									        <button class="reply-submit btn btn-primary" type="button">작성</button>
+									      </span>
+									    </div><!-- /input-group -->
                                        </div>
-                                       <div class="reply-list">
-                                       	
-                                       	
-                                       </div>
-                                       <br>
+                                      
                             		 </div>
-                                     </c:forEach>
-                        				</c:if>
+                                    </c:forEach>
+                        			</c:if>
                           
                               </div>
                      </div>
@@ -194,8 +205,8 @@
                         <br>
                         <textarea style='resize: none; width: 100%; height: 200px' id="brWriteArea" placeholder="내용을 입력해주세요." name="body"  maxlength="300"></textarea>
                         <br>
-                        <button id="brWrite" class="btn btn-primary" type="button">작성</button>
-                        <button id="brReset" class="btn btn-primary" type="button">취소</button>
+                        <button id="brWrite" type="button">작성</button>
+                        <button id="brReset" type="button">취소</button>
                      </div>
                   </div>
                </div>            
@@ -241,16 +252,20 @@
 	            				 '<div class="bundle">'
 								 +'<div class="row">'
 								 + '<div class="col-sm-12" style="text-align: left;">'
-								 + '&nbsp&nbsp|&nbsp&nbsp'
+								 + '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'
+	            				 + '<b>'
 	            				 + data.reCmtList[i].write_cmt_id
-	            				 + '&nbsp&nbsp|&nbsp&nbsp'
-	            				 + data.reCmtList[i].write_cmt_contents
-	            				 + '&nbsp&nbsp|&nbsp&nbsp'
+	            				 + '</b>'
+	            				 + '&nbsp&nbsp&nbsp&nbsp'
 	            				 + data.reCmtList[i].write_cmt_date
-	            				 + '&nbsp&nbsp|&nbsp&nbsp'
-	            				 + '<button type="button" class="btnReDelete">삭제</button>'
+	            				 +'<br>'
+	            				 + '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'
+	            				 + data.reCmtList[i].write_cmt_contents
+	            				 + '&nbsp&nbsp&nbsp&nbsp'
+	            				 + '<button type="button" id="btnReDelete" class="btn btn-danger btn-xs" style="float:right;">삭제</button>'
 	            				 + '</div>'
 	            				 + '<input type="hidden" name="re_cmt_seq" value="'+data.reCmtList[i].write_cmt_seq+'">'
+	            				 + '</div>'
 	            				 + '</div>'
 	            				 );
 	            	 };
@@ -270,9 +285,9 @@
 	$('.reply-submit').click(function() {
 						var reText = $(this).closest('div').children('.reWrite').val();
 						var reId = $('.reWrite').parent().parent().parent().parent().parent().parent().parent().find('#loginId').val();
-						var reBid = $('.reWrite').parent().parent().parent().parent().parent().parent().find('#brWriteId').val();
+						var reBid = $('.reWrite').parent().parent().parent().parent().parent().parent().parent().find('#brWriteId').val();
 						var rePid = $(this).closest(".rows").children(".replyRow").children(".rwiDiv").children(".reWritePseq").val();
-						var insertReplyArea = $(this).closest('div');
+						var insertReplyArea = $(this).parent().closest('div');
 
 						console.log(reId);
 						console.log(reBid);
@@ -296,22 +311,27 @@
 										success : function(data) {
 										console.log(data);
 										$(".reWrite").val("");
-										insertReplyArea.last().append(
-												 '<div class="bundle">'
+										insertReplyArea.last().before(
+												'<div class="bundle">'
 												 +'<div class="row">'
 												 + '<div class="col-sm-12" style="text-align: left;">'
-												 + '&nbsp&nbsp|&nbsp&nbsp'
+												 + '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'
+					            				 + '<b>'
 					            				 + data.reCmtList[0].write_cmt_id
-					            				 + '&nbsp&nbsp|&nbsp&nbsp'
-					            				 + data.reCmtList[0].write_cmt_contents
-					            				 + '&nbsp&nbsp|&nbsp&nbsp'
+					            				 + '</b>'
+					            				 + '&nbsp&nbsp&nbsp&nbsp'
 					            				 + data.reCmtList[0].write_cmt_date
-					            				 + '&nbsp&nbsp|&nbsp&nbsp'
-					            				 + '<button type="button" class="btnReDelete">삭제</button>'
+					            				 +'<br>'
+					            				 + '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'
+					            				 + data.reCmtList[0].write_cmt_contents
+					            				 + '&nbsp&nbsp&nbsp&nbsp'
+					            				 + '<button type="button" id="btnReDelete" class="btn btn-danger btn-xs" style="float:right;">삭제</button>'
 					            				 + '</div>'
 					            				 + '<input type="hidden" name="re_cmt_seq" value="'+data.reCmtList[0].write_cmt_seq+'">'
 					            				 + '</div>'
+					            				 + '</div>'
 					            				 );
+										
 						},
 				});
 			}
@@ -358,7 +378,7 @@
 																	+ ' &nbsp&nbsp|&nbsp&nbsp'
 																	+ data.cmtList[0].write_cmt_date
 																	+ '&nbsp&nbsp|&nbsp&nbsp'
-																	+ '<button class="btnDelete">삭제</button>'
+																	+ '<button id="btnReDelete" class="btn btn-danger btn-xs">삭제</button>'
 																	+ '</div>'
 																	+ '</div>'
 																	+ '<div class="row">'
@@ -407,7 +427,7 @@
 								});
 
 					})
-		$(document).on('click','.btnReDelete',function() {
+		$(document).on('click','#btnReDelete',function() {
 							var parentTr = $(this).parent().parent().parent();
 							var write_cmt_seq = $(this).parent().parent().parent().find('input[name=re_cmt_seq]').val();
 							console.log(write_cmt_seq);
@@ -430,7 +450,7 @@
 										}
 									});
 	
-						})			
+						})						
 
 	document.getElementById("list").onclick = function() {
 		location.href = "/write/systemNoticeList.write?cpage=1";

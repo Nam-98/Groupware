@@ -45,11 +45,11 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 class="page-title">일정 상세</h3>					
+					<h3 class="page-title">상세일정수정</h3>					
 				</div>
 					<div class="top-vacant d-none d-lg-block"></div>
 					
-					<form action="/schedule/scheduleModify.schedule?sch_seq=${sdto.sch_seq }" method="post">
+					
 					<div class="panel panel-headline demo-icons">
 						<div class="panel-heading">
 							<h3 class="panel-title">상 세 일 정 수 정</h3>
@@ -57,12 +57,12 @@
 						
 						<div class="panel-body">
 						
-						</div>
 						
+						<form action="/schedule/scheduleModify.schedule" method="post">
 						<!-- Table -->
 						  <table class="table">
 						 	<tr>
-						  		<th>작성자 : ${sdto.sch_id } <input type="hidden" value="${sdto.sch_seq }"></th>
+						  		<th>작성자 : ${sdto.sch_id } <input type="hidden" name="sch_seq" value="${sdto.sch_seq }"></th>
 						  	</tr>
 						  	<tr>
 						  		<th>일정명 : <input type="text" name="sch_title" value="${sdto.sch_title }" required></th>
@@ -73,20 +73,23 @@
 						  	</tr>
 						  	
 						  	<tr>
-						  		<th>시작 날짜 : <input type="date" name="sch_start_date_sc" value="${sdto.sch_start_date_sc }" required></th>
+						  		<th>시작 날짜 : <input type="date" id="date3" name="sch_start_date_sc" value="${sdto.sch_start_date_sc }" required>
+												</th>
+
 						  	</tr>
 						  	<tr>
-						  		<th>종료 날짜 : <input type="date" name="sch_end_date_sc" value="${sdto.sch_end_date_sc }" required></th>
+						  		<th>종료 날짜 : <input type="date" id="date2" name="sch_end_date_sc" value="${sdto.sch_end_date_sc }" required>
 						  	</tr>
 						  	
 						  </table>
 						
-				   </div>
 				   <div class="btnHome">
-				   		<button id="btnModify" class="btn btn-primary" onclick="goWrite(this.form)">수정하기</button>
+				   		<input type="submit" id="btnModify" class="btn btn-primary" value="수정하기">
+<!-- 				   		<button id="btnModify" class="btn btn-primary" onclick="goWrite(this.form)">수정하기</button> -->
 				   		<input type="button" id="btnCancel" class="btn btn-primary" value="취소하기">
 				   </div>
-				  </form>
+				    </form>
+				    </div>
 		</div>
 </div>
 
