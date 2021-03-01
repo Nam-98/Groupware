@@ -4,8 +4,28 @@
 <!DOCTYPE html>
 <html>
 <style>
-
-
+td{
+	border: 0px solid black;
+/* 	text-align: center; */
+}
+th{
+	border: 0px solid black;
+/* 	text-align: center; */
+}
+.checkArea{
+	width: 5%;
+}
+.typeArea{
+	width: 15%;
+	text-align: center;
+}
+.titleArea{
+	width: 60%;
+}
+.dateArea{
+	width: 20%;
+	text-align: center;
+}
 
 
 </style>
@@ -60,56 +80,71 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 class="page-title">Webhard</h3>
+					<h3 class="page-title">
+					Webhard [${nowDirName }]
+					</h3>
 					<div class="panel panel-headline demo-icons">
 						<div class="panel-heading">
 							<form method="post" enctype="multipart/form-data" action="/webhard/uploadFile.webhard?dirSeq=${dirSeq }" id="uploadForm">
-								<span id="upload-btn" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-open"></span> Upload</span>
-								<span id="newFolder-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-plus"></span> New Folder</span>
-								<span id="parentFolder-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-level-up"></span> To Parent Folder</span>
-								<span id="download-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-save"></span> Download</span>
-								<span id="checkDel-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-trash"></span> Delete</span>
-								<span id="rename-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-erase"></span> Rename</span>
-	
+								<div class="navbar-form navbar-left" role="control">
 								
-								<input type="file" name="attfiles" id="attfiles" multiple style="display:none">
+    								<span id="upload-btn" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-open"></span> Upload</span>
+									<span id="newFolder-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-plus"></span> New Folder</span>
+									<span id="parentFolder-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-level-up"></span> To Parent Folder</span>
+									<span id="download-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-save"></span> Download</span>
+									<span id="checkDel-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-trash"></span> Delete</span>
+									<span id="rename-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-erase"></span> Rename</span>
+									
+									<!-- 보이지않는 파일 첨부 영역 -->
+									<input type="file" name="attfiles" id="attfiles" multiple style="display:none">
+									
+								</div>
+								
+								<div class="navbar-form navbar-right" role="search">
+<!-- 									<input type="text" class="form-control" placeholder="Search"> -->
+									<input type="text" class="form-control" placeholder="10MB 이하 업로드 가능">
+									<span id="search-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-search"></span></span>
+								</div>
 							</form>
 						</div>
-						<hr>
 						<!-- pannel 내부의 제목 작성 div-->
 						<div class="panel-body">
 							<table class="table table-hover">
 								<thead>
 									<tr>
-										<th scope="col"><input class="form-check-input checkAll" type="checkbox" value="" id="flexCheckDefault"></th>
-										<th scope="col">형식</th>
-										<th scope="col">파일명</th>
-										<th scope="col">수정된 날짜</th>
+										<th scope="col" class="checkArea"><input class="form-check-input checkAll" type="checkbox" value="" id="flexCheckDefault"></th>
+										<th scope="col" class="typeArea">형식</th>
+										<th scope="col" class="titleArea">파일명</th>
+										<th scope="col" class="dateArea">수정된 날짜</th>
 									</tr>
 								</thead>
 								<tbody>
 									<!-- 폴더 표현 부분 -->
 									<c:forEach varStatus="j" var="folderList" items="${dirFolderList}">
 										<tr>
-											<th scope="row"><input class="form-check-input checkObj checkFolder" type="checkbox" value="${folderList.wh_dir_seq}" name="chkList"></th>
-											<td><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></td>
-											<td>
+											<th scope="row" class="checkArea"><input class="form-check-input checkObj checkFolder" type="checkbox" value="${folderList.wh_dir_seq}" name="chkList"></th>
+											<td class="typeArea"><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></td>
+											<td class="titleArea">
 											<a href = "/webhard/webhardMain.webhard?dirSeq=${folderList.wh_dir_seq}"> ${folderList.wh_dir_name}</a>
 											
 											</td>
-											<td><!-- 폴더생성일 없음 --></td>
+											<td class="dateArea"><!-- 폴더생성일 없음 --></td>
 										</tr>
 									</c:forEach>
 									<!-- 파일 표현 부분 -->
 									<c:forEach var="i" items="${dirFileList}">
 										<tr>
-											<th scope="row"><input class="form-check-input checkObj checkFile" type="checkbox" value="${i.wh_files_seq}" name="chkList"></th>
-											<td><span class="glyphicon glyphicon-file" aria-hidden="true"></span></td>
-											<td>
-											<a href = "/webhard/attFilesDown.webhard?wh_files_seq=${i.wh_files_seq }&wh_ori_name=${i.wh_ori_name}&wh_saved_name=${i.wh_saved_name}"> ${i.wh_ori_name}</a>
+											<th scope="row" class="checkArea"><input class="form-check-input checkObj checkFile" type="checkbox" value="${i.wh_files_seq}" name="chkList"></th>
+											<td class="typeArea"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></td>
+											<td class="titleArea">
+											<a href = "" id="downloadFileId${i.wh_files_seq }"> ${i.wh_ori_name}</a>
+											 <script>
+											 	var enc = encodeURI("/webhard/attFilesDown.webhard?wh_files_seq=${i.wh_files_seq }&wh_ori_name=${i.wh_ori_name}&wh_saved_name=${i.wh_saved_name}");
+											 	$("#downloadFileId${i.wh_files_seq }").attr("href", enc)
+											 </script>
 											
 											</td>
-											<td>${i.wh_upload_date}</td>
+											<td class="dateArea">${i.wh_upload_date}</td>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -132,15 +167,20 @@
 	<script>
 		// 페이지 온로드
 		$( document ).ready(function() {
+			// 체크박스 개수를 판단해 컴포넌트 노출 제어
 			check_result();
+			
+			// 최상위 디렉토리일 경우 상위 디렉토리 이동버튼 제거
 			topDirHide();
+			
+			// 강제로 panel 최상단으로 끌어올리기
+			$(".main").css({
+				"padding-top": "0px"
+			});
+			
+			
 		});
 
-
-		// 강제로 panel 최상단으로 끌어올리기
-		$(".main").css({
-			"padding-top": "0px"
-		});
 		
 		// 전체체크 버튼 동작
 		$(".checkAll").on("click",function(){
@@ -160,20 +200,46 @@
 		
 		// 체크 후 다운로드 버튼 클릭 시 동작
 		$("#download-btn").on("click",function(){
-			  var chked_val = "";
-			  $(":checkbox[name='chkList']:checked").each(function(pi,po){
-			    chked_val += ","+po.value;
-			  });
-			  if(chked_val != "") {
-				  chked_val = chked_val.substring(1);
-			  }
-			  alert(chked_val)
-// 			  return chked_val;
+			// 폴더의 체크값 어레이 선언
+			var chkArrFolder = new Array();
+			// 파일의 체크값 어레이 선언
+			var chkArrFile = new Array();
+			
+			// 체크된 폴더 리스트 값 담기
+			$("input[class='form-check-input checkObj checkFolder']:checked").each(function(){
+				chkArrFolder.push($(this).attr("value"));
+			});					
+			
+			// 체크된 파일 리스트 값 담기
+			$("input[class='form-check-input checkObj checkFile']:checked").each(function(){
+				chkArrFile.push($(this).attr("value"));
+			});
+			
+			// 파일이 하나도 체크되어있지 않다면 함수종료
+			if (chkArrFile[0] == null) {
+				alert("파일을 하나 이상 선택해 주세요.");
+				return 0;
+			}
+			
+			// 특정 문자(특수문자)를 보낼 수 없으므로 인코딩 해서 url값 보냄
+			var enc = encodeURI("/webhard/multiFilesDown.webhard?chkArrFile="+chkArrFile);
+			location.href = enc;
+			
+			
+			
+// 			$.ajax({
+// 				url : "/webhard/multiFilesDown.webhard",
+// 				type : "post",
+// 				data : {"chkArrFile" : chkArrFile},
+// 			}).done(function(result){
+// // 				location.reload();
+// 			})
+			
 		});
 		
 		// 새폴더 만들기
 		$("#newFolder-btn").on("click",function(){
-			var newFolderName = prompt('새 폴더 이름을 입력해 주세요.'); 
+			var newFolderName = prompt('새 폴더 이름을 입력해 주세요.');
 			if ((newFolderName != null) && (newFolderName != "")) {
 			// 해당 디렉토리에 중복되는 폴더 이름이 있는지 확인
 				$.ajax({
@@ -185,7 +251,9 @@
 							alert(newFolderName + "과(와) 동일한 이름을 가진 \n파일 또는 폴더가 이미 존재합니다.");
 							return 1;
 						}else{
-							location.href = "/webhard/mkdirProcess.webhard?dirSeq=" +${dirSeq }+ "&newFolderName=" +newFolderName;
+							// 특정 문자(특수문자)를 보낼 수 없으므로 인코딩 해서 url값 보냄
+							var enc = encodeURI("/webhard/mkdirProcess.webhard?dirSeq=" +${dirSeq }+ "&newFolderName=" +newFolderName);
+							location.href = enc;
 						}
 					}
 					
@@ -228,6 +296,12 @@
 		
 		// 파일 컴포넌트가 변경되었을경우 (파일을 첨부하였다면) form submit 하기
 		document.getElementById("attfiles").onchange = function() {
+			
+			// 단일파일 최대 사이즈 체크
+			if (fileMaxSizeCheck() == 1) {
+				return 1;
+			}
+			
 		    document.getElementById("uploadForm").submit();
 		};
 		
@@ -252,7 +326,7 @@
 // 					return 0;
 // 				}
 // 			}
-			// 현재 디렉토리의 부모 디렉토리로 진짜 이동
+			// 현재 디렉토리의 부모 디렉토리로 이동
 			location.href = "/webhard/goToParentDir.webhard?dirSeqChild="+${dirSeq };
 		})
 		
@@ -300,7 +374,9 @@
 								objectSeq = chkArrFile[0];
 								dirType = "file";
 							}
-							location.href = "/webhard/renameObjectProcess.webhard?objectSeq=" +objectSeq+ "&newFolderName=" +newFolderName+"&dirType=" +dirType;
+							// 특정 문자(특수문자)를 보낼 수 없으므로 인코딩 해서 url값 보냄
+							var enc = encodeURI("/webhard/renameObjectProcess.webhard?objectSeq=" +objectSeq+ "&newFolderName=" +newFolderName+"&dirType=" +dirType);
+							location.href = enc;
 							
 						}
 					}
@@ -360,6 +436,119 @@
 				}
 			}
 		}
+		
+		// 검색버튼 클릭 시
+		$('#search-btn').on('click',function(){
+			alert("준비 중입니다.");
+		});
+		
+		
+		/////////////////////////////////
+		
+		// 드래그 앤 드롭 테스트
+		$(function () {
+			var obj = $(".panel-body");
+
+			obj.on('dragenter', function (e) {
+			e.stopPropagation();
+			e.preventDefault();
+			$(this).css('border', '2px solid #5272A0');
+			});
+
+			obj.on('dragleave', function (e) {
+			e.stopPropagation();
+			e.preventDefault();
+			$(this).css('border', '0px dotted #8296C2');
+			});
+
+			obj.on('dragover', function (e) {
+			e.stopPropagation();
+			e.preventDefault();
+			$(this).css('border', '2px dotted #8296C2');
+			});
+
+			obj.on('drop', function (e) {
+			e.preventDefault();
+			$(this).css('border', '2px dotted #8296C2');
+
+			var attfiles = e.originalEvent.dataTransfer.files;
+			if(attfiles.length < 1)
+				return;
+
+			F_FileMultiUpload(attfiles, obj);
+			});
+
+		});
+		
+	
+		// 파일 멀티 업로드
+		function F_FileMultiUpload(attfiles, obj) {
+			if(confirm(attfiles.length + "개의 파일을 업로드 하시겠습니까?\n(파일만 업로드 가능합니다)") ) {
+				var data = new FormData();
+				
+				data.append('dirSeq', ${dirSeq});
+				for (var i = 0; i < attfiles.length; i++) {
+					data.append('attfiles', attfiles[i]);
+				}
+				
+				
+				var url = "/webhard/uploadFile.webhard";
+				$.ajax({
+					url: url,
+					method: 'post',
+					data: data,
+					dataType: 'json',
+					processData: false,
+					contentType: false,
+					success: function(res) {
+						F_FileMultiUpload_Callback(res.attfiles);
+					}
+				});
+				setTimeout("location.reload()",1000);
+			}
+		};
+
+// 		// 파일 멀티 업로드 Callback
+// 		function F_FileMultiUpload_Callback(attfiles) {
+// 			for(var i=0; i < attfiles.length; i++){
+// 				console.log(attfiles[i].file_nm + " - " + attfiles[i].file_size);
+// 			}
+			
+// 		}
+
+	// 파일 단일 최대 사이즈 체크
+	function fileMaxSizeCheck() {
+		////
+		
+		// 사이즈체크
+    	var maxSize  = 10 * 1024 * 1024    //10MB
+    	var fileSize = 0;
+
+		// 브라우저 확인
+		var browser=navigator.appName;
+
+		// 익스플로러일 경우
+		if (browser=="Microsoft Internet Explorer")	{
+			var oas = new ActiveXObject("Scripting.FileSystemObject");
+			fileSize = oas.getFile( attfiles.value ).size;
+		}
+		// 익스플로러가 아닐경우
+		else
+		{
+			fileSize = attfiles.files[0].size;
+		}
+
+
+//			alert("파일사이즈 : "+ fileSize +", 최대파일사이즈 : 5MB");
+
+        if(fileSize > maxSize)
+        {
+            alert("첨부파일 사이즈는 10MB 이내로 등록 가능합니다.    ");
+            return 1;
+        }
+		
+		////
+	}
 		
 		
 		

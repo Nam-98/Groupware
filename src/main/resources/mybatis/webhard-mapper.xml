@@ -36,6 +36,9 @@
   	<select id="getTopDepartmentDirInfo" resultType="java.util.HashMap">
   		select acc.wh_id, acc.wh_dir_seq, acc.wh_dir_type_code, dir.wh_dir_name, dir.wh_dir_parent_seq from st.webhard_access acc, st.webhard_dir dir where (acc.wh_id = #{wh_id}) and (acc.wh_dir_type_code = #{wh_dir_type_code}) and (acc.wh_dir_seq = dir.wh_dir_seq)
   	</select>
+  	<select id="getNowDirInfo" resultType="kh.gw.dto.Webhard_dirDTO">
+  		select * from st.webhard_dir where (wh_dir_seq = #{wh_dir_seq})
+  	</select>
 	<insert id="uploadFile">
 		insert into st.webhard_files values(st.wh_files_seq.nextval, #{wh_dir_seq}, #{wh_ori_name}, #{wh_saved_name}, (SELECT CURRENT_DATE FROM DUAL))
 	</insert>
@@ -66,5 +69,8 @@
 	<update id="renameFileProcess">
 		update st.webhard_files set wh_ori_name = #{wh_ori_name}, wh_upload_date = (SELECT CURRENT_DATE FROM DUAL) where (wh_files_seq = #{wh_files_seq})
 	</update>
+	<select id="getFileInfo" resultType="kh.gw.dto.Webhard_filesDTO">
+		select * from st.webhard_files where (wh_files_seq = #{fileSeq})
+	</select>
   
   </mapper>

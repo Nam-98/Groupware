@@ -31,7 +31,7 @@
 	href="/assets/img/apple-icon.png">
 <link rel="icon" type="image/png" sizes="96x96"
 	href="/assets/img/favicon.png">
-<script src="/assets/vendor/jquery/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <script src="/assets/vendor/chartist/js/chartist.min.js"></script>
@@ -131,7 +131,6 @@
 <jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
 	</div>
 </body>
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script>
 	$("#addCancel").on("click", function() {
 		location.href = "/project/enterProjectList.project?cpage=1";

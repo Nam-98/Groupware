@@ -13,25 +13,18 @@
 <!-- 아이콘 fontawesome -->
 <script src="https://kit.fontawesome.com/b1e233372d.js"></script>
 <!-- VENDOR CSS -->
-<link rel="stylesheet"
-	href="/assets/vendor/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="/assets/vendor/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet"	href="/assets/vendor/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet"	href="/assets/vendor/font-awesome/css/font-awesome.min.css">
 <link rel="stylesheet" href="/assets/vendor/linearicons/style.css">
-<link rel="stylesheet"
-	href="/assets/vendor/chartist/css/chartist-custom.css">
+<link rel="stylesheet"	href="/assets/vendor/chartist/css/chartist-custom.css">
 <!-- MAIN CSS -->
 <link rel="stylesheet" href="/assets/css/main.css">
 
 <!-- GOOGLE FONTS -->
-<link
-	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700"
-	rel="stylesheet">
+<link	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700"	rel="stylesheet">
 <!-- ICONS -->
-<link rel="apple-touch-icon" sizes="76x76"
-	href="/assets/img/apple-icon.png">
-<link rel="icon" type="image/png" sizes="96x96"
-	href="/assets/img/favicon.png">
+<link rel="apple-touch-icon" sizes="76x76"	href="/assets/img/apple-icon.png">
+<link rel="icon" type="image/png" sizes="96x96"	href="/assets/img/favicon.png">
 <script src="/assets/vendor/jquery/jquery.min.js"></script>
 <script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
@@ -43,8 +36,7 @@
 <!--jqwidgets  -->
 <link rel="stylesheet"
 	href="/resources/lib/jqwidgets/styles/jqx.base.css" type="text/css" />
-<script type="text/javascript"
-	src="/resources/lib/scripts/jquery-1.11.1.min.js"></script>
+<!-- <script type="text/javascript"	src="/resources/lib/scripts/jquery-1.11.1.min.js"></script> -->
 <script type="text/javascript" src="/resources/lib/jqwidgets/jqxcore.js"></script>
 <script type="text/javascript" src="/resources/lib/jqwidgets/jqxtabs.js"></script>
 <script type="text/javascript">
@@ -116,9 +108,8 @@
 										<span id="currentTimeSpan"></span>
 									</h2>
 									<div class="top-vacant d-none d-lg-block"></div>
-									<input type="button" value="출근" id="attendanceBtn"
-										class="btn btn-gray btn-xs"> <input type="button"
-										value="퇴근" id="leaveWorkBtn" class="btn btn-gray btn-xs">
+									<input type="button" id="attendanceBtn" class="btn btn-gray btn-xs" value="출근하기">
+									<input type="button" id="leaveWorkBtn" class="btn btn-gray btn-xs" value="퇴근하기">
 									<hr>
 									<div class="">
 										<span class="glyphicon glyphicon-flag" aria-hidden="true"><b>${attendanceValue.status }</b>&nbsp
@@ -273,16 +264,16 @@
 																		<td class="visible-lg hidden-sm">${i.app_reg_date}</td>
 																		<td>
 																			<c:choose>
-																				<c:when test="${i.app_status_name eq '반송'}">
-																					<span class="label label-danger">${i.app_status_name}</span>
-																				</c:when>
-																				<c:when test="${i.app_status_name eq '진행중'}">
-																					<span class="label label-warning">${i.app_status_name}</span>
-																				</c:when>
-																				<c:when test="${i.app_status_name eq '결재완료'}">
-																					<span class="label label-success">${i.app_status_name}</span>
-																				</c:when>
-																			</c:choose>
+																		<c:when test="${i.app_status_name eq '반송'}">
+																			<span class="label label-danger">${i.app_status_name}</span>
+																		</c:when>
+																		<c:when test="${i.app_status_name eq '진행중'}">
+																			<span class="label label-warning">${i.app_status_name}</span>
+																		</c:when>
+																		<c:when test="${i.app_status_name eq '결재완료'}">
+																			<span class="label label-success">${i.app_status_name}</span>
+																		</c:when>
+																	</c:choose>
 																		</td>
 																	</tr>
 																</c:forEach>
@@ -545,13 +536,19 @@
       $("#attendanceBtn").on("click", function() {
          if (tnaStatus == 0) {
             location.href = "/tna/attendanceInput.tna";   
+         }else{
+        	 alert("이미 출근하셨습니다.");
          }
       })
 
       // 퇴근버튼클릭
       $("#leaveWorkBtn").on("click", function() {
-         if (tnaStatus != 0) {
+         if (tnaStatus == 1) {
             location.href = "/tna/leaveWorkInput.tna";
+         }else if (tnaStatus == 0) {
+        	 alert("출근 후 퇴근하실 수 있습니다.");
+         }else {
+        	 alert("이미 퇴근하셨습니다.\n(정정 시 근태 이의신청을 이용해 주세요)");
          }
       })
 

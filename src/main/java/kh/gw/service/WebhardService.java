@@ -1,14 +1,21 @@
 package kh.gw.service;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
+import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
@@ -226,6 +233,15 @@ public class WebhardService {
 		return whdao.getTopDepartmentDirInfo(accDTO);
 	}
 	
+	// 해당되는 seq 번호의 디렉토리 값 get
+	public Webhard_dirDTO getNowDirInfo(int dirSeq) {
+		
+		Webhard_dirDTO dirDTO = new Webhard_dirDTO();
+		dirDTO.setWh_dir_seq(dirSeq);
+		
+		return whdao.getNowDirInfo(dirDTO);
+	}
+	
 	// 파일 업로드
 	public int uploadFile(int dirSeq, List<MultipartFile> attfiles) throws IOException {
 		
@@ -238,6 +254,12 @@ public class WebhardService {
 				continue;
 			}
 			
+			// 파일의 크기가 10MB를 넘을경우 스킵
+			if (attfiles.get(i).getSize() > 10485759) {
+				System.out.println("크기제한");
+				continue;
+			}
+			
 			
 			// 저장될 경로값 설정
 			String realPath = session.getServletContext().getRealPath("/resources/Webhard_attached_files");
@@ -245,6 +267,10 @@ public class WebhardService {
 			
 			// resource의 해당 폴더가 존재 하지 않는 경우 생성
 			if (!filesPath.exists()) {filesPath.mkdir();}
+
+			
+			System.out.println("파일크기는");
+			System.out.println(attfiles.get(i).getSize());
 			
 			String oriName =  attfiles.get(i).getOriginalFilename();
 			System.out.println(oriName);
@@ -317,7 +343,7 @@ public class WebhardService {
 		return result;
 	}
 	
-	// 폴더와 파일 리스트 받아서 각각 처리
+	// 폴더와 파일 리스트 받아서 각각 삭제 처리
 	public int delListProc(List<String> chkArrFolder, List<String> chkArrFile) {
 		int result = 0;
 		
@@ -365,20 +391,48 @@ public class WebhardService {
 			}
 			int fileSeq = Integer.parseInt(chkArrFile.get(i));
 			
-			Webhard_filesDTO fileDTO = new Webhard_filesDTO();
-			fileDTO.setWh_files_seq(fileSeq);
+			// 파일 seq에 해당되는 정보를 가지고있는 DTO
+			Webhard_filesDTO fileDTO = getFileInfo(fileSeq);
 			
 			// 에러체크 (삭제된 행 개수가 1이 아닐경우)
 			if (delFileProc(fileDTO) != 1) {
 				result += 1;
+			
+			// 정상적으로 DB에서 제거가 이루어지면 실제 파일 제거
+			}else {
+				// 제거 실패 시 +1
+				result += delRealFileProc(fileDTO);
 			}
 		}
 		return result;
 	}
 	
-	// 해당 seq값 파일 지우기
+	// 해당 seq값 DB기록 지우기
 	public int delFileProc(Webhard_filesDTO fileDTO) {
 		return whdao.delFileProc(fileDTO);
+	}
+	
+	// 해당되는 file DTO의 실제파일 지우기
+	public int delRealFileProc(Webhard_filesDTO fileDTO) {
+		// 삭제될 경로값 설정
+		String realPath = session.getServletContext().getRealPath("/resources/Webhard_attached_files");
+		File filesPath = new File(realPath);
+
+		File targetLoc = new File(filesPath.getAbsoluteFile()+"/"+fileDTO.getWh_saved_name());
+		System.out.println(filesPath.getAbsoluteFile()+"/"+fileDTO.getWh_saved_name());
+//			FileCopyUtils.copy(attfiles.get(i).getBytes(), targetLoc);
+		if (true == targetLoc.delete()) {
+			// 삭제 성공
+			System.out.println("삭제성공");
+			return 0;
+		}else {
+			// 삭제 실패
+			System.out.println("삭제실패");
+			return 1;
+		}
+		
+		
+		
 	}
 	
 	// 접근 가능한 최상위 폴더 리스트 가져오기
@@ -443,6 +497,76 @@ public class WebhardService {
 	// 해당되는 번호의 파일 이름 변경
 	public int renameFileProcess(Webhard_filesDTO fileDTO) {
 		return whdao.renameFileProcess(fileDTO);
+	}
+	
+	// 해당되는 파일 seq값의 정보 가져오기
+	public Webhard_filesDTO getFileInfo(int fileSeq) {
+		return whdao.getFileInfo(fileSeq);
+	}
+	
+	// 문자열이 , 로 구분된 코드 리스트로 반환
+	public List<String> codesToList(String codes) {
+		return Arrays.asList(codes.split("\\s*,\\s*"));
+	}
+	
+	// zip파일 형태로 압축 로직
+	public File getCompressZipFile(ArrayList<String> arrSaved, String filePath, String compressName) throws Exception {
+
+		String path = filePath;
+		String files[] = new String[arrSaved.size()];          
+//		File destination = new File(path);
+
+		for(int i=0;i<arrSaved.size();i++) {
+			files[i] = (String)arrSaved.get(i);
+		}
+
+		//buffer size
+		int size = 1024;
+		byte[] buf = new byte[size];
+		String outZipNm = path +File.separator+ compressName +".zip";
+
+		File file = new File(outZipNm);
+
+		FileInputStream fis = null;
+		ZipArchiveOutputStream zos = null;
+		BufferedInputStream bis = null;
+
+		try {
+			// Zip 파일생성
+			zos = new ZipArchiveOutputStream(new BufferedOutputStream(new FileOutputStream(outZipNm))); 
+			for( int i=0; i < files.length; i++ ){
+				//encoding 설정
+				zos.setEncoding("UTF-8");
+
+				//buffer에 해당파일의 stream을 입력한다.
+				fis = new FileInputStream(path +"/"+ files[i]);
+				bis = new BufferedInputStream(fis,size);
+
+				//zip에 넣을 다음 entry 를 가져온다.
+				zos.putArchiveEntry(new ZipArchiveEntry(files[i].substring(33)));   // saved 내임을 원래이름으로 바꾸기 위에 uuid 앞의 33개를 빼고 출력              
+
+				//준비된 버퍼에서 집출력스트림으로 write 한다.
+				int len;
+				while((len = bis.read(buf,0,size)) != -1){
+					zos.write(buf,0,len);
+				}
+
+				bis.close();
+				fis.close();
+				zos.closeArchiveEntry();
+
+			}
+			zos.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			if( zos != null ){  zos.close();  }
+			if( fis != null ){  fis.close();  }
+			if( bis != null ){  bis.close();  }
+		}
+
+		return file;
 	}
 	
 	
