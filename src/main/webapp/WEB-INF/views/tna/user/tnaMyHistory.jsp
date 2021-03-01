@@ -7,23 +7,18 @@
 .panel-body div{
 	border: 0px solid black;
 }
-.tableBox{
-	width: 100%;
-	height: 330px;
-}
-.tableLine{
-	width: 100%;
-	height: 9.09090909%;
-	text-align : center;
-
-}
-.tableLine>.sector{
-	float: left;
-	width: 7.1428%;
-	height: 100%;
-}
 .componentBox{
-	text-align: right;
+	height: 30px;
+}
+.selectBox{
+	float: right;
+	width: 80px;
+}
+td{
+	text-align: center;
+}
+.col{
+	text-align: center;
 }
 </style>
 <head>
@@ -81,72 +76,77 @@
 
 						<div class="panel-body">
 								<div class="componentBox">
-									<select class="" name="tnaSelectYearList" id="selectYear">
-									<c:forEach varStatus="a" var="list" items="${tnaSelectYearList}">
-										<c:if test='${list.DATE != selectYearValue}'>
-										<option value="${list.DATE }">${list.DATE }</option>
-										</c:if>
-										<c:if test='${list.DATE == selectYearValue}'>
-										<option value="${list.DATE }" selected>${list.DATE }</option>
-										</c:if>
-									</c:forEach>
-									</select>
+									<div class="selectBox">
+										<select class="form-control input-sm" name="tnaSelectYearList" id="selectYear">
+										<c:forEach varStatus="a" var="list" items="${tnaSelectYearList}">
+											<c:if test='${list.DATE != selectYearValue}'>
+											<option value="${list.DATE }">${list.DATE } 년</option>
+											</c:if>
+											<c:if test='${list.DATE == selectYearValue}'>
+											<option value="${list.DATE }" selected>${list.DATE } 년</option>
+											</c:if>
+										</c:forEach>
+										</select>
+									</div>
 								</div>
 								<hr>
-								<div class="tableBox">
-									<div class="tableLine">
-										<div class="sector">구 분</div>
-										<div class="sector">1 월</div>
-										<div class="sector">2 월</div>
-										<div class="sector">3 월</div>
-										<div class="sector">4 월</div>
-										<div class="sector">5 월</div>
-										<div class="sector">6 월</div>
-										<div class="sector">7 월</div>
-										<div class="sector">8 월</div>
-										<div class="sector">9 월</div>
-										<div class="sector">10 월</div>
-										<div class="sector">11 월</div>
-										<div class="sector">12 월</div>
-										<div class="sector">합 계</div>
-									</div>
-									<hr>
-									<c:forEach varStatus="i" var="list" items="${tnaStatusList}">
-									<div class="tableLine">
-										<div class="sector"><b>${list.tna_status_name }</b></div>
-										<c:forEach var="j" begin="1" end="12" step="1">
-										<div class="sector">
-											<c:forEach varStatus="k" var="list2" items="${tnaStartCountList}">
-											<c:if test='${list.tna_status_code == list2.TNA_START_STATUS_CODE}'>
-												<c:if test='${list2.DATE == j}'>
-												${list2.COUNTING }
+								<table class="table table-bordered">
+									<thead>
+										<tr>
+											<th class="col">구 분</th>
+											<th class="col">&nbsp 1 월&nbsp</th>
+											<th class="col">&nbsp 2 월&nbsp</th>
+											<th class="col">&nbsp 3 월&nbsp</th>
+											<th class="col">&nbsp 4 월&nbsp</th>
+											<th class="col">&nbsp 5 월&nbsp</th>
+											<th class="col">&nbsp 6 월&nbsp</th>
+											<th class="col">&nbsp 7 월&nbsp</th>
+											<th class="col">&nbsp 8 월&nbsp</th>
+											<th class="col">&nbsp 9 월&nbsp</th>
+											<th class="col">10 월</th>
+											<th class="col">11 월</th>
+											<th class="col">12 월</th>
+											<th class="col">합 계</th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach varStatus="i" var="list" items="${tnaStatusList}">
+										<tr>
+											<th class="col"><b>${list.tna_status_name }</b></th>
+											<c:forEach var="j" begin="1" end="12" step="1">
+											<td class="row">
+												<c:forEach varStatus="k" var="list2" items="${tnaStartCountList}">
+												<c:if test='${list.tna_status_code == list2.TNA_START_STATUS_CODE}'>
+													<c:if test='${list2.DATE == j}'>
+													${list2.COUNTING }
+													</c:if>
 												</c:if>
-											</c:if>
-											</c:forEach>
-											<c:forEach varStatus="m" var="list4" items="${tnaEndCountList}">
-											<c:if test='${list.tna_status_code == list4.TNA_END_STATUS_CODE}'>
-												<c:if test='${list4.DATE == j}'>
-												${list4.COUNTING }
+												</c:forEach>
+												<c:forEach varStatus="m" var="list4" items="${tnaEndCountList}">
+												<c:if test='${list.tna_status_code == list4.TNA_END_STATUS_CODE}'>
+													<c:if test='${list4.DATE == j}'>
+													${list4.COUNTING }
+													</c:if>
 												</c:if>
-											</c:if>
+												</c:forEach>
+											</td>
 											</c:forEach>
-										</div>
+											<td class="row">
+												<c:forEach varStatus="l" var="list3" items="${tnaStartCountSumList}">
+												<c:if test='${list.tna_status_code == list3.TNA_START_STATUS_CODE}'>
+												<b>${list3.COUNTING }</b>
+												</c:if>
+												</c:forEach>
+												<c:forEach varStatus="n" var="list5" items="${tnaEndCountSumList}">
+												<c:if test='${list.tna_status_code == list5.TNA_END_STATUS_CODE}'>
+												<b>${list5.COUNTING }</b>
+												</c:if>
+												</c:forEach>
+											</td>
+										<tr>
 										</c:forEach>
-										<div class="sector">
-											<c:forEach varStatus="l" var="list3" items="${tnaStartCountSumList}">
-											<c:if test='${list.tna_status_code == list3.TNA_START_STATUS_CODE}'>
-											<b>${list3.COUNTING }</b>
-											</c:if>
-											</c:forEach>
-											<c:forEach varStatus="n" var="list5" items="${tnaEndCountSumList}">
-											<c:if test='${list.tna_status_code == list5.TNA_END_STATUS_CODE}'>
-											<b>${list5.COUNTING }</b>
-											</c:if>
-											</c:forEach>
-										</div>
-									</div>
-									</c:forEach>
-								</div>
+									</tbody>
+								</table>
 						</div>
 					</div>
 				</div>
@@ -160,9 +160,20 @@
 	<!-- END WRAPPER -->
 
 <script>
-$('#selectYear').on('change', function() {
-	location.href = "/tna/tnaMyHistoryPage.tna?selectYearValue=" + this.value;
-})
+	// 연도 select 변경
+	$('#selectYear').on('change', function() {
+		location.href = "/tna/tnaMyHistoryPage.tna?selectYearValue=" + this.value;
+	})
+	
+	// 강제로 테이블 padding left 좁히기
+	$(".col").css({
+		"padding-left": "8px"
+	});
+	$(".row").css({
+		"padding-left": "8px"
+	});
+
+
 </script>
 
 </body>

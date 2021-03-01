@@ -90,10 +90,17 @@ public class WebhardController {
 		// 접근 가능한 최상위 폴더 리스트 가져오기
 		List<Integer> topAccessDirList = whservice.getTopAccessDirList(sessionId);
 		
+		// 현재 접근할 폴더 정보 가져오기
+		Webhard_dirDTO nowDirInfo = whservice.getNowDirInfo(dirSeq);
+		// 현재 디렉토리 이름 보내기
+		String nowDirName = nowDirInfo.getWh_dir_name();
+		
+		
 		model.addAttribute("dirFolderList", dirFolderList);
 		model.addAttribute("dirFileList", dirFileList);
 		model.addAttribute("dirSeq", dirSeq);
 		model.addAttribute("topAccessDirList", topAccessDirList);
+		model.addAttribute("nowDirName", nowDirName);
 		
 		return "/webhard/webhardMain";
 	}
@@ -275,33 +282,36 @@ public class WebhardController {
 				arrOrg.add(i, oriName);
 			}
 			
-			for(int i = 0; i<arrSaved.size(); i++) {
-				// 받을 zip 파일명 지정
-				Date nowDate = new Date(System.currentTimeMillis());
-				String yearValue = (nowDate.getYear() + 1900) + "-";
-				String monthValue = (nowDate.getMonth() + 1) + "-";
-				String dayValue = (nowDate.getDate()) + "";
-				
-				
-				String title = "STJWARE_"+ yearValue + monthValue + dayValue;
-				
-				// 파일이 2개 이상이면 압축파일로 저장한다.
-				if(arrSaved.size() > 1) {
-					// 만들 압축파일의 고유값 생성
-					String uid = UUID.randomUUID().toString().replaceAll("-", "");
-				    targetFile = whservice.getCompressZipFile(arrSaved, filePath, "compressZip_"+uid);	    
-				    tranName = title+".zip";	 
-					resp.setContentType("application/zip; charset=utf-8"); 	//응답으로 보낼 데이터의 내용 형태 세팅/resp 기본적으로 text형식으로 보낸다.(text형식으로 보내면 랜더링 된다
+			// 받을 zip 파일명 지정
+			Date nowDate = new Date(System.currentTimeMillis());
+			String yearValue = (nowDate.getYear() + 1900) + "-";
+			String monthValue = (nowDate.getMonth() + 1) + "-";
+			String dayValue = (nowDate.getDate()) + "";
+			
+			
+			String title = "STJWARE_"+ yearValue + monthValue + dayValue;
+			
+			// 파일이 2개 이상이면 압축파일로 저장한다.
+			if(arrSaved.size() > 1) {
+				// 만들 압축파일의 고유값 생성
+				String uid = UUID.randomUUID().toString().replaceAll("-", "");
+			    targetFile = whservice.getCompressZipFile(arrSaved, filePath, "compressZip_"+uid);	    
+			    tranName = title+".zip";	 
+				resp.setContentType("application/zip; charset=utf-8"); 	//응답으로 보낼 데이터의 내용 형태 세팅/resp 기본적으로 text형식으로 보낸다.(text형식으로 보내면 랜더링 된다
 
-					resp.setContentLength((int)targetFile.length());
-					resp.setHeader("Content-Disposition", "attachment; filename=\""+tranName+"\"");
-					FileInputStream fis = new FileInputStream(targetFile);
-					ServletOutputStream sos = resp.getOutputStream();
-					FileCopyUtils.copy(fis, sos);
-					fis.close();
-					sos.flush();
-					sos.close();
-				}
+				resp.setContentLength((int)targetFile.length());
+				resp.setHeader("Content-Disposition", "attachment; filename=\""+tranName+"\"");
+				FileInputStream fis = new FileInputStream(targetFile);
+				ServletOutputStream sos = resp.getOutputStream();
+				FileCopyUtils.copy(fis, sos);
+				fis.close();
+				sos.flush();
+				sos.close();
+				
+				// 내보내고 임시 zip 삭제처리
+				Webhard_filesDTO fileDTO = new Webhard_filesDTO();
+				fileDTO.setWh_saved_name("compressZip_"+uid+".zip");
+				whservice.delRealFileProc(fileDTO);
 			}
 		}
 		

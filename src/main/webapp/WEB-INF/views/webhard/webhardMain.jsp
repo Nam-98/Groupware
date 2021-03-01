@@ -4,8 +4,28 @@
 <!DOCTYPE html>
 <html>
 <style>
-
-
+td{
+	border: 0px solid black;
+/* 	text-align: center; */
+}
+th{
+	border: 0px solid black;
+/* 	text-align: center; */
+}
+.checkArea{
+	width: 5%;
+}
+.typeArea{
+	width: 15%;
+	text-align: center;
+}
+.titleArea{
+	width: 60%;
+}
+.dateArea{
+	width: 20%;
+	text-align: center;
+}
 
 
 </style>
@@ -60,11 +80,14 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 class="page-title">Webhard</h3>
+					<h3 class="page-title">
+					Webhard [${nowDirName }]
+					</h3>
 					<div class="panel panel-headline demo-icons">
 						<div class="panel-heading">
 							<form method="post" enctype="multipart/form-data" action="/webhard/uploadFile.webhard?dirSeq=${dirSeq }" id="uploadForm">
 								<div class="navbar-form navbar-left" role="control">
+								
     								<span id="upload-btn" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-open"></span> Upload</span>
 									<span id="newFolder-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-plus"></span> New Folder</span>
 									<span id="parentFolder-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-level-up"></span> To Parent Folder</span>
@@ -74,10 +97,12 @@
 									
 									<!-- 보이지않는 파일 첨부 영역 -->
 									<input type="file" name="attfiles" id="attfiles" multiple style="display:none">
+									
 								</div>
 								
 								<div class="navbar-form navbar-right" role="search">
-									<input type="text" class="form-control" placeholder="Search">
+<!-- 									<input type="text" class="form-control" placeholder="Search"> -->
+									<input type="text" class="form-control" placeholder="10MB 이하 업로드 가능">
 									<span id="search-btn" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-search"></span></span>
 								</div>
 							</form>
@@ -87,31 +112,31 @@
 							<table class="table table-hover">
 								<thead>
 									<tr>
-										<th scope="col"><input class="form-check-input checkAll" type="checkbox" value="" id="flexCheckDefault"></th>
-										<th scope="col">형식</th>
-										<th scope="col">파일명</th>
-										<th scope="col">수정된 날짜</th>
+										<th scope="col" class="checkArea"><input class="form-check-input checkAll" type="checkbox" value="" id="flexCheckDefault"></th>
+										<th scope="col" class="typeArea">형식</th>
+										<th scope="col" class="titleArea">파일명</th>
+										<th scope="col" class="dateArea">수정된 날짜</th>
 									</tr>
 								</thead>
 								<tbody>
 									<!-- 폴더 표현 부분 -->
 									<c:forEach varStatus="j" var="folderList" items="${dirFolderList}">
 										<tr>
-											<th scope="row"><input class="form-check-input checkObj checkFolder" type="checkbox" value="${folderList.wh_dir_seq}" name="chkList"></th>
-											<td><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></td>
-											<td>
+											<th scope="row" class="checkArea"><input class="form-check-input checkObj checkFolder" type="checkbox" value="${folderList.wh_dir_seq}" name="chkList"></th>
+											<td class="typeArea"><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></td>
+											<td class="titleArea">
 											<a href = "/webhard/webhardMain.webhard?dirSeq=${folderList.wh_dir_seq}"> ${folderList.wh_dir_name}</a>
 											
 											</td>
-											<td><!-- 폴더생성일 없음 --></td>
+											<td class="dateArea"><!-- 폴더생성일 없음 --></td>
 										</tr>
 									</c:forEach>
 									<!-- 파일 표현 부분 -->
 									<c:forEach var="i" items="${dirFileList}">
 										<tr>
-											<th scope="row"><input class="form-check-input checkObj checkFile" type="checkbox" value="${i.wh_files_seq}" name="chkList"></th>
-											<td><span class="glyphicon glyphicon-file" aria-hidden="true"></span></td>
-											<td>
+											<th scope="row" class="checkArea"><input class="form-check-input checkObj checkFile" type="checkbox" value="${i.wh_files_seq}" name="chkList"></th>
+											<td class="typeArea"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></td>
+											<td class="titleArea">
 											<a href = "" id="downloadFileId${i.wh_files_seq }"> ${i.wh_ori_name}</a>
 											 <script>
 											 	var enc = encodeURI("/webhard/attFilesDown.webhard?wh_files_seq=${i.wh_files_seq }&wh_ori_name=${i.wh_ori_name}&wh_saved_name=${i.wh_saved_name}");
@@ -119,7 +144,7 @@
 											 </script>
 											
 											</td>
-											<td>${i.wh_upload_date}</td>
+											<td class="dateArea">${i.wh_upload_date}</td>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -144,15 +169,18 @@
 		$( document ).ready(function() {
 			// 체크박스 개수를 판단해 컴포넌트 노출 제어
 			check_result();
+			
 			// 최상위 디렉토리일 경우 상위 디렉토리 이동버튼 제거
 			topDirHide();
+			
+			// 강제로 panel 최상단으로 끌어올리기
+			$(".main").css({
+				"padding-top": "0px"
+			});
+			
+			
 		});
 
-
-		// 강제로 panel 최상단으로 끌어올리기
-		$(".main").css({
-			"padding-top": "0px"
-		});
 		
 		// 전체체크 버튼 동작
 		$(".checkAll").on("click",function(){
@@ -449,14 +477,16 @@
 	
 		// 파일 멀티 업로드
 		function F_FileMultiUpload(attfiles, obj) {
-			if(confirm(attfiles.length + "개의 파일을 업로드 하시겠습니까?") ) {
+			if(confirm(attfiles.length + "개의 파일을 업로드 하시겠습니까?\n(파일만 업로드 가능합니다)") ) {
 				var data = new FormData();
+				
+				data.append('dirSeq', ${dirSeq});
 				for (var i = 0; i < attfiles.length; i++) {
 					data.append('attfiles', attfiles[i]);
-					data.append('dirSeq', ${dirSeq});
 				}
-
-				var url = "uploadFile.webhard";
+				
+				
+				var url = "/webhard/uploadFile.webhard";
 				$.ajax({
 					url: url,
 					method: 'post',
@@ -466,10 +496,10 @@
 					contentType: false,
 					success: function(res) {
 						F_FileMultiUpload_Callback(res.attfiles);
-					};
+					}
 				});
-				location.reload();
-			};
+				setTimeout("location.reload()",500);
+			}
 		};
 
 // 		// 파일 멀티 업로드 Callback
