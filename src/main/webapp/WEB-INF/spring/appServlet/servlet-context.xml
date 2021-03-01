@@ -41,8 +41,11 @@
 
    <!-- Multipart/form-data Parameter를 MultipartFile 형으로 자동 형 변환 해주는 객체 -->
    <beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-      <beans:property name="maxUploadSize" value="10485760"></beans:property>
+      <beans:property name="maxUploadSize" value="104857600"></beans:property>
    </beans:bean>
+
+
+
 
    <!-- 의존성 주입, list형 customReturnValueHandlers에 bean을 하나 더 만들고 이에 nexacroView라는 
       것을 인자값으로 주입시킴. -->
