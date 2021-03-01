@@ -254,6 +254,12 @@ public class WebhardService {
 				continue;
 			}
 			
+			// 파일의 크기가 50MB를 넘을경우 스킵
+			if (attfiles.get(i).getSize() > 10485759) {
+				System.out.println("크기제한");
+				continue;
+			}
+			
 			
 			// 저장될 경로값 설정
 			String realPath = session.getServletContext().getRealPath("/resources/Webhard_attached_files");
@@ -261,6 +267,10 @@ public class WebhardService {
 			
 			// resource의 해당 폴더가 존재 하지 않는 경우 생성
 			if (!filesPath.exists()) {filesPath.mkdir();}
+
+			
+			System.out.println("파일크기는");
+			System.out.println(attfiles.get(i).getSize());
 			
 			String oriName =  attfiles.get(i).getOriginalFilename();
 			System.out.println(oriName);
@@ -381,20 +391,48 @@ public class WebhardService {
 			}
 			int fileSeq = Integer.parseInt(chkArrFile.get(i));
 			
-			Webhard_filesDTO fileDTO = new Webhard_filesDTO();
-			fileDTO.setWh_files_seq(fileSeq);
+			// 파일 seq에 해당되는 정보를 가지고있는 DTO
+			Webhard_filesDTO fileDTO = getFileInfo(fileSeq);
 			
 			// 에러체크 (삭제된 행 개수가 1이 아닐경우)
 			if (delFileProc(fileDTO) != 1) {
 				result += 1;
+			
+			// 정상적으로 DB에서 제거가 이루어지면 실제 파일 제거
+			}else {
+				// 제거 실패 시 +1
+				result += delRealFileProc(fileDTO);
 			}
 		}
 		return result;
 	}
 	
-	// 해당 seq값 파일 지우기
+	// 해당 seq값 DB기록 지우기
 	public int delFileProc(Webhard_filesDTO fileDTO) {
 		return whdao.delFileProc(fileDTO);
+	}
+	
+	// 해당되는 file DTO의 실제파일 지우기
+	public int delRealFileProc(Webhard_filesDTO fileDTO) {
+		// 삭제될 경로값 설정
+		String realPath = session.getServletContext().getRealPath("/resources/Webhard_attached_files");
+		File filesPath = new File(realPath);
+
+		File targetLoc = new File(filesPath.getAbsoluteFile()+"/"+fileDTO.getWh_saved_name());
+		System.out.println(filesPath.getAbsoluteFile()+"/"+fileDTO.getWh_saved_name());
+//			FileCopyUtils.copy(attfiles.get(i).getBytes(), targetLoc);
+		if (true == targetLoc.delete()) {
+			// 삭제 성공
+			System.out.println("삭제성공");
+			return 0;
+		}else {
+			// 삭제 실패
+			System.out.println("삭제실패");
+			return 1;
+		}
+		
+		
+		
 	}
 	
 	// 접근 가능한 최상위 폴더 리스트 가져오기

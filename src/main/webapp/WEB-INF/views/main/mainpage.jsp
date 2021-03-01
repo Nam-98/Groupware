@@ -108,9 +108,8 @@
 										<span id="currentTimeSpan"></span>
 									</h2>
 									<div class="top-vacant d-none d-lg-block"></div>
-									<input type="button" value="출근" id="attendanceBtn"
-										class="btn btn-gray btn-xs"> <input type="button"
-										value="퇴근" id="leaveWorkBtn" class="btn btn-gray btn-xs">
+									<input type="button" id="attendanceBtn" class="btn btn-gray btn-xs" value="출근하기">
+									<input type="button" id="leaveWorkBtn" class="btn btn-gray btn-xs" value="퇴근하기">
 									<hr>
 									<div class="">
 										<span class="glyphicon glyphicon-flag" aria-hidden="true"><b>${attendanceValue.status }</b>&nbsp
@@ -537,13 +536,19 @@
       $("#attendanceBtn").on("click", function() {
          if (tnaStatus == 0) {
             location.href = "/tna/attendanceInput.tna";   
+         }else{
+        	 alert("이미 출근하셨습니다.");
          }
       })
 
       // 퇴근버튼클릭
       $("#leaveWorkBtn").on("click", function() {
-         if (tnaStatus != 0) {
+         if (tnaStatus == 1) {
             location.href = "/tna/leaveWorkInput.tna";
+         }else if (tnaStatus == 0) {
+        	 alert("출근 후 퇴근하실 수 있습니다.");
+         }else {
+        	 alert("이미 퇴근하셨습니다.\n(정정 시 근태 이의신청을 이용해 주세요)");
          }
       })
 
