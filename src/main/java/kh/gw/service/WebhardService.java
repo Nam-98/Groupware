@@ -254,7 +254,7 @@ public class WebhardService {
 				continue;
 			}
 			
-			// 파일의 크기가 50MB를 넘을경우 스킵
+			// 파일의 크기가 10MB를 넘을경우 스킵
 			if (attfiles.get(i).getSize() > 10485759) {
 				System.out.println("크기제한");
 				continue;
