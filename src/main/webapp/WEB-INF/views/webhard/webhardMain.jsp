@@ -504,7 +504,7 @@ th{
 						F_FileMultiUpload_Callback(res.attfiles);
 					}
 				});
-				setTimeout("location.reload()",1000);
+				setTimeout("location.reload()",10git 00);
 			}
 		};
 
