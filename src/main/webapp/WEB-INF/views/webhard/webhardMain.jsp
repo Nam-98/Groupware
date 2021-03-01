@@ -296,6 +296,12 @@ th{
 		
 		// 파일 컴포넌트가 변경되었을경우 (파일을 첨부하였다면) form submit 하기
 		document.getElementById("attfiles").onchange = function() {
+			
+			// 단일파일 최대 사이즈 체크
+			if (fileMaxSizeCheck() == 1) {
+				return 1;
+			}
+			
 		    document.getElementById("uploadForm").submit();
 		};
 		
@@ -498,7 +504,7 @@ th{
 						F_FileMultiUpload_Callback(res.attfiles);
 					}
 				});
-				setTimeout("location.reload()",500);
+				setTimeout("location.reload()",1000);
 			}
 		};
 
@@ -509,6 +515,40 @@ th{
 // 			}
 			
 // 		}
+
+	// 파일 단일 최대 사이즈 체크
+	function fileMaxSizeCheck() {
+		////
+		
+		// 사이즈체크
+    	var maxSize  = 10 * 1024 * 1024    //10MB
+    	var fileSize = 0;
+
+		// 브라우저 확인
+		var browser=navigator.appName;
+
+		// 익스플로러일 경우
+		if (browser=="Microsoft Internet Explorer")	{
+			var oas = new ActiveXObject("Scripting.FileSystemObject");
+			fileSize = oas.getFile( attfiles.value ).size;
+		}
+		// 익스플로러가 아닐경우
+		else
+		{
+			fileSize = attfiles.files[0].size;
+		}
+
+
+//			alert("파일사이즈 : "+ fileSize +", 최대파일사이즈 : 5MB");
+
+        if(fileSize > maxSize)
+        {
+            alert("첨부파일 사이즈는 10MB 이내로 등록 가능합니다.    ");
+            return 1;
+        }
+		
+		////
+	}
 		
 		
 		
