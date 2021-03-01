@@ -39,13 +39,18 @@ public class ScheduleController {
 		String id = (String)session.getAttribute("id");
 		String year = request.getParameter("year");
 		
-//		List<ScheduleDTO> list = sservice.listAllSchedule(id);
+		
 		List<ScheduleDTO> list = sservice.yearSchedule(year);
 		List<Company_holidayDTO> hlist = sservice.holidaySchedule();
-
+		
+		
 		sservice.addhDateStr3(hlist);
 		sservice.addDateStr3(list);
 
+		System.out.println(hlist.get(0).getComp_hd_date_str());
+		System.out.println(hlist.get(0).getComp_hd_name());
+		System.out.println(hlist.get(1).getComp_hd_date_str());
+		
 		m.addAttribute("list", list);
 		m.addAttribute("year", year);
 		m.addAttribute("hlist", hlist);
@@ -181,7 +186,7 @@ public class ScheduleController {
 		return "redirect:/schedule/monthSchedule.schedule?cpage="+session.getAttribute("cpage");
 	}
 	// ----------- 일정 수정 전
-	@RequestMapping("scheduleModifyBefore")
+	@RequestMapping("scheduleModifyBefore.schedule")
 	public String scheduleModifyBefore(HttpServletRequest request, Model m, ScheduleDTO dto) throws Exception{
 		dto.setSch_seq(Integer.parseInt(request.getParameter("sch_seq")));
 //		int sch_seq = Integer.parseInt(request.getParameter("sch_seq"));

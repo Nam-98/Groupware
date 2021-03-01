@@ -86,9 +86,9 @@
 .reply-list{
 	margin-top:50px; margin-bottom:50px;
 }
-.reWrite{
+.aa{
+	text-align: right;
 }
-
 
 </style>
 
@@ -143,7 +143,7 @@
 											 <b>${i.write_cmt_id }</b> &nbsp&nbsp&nbsp&nbsp ${i.write_cmt_date}&nbsp&nbsp&nbsp&nbsp
 											 <c:choose>
                                              	<c:when test="${i.write_cmt_id eq sessionScope.id}">
-		                                             <button id="btnReDelete" class="btn btn-danger btn-xs" style="float:right">삭제</button>
+		                                             <button class="btnDelete btn btn-danger btn-xs" style="float:right">삭제</button>
                                              	</c:when>
                                              	<c:otherwise></c:otherwise>
                                              </c:choose>
@@ -204,8 +204,11 @@
                         <br>
                         <textarea style='resize: none; width: 100%; height: 200px' id="brWriteArea" placeholder="내용을 입력해주세요." name="body"  maxlength="300"></textarea>
                         <br>
-                        <button id="brWrite" type="button">작성</button>
-                        <button id="brReset" type="button">취소</button>
+                        <div class="aa">
+                        	<button id="brWrite" type="button" class="btn btn-primary">작성</button>
+                       		<button id="brReset" type="button" class="btn btn-secondary">취소</button>
+                        </div>
+                       
                      </div>
                   </div>
                </div>            
@@ -377,7 +380,7 @@
 																	+ ' &nbsp&nbsp|&nbsp&nbsp'
 																	+ data.cmtList[0].write_cmt_date
 																	+ '&nbsp&nbsp|&nbsp&nbsp'
-																	+ '<button id="btnReDelete" class="btn btn-danger btn-xs">삭제</button>'
+																	+ '<button class="btnDelete btn btn-danger btn-xs" style="float:right">삭제</button>'
 																	+ '</div>'
 																	+ '</div>'
 																	+ '<div class="row">'
@@ -468,6 +471,11 @@
 		document.getElementById("delete").style.visibility = "hidden";
 		document.getElementById("modify").style.visibility = "hidden";
 
+	}
+</script>
+<script>
+	document.getElementById("brReset").onclick=function(){
+		document.getElementById("brWriteArea").value="";
 	}
 </script>
 </html>

@@ -137,7 +137,7 @@ public class ScheduleService {
 		
 	}
 	
-	public void addhDateStr3(List<Company_holidayDTO> hlist) {
+	public void addhDateStr3(List<Company_holidayDTO> hlist) throws Exception{
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM월dd일");
 		
 		for(Company_holidayDTO dto : hlist) {
@@ -189,9 +189,6 @@ public class ScheduleService {
 	public List<Company_holidayDTO> holidaySchedule() throws Exception{
 		return sdao.holidaySchedule();
 	}
-
-
-	
 
 	public Company_holidayDTO holidayScheduleView(int comp_hd_seq) throws Exception{
 		return sdao.holidayScheduleView(comp_hd_seq);

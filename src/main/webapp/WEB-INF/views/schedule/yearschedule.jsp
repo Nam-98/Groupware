@@ -157,7 +157,7 @@ th{text-align:center;}
 										</thead>
 										<tbody>
 										<c:choose >
-											<c:when test="${empty list}">
+											<c:when test="${empty list && empty hlist}">
 												<tr>
 													<td colspan=7>
 														작성한 문서가 없습니다. 
@@ -177,7 +177,7 @@ th{text-align:center;}
 											</c:if>
 											</c:forEach>
 											
-											<c:forEach var="i" items="${hlist }">										
+											<c:forEach var="i" items="${hlist }">									
 											<c:set var="ydate" value="${fn:split(i.comp_hd_date_str,'월')}"></c:set>
 											<c:if test="${c == ydate[0]}">
 												<tr class="dataRow">
@@ -207,6 +207,7 @@ th{text-align:center;}
 		</div>
 		<!-- END MAIN -->
 		<div class="clearfix"></div>
+	</div>
 <jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
 	</div>
 	<!-- END WRAPPER -->

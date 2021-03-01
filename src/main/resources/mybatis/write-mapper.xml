@@ -95,7 +95,7 @@
   </delete>
  
   <select id="reCommentList" resultType="kh.gw.dto.Write_commentsDTO">
-	select * from st.write_comments where write_cmt_parent_seq = #{write_cmt_seq}
+	select * from st.write_comments where write_cmt_parent_seq = #{write_cmt_seq} order by write_cmt_seq asc
   </select>
 
   <insert id="reCommentWrite">

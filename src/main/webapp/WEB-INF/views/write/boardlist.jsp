@@ -134,8 +134,9 @@ a { text-decoration:none }
 						</c:forEach>
 					</tbody>
 				</table>
+				
 				</div>
-				<button id="write" class="btn btn-primary">글쓰기</button>
+				<input type="button" id="write" class="btn btn-primary" value="글쓰기">
 				<div class="navi">${navi }</div>
 			</div>
 		</div>
