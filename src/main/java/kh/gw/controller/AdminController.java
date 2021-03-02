@@ -24,6 +24,7 @@ import kh.gw.dto.Break_typeDTO;
 import kh.gw.dto.Company_holidayDTO;
 import kh.gw.dto.DepartmentDTO;
 import kh.gw.dto.MemberDTO;
+import kh.gw.dto.PositionDTO;
 import kh.gw.dto.TnA_StandardTimeDTO;
 import kh.gw.dto.WriteDTO;
 import kh.gw.service.ApprovalService;
@@ -426,6 +427,33 @@ public class AdminController {
 		int result = tservice.tnaUpdateTime(att_time,lea_time,nig_time);
 		System.out.println(result);
 		
+		return nr;
+	}
+	
+	//부서관리
+	@RequestMapping("/nxPosiUdt.nexacro")
+	public NexacroResult nxPosiUdt(@ParamDataSet(name="ds_in")DataSet ds, @ParamDataSet(name="ds_in")List<PositionDTO> dtos) {
+		//부서 추가 및 업데이트
+		for(int i =0; i<ds.getRowCount(); i++) {
+			String status = ds.getRowTypeName(i);
+			if(status.contentEquals("updated")) {
+				pser.nxPosiUdt(dtos.get(i));
+			}else if(status.contentEquals("inserted")) {
+				pser.nxPosiAdd(dtos.get(i));
+			}else {
+				NexacroResult nr = new NexacroResult();
+				nr.setErrorCode(-1);
+				nr.setErrorMsg("직급설정 : 알수없는 데이터 값 들어옴. ");
+				return nr;
+			}
+		}
+		
+		//삭제
+		for(int i =0; i<ds.getRemovedRowCount(); i++) {
+			pser.nxPosiDel(dtos.get(i+ds.getRowCount()).getPosition_code());
+		}
+
+		NexacroResult nr = new NexacroResult();
 		return nr;
 	}
 

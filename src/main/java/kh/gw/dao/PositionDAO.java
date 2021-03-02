@@ -26,4 +26,7 @@ public class PositionDAO {
 	public int nxPosiUdt(PositionDTO dto) {
 		return db.update("Position.nxPosiUdt", dto);
 	}
+	public int nxGetTempCode() {
+		return db.selectOne("Position.nxGetTempCode");
+	}
 }

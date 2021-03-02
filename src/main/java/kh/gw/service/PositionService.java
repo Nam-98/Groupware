@@ -18,7 +18,10 @@ public class PositionService {
 		return pdao.listPo();
 	}
 	public int nxPosiAdd(PositionDTO dto) {
-		return pdao.nxPosiAdd(dto);
+		int posiCode = pdao.nxGetTempCode();
+		dto.setPosition_code(posiCode);
+		pdao.nxPosiAdd(dto);
+		return posiCode;
 	}
 	public int nxPosiDel(int position_seq) {
 		return pdao.nxPosiDel(position_seq);
