@@ -143,67 +143,67 @@ li>a {
 			<div class="main-content">
 				<div class="container-fluid">
 					<h3 class="page-title">쪽지 보내기</h3>
-				<div class="col-md-9">
-						<div class="well">
-							<div class="panel panel-headline demo-icons">
-								<div class="panel-heading">
-									<h3 class="panel-title">쪽 지 작 성</h3>
-								</div>
-								<div class="panel-body">
-									<div style="width: 100%;">
-										<form method="post" enctype="multipart/form-data"
-											action="/message/msgProc.message">
+					<div class="col-md-12">
+						<div class="panel panel-headline demo-icons">
+							<div class="panel-heading">
+								<h3 class="panel-title">쪽 지 작 성</h3>
+							</div>
+							<div class="panel-body">
+								<div style="width: 100%;">
+									<form method="post" enctype="multipart/form-data"
+										action="/message/msgProc.message">
 
-											<div class="row mb-3">
-												<div class="col-3 col-sm-2">
-													<b>받는 사람 </b>
-												</div>
-
-												<div class="col-9 col-sm-10 pr-5">
-													<input class="msgInput" type="text"
-														name="msg_receiver_name" id="msg_receiver_name" style="width: 80%;" readonly /> 
-														<input type="button" class="btn btn-sm btn-primary" value="찾기" id="search">
-														
-													<!-- 값을 숨겨서 보내는 장소 -->
-													<input type="hidden" name="msg_receiver" id="msg_receiver">
-													<input class="msgInput" type="hidden"
-														name="msg_sender_name" style="width: 75%;" value="${myInfo.NAME } ${myInfo.POSITION_NAME}" />
-												</div>
+										<div class="row mb-3">
+											<div class="col-3 col-sm-2">
+												<b>받는 사람 </b>
 											</div>
-											<br>
 
-											<div class="row mb-3">
-												<div class="col-3 col-sm-2">
-													<b>제목 </b>
-												</div>
-												<div class="col-9 col-sm-10">
-													<input class="msgInput" type="text"
-														placeholder="제목을 입력하시오." name="msg_title"
-														style="width: 80%;" />
-												</div>
+											<div class="col-9 col-sm-10 pr-5">
+												<input class="msgInput" type="text" name="msg_receiver_name"
+													id="msg_receiver_name" style="width: 80%;" readonly /> <input
+													type="button" class="btn btn-sm btn-primary" value="찾기"
+													id="search">
+
+												<!-- 값을 숨겨서 보내는 장소 -->
+												<input type="hidden" name="msg_receiver" id="msg_receiver">
+												<input class="msgInput" type="hidden" name="msg_sender_name"
+													style="width: 75%;"
+													value="${myInfo.NAME } ${myInfo.POSITION_NAME}" />
 											</div>
-											<br>
+										</div>
+										<br>
 
-											<div class="row mb-3">
-												<div class="col-3 col-sm-2">
-													<b>파일첨부</b>
-												</div>
-												<div class="col-9 col-sm-10">
-													<input type="file" class="form-control" name="attfiles"
-														id="inputGroupFile04"
-														aria-describedby="inputGroupFileAddon04"
-														aria-label="Upload" style="width: 80%;">
-												</div>
+										<div class="row mb-3">
+											<div class="col-3 col-sm-2">
+												<b>제목 </b>
 											</div>
-											<br>
+											<div class="col-9 col-sm-10">
+												<input class="msgInput" type="text" placeholder="제목을 입력하시오."
+													name="msg_title" style="width: 80%;" />
+											</div>
+										</div>
+										<br>
 
-											<textarea id="summernote" name="msg_contents"
-												placeholder="내용을 입력하시오."></textarea>
-											<input id="subBtn" class="btn btn-primary btn-sm"
-												type="button" style="float: right;" value="보내기" onclick="goWrite(this.form)"/>
+										<div class="row mb-3">
+											<div class="col-3 col-sm-2">
+												<b>파일첨부</b>
+											</div>
+											<div class="col-9 col-sm-10">
+												<input type="file" class="form-control" name="attfiles"
+													id="inputGroupFile04"
+													aria-describedby="inputGroupFileAddon04"
+													aria-label="Upload" style="width: 80%;">
+											</div>
+										</div>
+										<br>
 
-										</form>
-									</div>
+										<textarea id="summernote" name="msg_contents"
+											placeholder="내용을 입력하시오."></textarea><br>
+										<input id="subBtn" class="btn btn-primary btn-sm"
+											type="button" style="float: right;" value="보내기"
+											onclick="goWrite(this.form)" />
+
+									</form>
 								</div>
 							</div>
 						</div>

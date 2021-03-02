@@ -56,4 +56,8 @@ public class MemberDAO {
 	public List<Map<String,Object>> getMembersForAppWrite(){
 		return db.selectList("Member.getMembersForAppWrite");
 	}
+
+	public int deleteMem(String id) {
+		return db.delete("Member.deleteMem",id);
+	}
 }

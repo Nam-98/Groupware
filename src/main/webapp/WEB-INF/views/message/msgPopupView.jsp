@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>담당자(ID) 검색</title>
+<title>받는사람(ID)</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -177,7 +177,7 @@
 			<div class="container-fluid">
 				<div class="panel panel-headline demo-icons">
 					<div class="panel-heading">
-						<h3 class="panel-title">담당자(ID) 검색</h3>
+						<h3 class="panel-title">받는 사람 검색</h3>
 					</div>
 					<div class="panel-body">
 						<input type="hidden" id="msg_receiver_name" readonly value="${dto.name} ${dto.position_name}" style="width:250px;">
