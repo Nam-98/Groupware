@@ -117,7 +117,7 @@
                 	$("#treeGrid").jqxTreeGrid('sortBy', 'departmentName', 'asc');
                 },
                 columns: [
-                { text: '부서', align: 'center' ,dataField: 'departmentName', width: 100 },
+                { text: '부서', align: 'center' ,dataField: 'departmentName', width: 110 },
                   { text: '성명',align: 'center', dataField: 'name', width: 70 },
                   { text: '직급',align: 'center', dataField: 'position', width: 70 }
                 ]
