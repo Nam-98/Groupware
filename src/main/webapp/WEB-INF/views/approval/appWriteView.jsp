@@ -69,6 +69,7 @@ td.resize-col {
     .resize-width i{
       transform: rotate(90deg);
     }
+    .sOrderDisplay{display:none;}
 </style>
 </head>
 <body>
@@ -93,7 +94,7 @@ td.resize-col {
 							<table class="table table-sm" id="tableSelected">
 								<thead class='thead-light'>
 									<tr>
-										<th scope="col" class="dOrders">결재순서</th>
+										<th scope="col" class="dOrders sOrderDisplay">결재순서</th>
 										<th scope="col">부서</th>
 										<th scope="col">이름</th>
 										<th scope="col">직위</th>
@@ -105,7 +106,7 @@ td.resize-col {
 									<tr class="selectedBlock">
 										<c:forEach items="${mlist}" var="i">
 											<c:if test="${i.ID == sessionScope.id}">
-												<td class="selectedOrder dOrders">1</td>
+												<td class="selectedOrder dOrders sOrderDisplay">1</td>
 												<td class="selectedDept">${i.DEPT_NAME }</td>
 												<td class="selectedName">${i.NAME }</td>
 												<td class="selectedPosi">${i.POSITION_NAME }</td>
@@ -406,6 +407,9 @@ td.resize-col {
 				let del = $("<td class='selectedDel'>");
 					del.append($("<i class='far fa-minus-square'></i>"))
 				let order = $("<td class='selectedOrder dOrders'>");
+			    	if($("#orderDisplay").prop('checked')){
+			    		order.addClass('sOrderDisplay');
+			    	}
 					let ordercount = index+1;
 					order.append(ordercount);
 				let signType = $("<td class='selectTypeTd'>")
@@ -536,12 +540,7 @@ td.resize-col {
 			  })
 			  $(function() {
 				    $('#orderDisplay').change(function() {
-				    	console.log($(this).prop('checked'));
-				    	if($(this).prop('checked')){
-				    		$(".dOrders").css("display","table-cell");
-				    		return;
-				    	}
-				    	$(".dOrders").css("display","none");
+				    	$(".dOrders").toggleClass("sOrderDisplay");
 				    })
 				})
 
