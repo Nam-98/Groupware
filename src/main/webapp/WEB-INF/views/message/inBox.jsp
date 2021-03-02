@@ -47,10 +47,12 @@
 			<!-- MAIN CONTENT -->
 			
 			<div class="main-content">
-			<div class="panel panel-headline demo-icons">
+			
 				<div class="container-fluid">
+				<h3 class="page-title">보 관 함</h3>
+			<div class="panel panel-headline demo-icons">
 				<div class="panel-heading">
-					<h3 class="page-title">수 신 함</h3>
+					<h3 class="panel-title">수 신 함</h3>
 					<div class="right">
   					<input type="button" class="btn btn-sm btn-primary" id="cabBtn" value="보관함이동">
   					<script>

@@ -61,7 +61,7 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 class="page-title">My TnA</h3>
+					<h3 class="page-title">근태관리</h3>
 					<div class="panel panel-headline demo-icons">
 						<!-- pannel 내부의 제목 작성 div-->
 						<div class="panel-heading">

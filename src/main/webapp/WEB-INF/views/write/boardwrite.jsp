@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>게시판 글쓰기</title>
+<title>게시판</title>
 
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <!-- 아이콘 fontawesome -->
@@ -107,23 +107,11 @@
 
 
 <style>
-* {
-	border: 0px solid black;
-	box-sizing: border-box;
-	margin: 0;
-}
 
 .top-vacant {
 	width: 1020px;
 	height: 20px;
 }
-
-.page-name {
-	width: 100%;;
-	height: 50px;
-	float: left;
-}
-
 </style>
 
 </head>
@@ -145,24 +133,40 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-						<h3 class="page-title">게시판 글쓰기</h3>
-					<div class="col-md-9">
-						<div class="well">
-							<div class="panel panel-headline demo-icons">
-								<div class="panel-heading">
-									<h3 class="panel-title">게시판 글 작성</h3>
-								</div>
+					<h3 class="page-title">게시판</h3>
+					<div class="col-md-12">
+						<div class="panel panel-headline demo-icons">
+							<div class="panel-heading">
+								<h3 class="panel-title">게시판 새 글쓰기</h3>
+							</div>
 							<div class="panel-body">
-								<div>
+								<div style="width: 100%;">
 									<form action="/write/insertBoardWrite.write" method="post">
-									제목 : <input type="text" name="write_title" style="width: 40%;"
-										placeholder="제목을 입력하세요." /><br>
-									<br> 작성자 : <input type="text" name="write_id"
-										style="width: 20%;" value="${id}" readonly /> <br>
-									<br>
-									<textarea id="summernote" name="write_contents"></textarea>
-									 <input	id="delBtn" class="btn btn-secondary" type="button" value="작성 취소" style="float: right;">
-									 <input id="subBtn" class="btn btn-primary" type="button" value="작성 완료" style="float: right;" onclick="goWrite(this.form)" />
+										<div class="row">
+											<div class="col-3 col-sm-2">
+												<b>제목 </b>
+											</div>
+											<div class="col-9 col-sm-10 pr-5">
+												<input style="width: 90%;" type="text" name="write_title" placeholder="제목을 입력하세요." />
+											</div>
+										</div>
+										<br>
+										<div class="row">
+											<div class="col-3 col-sm-2">
+												<b>작성자 </b>
+											</div>
+											<div class="col-9 col-sm-10">
+												<input style="width: 90%;" type="text" name="write_id" value="${id}" readonly />
+											</div>
+										</div>
+										<br>
+
+										<textarea id="summernote" name="write_contents"></textarea><br>
+										<input id="delBtn" class="btn btn-sm btn-secondary" type="button"
+											value="취소" style="float: right;"> <input
+											id="subBtn" class="btn btn-sm btn-primary" type="button"
+											value="글쓰기" style="float: right;"
+											onclick="goWrite(this.form)" />
 									</form>
 								</div>
 							</div>
@@ -170,12 +174,11 @@
 					</div>
 				</div>
 			</div>
-			</div>
 			<!-- END MAIN CONTENT -->
 		</div>
 		<!-- END MAIN -->
 		<div class="clearfix"></div>
-<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
+		<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
 	</div>
 	<!-- END WRAPPER -->
 
