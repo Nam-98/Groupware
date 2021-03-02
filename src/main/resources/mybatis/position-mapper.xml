@@ -7,7 +7,7 @@
 		select * from st.position
 	</select>
 	<insert id="nxPosiAdd">
-		insert into st.position values(st.position_seq.nextval,#{position_name})
+		insert into st.position values(#{position_code},#{position_name})
 	</insert>
 	<delete id="nxPosiDel">
 		delete from st.position where position_code=#{position_code}
@@ -15,4 +15,7 @@
 	<update id="nxPosiUdt">
 		update st.position set position_name=#{position_name} where position_code=#{position_code}
 	</update>
+	<select id="nxGetTempCode" resultType="int">
+		select st.position_seq.nextval from dual
+	</select>
   </mapper>
