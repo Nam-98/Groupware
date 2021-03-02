@@ -49,8 +49,6 @@
 			<div class="main-content">
 			<div class="panel panel-headline demo-icons">
 				<div class="container-fluid">
-				
-				
 				<div class="panel-heading">
 					<h3 class="page-title">수 신 함</h3>
 					<div class="right">

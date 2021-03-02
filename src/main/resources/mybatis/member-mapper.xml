@@ -41,4 +41,8 @@
 	<select id="getMembersForAppWrite" resultType="java.util.HashMap">
 		select id, name, dept_name, position_name, dept_tree_code, dept_code from st.member join st.department using (dept_code) join st.position using (position_code) order by dept_tree_code
 	</select>
+	
+	<delete id="deleteMem">
+		delete from st.member where id=#{value}
+	</delete>
   </mapper>
