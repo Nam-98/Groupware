@@ -141,9 +141,9 @@
 						</div>
 
 						<div class="col-md-6">
-							<div class="panel panel-headline" style="height: 270px;">
+							<div class="panel" >
 								<div class="panel-heading">
-									<h3 class="panel-title">Main Menu</h3>
+									<h3 class="panel-title"><b>Main Menu</b></h3>
 
 								</div>
 								<div class="panel-body">
@@ -166,10 +166,13 @@
 											<span class="icon"><i
 												class="fas fa-user-cog fa-4x adminitem"></i></span>
 											<p>
-												<span class="number">Admin</span><span class="title">관리자</span>
+												<span class="number">&nbsp&nbsp&nbsp&nbsp&nbsp Admin</span><span class="title">관리자</span>
 											</p>
 											<input type=hidden value="/nex/admin.nexacro">
 										</div>
+									</div>
+									<div class="hidden-xs hidden-sm col-md-6">
+									<br><br>
 									</div>
 								</div>
 							</div>
@@ -681,6 +684,20 @@
 			return;
 		}
 		location.href='/nex/admin.nexacro';
+	});
+	</script>
+	<script>
+	// 메뉴바 축소시 캘린더 크기 조정
+	$(".navbar-btn").on("click",function(){
+		$(".fc-col-header ").css({
+			"width": "100%"
+		});
+		$(".fc-daygrid-body").css({
+			"width": "100%"
+		});
+		$(".fc-scrollgrid-sync-table").css({
+			"width": "100%"
+		});
 	});
 	</script>
 </body>
