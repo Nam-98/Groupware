@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>시스템 공지사항 뷰</title>
+<title>시스템 공지사항</title>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <!-- 아이콘 fontawesome -->
     <script src="https://kit.fontawesome.com/b1e233372d.js"></script>
@@ -113,10 +113,10 @@
          <!-- MAIN CONTENT -->
          <div class="main-content">
             <div class="container-fluid">
-               <h3 class="page-title">회사 게시판 뷰</h3>
-               <button id="list" class="btn pull-left btn-primary">목록으로</button>
-               <button id="modify" class="btn pull-left btn-primary">수정하기</button>
-               <button id="delete" class="btn pull-left btn-primary">삭제하기</button>
+               <h3 class="page-title">공지사항</h3>
+               <button id="list" class="btn btn-sm pull-left btn-primary">목록으로</button>
+               <button id="modify" class="btn btn-sm pull-left btn-primary">수정</button>
+               <button id="delete" class="btn btn-sm pull-left btn-primary">삭제</button>
                <div class="top-vacant d-none d-lg-block"></div>
                <div class="panel panel-headline demo-icons">
                   <div class="panel-heading">
@@ -141,7 +141,7 @@
 	                    			<div class="rows">
                                        <div class="row replyRow">
                                        
-                                          <div class="col-sm-12" ><img class=img-circle style='width: 50px; height: 50px; text-align: left; margin-right: 5px;' src="/resources/profileImage/${dtos.write_id }.png">
+                                          <div class="col-sm-12" ><img class=img-circle style='width: 50px; height: 50px; text-align: left; margin-right: 5px;' src="/resources/profileImage/${dtos.write_cmt_id }.png">
 											 <b>${i.write_cmt_id }</b> &nbsp&nbsp&nbsp&nbsp ${i.write_cmt_date}&nbsp&nbsp&nbsp&nbsp
 											 <c:choose>
                                              	<c:when test="${i.write_cmt_id eq sessionScope.id}">
@@ -266,7 +266,9 @@
 	            				 + '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'
 	            				 + data.reCmtList[i].write_cmt_contents
 	            				 + '&nbsp&nbsp&nbsp&nbsp'
+	            				 + '<c:if test="'${write_cmt_id eq sessionScope.id}'">'
 	            				 + '<button type="button" id="btnReDelete" class="btn btn-danger btn-xs" style="float:right;">삭제</button>'
+	            				 + '</c:if>'
 	            				 + '</div>'
 	            				 + '<input type="hidden" name="re_cmt_seq" value="'+data.reCmtList[i].write_cmt_seq+'">'
 	            				 + '</div>'
@@ -376,7 +378,7 @@
 											insertCommentArea.first().append(
 															'<div class="rows">'
 																	+ '<div class="row">'
-																	+ '<div class="col-sm-12"><img style="width: 50px; height: 50px; text-align: left; margin-right: 5px;" src="/resources/profileImage/${dtos.write_id }.png"></div>'
+																	+ '<div class="col-sm-12"><img style="width: 50px; height: 50px; text-align: left; margin-right: 5px;" src="/resources/profileImage/${sessionScope.id }.png"></div>'
 																	+ '<div class="col-sm-12" style="text-align: left;">'
 																	+ data.cmtList[0].write_cmt_id
 																	+ ' &nbsp&nbsp|&nbsp&nbsp'

@@ -5,8 +5,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<title>조직도</title>
 <!-- 아이콘 fontawesome -->
 <script src="https://kit.fontawesome.com/b1e233372d.js"></script>
 <!-- VENDOR CSS -->
@@ -30,7 +29,7 @@
 	href="/assets/img/apple-icon.png">
 <link rel="icon" type="image/png" sizes="96x96"
 	href="/assets/img/favicon.png">
-<script src="/assets/vendor/jquery/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <script src="/assets/vendor/chartist/js/chartist.min.js"></script>
@@ -44,8 +43,6 @@
 <link rel="stylesheet"
 	href="/resources/lib/jqwidgets/styles/jqx.jqx-grid-cell-hover.css"
 	type="text/css" />
-<script type="text/javascript"
-	src="/resources/lib/scripts/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="/resources/lib/jqwidgets/jqxcore.js"></script>
 <script type="text/javascript" src="/resources/lib/jqwidgets/jqxdata.js"></script>
 <script type="text/javascript"
@@ -117,7 +114,7 @@
                 	$("#treeGrid").jqxTreeGrid('sortBy', 'departmentName', 'asc');
                 },
                 columns: [
-                { text: '부서', align: 'center' ,dataField: 'departmentName', width: 100 },
+                { text: '부서', align: 'center' ,dataField: 'departmentName', width: 110 },
                   { text: '성명',align: 'center', dataField: 'name', width: 70 },
                   { text: '직급',align: 'center', dataField: 'position', width: 70 }
                 ]
@@ -170,7 +167,9 @@
 					<h3 class="page-title">조직도</h3>
 					
 					<div class="panel panel-headline demo-icons">
-						<div class="panel-heading"></div>
+						<div class="panel-heading">
+							<h3 class="panel-title">상 세 정 보</h3>
+						</div>
 						<div class="panel-body">
 							<div class="row">
 								<div class="col-md-3">

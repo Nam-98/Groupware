@@ -54,12 +54,11 @@
 		<div class="main">
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
-			
-			<div class="panel panel-headline demo-icons">
-			
 				<div class="container-fluid">
-					<div class="panel-heading">
 					<h3 class="page-title">보 관 함</h3>
+				<div class="panel panel-headline demo-icons">
+					<div class="panel-heading">
+					<h3 class="panel-title">My Box</h3>
 					</div>
 					<div class="panel-body">
 

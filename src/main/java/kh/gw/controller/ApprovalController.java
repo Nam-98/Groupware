@@ -38,6 +38,7 @@ import kh.gw.dto.DepartmentDTO;
 import kh.gw.dto.MemberDTO;
 import kh.gw.service.ApprovalService;
 import kh.gw.service.BreakService;
+import kh.gw.service.DepartmentService;
 import kh.gw.service.MemberService;
 
 @Controller
@@ -49,6 +50,8 @@ public class ApprovalController {
 	private MemberService mservice;
 	@Autowired
 	private BreakService bservice;
+	@Autowired
+	private DepartmentService dservice;
 	@Autowired
 	private HttpSession session;
 	
@@ -67,7 +70,7 @@ public class ApprovalController {
 		//결재선 선택용 자료 보내기
 		//List<MemberDTO> mlist = mservice.listMem();//멤버를 불러옴
 		List<Map<String,Object>> mlist = mservice.getMembersForAppWrite();
-		List<DepartmentDTO> dlist = mservice.listDept(); //부서명 가져옴
+		List<DepartmentDTO> dlist = dservice.listDept(); //부서명 가져옴
 		List<Approval_sign_typeDTO> adtList = aservice.allSignType();
 		List<Break_typeDTO> btList = bservice.getAllType();
 		String treeData = aservice.makeOrganTreeData(mlist, dlist);
