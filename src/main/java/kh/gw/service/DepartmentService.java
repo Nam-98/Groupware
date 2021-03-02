@@ -58,7 +58,6 @@ public class DepartmentService {
 	public int nxDeptUdt(DepartmentDTO dto) {
 		return ddao.nxDeptUdt(dto);
 	}
-	
 
 
 }
