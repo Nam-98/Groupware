@@ -58,6 +58,6 @@ public class MemberDAO {
 	}
 
 	public int deleteMem(String id) {
-		return db.delete("Member.deleteMem",id);
+		return db.update("Member.deleteMem",id);
 	}
 }

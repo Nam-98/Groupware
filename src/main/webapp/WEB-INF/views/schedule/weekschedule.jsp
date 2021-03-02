@@ -12,44 +12,60 @@
 <!-- 아이콘 fontawesome -->
 <script src="https://kit.fontawesome.com/b1e233372d.js"></script>
 <!-- VENDOR CSS -->
-<link rel="stylesheet" href="/assets/vendor/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="/assets/vendor/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="/assets/vendor/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="/assets/vendor/font-awesome/css/font-awesome.min.css">
 <link rel="stylesheet" href="/assets/vendor/linearicons/style.css">
-<link rel="stylesheet" href="/assets/vendor/chartist/css/chartist-custom.css">
+<link rel="stylesheet"
+	href="/assets/vendor/chartist/css/chartist-custom.css">
 <!-- MAIN CSS -->
 <link rel="stylesheet" href="/assets/css/main.css">
 <!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
 <link rel="stylesheet" href="/assets/css/demo.css">
 <!-- GOOGLE FONTS -->
-<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700"
+	rel="stylesheet">
 <!-- ICONS -->
-<link rel="apple-touch-icon" sizes="76x76" href="/assets/img/apple-icon.png">
-<link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicon.png">
+<link rel="apple-touch-icon" sizes="76x76"
+	href="/assets/img/apple-icon.png">
+<link rel="icon" type="image/png" sizes="96x96"
+	href="/assets/img/favicon.png">
 <script src="/assets/vendor/jquery/jquery.min.js"></script>
 <script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <script src="/assets/vendor/chartist/js/chartist.min.js"></script>
 <script src="/assets/scripts/klorofil-common.js"></script>
 
- <!-- Calendar -->
-   <link href='/resources/lib/fullcalendar/main.css' rel='stylesheet'/>
-    <script src='/resources/lib/fullcalendar/main.js'></script>
+<!-- Calendar -->
+<link href='/resources/lib/fullcalendar/main.css' rel='stylesheet' />
+<script src='/resources/lib/fullcalendar/main.js'></script>
 <!--     <script src='/resources/lib/fullcalendar/main.min.css'></script> -->
 <!--     <script src='/resources/lib/fullcalendar/main.min.js'></script> -->
-    
+
 </head>
 <style>
 * {
 	box-sizing: border-box;
 }
 
-#calendar{
+#calendar {
 	width: 100%;
 }
 
 .fc-toolbar-chunk {
-  display: flex; // 일렬로 나란히
-  align-items: center; // 수직 가운데 정렬
+	display: flex;
+	//
+	일렬로
+	나란히
+	align-items
+	:
+	center;
+	//
+	수직
+	가운데
+	정렬
 }
 </style>
 <body>
@@ -70,26 +86,29 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 class="page-title">주간 일정</h3>
-					 <input type="button" id="addSchedule" class="btn btn-gray btn-xs" value="일정 추가하기">
+					<h3 class="page-title">일정관리</h3>
+					<div class="panel panel-headline demo-icons">
+						<div class="panel-heading">
+							<h3 class="panel-title">주 간 일 정</h3>
+							<div class="right">
+								<input type="button" id="addSchedule"
+									class="btn btn-xs btn-primary" value="일정추가">
+							</div>
+						</div>
+						<div class="panel-body">
+							<div id="calendar" class="col-6"></div>
+						</div>
+					</div>
 				</div>
 			</div>
-			<div class="panel panel-headline demo-icons">
-					<div class="panel-heading">
-						<h3 class="panel-title">주 간 일 정</h3>
-					</div>
-					<div class="panel-body">
-						<div id="calendar" class="col-6"></div>
-					</div>
 			<!-- END MAIN CONTENT -->
 		</div>
 		<!-- END MAIN -->
 		<div class="clearfix"></div>
-			<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
-		</div>
+		<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
 	<!-- END WRAPPER -->
 	</div>
-	
+
 	<script>
 	 	document.addEventListener('DOMContentLoaded', function() {
 		    var calendarE2 = document.getElementById('calendar');
@@ -134,7 +153,7 @@
 			 calendar.render();
 	 	});
 	</script>
-	
+
 	<script>
    	document.getElementById("addSchedule").onclick=function(){
    		var con = confirm("일정을 추가하시겠습니까?")
@@ -146,6 +165,6 @@
    		}
    	}
    </script>
-	
+
 </body>
 </html>

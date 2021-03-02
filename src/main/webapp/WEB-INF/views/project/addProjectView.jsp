@@ -71,7 +71,7 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 class="page-title">My Project</h3>					
+					<h3 class="page-title">프로젝트</h3>					
 					<div class="alert alert-warning alert-dismissible" role="alert">
 						<button type="button" class="close" data-dismiss="alert"
 							aria-label="Close">
