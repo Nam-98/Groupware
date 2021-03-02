@@ -57,7 +57,7 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 class="page-title">My page</h3>
+					<h3 class="page-title">마이페이지</h3>
 					<form action="/member/fixMyPw.member" method="post" id="formBox">
 						<div class="panel panel-headline demo-icons">
 							<div class="panel-heading">

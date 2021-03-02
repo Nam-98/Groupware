@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
@@ -8,28 +8,35 @@
 <meta charset="UTF-8">
 <title>연간 일정</title>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <!-- 아이콘 fontawesome -->
-    <script src="https://kit.fontawesome.com/b1e233372d.js"></script>
-	<!-- VENDOR CSS -->
-	<link rel="stylesheet" href="/assets/vendor/bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" href="/assets/vendor/font-awesome/css/font-awesome.min.css">
-	<link rel="stylesheet" href="/assets/vendor/linearicons/style.css">
-	<link rel="stylesheet" href="/assets/vendor/chartist/css/chartist-custom.css">
-	<!-- MAIN CSS -->
-	<link rel="stylesheet" href="/assets/css/main.css">
-	<!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
-	<link rel="stylesheet" href="/assets/css/demo.css">
-	<!-- GOOGLE FONTS -->
-	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
-	<!-- ICONS -->
-	<link rel="apple-touch-icon" sizes="76x76" href="/assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicon.png">
-    <script src="/assets/vendor/jquery/jquery.min.js"></script>
-	<script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
-	<script src="/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-	<script src="/assets/vendor/chartist/js/chartist.min.js"></script>
-	<script src="/assets/scripts/klorofil-common.js"></script>
-	<style>
+<!-- 아이콘 fontawesome -->
+<script src="https://kit.fontawesome.com/b1e233372d.js"></script>
+<!-- VENDOR CSS -->
+<link rel="stylesheet"
+	href="/assets/vendor/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="/assets/vendor/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/assets/vendor/linearicons/style.css">
+<link rel="stylesheet"
+	href="/assets/vendor/chartist/css/chartist-custom.css">
+<!-- MAIN CSS -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
+<link rel="stylesheet" href="/assets/css/demo.css">
+<!-- GOOGLE FONTS -->
+<link
+	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700"
+	rel="stylesheet">
+<!-- ICONS -->
+<link rel="apple-touch-icon" sizes="76x76"
+	href="/assets/img/apple-icon.png">
+<link rel="icon" type="image/png" sizes="96x96"
+	href="/assets/img/favicon.png">
+<script src="/assets/vendor/jquery/jquery.min.js"></script>
+<script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<script src="/assets/vendor/chartist/js/chartist.min.js"></script>
+<script src="/assets/scripts/klorofil-common.js"></script>
+<style>
 .align-right {
 	text-align: right;
 }
@@ -52,12 +59,15 @@
 /* 	background-color: gray; */
 /* 		color: white; */
 /* } */
-.btn3n-1{
-background-color: gray;
+.btn3n-1 {
+	background-color: gray;
 	color: black;
 }
-.btn3n{background-color:light;	color: black;}
 
+.btn3n {
+	background-color: light;
+	color: black;
+}
 
 .active2, .collapsible:hover {
 	background-color: #555;
@@ -82,13 +92,40 @@ background-color: gray;
 	transition: max-height 0.2s ease-out;
 	background-color: #f1f1f1;
 }
-p{margin-top:10px;margin-bottom:10px;}
-#searchInput{width:60%;display:inline-flex;}
-#searchType{padding-left:10px;width:25%;display:inline-block;}
-.dateSelect{width:fit-content;display:inline-block;}
-table{width:100%;text-align:center;}
-th{text-align:center;}
-.dataRow:hover{cursor:pointer;}
+
+p {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+#searchInput {
+	width: 60%;
+	display: inline-flex;
+}
+
+#searchType {
+	padding-left: 10px;
+	width: 25%;
+	display: inline-block;
+}
+
+.dateSelect {
+	width: fit-content;
+	display: inline-block;
+}
+
+table {
+	width: 100%;
+	text-align: center;
+}
+
+th {
+	text-align: center;
+}
+
+.dataRow:hover {
+	cursor: pointer;
+}
 </style>
 </head>
 <body>
@@ -96,12 +133,12 @@ th{text-align:center;}
 	<div id="wrapper">
 		<!-- NAVBAR -->
 		<nav class="navbar navbar-default navbar-fixed-top">
-			<jsp:include page="/WEB-INF/views/commonPage/top.jsp"/>
+			<jsp:include page="/WEB-INF/views/commonPage/top.jsp" />
 		</nav>
 		<!-- END NAVBAR -->
 		<!-- LEFT SIDEBAR -->
 		<div class="sidebar" id="sidebar-nav">
-			<jsp:include page="/WEB-INF/views/commonPage/left.jsp"/>
+			<jsp:include page="/WEB-INF/views/commonPage/left.jsp" />
 		</div>
 		<!-- END LEFT SIDEBAR -->
 		<!-- MAIN -->
@@ -109,109 +146,102 @@ th{text-align:center;}
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 class="page-title">일정 관리 > 연간 일정</h3>
-					<div class="panel">
-					<div class="panel-body">
+					<h3 class="page-title">일정관리</h3>
+					<div class="panel panel-headline demo-icons">
+						<div class="panel-heading">
+							<h3 class="panel-title">연 간 일 정</h3>
+						</div>
+						<div class="panel-body">
 							<div class="dateContainer row">
 								<div class="col-md-6 col-xs-12">
 									<select id="date-year" class="dateSelect form-control input-sm">
 										<c:forEach var="a" begin="0" end="10">
 											<option value="${year+5-a }"
-												<c:if test="${5 == a }">selected</c:if>
-											>${year+5-a }
+												<c:if test="${5 == a }">selected</c:if>>${year+5-a }
 											</option>
 										</c:forEach>
-									</select> 
-								<button type="button" class="btn btn-primary btn-xs" id="changeDate">날짜 변경</button>
+									</select>
+									<button type="button" class="btn btn-success btn-xs"
+										id="changeDate">연도설정</button>
 								</div>
 								<div class="col-md-6 col-xs-12">
-									<button type="button" class="btn btn-success pull-right btn-xs" id="add_Schedule">일정추가하기</button>	
+									<button type="button" class="btn btn-primary pull-right btn-xs"
+										id="add_Schedule">일정추가</button>
 								</div>
-
-								
 							</div>
-							
-						<hr></hr>
-
-							<!-- 업무일지 리스트업-->
-<!-- 							<h2> -->
-<%-- 								<c:set var="selectedDate" value="${fn:split(strDate,'-')}"></c:set> --%>
-<%-- 								<c:out value="${selectedDate[0]}"></c:out>년 <c:out value="${selectedDate[1]}"></c:out>월 업무일지  --%>
-<!-- 							</h2> -->
-							
-							
+							<hr></hr>
 							<div class="collapseContainer">
 								<c:forEach var="c" begin="1" end="12" step="1">
-								
-								<button class="collapsible" value="${c }">${c }월</button>
 
-								<div class="content">
-									<table class="table table-striped">
-										<thead>
-											<tr>
-												<th scope="row" >일정명</th>
-												<th scope="row" >일정 내용</th>
-												<th scope="row" >시작일자</th>
-												<th scope="row" >종료일자</th>
-											</tr>
-										</thead>
-										<tbody>
-										<c:choose >
-											<c:when test="${empty list && empty hlist}">
+									<button class="collapsible" value="${c }">${c }월</button>
+
+									<div class="content">
+										<table class="table table-striped">
+											<thead>
 												<tr>
-													<td colspan=7>
-														작성한 문서가 없습니다. 
-													</td>
+													<th scope="row">일정명</th>
+													<th scope="row">일정 내용</th>
+													<th scope="row">시작일자</th>
+													<th scope="row">종료일자</th>
 												</tr>
-											</c:when>
-											<c:otherwise>
-											<c:forEach var="i" items="${list }">
-											<c:set var="ydate" value="${fn:split(i.sch_start_date_sc,'월')}"></c:set>
-											<c:if test="${c == ydate[0]}">
-												<tr class="dataRow">
-													<td>${i.sch_title}</td>
-													<td>${i.sch_contents}</td>
-													<td>${i.sch_start_date_sc}</td>
-													<td>${i.sch_end_date_sc}</td>
-												</tr>
-											</c:if>
-											</c:forEach>
-											
-											<c:forEach var="i" items="${hlist }">									
-											<c:set var="ydate" value="${fn:split(i.comp_hd_date_str,'월')}"></c:set>
-											<c:if test="${c == ydate[0]}">
-												<tr class="dataRow">
-													<td>${i.comp_hd_name}</td>
-													<td>회사 공휴일</td>
-													<td>${i.comp_hd_date_str}</td>
-													<td>${i.comp_hd_date_str}</td>
-												</tr>
-											</c:if>
-											</c:forEach>
-											</c:otherwise>
-										</c:choose>
-										</tbody> 
-									</table>
-								</div>
-								</c:forEach>
-							<!-- 업무일지 리스트업 종료-->
+											</thead>
+											<tbody>
+												<c:choose>
+													<c:when test="${empty list && empty hlist}">
+														<tr>
+															<td colspan=7>작성한 문서가 없습니다.</td>
+														</tr>
+													</c:when>
+													<c:otherwise>
+														<c:forEach var="i" items="${list }">
+															<c:set var="ydate"
+																value="${fn:split(i.sch_start_date_sc,'월')}"></c:set>
+															<c:if test="${c == ydate[0]}">
+																<tr class="dataRow">
+																	<td>${i.sch_title}</td>
+																	<td>${i.sch_contents}</td>
+																	<td>${i.sch_start_date_sc}</td>
+																	<td>${i.sch_end_date_sc}</td>
+																</tr>
+															</c:if>
+														</c:forEach>
 
-						</div><!-- panel body 종료 -->
-						<div class="panel-footer">
-						
+														<c:forEach var="i" items="${hlist }">
+															<c:set var="ydate"
+																value="${fn:split(i.comp_hd_date_str,'월')}"></c:set>
+															<c:if test="${c == ydate[0]}">
+																<tr class="dataRow">
+																	<td>${i.comp_hd_name}</td>
+																	<td>회사 공휴일</td>
+																	<td>${i.comp_hd_date_str}</td>
+																	<td>${i.comp_hd_date_str}</td>
+																</tr>
+															</c:if>
+														</c:forEach>
+													</c:otherwise>
+												</c:choose>
+											</tbody>
+										</table>
+									</div>
+								</c:forEach>
+								<!-- 업무일지 리스트업 종료-->
+
+							</div>
+							<!-- panel body 종료 -->
+							<div class="panel-footer"></div>
 						</div>
-					</div><!-- panel 종료 -->
+						<!-- panel 종료 -->
+					</div>
 				</div>
+				<!-- END MAIN CONTENT -->
 			</div>
-			<!-- END MAIN CONTENT -->
+			<!-- END MAIN -->
+			<div class="clearfix"></div>
 		</div>
-		<!-- END MAIN -->
-		<div class="clearfix"></div>
-	</div>
-<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
+		<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
 	</div>
 	<!-- END WRAPPER -->
- 	<script type="text/javascript">
+	<script type="text/javascript">
  		document.getElementById("add_Schedule").onclick = function(){
  			var con = confirm("일정을 추가하시겠습니까?")
 	   		var popup='top=10, left=10, width=800, height=600, status=no, menubar=no, toolbar=no, resizable=no';

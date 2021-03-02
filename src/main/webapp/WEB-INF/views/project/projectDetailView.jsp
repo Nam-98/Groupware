@@ -232,7 +232,7 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 class="page-title">My Project : ${pdto.pro_title}</h3>
+					<h3 class="page-title">프로젝트 : ${pdto.pro_title}</h3>
 					<div class="panel panel-headline demo-icons">
 						<div class="panel-heading">
 							<h3 class="panel-title">프 로 젝 트 정 보</h3>

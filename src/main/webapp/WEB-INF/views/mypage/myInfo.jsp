@@ -5,7 +5,7 @@
 <html lang="en">
 
 <head>
-<title>My Page</title>
+<title>마이페이지</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport"
@@ -74,7 +74,7 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 class="page-title">My page</h3>
+					<h3 class="page-title">마이페이지</h3>
 					<div class="alert alert-warning alert-dismissible" role="alert">
 						<button type="button" class="close" data-dismiss="alert"
 							aria-label="Close">
