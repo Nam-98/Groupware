@@ -124,9 +124,11 @@ public class HomeController {
 			
 			return "/main/mainpage";
 			}else {
+				session.invalidate();
 				return "/main/loginFailView";
 			}
-		} 
+		}
+		session.invalidate();
 			return "home";
 		}
 	
