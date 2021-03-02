@@ -13,11 +13,11 @@
 	</select>
 	
 	<select id="listMem" resultType = "kh.gw.dto.MemberDTO">
-		select m.*,d.dept_name,d.dept_level,p.position_name from st.member m,st.department d, st.position p where m.dept_code = d.dept_code and m.position_code = p.position_code order by m.dept_code desc
+		select m.*,d.dept_name,d.dept_level,p.position_name from st.member m,st.department d, st.position p where m.dept_code = d.dept_code and m.position_code = p.position_code order by 3
 	</select>
 	
 	<select id="listDept" resultType = "kh.gw.dto.DepartmentDTO">
-		select dept_code, dept_name, dept_dir_id, dept_level,nvl(dept_code_parent,-1) as dept_code_parent,dept_tree_code from st.department
+		select dept_code, dept_name, dept_dir_id, dept_level,nvl(dept_code_parent,-1) as dept_code_parent,dept_tree_code from st.department order by 2
 	</select>
 	
 	<select id ="getMyInfo" resultType ="java.util.HashMap">
@@ -41,4 +41,8 @@
 	<select id="getMembersForAppWrite" resultType="java.util.HashMap">
 		select id, name, dept_name, position_name, dept_tree_code, dept_code from st.member join st.department using (dept_code) join st.position using (position_code) order by dept_tree_code
 	</select>
+	
+	<delete id="deleteMem">
+		delete from st.member where id=#{value}
+	</delete>
   </mapper>

@@ -30,7 +30,6 @@
 	href="/assets/img/apple-icon.png">
 <link rel="icon" type="image/png" sizes="96x96"
 	href="/assets/img/favicon.png">
-<script src="/assets/vendor/jquery/jquery.min.js"></script>
 <script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <script src="/assets/vendor/chartist/js/chartist.min.js"></script>
@@ -44,8 +43,6 @@
 <link rel="stylesheet"
 	href="/resources/lib/jqwidgets/styles/jqx.jqx-grid-cell-hover.css"
 	type="text/css" />
-<script type="text/javascript"
-	src="/resources/lib/scripts/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="/resources/lib/jqwidgets/jqxcore.js"></script>
 <script type="text/javascript" src="/resources/lib/jqwidgets/jqxdata.js"></script>
 <script type="text/javascript"

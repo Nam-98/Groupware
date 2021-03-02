@@ -71,4 +71,9 @@ public class MemberService {
 	public List<Map<String, Object>> getMembersForAppWrite(){
 		return mdao.getMembersForAppWrite();
 	}
+
+	public int deleteMem(String id) {
+		return mdao.deleteMem(id);
+		
+	}
 }

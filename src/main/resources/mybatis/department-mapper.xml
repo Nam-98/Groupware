@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="Department">
   	<select id="listDept" resultType = "kh.gw.dto.DepartmentDTO">
-		select * from st.department order by dept_tree_code
+		select dept_code, dept_name, dept_dir_id, dept_level,nvl(dept_code_parent,-1) as dept_code_parent,dept_tree_code from st.department order by dept_tree_code
 	</select>
 	<select id="getNewCode" resultType="int">
 		 select st.dept_seq.nextval from dual
@@ -39,4 +39,5 @@
 	<select id="nxGetDeptDir" resultType="int">
 		select dept_dir_id from st.department where dept_code=#{dept_code}
 	</select>
+
   </mapper>
