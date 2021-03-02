@@ -116,8 +116,8 @@ public class AdminController {
 	public NexacroResult updateMemList(@ParamDataSet(name = "in_memList") DataSet ds) throws Exception{
 		for (int i = 0; i < ds.getRemovedRowCount(); i++) {
 	           String id = (String) ds.getRemovedData(i, "id");
-	           //sser.deleteComhd(comp_hd_seq);
 	           System.out.println("지우는 code :" + id);
+	           mser.deleteMem(id);
 	         }
 			
 	        for (int i = 0; i < ds.getRowCount(); i++) {
