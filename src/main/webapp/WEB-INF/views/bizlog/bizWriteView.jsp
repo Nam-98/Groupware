@@ -390,7 +390,7 @@ th{width:50px;}
 				
 				
 				//왼쪽 상세창에 추가
-				let index = (Object.keys(sign_info_Json).length)+1;
+				let index = (Object.keys(sign_info_Json).length);
 				console.log("index : "+(Object.keys(sign_info_Json).length));
 				//if(Object.keys(sign_info_Json).length==0){index=1}else{index=Object.keys(sign_info_Json).length}
 				
