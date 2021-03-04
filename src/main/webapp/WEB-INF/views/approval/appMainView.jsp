@@ -23,7 +23,6 @@
 	<!-- ICONS -->
 	<link rel="apple-touch-icon" sizes="76x76" href="/assets/img/apple-icon.png">
     <link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicon.png">
-    <script src="/assets/vendor/jquery/jquery.min.js"></script>
 	<script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
 	<script src="/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 	<script src="/assets/vendor/chartist/js/chartist.min.js"></script>
@@ -94,7 +93,14 @@
 															<td>${i.name}</td>
 															<td>${i.app_reg_date}</td>
 															<td>
-																${i.app_is_my_sign_turn}
+																<c:choose>
+																	<c:when test="${i.app_is_my_sign_turn eq '승인 요청중'}">
+																		<span class="label label-success">${i.app_is_my_sign_turn}</span>
+																	</c:when>
+																	<c:when test="${i.app_is_my_sign_turn eq '결재 순서 대기중'}">
+																		<span class="label label-warning">${i.app_is_my_sign_turn}</span>
+																	</c:when>
+																</c:choose>
 															</td>
 														</tr>
 													</c:forEach>
@@ -109,7 +115,7 @@
 						<div class="col-12">
 							<div class="panel">
 								<div class='panel-heading'>
-									<h3 class='panel-title'>상신 문서함(최신5개)</h3>
+									<h3 class='panel-title'>상신 문서함</h3>
 									<!--pannel의 최소화 및 닫기 버튼-->
 									<div class="right">
 										<button type="button" class="btn-toggle-collapse">
@@ -147,7 +153,19 @@
 													<td>${wri.app_title}</td>
 													<td>${wri.name}</td>
 													<td>${wri.app_reg_date}</td>
-													<td>${wri.app_status_name}</td>
+													<td>
+														<c:choose>
+															<c:when test="${wri.app_status_name eq '반송'}">
+																<span class="label label-danger">${wri.app_status_name}</span>
+															</c:when>
+															<c:when test="${wri.app_status_name eq '진행중'}">
+																<span class="label label-warning">${wri.app_status_name}</span>
+															</c:when>
+															<c:when test="${wri.app_status_name eq '결재완료'}">
+																<span class="label label-success">${wri.app_status_name}</span>
+															</c:when>
+														</c:choose>
+													</td>
 												</tr>
 											</c:forEach>
 											</c:otherwise>
@@ -160,7 +178,7 @@
 						<div class="col-12">
 							<div class="panel">
 								<div class='panel-heading'>
-									<h3 class='panel-title'>참조 문서함 (최신5개)</h3>
+									<h3 class='panel-title'>참조 문서함</h3>
 									<!--pannel의 최소화 및 닫기 버튼-->
 									<div class="right">
 										<button type="button" class="btn-toggle-collapse">
@@ -198,7 +216,19 @@
 													<td>${i.app_title}</td>
 													<td>${i.name}</td>
 													<td>${i.app_reg_date}</td>
-													<td>${i.app_status_name}</td>
+													<td>
+														<c:choose>
+															<c:when test="${i.app_status_name eq '반송'}">
+																<span class="label label-danger">${i.app_status_name}</span>
+															</c:when>
+															<c:when test="${i.app_status_name eq '진행중'}">
+																<span class="label label-warning">${i.app_status_name}</span>
+															</c:when>
+															<c:when test="${i.app_status_name eq '결재완료'}">
+																<span class="label label-success">${i.app_status_name}</span>
+															</c:when>
+														</c:choose>
+													</td>
 												</tr>
 											</c:forEach>
 											</c:otherwise>

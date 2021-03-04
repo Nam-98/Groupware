@@ -13,7 +13,7 @@
 	</select>
 	
 	<select id="listMem" resultType = "kh.gw.dto.MemberDTO">
-		select m.*,d.dept_name,d.dept_level,p.position_name from st.member m,st.department d, st.position p where m.dept_code = d.dept_code and m.position_code = p.position_code order by 3
+		select m.*,d.dept_name,d.dept_level,p.position_name from st.member m,st.department d, st.position p where (m.dept_code = d.dept_code) and (m.position_code = p.position_code) and (m.retire_date is null) order by 3
 	</select>
 	
 	<select id="listDept" resultType = "kh.gw.dto.DepartmentDTO">
@@ -39,10 +39,10 @@
 		update st.member set break_use_count=(break_use_count+#{break_use_count}) where id=#{id}
 	</update>
 	<select id="getMembersForAppWrite" resultType="java.util.HashMap">
-		select id, name, dept_name, position_name, dept_tree_code, dept_code from st.member join st.department using (dept_code) join st.position using (position_code) order by dept_tree_code
+		select id, name, dept_name, position_name, dept_tree_code, dept_code from st.member join st.department using (dept_code) join st.position using (position_code) where retire_date is null order by dept_tree_code
 	</select>
 	
-	<delete id="deleteMem">
-		delete from st.member where id=#{value}
-	</delete>
+	<update id="deleteMem">
+		update st.member set retire_date = (SELECT CURRENT_DATE FROM DUAL) where id=#{value}
+	</update>
   </mapper>

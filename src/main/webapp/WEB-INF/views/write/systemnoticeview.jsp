@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>시스템 공지사항 뷰</title>
+<title>시스템 공지사항</title>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <!-- 아이콘 fontawesome -->
     <script src="https://kit.fontawesome.com/b1e233372d.js"></script>
@@ -113,10 +113,10 @@
          <!-- MAIN CONTENT -->
          <div class="main-content">
             <div class="container-fluid">
-               <h3 class="page-title">회사 게시판 뷰</h3>
-               <button id="list" class="btn pull-left btn-primary">목록으로</button>
-               <button id="modify" class="btn pull-left btn-primary">수정하기</button>
-               <button id="delete" class="btn pull-left btn-primary">삭제하기</button>
+               <h3 class="page-title">공지사항</h3>
+               <button id="list" class="btn btn-sm pull-left btn-primary">목록으로</button>
+               <button id="modify" class="btn btn-sm pull-left btn-primary">수정</button>
+               <button id="delete" class="btn btn-sm pull-left btn-primary">삭제</button>
                <div class="top-vacant d-none d-lg-block"></div>
                <div class="panel panel-headline demo-icons">
                   <div class="panel-heading">

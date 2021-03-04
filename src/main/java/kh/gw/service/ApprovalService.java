@@ -525,7 +525,6 @@ public class ApprovalService {
 		List<ApprovalDTO> resultList = new ArrayList<ApprovalDTO>();
 		HashMap<String, Object> map = new HashMap();
 		
-		System.out.println("signList.size() : "+signList.size());
 		if(signList.size()==0) {
 			map.put("error", -2);
 			return map;}
