@@ -171,17 +171,9 @@
                                           
     									<label class="show-reply"><input type="hidden" class="reply" value="F">답변달기</label>
                                         <div class="reply-list">
-                                       	
-                                       	
+								
                                        </div>   
-                                       
-                                       
-                                       
-                                       <%-- <div class="re_comment_write_frm"  style="display: none; width:100%">
-                                   
-                                      	 <input type="text" class="reWrite" name="reply-write" style='width:95%;'><input type="hidden" name="re_cmt_seq" value="${i.write_cmt_seq }">
-                                       	 <button type="button" id="reply-submit" class="btn btn-primary btn-xs">작성</button>
-                                       </div>  --%> 
+                                        
                                        <div class="re_comment_write_frm"  style="display: none; width:100%">
                                         <div class="input-group input-group-sm" style="margin: 20px;">
       									<input type="text" class="form-control reWrite" name="reply-write">
@@ -229,6 +221,7 @@
 		var write_cmt_seq = $(this).parent().find($('input[name=cmt_seq]')).val();
 		var replyList = $(this).parent().find($('.reply-list'));
 		var reply = $(this).children(".reply");
+		
 		if(reply.val() == 'Y'){
 			$(this).parent().children(".re_comment_write_frm").css("display","none");
 			$(this).parent().children(".reply-list").css("display","none");
@@ -240,8 +233,11 @@
 			$(this).parent().children(".reply-list").css("display","inline");
 			a.css('display','block');
 			reply.val('Y');
-			
-			console.log(reply.val);
+			var b =  $('.bundle');
+			 	if(b){
+				$('.bundle').remove();				
+				} 
+
 			$.ajax({
 	             url : "${pageContext.request.contextPath}/write/reCommentList.write",
 	             method : 'POST',
@@ -250,31 +246,26 @@
 	                write_cmt_seq : write_cmt_seq
 	             },
 	             success : function(data) {
-	            	 for(var i=0; i<data.reCmtList.length; i++){
-	            		 replyList.append(
-	            				 '<div class="bundle">'
-								 +'<div class="row">'
-								 + '<div class="col-sm-12" style="text-align: left;">'
-								 + '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'
-	            				 + '<b>'
-	            				 + data.reCmtList[i].write_cmt_id
-	            				 + '</b>'
-	            				 + '&nbsp&nbsp&nbsp&nbsp'
-	            				 + data.reCmtList[i].write_cmt_date
-	            				 +'<br>'
-	            				 + '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'
-	            				 + data.reCmtList[i].write_cmt_contents
-	            				 + '&nbsp&nbsp&nbsp&nbsp'
-	            				 + '<c:if test="'${write_cmt_id eq sessionScope.id}'">'
-	            				 + '<button type="button" id="btnReDelete" class="btn btn-danger btn-xs" style="float:right;">삭제</button>'
-	            				 + '</c:if>'
-	            				 + '</div>'
-	            				 + '<input type="hidden" name="re_cmt_seq" value="'+data.reCmtList[i].write_cmt_seq+'">'
-	            				 + '</div>'
-	            				 + '</div>'
-	            				 );
-	            	 };
-	            	 reply.val('Y');
+	            	
+	                 for(var i=0; i<data.reCmtList.length; i++){   
+	                     var reCmt = $("<div class='bundle'>"); 
+	                        reCmt.append($("<div class='row'>"));
+	                        reCmt.append($("<div class='col-sm-12' style='text-align: left;>"));
+	                        reCmt.append("<b>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</b>");
+	                        reCmt.append("<b>"+data.reCmtList[i].write_cmt_id+"</b>");
+	                        reCmt.append("<b>&nbsp&nbsp&nbsp&nbsp</b>");
+	                        reCmt.append("<b>&nbsp&nbsp&nbsp&nbsp"+data.reCmtList[i].write_cmt_date+"</b> <br>");
+	                        reCmt.append("<b>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</b>");
+	                        reCmt.append(data.reCmtList[i].write_cmt_contents);
+	                        reCmt.append("<b>&nbsp&nbsp&nbsp&nbsp</b>");
+	                        if(data.reCmtList[i].write_cmt_id == '${sessionScope.id}'){
+	                         reCmt.append($("<button class='btnReDelete btn btn-danger btn-xs' style='float:right'>삭제</button>"));
+	                        }
+	                        reCmt.append("<input type='hidden' name='re_cmt_seq' value='"+data.reCmtList[i].write_cmt_seq+"'>");
+	                        replyList.append(reCmt);
+	                      reply.val('Y');
+	                   };
+	            	
 	             },   error : function(data) {
 	                 console.log('컨트롤러 못가');
 	             }
@@ -282,7 +273,6 @@
 		}
 		else{
 			console.log('아무것도 인식 안돼');
-
 		}
 	})
 	
@@ -330,7 +320,7 @@
 					            				 + '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'
 					            				 + data.reCmtList[0].write_cmt_contents
 					            				 + '&nbsp&nbsp&nbsp&nbsp'
-					            				 + '<button type="button" id="btnReDelete" class="btn btn-danger btn-xs" style="float:right;">삭제</button>'
+					            				 + '<button type="button" class="btnReDelete btn btn-danger btn-xs" style="float:right;">삭제</button>'
 					            				 + '</div>'
 					            				 + '<input type="hidden" name="re_cmt_seq" value="'+data.reCmtList[0].write_cmt_seq+'">'
 					            				 + '</div>'
@@ -432,9 +422,9 @@
 								});
 
 					})
-		$(document).on('click','#btnReDelete',function() {
-							var parentTr = $(this).parent().parent().parent();
-							var write_cmt_seq = $(this).parent().parent().parent().find('input[name=re_cmt_seq]').val();
+		$(document).on('click','.btnReDelete',function() {
+							var parentTr = $(this).parent();
+							var write_cmt_seq = $(this).parent().find('input[name=re_cmt_seq]').val();
 							console.log(write_cmt_seq);
 							console.log(parentTr);
 							$.ajax({
