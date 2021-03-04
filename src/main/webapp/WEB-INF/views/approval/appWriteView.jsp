@@ -48,7 +48,7 @@
 	
 <style type="text/css">
 #organTree{max-height: 600px; overflow: auto;}
-#tableSelected{max-height: 600px; overflow: auto;}
+#tableSelectedContainer{max-height: 600px; overflow: auto;}
 .table>thead>tr>th{vertical-align: middle;}
 th{width:50px;}
 .table>thead>tr>th{border-bottom:none;}
@@ -91,6 +91,7 @@ td.resize-col {
 						<div class="col-sm-8">
 						<div class="modalR">
 							<h3 class="text-center">결재 인원창</h3>
+							<div id="tableSelectedContainer">
 							<table class="table table-sm" id="tableSelected">
 								<thead class='thead-light'>
 									<tr>
@@ -124,6 +125,7 @@ td.resize-col {
 									</tr>
 								</tbody>
 							</table>
+							</div>
 						</div>
 						</div>
 					</div>
