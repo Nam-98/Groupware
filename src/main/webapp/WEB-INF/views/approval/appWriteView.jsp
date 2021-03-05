@@ -278,6 +278,8 @@ td.resize-col {
 		if($("#docsType").val()==3){
 			let str = "<p>휴가 구분 : "+$("#breakType option:checked").text()+"</p><p>신청 기간 : "+$("#breakSrt").val()+" ~ "+$("#breakEnd").val()+"</p>";
 			contents = str + contents;
+			$("#contents").after($("<input type=hidden name='break_reason' id='break_reason'>"));
+			$("#break_reason").val(str);
 		}
 		$("#contents").val(contents);
 		$("#writeForm").submit();
