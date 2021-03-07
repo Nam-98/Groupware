@@ -37,8 +37,11 @@
 <script src="/assets/vendor/chartist/js/chartist.min.js"></script>
 <script src="/assets/scripts/klorofil-common.js"></script>
 <!-- include summernote css/js-->
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+<link
+	href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css"
+	rel="stylesheet">
+<script
+	src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 <!-- include summernote-ko-KR -->
 <script src="/resources/js/summernote-ko-KR.js"></script>
 
@@ -102,7 +105,7 @@
 					});
 </script>
 
-	
+
 <style>
 * {
 	box-sizing: border-box;
@@ -132,16 +135,29 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 class="page-title">회사 게시판 수정하기</h3>
-					<div class="maincontainer">
-						<div style="width: 50%; margin-left: 300px;">
-							<form action="/write/modifyAfterBoard.write?write_seq=${dto.write_seq }" method="post">
-								제목 : <input type="text" name="write_title" style="width: 40%;" value="${dto.write_title }" placeholder="제목을 입력하세요."/><br><br>
-								작성자 : <input type="text" name="write_id" style="width: 20%;" value="${id}" readonly/> <br><br>
+					<h3 class="page-title">수정하기</h3>
+					<div class="panel panel-headline demo-icons">
+
+						<div class="panel-heading">
+							
+						</div>
+
+
+						<div class="panel-body">
+							<form
+								action="/write/modifyAfterBoard.write?write_seq=${dto.write_seq }"
+								method="post">
+								제목 : <input type="text" name="write_title" style="width: 40%;"
+									value="${dto.write_title }" placeholder="제목을 입력하세요." /><br>
+								<br> 작성자 : <input type="text" name="write_id"
+									style="width: 20%;" value="${id}" readonly /> <br>
+								<br>
 								<textarea id="summernote" name="write_contents">${dto.write_contents }</textarea>
-								<input id="delBtn" type="button" class="btn btn-primary" value="수정 취소" style="float: right;">
-								<input id="subBtn" type="button" class="btn btn-primary" value="수정 완료" style="float: right;" onclick="goWrite(this.form)" /> 
-								
+								<input id="delBtn" type="button" class="btn btn-primary"
+									value="수정 취소" style="float: right;"> <input id="subBtn"
+									type="button" class="btn btn-primary" value="수정 완료"
+									style="float: right;" onclick="goWrite(this.form)" />
+
 							</form>
 						</div>
 					</div>
@@ -151,16 +167,16 @@
 		</div>
 		<!-- END MAIN -->
 		<div class="clearfix"></div>
-<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
+		<jsp:include page="/WEB-INF/views/commonPage/footer.jsp" />
 	</div>
 	<!-- END WRAPPER -->
-	
+
 	<script>
 		document.getElementById("delBtn").onclick = function() {
 			location.href = "/write/boardList.write?cpage=1";
 		}
 	</script>
-	
+
 	<script>
 		function goWrite(frm) {
 			var write_title = frm.write_title.value;
