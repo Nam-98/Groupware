@@ -91,7 +91,6 @@
                      { name: "id", type: "string" },
                      { name: "status", map: "state", type: "string" },
                      { name: "text", map: "label", type: "string" },
-                     /* { name: "tags", type: "string" }, */
                      { name: "color", map: "hex", type: "string" },
                      { name: "resourceId", type: "string" }
             ];
@@ -100,9 +99,7 @@
                  localData: [
                 	 
                 	 <c:forEach varStatus="i" items="${pkdtoList}" var="dto">
-                	 { id: "${dto.pro_kb_seq}", state: "${dto.pro_kb_process_code}", label: "${dto.pro_kb_title}", 
-                		 /* tags: "${dto.pro_kb_details}", */ 
-                		 hex: "#5dc3f0", resourceId: "${dto.pro_kb_manager}"}
+                	 { id: "${dto.pro_kb_seq}", state: "${dto.pro_kb_process_code}", label: "${dto.pro_kb_title}", hex: "#5dc3f0", resourceId: "${dto.pro_kb_manager}"}
                 	 
                 	 <c:if test= "${!i.last}">,</c:if>
                  </c:forEach>
