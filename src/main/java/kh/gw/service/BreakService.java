@@ -29,7 +29,6 @@ public class BreakService {
 		double break_discount = bdao.getDiscount(dto.getBreak_code());
 		dto.setBreak_id((String) session.getAttribute("id"));
 		dto.setBreak_discount(break_discount);
-		dto.setBreak_reason(adto.getApp_contents());
 		dto.setApp_seq(app_seq);
 		return bdao.insertBreak(dto);
 	}

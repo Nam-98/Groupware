@@ -168,7 +168,7 @@
 											</c:when>
 											<c:when test="${sign.app_sign_accept=='N' && sign.app_sign_date!=null}">
 												//반려된 사안이면 stamp칸에 "반려" 이미지를 띄운다. 
-												stmpTd${sta.count}.append($("<span class='label label-warning'>반려</span>"));
+												stmpTd${sta.count}.append($("<span class='label label-danger'>반려</span>"));
 											</c:when>
 											<c:otherwise>
 												//아직 결재 차례가 오지 않았다면 미결재로 둔다. 
@@ -195,15 +195,15 @@
 											</c:when>
 											<c:when test="${sign.app_sign_accept=='Y' && sign.app_sign_date!=null}">
 												//이미 결재가 완료된 사안이면 stamp칸에 "승인" 이미지를 띄운다. 
-												stmpTd${sta.count}.append($("<h6>승인<h6>"));
+												stmpTd${sta.count}.append($("<span class='label label-success'>승인</span>"));
 											</c:when>
 											<c:when test="${sign.app_sign_accept=='N' && sign.app_sign_date!=null}">
 												//반려된 사안이면 stamp칸에 "반려" 이미지를 띄운다. 
-												stmpTd${sta.count}.append($("<h6>반려<h6>"));
+												stmpTd${sta.count}.append($("<span class='label label-danger'>반려</span>"));
 											</c:when>
 											<c:otherwise>
 											//아직 결재 차례가 오지 않았다면 미결재로 둔다. 
-											stmpTd${sta.count}.append($("<h6>미결재<h6>"));
+											stmpTd${sta.count}.append($("<span class='label label-warning'>미결재</span>"));
 											</c:otherwise>
 										</c:choose>
 										
