@@ -44,7 +44,7 @@
   		</foreach> 
   	</select>
   	<select id="countTobeSignApp" resultType="int">
-  		select count(*) from st.approval_sign where app_sign_id = #{value} and app_sign_type_code != 1 and app_sign_date is null
+  		select count(*) from st.approval_sign join st.approval using (app_seq) where app_sign_id = #{value} and app_sign_type_code != 1 and app_sign_date is null and app_status_code !='2'
   	</select>
   	 <select id="countMySignedApp" resultType="int">
   		select count(*) from st.approval_sign where app_sign_id = #{value} and app_sign_type_code != 1 and app_sign_date is not null

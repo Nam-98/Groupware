@@ -243,6 +243,7 @@ public class ApprovalService {
 		//cPage기준으로 뽑아올 양 선택
 		int startnum = (cPage-1)*ApprovalConfigurator.APP_RECORD_COUNT_PER_PAGE+1;
 		int endnum = startnum + ApprovalConfigurator.APP_RECORD_COUNT_PER_PAGE-1;
+		System.out.println("startnum : "+startnum+",endnum : "+endnum);
 		resultList = adao.getAppByCpage(seqList,startnum,endnum);
 		
 		
@@ -256,6 +257,8 @@ public class ApprovalService {
 		List<Approval_signDTO> signList = adao.getTobeSignApp((String)session.getAttribute("id"));
 		List<Integer> seqList =  new ArrayList<Integer>(); 
 		List<ApprovalDTO> resultList = new ArrayList<ApprovalDTO>();
+		
+		System.out.println("signList.size() : "+signList.size());
 		if(signList.size()==0) {
 			return resultList;}
 		for (Approval_signDTO dto : signList) {
@@ -308,8 +311,8 @@ public class ApprovalService {
 		int recordCountPerPage = ApprovalConfigurator.APP_RECORD_COUNT_PER_PAGE;
 		int naviCountPerPage = ApprovalConfigurator.APP_NAVI_COUNT_PER_PAGE;
 
-	int pageTotalCount;
-		if(recordTotalCount % recordCountPerPage > 0) {
+		int pageTotalCount;
+		if(recordTotalCount%recordCountPerPage > 0) {
 			pageTotalCount = recordTotalCount/recordCountPerPage +1;
 		}else {
 			pageTotalCount = recordTotalCount/recordCountPerPage;
@@ -321,7 +324,7 @@ public class ApprovalService {
 			currentPage = pageTotalCount;
 		}
 
-		int startNavi = (currentPage-1)/naviCountPerPage * naviCountPerPage + 1;
+		int startNavi = (((currentPage-1)/naviCountPerPage) * naviCountPerPage) + 1;
 		int endNavi = startNavi + naviCountPerPage -1 ;
 
 		if(endNavi>pageTotalCount) {
@@ -344,12 +347,12 @@ public class ApprovalService {
 		sb.append("<li><a href='/approval/"+hrefText+"?cPage=1'><span>&laquo;</span></li>");
 		}
 		if(needPrev) {
-			sb.append("<li><a href='/approval/"+hrefText+"?cPage="+(startNavi-1)+"'> <span><</span> </a></li>");
+			sb.append("<li><a href='/approval/"+hrefText+"?cPage="+(startNavi-1)+"'> <span> < </span></a></li>");
 		}
 		for(int i = startNavi; i <= endNavi; i++) {
 			sb.append("<li><a href='/approval/"+hrefText+"?cPage="+i+"'>"+i+"</a></li>");
 		}
-		if(endNavi != pageTotalCount) {
+		if(needNext) {
 			sb.append("<li><a href='/approval/"+hrefText+"?cPage="+pageTotalCount+"'><span> > </span></a></li>");
 		}
 		return sb.toString();
@@ -382,7 +385,7 @@ public class ApprovalService {
 
 		// BufferedWriter 와 FileWriter를 조합하여 사용 (속도 향상, 기록하고자 하는 파일의 크기가 100K를 넘을때)
 		// sDir경로에 sFileName이름의 파일 생성함
-		File conFile = new File(sDir, sFileName);
+		File conFile = new File(sDir+"/"+sFileName);
 		if(conFile.createNewFile()) {
 			BufferedWriter fw = new BufferedWriter(new FileWriter(conFile));
 
