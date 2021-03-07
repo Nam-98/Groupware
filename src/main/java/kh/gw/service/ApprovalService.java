@@ -212,6 +212,8 @@ public class ApprovalService {
 		int startnum = (cPage-1)*ApprovalConfigurator.APP_RECORD_COUNT_PER_PAGE+1;
 		int endnum = startnum + ApprovalConfigurator.APP_RECORD_COUNT_PER_PAGE-1;
 		
+		if(seqList.size()==0) {
+			return resultList;}
 		resultList = adao.getAppByCpage(seqList,startnum,endnum);
 		
 		//리스트에 표시 할 내 결재완료 여부 저장
