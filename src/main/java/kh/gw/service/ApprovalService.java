@@ -383,15 +383,18 @@ public class ApprovalService {
 		// BufferedWriter 와 FileWriter를 조합하여 사용 (속도 향상, 기록하고자 하는 파일의 크기가 100K를 넘을때)
 		// sDir경로에 sFileName이름의 파일 생성함
 		File conFile = new File(sDir, sFileName);
-		BufferedWriter fw = new BufferedWriter(new FileWriter(conFile));
+		if(conFile.createNewFile()) {
+			BufferedWriter fw = new BufferedWriter(new FileWriter(conFile));
 
-		// 파일안에 문자열 쓰기
-		fw.write(contents);
-		fw.flush();
+			// 파일안에 문자열 쓰기
+			fw.write(contents);
+			fw.flush();
 
-		// 객체 닫기
-		fw.close();
-		return sFileName;
+			// 객체 닫기
+			fw.close();
+			return sFileName;
+		}
+		return "error";
 	}
 	
 	
