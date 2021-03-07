@@ -184,7 +184,7 @@
 									
 									<c:when test="${sign.app_sign_type_code==2}">//합의자
 										signTh.append($("<th class='active signTh'>${sign.name} (합의)</th>"));	
-										let stmpTd${sta.count} = $("<td class='stamp'>");
+										let stmpTd${sta.count} = $("<td class='stamp signTd'>");
 										<c:choose>
 											<c:when test="${sign.app_sign_id==sessionScope.id && isMyCheckTurn==1}">
 												//내 결재차례일 경우, 결재하기 버튼을 넣는다. 
