@@ -165,7 +165,7 @@ $(document).ready(function() {
 												<div class="col-9 col-sm-10">
 													<input class="msgInput" type="text"
 														placeholder="제목을 입력하시오." name="msg_title" value="RE: ${mdto.msg_title}"
-														style="width: 80%;" />
+														style="width: 80%;" required />
 												</div>
 											</div>
 											<br>
