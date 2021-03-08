@@ -260,7 +260,6 @@ public class ApprovalService {
 		List<Integer> seqList =  new ArrayList<Integer>(); 
 		List<ApprovalDTO> resultList = new ArrayList<ApprovalDTO>();
 		
-		System.out.println("signList.size() : "+signList.size());
 		if(signList.size()==0) {
 			return resultList;}
 		for (Approval_signDTO dto : signList) {
@@ -503,6 +502,8 @@ public class ApprovalService {
 		int startnum = 1;
 		int endnum = 5;
 		
+		if(seqList.size()==0) {
+			return resultList;}
 		resultList = adao.getAppByCpage(seqList,startnum,endnum);
 		for(ApprovalDTO dto : resultList) {
 			for(Approval_signDTO asdto : signList) {
