@@ -205,8 +205,10 @@ public class ApprovalService {
 		}
 		
 		//내가결재하지 않았는데 반송된 내역도 approval을 뽑아올 내역에 추가한다.
-		for(int seq : adao.confirmReject(confirmList)) {
-			seqList.add(seq);}
+		if(confirmList.size()!=0) {
+			for(int seq : adao.confirmReject(confirmList)) {
+				seqList.add(seq);}
+		}
 
 		//cPage기준으로 뽑아올 양 선택
 		int startnum = (cPage-1)*ApprovalConfigurator.APP_RECORD_COUNT_PER_PAGE+1;
